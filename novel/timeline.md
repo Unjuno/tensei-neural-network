@@ -22,6 +22,16 @@
 - 大規模モデルの学習・評価過程で、過去の研究者に似た特徴を持つ挙動が観測される。
 - その後、checkpoint比較やpost-trainingによる変化が同一性問題へ発展する。
 
+## 現実技術史との接点
+
+### 1982 — Hopfieldのcontent-addressable memory
+
+REF-001で、J. J. Hopfieldが相互結合した単純なユニットの集団ダイナミクスとしてcontent-addressable memoryを記述した。部分的・不完全な状態から記憶全体へ戻るという考え方が、本プロジェクトの第1追試EXP-001と第1話設計の技術的な入口になっている。
+
+この項目は現実技術史の索引であり、詳細な科学的主張の正本は `references/bibliography.md`、`research/findings.md`、`experiments/EXP-001-hopfield-associative-memory/` を参照する。
+
+主人公研究者がHopfield本人またはHopfield論文そのものに直接関与する設定は、現時点ではCanonではない。
+
 ## 学習上の技術系列
 
 以下は作品と追試で辿る候補であり、厳密な章順ではない。
@@ -39,6 +49,10 @@
 11. MoE / routing
 12. tool use / agent
 13. 現在のfrontier
+
+### 現在の入口
+
+物語上の1980年代設定との接続を優先し、最初の実作業は3のHopfield networkから開始した。これは学習系列1→13を必ず順番に消化するという意味ではない。必要に応じてPerceptron等へ戻り、spiralに理解を補完する。
 
 ## フェーズ境界
 
