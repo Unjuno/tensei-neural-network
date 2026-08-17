@@ -59,6 +59,49 @@
 3. 必要なら仮説を `INCONCLUSIVE` に戻す
 4. 追加検証後、主張を修正する必要があれば新しいFindingを作り、旧Findingを `SUPERSEDED` にする
 
+## F-001 低負荷の二値Hopfield networkで乱れたcueから保存パターンへの回復を確認
+
+状態: PROVISIONAL
+
+### 現在言えること
+EXP-001の宣言条件では、100ユニットに5個の固定二値パターンをHebbian outer-productで保存し、非同期更新したHopfield networkは、10%および20%のbitを反転したcueから元の保存パターンへexact recallした。
+
+- 10% noise: 100/100 trials exact recall
+- 20% noise: 100/100 trials exact recall
+- 200/200 trialsが収束
+- 最大observed sweeps: 2
+
+したがって、**低負荷かつ今回の固定pattern setという条件では、保存パターンがattractorとして働き、乱れた状態から元の記憶状態へ戻るcontent-addressable recallを実装上確認した**と言える。
+
+### 根拠
+- EXP-001 — 事前基準PASS
+- REF-001 — Hopfield (1982)
+
+### 反証・矛盾する証拠
+現在なし。
+
+### 言えないこと
+- Hopfield networkが任意のpattern setや任意のnoise率で同様に回復すること
+- 容量限界付近でも同じ性能を保つこと
+- 20%を超えるnoiseでも回復すること
+- 欠損cue、構造化noise、連続値ニューロンでも同じ結果になること
+- この実験が人間の記憶機構を説明したこと
+- LLMの内部記憶・人格・意識がHopfield networkと同じ機構であること
+- 原論文の全条件を完全に再現したこと
+
+### 状態判断
+独立実装・別seed・追加条件による再確認はまだないため `REPLICATED` には上げず、`PROVISIONAL` とする。
+
+### 関連
+- Q-001
+- H-001
+- EXP-001
+- L-001
+- 小説章: 未定
+
+### 置換関係
+なし。
+
 ## 現在
 
-まだ実験結果がないため、正式な知見は登録していません。
+F-001が最初の正式Finding。次のExtensionでは負荷またはnoiseを広げ、回復が崩れる境界とspurious attractorの出現を測る候補とする。
