@@ -41,7 +41,7 @@
 
 ## H-001 低負荷Hopfield networkでは中程度のbit反転から高率にexact recallできる
 
-状態: TESTING
+状態: SUPPORTED
 
 ### H
 100ユニットに5個のランダムな二値パターンをHebbian ruleで保存した対称Hopfield networkを非同期更新すると、保存パターンから10%または20%のbitを反転したcueに対して、十分高い割合で元パターンへexact recallする。
@@ -66,24 +66,37 @@
 - EXP-001 UNCERTAIN: H-001の支持・不支持には使わず、条件修正または再実行を行う
 
 ### D
-- EXP-001: 実行前
+- EXP-001: PASS
+  - 10% noise: 100/100 exact recall = 1.00
+  - 20% noise: 100/100 exact recall = 1.00
+  - 200/200 trialsが収束
+  - 最大observed sweeps: 2
+
+### 状態判断
+H-001は、固定seed・固定pattern set・低負荷という狭い操作条件に対する仮説である。EXP-001は事前登録した全200 trialsを有効に完了し、raw resultと集計の整合も確認され、事前閾値を十分に上回った。未解決の決定的矛盾もないため、**この限定条件に対する現在の証拠はH-001を支持している**と判断し `SUPPORTED` とする。
+
+これは単に「EXP-001がPASSだったから自動遷移」したものではない。単一pattern set・単一実装という一般化限界を残したうえでの限定的な状態判断である。
 
 ### C
-- 保存パターン間の偶然の相関が高く、低負荷でもspurious attractorへ収束する可能性
-- 非同期更新順の違いにより一部trialの到達先が変わる可能性
+- 保存パターン間の偶然の相関が低く、今回のpattern setが容易だった可能性
+- 低負荷だったためspurious attractorの影響が観測されにくかった可能性
+- 非同期更新順や別pattern ensembleでは結果が変わる可能性
 - 簡略化した実装が原論文の条件を十分に表していない可能性
 
 ### U
-- 1つの固定pattern setしか使わないため、pattern ensembleに対する一般化はできない
+- 1つの固定pattern setしか使っていないため、pattern ensembleに対する一般化はできない
 - noiseはbit反転であり、「未知部分を与える」cueとは同一ではない
 - 原論文の全図表・全条件の再現ではない
 - 判定閾値 0.95 / 0.80 は本プロジェクトの操作的基準であり、原論文が提示した閾値ではない
+- 100% recallだったため、今回の条件はattractor basinの境界を測るには容易すぎる
 
 ### 関連
 - Q-001
 - REF-001
 - EXP-001
+- F-001
+- L-001
 
 ## 現在
 
-H-001をEXP-001で検証中。結果確定までは状態を `TESTING` とする。
+H-001は宣言条件の範囲で `SUPPORTED`。次の仮説は、記憶負荷またはnoiseを増やしたときの失敗境界を別IDで定義する。
