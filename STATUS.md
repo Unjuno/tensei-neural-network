@@ -4,26 +4,75 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期設計完了・リポジトリ衛生確認中
-- 物語段階: 未着手
-- 学習段階: CATCH_UP
-- 研究段階: 最初の古典研究と追試対象を選定する前
+- プロジェクト段階: CATCH_UP実作業開始
+- 物語段階: 第1話設計前
+- 学習段階: CATCH_UP — 第1テーマの原典確認・追試完了
+- 研究段階: Hopfield型連想記憶の第1追試完了
+
+## 現在のwork branch
+
+- `work/first-hopfield-replication`
+- PRは作成しない
+- `main` とのcompareを人間が確認後、承認された場合のみ `main` へfast-forwardする
 
 ## Active ID
 
-- Q: なし
-- H: なし
-- EXP: なし
-- F: なし
-- L: なし
+- Q: `Q-001` — ANSWERED
+- H: `H-001` — SUPPORTED（限定条件）
+- EXP: `EXP-001` — PASS
+- F: `F-001` — PROVISIONAL
+- L: `L-001` — 未反映
 
-## 現在の目標
+## 第1テーマ
 
-1. 制作開始前にリポジトリをクリーンな運用状態へする
-2. 不要な自動PRレビューを止める
-3. 不要branchと設定上の残骸を整理する
-4. Public / Private と main保護方針を確定する
-5. 衛生確認後、第1技術テーマの選定へ進む
+**Hopfield型連想記憶 / attractor dynamics**
+
+選定理由:
+
+- 1980年代から始める作品・学習構造に合う
+- 主人公候補の研究年代1984–1985と強く接続する
+- 部分状態から全体を再構成するという物語の中心概念に直結する
+- 一般的なPCで軽量に追試できる
+- 後のgraded-response、RNN、attention、現代的associative memoryとの比較基準になる
+
+## 第1テーマで追加したもの
+
+### 原典
+
+- `REF-001`: Hopfield (1982), *Neural networks and physical systems with emergent collective computational abilities*
+- `REF-002`: Hopfield (1984), *Neurons with graded response have collective computational properties like those of two-state neurons*
+
+### 問い・仮説
+
+- `Q-001`: Hopfield型連想記憶の中核挙動は単純な現代実装で再現できるか → ANSWERED
+- `H-001`: N=100, P=3, 20%破損cue等の事前条件で固定点・95%以上の復元・非増加energyが得られる → SUPPORTED
+
+### 実験
+
+- `EXP-001`: `experiments/EXP-001-hopfield-core/`
+- 種別: core-mechanism Replication
+- 判定: **PASS**
+
+初回結果:
+
+- 保存パターン固定点: 3 / 3
+- exact recovery: 150 / 150 (100%)
+- energy increase (`ΔE > 1e-10`): 0回
+- 全trial収束: 150 / 150
+- 最大sweeps: 2
+- 実行環境: Python 3.13.5 / NumPy 2.3.5 / Linux x86_64
+
+### Finding
+
+- `F-001`: 低負荷の二状態Hopfield実装で中核的な連想記憶挙動を再現した
+- 状態: PROVISIONAL
+- 独立環境・別seed・高負荷条件への一般化はまだしない
+
+### 作者学習
+
+- `L-001`: 「アトラクタへ戻る」を比喩だけでなく実装として理解する
+- 重要点: Hopfieldのenergyは無次元Lyapunov関数であり、物理的エネルギー[J]や現代NNのtraining lossと同一ではない
+- 作品への反映: 未反映
 
 ## リポジトリ衛生状況
 
@@ -34,54 +83,26 @@
 - `.github/workflows/` は存在しない
 - GitHub Actions workflow run は確認時点で0件
 - 自動起動はGitHub Actions CIではなく、PRイベントに反応した外部GitHub Appであることを確認
-- PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` の反応を確認
-- work branch上で作業を完了してから、必要な場合のみレビュー境界でPRを作る運用へ変更済み
-- open PRは0件
+- 内部作業は `work branch → compare → 人間承認 → main fast-forward` とし、通常の内部作業ではPRを使わない
 
-### 要対応
+### 非ブロッキングの要対応
 
-- Codexの自動Code Review / GitHub Appアクセスを、このrepoで無効化または対象外にする
-- Cursor GitHub AppのこのrepoへのPRフックを無効化または対象外にする
+- Codex / Cursorのrepo別自動レビュー設定を必要に応じて整理する
 - merge済みの `bootstrap/repository-design` branchを削除する
 - repository visibilityが現在Publicのため、このまま公開運用するかPrivateへ戻すか決める
-- `main` は現在branch protectionなし。外部自動レビュー問題を解消した後、必要な保護方式を決める
+- `main` のbranch protectionは未設定
 
-外部GitHub Appのrepo別アクセス設定とbranch削除は、現在利用しているGitHub接続から直接変更できない場合がある。その場合はGitHub UI側で処理する。
+これらは現在の研究・小説制作開始をブロックしない。
 
-## 設計監査結果
+## 次に行うこと
 
-初回監査では外部長期記憶としての意味論に不足があり `NO-GO` となったため、PR #1内で修正しました。
+1. `work/first-hopfield-replication` と `main` の差分を確認する
+2. 承認後、このbranchを `main` へfast-forwardする
+3. `L-001` を使い、主人公研究者の専門・1984–1985前後の位置づけを具体化する
+4. `novel/structure.md` で第1話の最初の状態遷移を設計する
+5. 第1話に必要な範囲で、次の技術調査またはExtensionを選ぶ
 
-修正後の再監査では、次を運用開始可能と判定しました。
-
-- `main` = 人間が受理した正本、branch / PR = 候補状態
-- cold-start: `README.md` → `AGENTS.md` → `STATUS.md` → `POLICY.md`
-- `novel/canon.md` と `novel/timeline.md` の権威関係
-- Q / H / EXP / F / REF / L の安定ID規則
-- `PASS / FAIL / UNCERTAIN` の実験判定規則
-- Experiment → Hypothesis の状態更新
-- Findingの競合・置換処理
-- 作者の学習内容と作品反映の追跡
-- アイデア採用時の正本への反映
-- 人物の重要な信念更新履歴
-
-## 作品・研究上の未解決
-
-- 主人公研究者の専門分野と年代の最終確定
-- 第1話で扱う最初の技術テーマ
-- 第1追試の対象
-- 公開後のContribution / Credit / Licenseの詳細
-
-これらは意図的な未決定事項であり、現在のリポジトリ衛生問題とは分離する。
-
-## 衛生確認後に行うこと
-
-1. 第1テーマ候補を比較する
-2. 採用テーマの原典を `references/bibliography.md` に `REF-001` として登録する
-3. `Q-001` を作成する
-4. 必要なら `H-001` を作成する
-5. `EXP-001-.../` を作り、実行前条件を固定する
-6. 追試結果と理解を物語設計へ反映する
+実験を増やすこと自体を目的にせず、研究結果を物語へ接続してから次へ進む。
 
 ## 参照順
 
