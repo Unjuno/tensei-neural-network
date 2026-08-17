@@ -56,9 +56,11 @@
   "validation": {
     "rows": 200,
     "max_observed_sweeps": 2,
-    "summary_sha256": "cbb5bd49ab690de054d3af13c2d2e331d9ae812c673122e8128b713241ec2265",
-    "trials_sha256": "8539e9de587ec2597bb2acbe0bf3ab11e545ff5ffeb9b6101d437cb90fdf1cac",
-    "patterns_sha256": "2f86dff96ca675b39d1c3e4a46dda37f073486b7c0b138f11415d8fa014462cb"
+    "artifact_hashes_at_execution": {
+      "summary_before_validation_metadata_sha256": "cbb5bd49ab690de054d3af13c2d2e331d9ae812c673122e8128b713241ec2265",
+      "trials_sha256": "8539e9de587ec2597bb2acbe0bf3ab11e545ff5ffeb9b6101d437cb90fdf1cac",
+      "patterns_sha256": "2f86dff96ca675b39d1c3e4a46dda37f073486b7c0b138f11415d8fa014462cb"
+    }
   },
-  "note": "Script-level PASS/FAIL was checked against the preregistered thresholds. Raw-row counts, noise counts, initial Hamming distances, exact-recall counts, convergence counts, and maximum sweeps were cross-checked before repository interpretation."
+  "note": "Script-level PASS/FAIL was checked against the preregistered thresholds. Raw-row counts, noise counts, initial Hamming distances, exact-recall counts, convergence counts, and maximum sweeps were cross-checked before repository interpretation. The summary hash identifies the execution-time summary before validation metadata was appended."
 }
