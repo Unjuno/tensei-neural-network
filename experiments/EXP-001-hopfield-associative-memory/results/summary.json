@@ -1,0 +1,64 @@
+{
+  "experiment_id": "EXP-001",
+  "status": "executed",
+  "decision": "PASS",
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "config": {
+    "N": 100,
+    "P": 5,
+    "load": 0.05,
+    "pattern_seed": 1982,
+    "noise_rates": [
+      0.1,
+      0.2
+    ],
+    "trials_per_pattern": 20,
+    "max_sweeps": 20,
+    "update": "asynchronous shuffled order per sweep",
+    "weight_rule": "Hebbian outer-product, diagonal zero"
+  },
+  "expected_trial_count": 200,
+  "valid_trial_count": 200,
+  "pass_thresholds": {
+    "0.10": 0.95,
+    "0.20": 0.8
+  },
+  "pass_conditions": {
+    "0.10": true,
+    "0.20": true
+  },
+  "per_noise": {
+    "0.10": {
+      "trials": 100,
+      "exact_recall_count": 100,
+      "exact_recall_rate": 1.0,
+      "converged_count": 100,
+      "convergence_rate": 1.0,
+      "mean_sweeps": 2.0,
+      "mean_initial_hamming_distance": 10.0,
+      "mean_final_hamming_distance": 0.0
+    },
+    "0.20": {
+      "trials": 100,
+      "exact_recall_count": 100,
+      "exact_recall_rate": 1.0,
+      "converged_count": 100,
+      "convergence_rate": 1.0,
+      "mean_sweeps": 2.0,
+      "mean_initial_hamming_distance": 20.0,
+      "mean_final_hamming_distance": 0.0
+    }
+  },
+  "validation": {
+    "rows": 200,
+    "max_observed_sweeps": 2,
+    "summary_sha256": "cbb5bd49ab690de054d3af13c2d2e331d9ae812c673122e8128b713241ec2265",
+    "trials_sha256": "8539e9de587ec2597bb2acbe0bf3ab11e545ff5ffeb9b6101d437cb90fdf1cac",
+    "patterns_sha256": "2f86dff96ca675b39d1c3e4a46dda37f073486b7c0b138f11415d8fa014462cb"
+  },
+  "note": "Script-level PASS/FAIL was checked against the preregistered thresholds. Raw-row counts, noise counts, initial Hamming distances, exact-recall counts, convergence counts, and maximum sweeps were cross-checked before repository interpretation."
+}
