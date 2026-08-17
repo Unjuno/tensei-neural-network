@@ -4,7 +4,7 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期リポジトリ設計完了
+- プロジェクト段階: 初期設計完了・リポジトリ衛生確認中
 - 物語段階: 未着手
 - 学習段階: CATCH_UP
 - 研究段階: 最初の古典研究と追試対象を選定する前
@@ -19,11 +19,34 @@
 
 ## 現在の目標
 
-1. 第1テーマとして扱うAI技術史上の対象を選ぶ
-2. 原典を確認して `references/` へ登録する
-3. 最初の研究上の問いを `research/questions.md` に登録する
-4. 第1追試を事前定義して `experiments/` に追加する
-5. 調査・追試・理解を第1話の設計へ接続する
+1. 制作開始前にリポジトリをクリーンな運用状態へする
+2. 不要な自動PRレビューを止める
+3. 不要branchと設定上の残骸を整理する
+4. Public / Private と main保護方針を確定する
+5. 衛生確認後、第1技術テーマの選定へ進む
+
+## リポジトリ衛生状況
+
+### 完了
+
+- 初期設計PR #1は `main` へmerge済み
+- `main` を人間が受理した正本として定義済み
+- `.github/workflows/` は存在しない
+- GitHub Actions workflow run は確認時点で0件
+- 自動起動はGitHub Actions CIではなく、PRイベントに反応した外部GitHub Appであることを確認
+- PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` の反応を確認
+- work branch上で作業を完了してから、必要な場合のみレビュー境界でPRを作る運用へ変更済み
+- open PRは0件
+
+### 要対応
+
+- Codexの自動Code Review / GitHub Appアクセスを、このrepoで無効化または対象外にする
+- Cursor GitHub AppのこのrepoへのPRフックを無効化または対象外にする
+- merge済みの `bootstrap/repository-design` branchを削除する
+- repository visibilityが現在Publicのため、このまま公開運用するかPrivateへ戻すか決める
+- `main` は現在branch protectionなし。外部自動レビュー問題を解消した後、必要な保護方式を決める
+
+外部GitHub Appのrepo別アクセス設定とbranch削除は、現在利用しているGitHub接続から直接変更できない場合がある。その場合はGitHub UI側で処理する。
 
 ## 設計監査結果
 
@@ -42,21 +65,19 @@
 - アイデア採用時の正本への反映
 - 人物の重要な信念更新履歴
 
-PR #1は `main` へmerge済みです。
-
-## 未解決
+## 作品・研究上の未解決
 
 - 主人公研究者の専門分野と年代の最終確定
 - 第1話で扱う最初の技術テーマ
 - 第1追試の対象
 - 公開後のContribution / Credit / Licenseの詳細
 
-これらは現時点では意図的な未決定事項であり、設計欠陥としては扱いません。
+これらは意図的な未決定事項であり、現在のリポジトリ衛生問題とは分離する。
 
-## 次に行うこと
+## 衛生確認後に行うこと
 
 1. 第1テーマ候補を比較する
-2. 採用テーマの原典を `references/bibliography.md` に登録する
+2. 採用テーマの原典を `references/bibliography.md` に `REF-001` として登録する
 3. `Q-001` を作成する
 4. 必要なら `H-001` を作成する
 5. `EXP-001-.../` を作り、実行前条件を固定する
