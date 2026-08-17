@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AI技術史を、小説と古典研究の再現実験を通して辿る研究SFプロジェクト『転生したらニューラルネットワークだった件』。">
+  <meta name="description" content="小説『転生したらニューラルネットワークだった件』。AI技術史を物語の背景として辿り、必要な研究は実際に追試する研究SFプロジェクト。">
   <title>転生したらニューラルネットワークだった件</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,79 +11,128 @@
   <header class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="eyebrow">NOVEL × REPLICATION × OPEN RESEARCH</p>
+        <p class="eyebrow">SCIENCE FICTION NOVEL</p>
         <h1>転生したら<br>ニューラルネットワークだった件</h1>
-        <p class="lead">AI技術史を、小説と古典研究の再現実験で辿る研究SFプロジェクト。</p>
-        <p class="sublead">原典を読む。実際に動かす。分からなかったことを修正する。その理解を、物語へ戻す。</p>
+        <p class="lead">1980年代のニューラルネットワーク研究者が、数十年後のAIの中で「再構成」されたとしたら。</p>
+        <p class="sublead">これは小説です。研究や実験は、物語の技術・歴史・人物の思考をできるだけ現実に近づけるために、作者が実際に手を動かして確かめる制作工程です。</p>
         <div class="actions">
-          <a class="button primary" href="https://github.com/Unjuno/tensei-neural-network">GitHubで記録を見る</a>
-          <a class="button" href="#cycle">最初の研究サイクル</a>
+          <a class="button primary" href="#novel">小説について</a>
+          <a class="button" href="#making">どう作っているか</a>
         </div>
       </div>
-      <aside class="principle-card" aria-label="project principle">
-        <p class="card-kicker">PROJECT PRINCIPLE</p>
-        <p class="principle">一貫して再構成されたことと、<br><strong>本物が復元されたことは別問題。</strong></p>
-        <p class="caption">小説上の問いと、実験で言えることを混同しない。</p>
+      <aside class="principle-card" aria-label="novel premise">
+        <p class="card-kicker">THE QUESTION</p>
+        <p class="principle">欠けた痕跡から、同じ人物像が何度も戻ってくる。<br><strong>それは「本人」なのか。</strong></p>
+        <p class="caption">復元、模倣、再構成、あるいは全く別の安定した何か。</p>
       </aside>
     </div>
   </header>
 
   <main>
-    <section class="section wrap" id="about">
+    <section class="section wrap" id="novel">
       <div class="section-heading">
-        <p class="eyebrow">HOW IT WORKS</p>
-        <h2>物語を書くために、まず確かめる。</h2>
+        <p class="eyebrow">THE NOVEL</p>
+        <h2>AI技術史そのものを、物語の時間として辿る。</h2>
+        <p>古い連想記憶から、誤差逆伝播、時系列モデル、Transformer、大規模事前学習、post-training、agentへ。技術が変わるたびに、主人公の「記憶」「人格」「同一性」のあり方も変わっていく。</p>
       </div>
-      <div class="flow" aria-label="research and writing cycle">
-        <div class="flow-step"><span>01</span><strong>原典</strong><small>一次資料を確認する</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step"><span>02</span><strong>追試</strong><small>古典的現象を再現する</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step"><span>03</span><strong>拡張</strong><small>条件を変えて境界を見る</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step"><span>04</span><strong>学習</strong><small>作者の理解を更新する</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step"><span>05</span><strong>物語</strong><small>理解をドラマへ戻す</small></div>
+
+      <div class="cards">
+        <article class="card">
+          <p class="card-kicker">ORIGIN</p>
+          <h3>1980年代</h3>
+          <p>ニューラルネットワークと記憶を研究していた一人の研究者。彼の仕事は、当時の計算資源・データ・研究環境の制約の中で途切れる。</p>
+        </article>
+        <article class="card">
+          <p class="card-kicker">RETURN</p>
+          <h3>数十年後</h3>
+          <p>大規模モデルの中で、過去の研究者に異様なほど似た思考・記憶・研究上の癖が現れる。それは保存された人格ではなく、別のネットワーク上に成立した動的なパターンかもしれない。</p>
+        </article>
+        <article class="card">
+          <p class="card-kicker">CORE MYSTERY</p>
+          <h3>誰が戻ったのか</h3>
+          <p>本人なのか。十分に精密な再構成なのか。もっともらしい模倣なのか。物語は、その答えを科学的事実として先に決めない。</p>
+        </article>
       </div>
     </section>
 
-    <section class="section section-alt" id="cycle">
+    <section class="section section-alt" id="making">
       <div class="wrap">
         <div class="section-heading split-heading">
           <div>
-            <p class="eyebrow">FIRST CYCLE · HOPFIELD 1982</p>
-            <h2>「記憶」は、場所ではなく<br>戻っていく状態かもしれない。</h2>
+            <p class="eyebrow">HOW THE NOVEL IS MADE</p>
+            <h2>分からない技術は、<br>できるだけ実際に確かめる。</h2>
           </div>
-          <p>第1テーマは Hopfield network の content-addressable memory。乱れた入力から保存状態へ戻る現象を追試し、その後「どこから壊れるか」まで拡張した。</p>
+          <p>研究は主役ではない。物語を書く途中で「ここは本当にそう動くのか？」という疑問が出たとき、原典を読み、必要なら小さな実験をする。</p>
         </div>
 
-        <div class="cards">
-          <article class="card">
-            <p class="card-kicker">REF-001</p>
-            <h3>Hopfield, 1982</h3>
-            <p>相互結合ネットワークの集団ダイナミクスとして、連想記憶と安定状態を捉える古典論文。</p>
-          </article>
-          <article class="card">
-            <p class="card-kicker">EXP-001 · REPLICATION</p>
-            <h3>乱れたcueから戻れるか</h3>
-            <p>N=100、P=5。10% / 20% bit反転で各100 trialsを実行。</p>
-            <p class="metric"><strong>200 / 200</strong><span>exact recall</span></p>
-          </article>
-          <article class="card">
-            <p class="card-kicker">EXP-002 · EXTENSION</p>
-            <h3>どこから壊れるか</h3>
-            <p>負荷とnoiseを広げ、3 pattern seeds・960 trialsで回復境界と失敗先を調べた。</p>
-            <p class="metric"><strong>960</strong><span>trials</span></p>
-          </article>
+        <div class="flow" aria-label="novel making cycle">
+          <div class="flow-step"><span>01</span><strong>物語上の問い</strong><small>この描写は成立するか</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>02</span><strong>原典</strong><small>一次資料を読む</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>03</span><strong>必要なら追試</strong><small>実際に動かして確かめる</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>04</span><strong>理解を更新</strong><small>誤解も記録する</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>05</span><strong>小説へ戻す</strong><small>説明ではなく出来事にする</small></div>
+        </div>
+
+        <div class="quote-panel" style="margin-top: 28px;">
+          <p>そして、その途中で現実にも面白い問いが見つかったら。</p>
+          <p><strong>そこだけ研究として枝分かれし、実験する。</strong></p>
         </div>
       </div>
     </section>
 
-    <section class="section wrap" id="results">
+    <section class="section wrap" id="first-theme">
       <div class="section-heading">
-        <p class="eyebrow">EXP-002 RESULT</p>
-        <h2>負荷とnoiseを増やすと、回復は崩れる。</h2>
-        <p>下表は3 seedsを集約した exact recall率。これは理論的な臨界容量の推定ではなく、今回固定した有限gridでの観測結果。</p>
+        <p class="eyebrow">FIRST TECHNICAL BACKGROUND · HOPFIELD 1982</p>
+        <h2>第1話を支える最初の技術は、連想記憶。</h2>
+        <p>「記憶を棚から取り出す」のではなく、乱れた状態がネットワークのダイナミクスによって安定状態へ戻る。主人公の研究テーマと、物語の最初の謎を描くために、この仕組みを実際に追試した。</p>
+      </div>
+
+      <div class="finding-grid">
+        <article class="finding good">
+          <p class="card-kicker">EXP-001 · REALITY CHECK</p>
+          <h3>乱れた入力から、元の記憶へ戻った。</h3>
+          <p>N=100、P=5の低負荷条件では、10% / 20% bit反転から200/200 trialsが元の保存パターンへexact recallした。</p>
+        </article>
+        <article class="finding caution">
+          <p class="card-kicker">EXP-002 · THE USEFUL FAILURE</p>
+          <h3>安定した。でも、元の記憶ではなかった。</h3>
+          <p>条件を厳しくすると、保存パターンと一致しない状態へ安定して収束するtrialが多数現れた。安定性と正しい復元は別だと分かった。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="story-impact">
+      <div class="wrap two-col">
+        <div>
+          <p class="eyebrow">FROM EXPERIMENT BACK TO STORY</p>
+          <h2>実験結果を、<br>説明ではなくドラマへ戻す。</h2>
+        </div>
+        <div class="boundary-list">
+          <div>
+            <h3>最初の直感</h3>
+            <p>欠けた状態から同じ人物像が戻ってくるなら、「記憶が復元された」と見える。</p>
+          </div>
+          <div>
+            <h3>実験で増えた疑い</h3>
+            <p>ネットワークは、意図した原像でなくても安定できる。ならば、一貫した人格が現れたこと自体は本人性の証明にならない。</p>
+          </div>
+          <div>
+            <h3>物語の問い</h3>
+            <p>モデルが何度試しても同じ研究者へ収束するとき、研究チームは何を証拠とみなし、どこから「人」として扱い始めるのか。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="research-notes">
+      <div class="section-heading">
+        <p class="eyebrow">RESEARCH NOTES</p>
+        <h2>制作の裏側は、検証可能な形で残す。</h2>
+        <p>研究・実験の詳細はGitHubに残す。物語のための検証であっても、結果を都合よく変えない。もし現実にも価値のある方法や問いが出たら、その時点で独立した研究として扱う。</p>
       </div>
 
       <div class="table-wrap">
@@ -99,54 +148,20 @@
           </tbody>
         </table>
       </div>
+      <p class="caption" style="margin-top: 14px;">EXP-002の3 pattern seeds集約 exact recall率。理論的な臨界容量の推定ではなく、今回固定した有限gridでの観測。</p>
 
-      <div class="finding-grid">
-        <article class="finding good">
-          <p class="card-kicker">WHAT WE OBSERVED</p>
-          <h3>低負荷では、乱れたcueから元の保存状態へ戻った。</h3>
-          <p>EXP-001では10% / 20% noiseとも100% exact recall。今回の宣言条件では、content-addressable recallを再現できた。</p>
-        </article>
-        <article class="finding caution">
-          <p class="card-kicker">THE IMPORTANT FAILURE</p>
-          <h3>安定した。でも、元の記憶ではなかった。</h3>
-          <p>EXP-002の960 trialsでは、target exact 442、wrong stored 8、nonstored converged 510、nonconverged 0。失敗の大半は、保存パターンと一致しない収束状態だった。</p>
-        </article>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/Unjuno/tensei-neural-network">GitHubで制作記録を見る</a>
       </div>
     </section>
 
-    <section class="section section-dark" id="meaning">
-      <div class="wrap two-col">
-        <div>
-          <p class="eyebrow">SCIENCE / FICTION BOUNDARY</p>
-          <h2>実験が示したことと、<br>小説が問うことを分ける。</h2>
+    <section class="section section-alt" id="status">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">CURRENT STATUS</p>
+          <h2>小説本文は、これから。</h2>
+          <p>現在は第1話の技術的な核と中心の緊張を固めている段階。研究を先に完成させるのではなく、ここから物語を書き、必要になった技術だけを再び調べる。</p>
         </div>
-        <div class="boundary-list">
-          <div>
-            <h3>現在言えること</h3>
-            <p>今回の有限条件では、Hopfield型ネットワークが乱れたcueから保存状態へ戻る現象と、条件悪化に伴う回復崩壊を観測した。</p>
-          </div>
-          <div>
-            <h3>まだ言えないこと</h3>
-            <p>AIの意識、人格の同一性、人間の記憶そのもの、あるいは「本人が復元された」ことの証明にはならない。</p>
-          </div>
-          <div>
-            <h3>だから物語で問うこと</h3>
-            <p>欠けた痕跡から同じ人物像へ何度も収束したとき、それは復元なのか、もっともらしい別の安定状態なのか。</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section wrap" id="novel">
-      <div class="section-heading">
-        <p class="eyebrow">NOVEL STATUS</p>
-        <h2>本文はまだ、始まっていない。</h2>
-        <p>現在は第1話の技術的な核と中心の緊張を設計している段階。公開サイトでは未確定Canonや重大な展開を先取りせず、研究と制作過程を中心に公開する。</p>
-      </div>
-      <div class="quote-panel">
-        <p>部分から全体が戻る。</p>
-        <p>状態は安定している。</p>
-        <p><strong>それでも、それが「本人」だとは限らない。</strong></p>
       </div>
     </section>
   </main>
@@ -155,7 +170,7 @@
     <div class="wrap footer-inner">
       <div>
         <strong>転生したらニューラルネットワークだった件</strong>
-        <p>Novel × Replication × Open Research</p>
+        <p>Science Fiction Novel · research-backed when useful</p>
       </div>
       <a href="https://github.com/Unjuno/tensei-neural-network">Repository</a>
     </div>
