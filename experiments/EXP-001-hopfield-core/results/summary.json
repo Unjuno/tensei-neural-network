@@ -1,0 +1,70 @@
+{
+  "experiment_id": "EXP-001",
+  "decision": "PASS",
+  "config": {
+    "N": 100,
+    "P": 3,
+    "pattern_seed": 1982,
+    "noise_fraction": 0.2,
+    "trials_per_pattern": 50,
+    "total_trials": 150,
+    "max_sweeps": 50,
+    "energy_tolerance": 1e-10,
+    "recovery_pass_rate": 0.95
+  },
+  "environment": {
+    "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "weight_checks": {
+    "symmetric": true,
+    "zero_diagonal": true
+  },
+  "fixed_points": [
+    true,
+    true,
+    true
+  ],
+  "metrics": {
+    "recovered": 150,
+    "recovery_rate": 1.0,
+    "all_converged": true,
+    "total_energy_increases": 0,
+    "max_positive_energy_delta": 0.0,
+    "max_energy_crosscheck_error": 2.842170943040401e-14,
+    "max_sweeps_observed": 2,
+    "total_state_changes": 3000
+  },
+  "per_pattern": [
+    {
+      "pattern_index": 0,
+      "successes": 50,
+      "trials": 50,
+      "recovery_rate": 1.0
+    },
+    {
+      "pattern_index": 1,
+      "successes": 50,
+      "trials": 50,
+      "recovery_rate": 1.0
+    },
+    {
+      "pattern_index": 2,
+      "successes": 50,
+      "trials": 50,
+      "recovery_rate": 1.0
+    }
+  ],
+  "pass_conditions": {
+    "all_stored_patterns_are_fixed_points": true,
+    "recovery_rate_at_least_0_95": true,
+    "zero_energy_increases_above_tolerance": true,
+    "all_trials_converged_within_50_sweeps": true
+  },
+  "notes": [
+    "PASS/FAIL is the pre-registered decision for EXP-001, not a truth value for H-001.",
+    "The 20% corruption and 95% recovery threshold are project-defined operational criteria, not claimed as numeric thresholds from Hopfield (1982).",
+    "Energy is a dimensionless Lyapunov quantity, not physical energy in joules."
+  ]
+}
