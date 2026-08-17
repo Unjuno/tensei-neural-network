@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AI技術史を、小説と古典研究の再現実験を通して辿る研究SFプロジェクト『転生したらニューラルネットワークだった件』。">
+  <title>転生したらニューラルネットワークだった件</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">NOVEL × REPLICATION × OPEN RESEARCH</p>
+        <h1>転生したら<br>ニューラルネットワークだった件</h1>
+        <p class="lead">AI技術史を、小説と古典研究の再現実験で辿る研究SFプロジェクト。</p>
+        <p class="sublead">原典を読む。実際に動かす。分からなかったことを修正する。その理解を、物語へ戻す。</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/Unjuno/tensei-neural-network">GitHubで記録を見る</a>
+          <a class="button" href="#cycle">最初の研究サイクル</a>
+        </div>
+      </div>
+      <aside class="principle-card" aria-label="project principle">
+        <p class="card-kicker">PROJECT PRINCIPLE</p>
+        <p class="principle">一貫して再構成されたことと、<br><strong>本物が復元されたことは別問題。</strong></p>
+        <p class="caption">小説上の問いと、実験で言えることを混同しない。</p>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section wrap" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>物語を書くために、まず確かめる。</h2>
+      </div>
+      <div class="flow" aria-label="research and writing cycle">
+        <div class="flow-step"><span>01</span><strong>原典</strong><small>一次資料を確認する</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><span>02</span><strong>追試</strong><small>古典的現象を再現する</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><span>03</span><strong>拡張</strong><small>条件を変えて境界を見る</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><span>04</span><strong>学習</strong><small>作者の理解を更新する</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><span>05</span><strong>物語</strong><small>理解をドラマへ戻す</small></div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="cycle">
+      <div class="wrap">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">FIRST CYCLE · HOPFIELD 1982</p>
+            <h2>「記憶」は、場所ではなく<br>戻っていく状態かもしれない。</h2>
+          </div>
+          <p>第1テーマは Hopfield network の content-addressable memory。乱れた入力から保存状態へ戻る現象を追試し、その後「どこから壊れるか」まで拡張した。</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <p class="card-kicker">REF-001</p>
+            <h3>Hopfield, 1982</h3>
+            <p>相互結合ネットワークの集団ダイナミクスとして、連想記憶と安定状態を捉える古典論文。</p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">EXP-001 · REPLICATION</p>
+            <h3>乱れたcueから戻れるか</h3>
+            <p>N=100、P=5。10% / 20% bit反転で各100 trialsを実行。</p>
+            <p class="metric"><strong>200 / 200</strong><span>exact recall</span></p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">EXP-002 · EXTENSION</p>
+            <h3>どこから壊れるか</h3>
+            <p>負荷とnoiseを広げ、3 pattern seeds・960 trialsで回復境界と失敗先を調べた。</p>
+            <p class="metric"><strong>960</strong><span>trials</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="results">
+      <div class="section-heading">
+        <p class="eyebrow">EXP-002 RESULT</p>
+        <h2>負荷とnoiseを増やすと、回復は崩れる。</h2>
+        <p>下表は3 seedsを集約した exact recall率。これは理論的な臨界容量の推定ではなく、今回固定した有限gridでの観測結果。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>P / load</th><th>noise 10%</th><th>20%</th><th>30%</th><th>40%</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>5 / 0.05</th><td>1.000</td><td>1.000</td><td>0.967</td><td>0.433</td></tr>
+            <tr><th>10 / 0.10</th><td>0.917</td><td>0.850</td><td>0.600</td><td>0.083</td></tr>
+            <tr><th>15 / 0.15</th><td>0.567</td><td>0.383</td><td>0.167</td><td>0.017</td></tr>
+            <tr><th>20 / 0.20</th><td>0.267</td><td>0.117</td><td>0.000</td><td>0.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="finding-grid">
+        <article class="finding good">
+          <p class="card-kicker">WHAT WE OBSERVED</p>
+          <h3>低負荷では、乱れたcueから元の保存状態へ戻った。</h3>
+          <p>EXP-001では10% / 20% noiseとも100% exact recall。今回の宣言条件では、content-addressable recallを再現できた。</p>
+        </article>
+        <article class="finding caution">
+          <p class="card-kicker">THE IMPORTANT FAILURE</p>
+          <h3>安定した。でも、元の記憶ではなかった。</h3>
+          <p>EXP-002の960 trialsでは、target exact 442、wrong stored 8、nonstored converged 510、nonconverged 0。失敗の大半は、保存パターンと一致しない収束状態だった。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="meaning">
+      <div class="wrap two-col">
+        <div>
+          <p class="eyebrow">SCIENCE / FICTION BOUNDARY</p>
+          <h2>実験が示したことと、<br>小説が問うことを分ける。</h2>
+        </div>
+        <div class="boundary-list">
+          <div>
+            <h3>現在言えること</h3>
+            <p>今回の有限条件では、Hopfield型ネットワークが乱れたcueから保存状態へ戻る現象と、条件悪化に伴う回復崩壊を観測した。</p>
+          </div>
+          <div>
+            <h3>まだ言えないこと</h3>
+            <p>AIの意識、人格の同一性、人間の記憶そのもの、あるいは「本人が復元された」ことの証明にはならない。</p>
+          </div>
+          <div>
+            <h3>だから物語で問うこと</h3>
+            <p>欠けた痕跡から同じ人物像へ何度も収束したとき、それは復元なのか、もっともらしい別の安定状態なのか。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="novel">
+      <div class="section-heading">
+        <p class="eyebrow">NOVEL STATUS</p>
+        <h2>本文はまだ、始まっていない。</h2>
+        <p>現在は第1話の技術的な核と中心の緊張を設計している段階。公開サイトでは未確定Canonや重大な展開を先取りせず、研究と制作過程を中心に公開する。</p>
+      </div>
+      <div class="quote-panel">
+        <p>部分から全体が戻る。</p>
+        <p>状態は安定している。</p>
+        <p><strong>それでも、それが「本人」だとは限らない。</strong></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <strong>転生したらニューラルネットワークだった件</strong>
+        <p>Novel × Replication × Open Research</p>
+      </div>
+      <a href="https://github.com/Unjuno/tensei-neural-network">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>
