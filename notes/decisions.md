@@ -174,3 +174,17 @@ Pull Requestは、外部Contribution、GitHub上に公開レビュー履歴を�
 
 ### 理由
 PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` がPRイベントに反応した。GitHub Actions CIではなく外部Appのhookであり、内部レビューをbranch比較へ変更すれば人間確認を維持したままPRイベント自体を避けられるため。
+
+---
+
+## D-014 GitHub Pagesはmain/docsの静的配信から始める
+
+状態: ACTIVE
+
+### 判断
+GitHub Pagesの初期公開は、`main` branchの `/docs` を公開元にする静的サイトとして始める。専用site frameworkやcustom GitHub Actions workflowは、明確な必要性が出るまで導入しない。
+
+### 理由
+現在の公開単位はプロジェクト概要・研究結果・科学と物語の境界説明が中心で、ビルド工程を必要としない。repo本体の運用でも不要なActionsを増やさない方針を採っているため、GitHub Pagesが公式に対応するbranch + `/docs` 配信を最小構成として使う。
+
+Pagesの有効化自体はGitHub UIの `Settings → Pages` で行い、公開元を `main` / `/docs` に設定する。サイト内容の変更は通常のrepo変更と同様にmainへ受理された内容だけを公開対象とする。
