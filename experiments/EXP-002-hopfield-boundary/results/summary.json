@@ -1,0 +1,45 @@
+{
+  "experiment_id": "EXP-002",
+  "status": "executed",
+  "decision": "PASS",
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "config": {
+    "N": 100,
+    "P_values": [5, 10, 15, 20],
+    "noise_rates": [0.1, 0.2, 0.3, 0.4],
+    "pattern_seeds": [1982, 1983, 1984],
+    "trials_per_condition": 20,
+    "valid_trial_count": 960
+  },
+  "decision_conditions": {
+    "baseline": {
+      "condition": "P=5,noise=0.10",
+      "threshold": 0.95,
+      "observed_exact_recall_rate": 1.0,
+      "passed": true
+    },
+    "challenging": {
+      "threshold_at_or_below": 0.5,
+      "P=15,noise=0.30": 0.16666666666666666,
+      "P=15,noise=0.40": 0.016666666666666666,
+      "P=20,noise=0.30": 0.0,
+      "P=20,noise=0.40": 0.0,
+      "passed": true
+    }
+  },
+  "overall_final_categories": {
+    "TARGET_EXACT": 442,
+    "WRONG_STORED": 8,
+    "NONSTORED_CONVERGED": 510,
+    "NONCONVERGED": 0
+  },
+  "artifact_hashes_at_execution": {
+    "grid_csv_sha256": "ea5363b63651589e33b228ed6a39aeb6fb4ba3262e765ed116fdfb16147cd03b",
+    "trials_csv_sha256": "b7c7d014a27e2b1675632ec73d2d99e7e6a431d43f28c775ab765c94d700dc26"
+  },
+  "interpretation_note": "NONSTORED_CONVERGED is an observational category and is not automatically identified with a theoretical spurious attractor."
+}
