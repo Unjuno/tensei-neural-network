@@ -30,7 +30,7 @@
 
 ## Q-001 低負荷Hopfield networkは乱されたcueから保存パターンを回復できるか
 
-状態: OPEN
+状態: ANSWERED
 
 ### 問い
 Hopfield (1982) の二値相互結合ネットワークを簡略化して実装したとき、低い記憶負荷の条件で、一部のbitを反転した入力から元の保存パターンへ収束するcontent-addressable recallを再現できるか。
@@ -40,12 +40,19 @@ Hopfield (1982) の二値相互結合ネットワークを簡略化して実装�
 
 Q-001は原論文の図表を完全に再現する問いではない。原典の中核現象を、現代の小規模な数値実装と明示した条件で再現できるかを問う。
 
+### 現時点の回答
+EXP-001の宣言条件 N=100、P=5、固定pattern setでは、10% noiseと20% noiseの双方で100/100 trialsが元パターンへexact recallし、事前判定基準はPASSとなった。したがって、**この宣言条件の範囲ではcontent-addressable recallを再現できた**と回答する。
+
+この回答は容量限界、別pattern ensemble、欠損cue、構造化noise、Hopfield network一般の性能まで答えるものではない。
+
 ### 関連
 - REF-001
 - H-001
 - EXP-001
+- F-001
+- L-001
 - 小説章: 未定
 
 ## 現在
 
-Q-001を第1の研究上の問いとして追跡する。
+Q-001は宣言条件の範囲で `ANSWERED`。次の問いは、負荷・noiseを増やしたときにattractor basinがどこで崩れるかをExtensionとして切り出す候補とする。
