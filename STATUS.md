@@ -4,11 +4,11 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期設計完了・最初の研究→学習→物語接続サイクルを構築済み
+- プロジェクト段階: 初期設計完了・最初の研究→学習→物語接続サイクルを `main` へ受理済み
 - 物語段階: 第1話の技術的な核と中心緊張を設計済み・本文未着手
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield 1982のReplication + Extension完了・次テーマ選定前
-- 公開段階: GitHub Pagesの準備を始められる最小公開単位に到達
+- 公開段階: GitHub Pages最小サイトをwork branchで準備済み・公開設定前
 
 ## 最新ID
 
@@ -92,47 +92,68 @@ F-002として、今回の探索範囲では条件悪化に伴う回復崩壊を
 
 ## 実験artifact上の注意
 
-EXP-002は事前計画で960-row `results/trials.csv` のcommitを予定したが、現在のGitHub書き込み経路で大きな単一テキストの取り回しが不安定だったため、branchには `grid.csv`、`summary.json`、決定論的 `run.py`、実行時raw CSV hashを保存した。
+EXP-002は事前計画で960-row `results/trials.csv` のcommitを予定したが、GitHub書き込み経路で大きな単一テキストの取り回しが不安定だったため、`grid.csv`、`summary.json`、決定論的 `run.py`、実行時raw CSV hashを保存した。
 
 実験条件・trial数・判定基準は変更していない。rawを再生成する場合はEXP-002 README記載のSHA-256と照合する。
 
-## GitHub Pages
+## GitHub Pages準備
 
 最小公開単位として、
 
 **原典 → Replication → Extension → Finding → 作者の理解更新 → 第1話構造への反映**
 
-の1サイクルが揃ったため、GitHub Pagesの準備を始めてよい段階に到達した。
+の1サイクルが `main` に揃った。
 
-ただし現在の成果は `work/exp-001-hopfield` branch上の候補状態であり、Pagesの公開元を `main` にするなら、先に人間レビューとmainへの反映を行う。
+`work/pages-bootstrap-final` で次を準備済み。
 
-Pages設定時の最小公開内容候補:
+- `docs/index.html`: 日本語ランディングページ
+- `docs/style.css`: frameworkなしのresponsive CSS
+- `docs/.nojekyll`: 静的ファイルとして扱うためのマーカー
+- `D-014`: Pagesは `main` / `/docs` のbranch publishから始める判断
+
+公開ページの内容:
 
 1. プロジェクト概要
-2. 「小説 × 追試 × 学習」の流れ
-3. REF-001 / EXP-001 / EXP-002の短い結果
-4. 科学的に言えること / 言えないこと
-5. 小説側は第1話本文公開前なら、ネタバレを抑えたコンセプトだけ
+2. 原典→追試→拡張→学習→物語の制作フロー
+3. REF-001 / EXP-001 / EXP-002の要約
+4. EXP-002 exact recall grid
+5. 科学的に言えること / 言えないこと
+6. ネタバレを抑えた小説コンセプト
 
-サイト専用の重いframeworkはまだ不要。Pages設定方法を決める段階で最小構成を選ぶ。
+未確定Canonや第1話本文は公開ページへ入れていない。
+
+### Pages有効化時の設定
+
+GitHub UIで以下を設定する。
+
+1. Repository `Settings`
+2. `Pages`
+3. `Build and deployment` → `Source`: `Deploy from a branch`
+4. Branch: `main`
+5. Folder: `/docs`
+6. Save
+
+この設定を行う前に、`work/pages-bootstrap-final` を人間確認後に `main` へ反映する。
 
 ## リポジトリ衛生の保留事項
 
 - Codex / Cursor等の外部GitHub Appのrepo別自動反応設定
 - merge済み `bootstrap/repository-design` branchの削除
+- 不要なPages準備branchの整理
 - Public / Privateの最終方針
 - main branch protection
-- GitHub Pages設定
+- GitHub Pages UI設定
 
 研究・物語制作を止めるblockerではないものは並行して扱う。
 
 ## 次に行うこと
 
-### 人間レビュー後
+### 公開準備
 
-1. `work/exp-001-hopfield` の研究・物語接続差分を確認
-2. 明示承認された場合のみmainへfast-forward
-3. main反映後、GitHub Pages設定へ進める
+1. `work/pages-bootstrap-final` の見た目・内容を確認
+2. 明示承認された場合のみ `main` へfast-forward
+3. GitHub UIでPages公開元を `main` / `/docs` に設定
+4. 公開後のURL・表示・リンクを確認
 
 ### 次の研究候補
 
@@ -149,9 +170,9 @@ Pages設定時の最小公開内容候補:
 
 ## 現在のwork branch
 
-`work/exp-001-hopfield`
+`work/pages-bootstrap-final`
 
-このbranchは候補状態。`main` へはまだ反映していない。
+このbranchはGitHub Pages公開内容の候補状態。`main` へはまだ反映していない。
 
 ## Cold Start
 
