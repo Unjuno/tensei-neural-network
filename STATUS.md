@@ -4,36 +4,57 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期設計完了・第1追試準備中（リポジトリ衛生の一部は保留）
-- 物語段階: 第1技術テーマ選定済み・本文未着手
+- プロジェクト段階: 初期設計完了・第1研究サイクル完了候補をレビュー待ち
+- 物語段階: 第1話の技術的な核を設計済み・本文未着手
 - 学習段階: CATCH_UP
-- 研究段階: Hopfield 1982の第1追試を事前登録済み・実行前
+- 研究段階: Hopfield 1982の第1追試完了・次Extension設計前
 
 ## Active ID
 
-- Q: Q-001
-- H: H-001
-- EXP: EXP-001
-- F: なし
-- L: なし
+- Q: Q-001 — ANSWERED
+- H: H-001 — SUPPORTED（宣言条件に限定）
+- EXP: EXP-001 — PASS
+- F: F-001 — PROVISIONAL
+- L: L-001 — 一部反映
 
-## 現在の目標
+## 現在の成果
 
-1. REF-001 / Q-001 / H-001 / EXP-001の事前条件を維持したまま第1追試を実行する
-2. raw resultと集計を検証し、EXP-001をPASS / FAIL / UNCERTAINで判定する
-3. 結果からF-001とL-001を必要に応じて作成する
-4. 「状態ダイナミクスとしての記憶」を第1話・主人公研究者設計へ接続する
-5. ある程度の研究・作品内容が揃った段階でGitHub Pagesの公開設定を行う
+### REF-001
+J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities” を第1原典として登録。
 
-## 第1テーマ
+### Q-001
+低負荷Hopfield networkで、乱されたcueから保存パターンへのcontent-addressable recallを再現できるかを問い、EXP-001の宣言条件の範囲で `ANSWERED` とした。
 
-- テーマ: Hopfield network / content-addressable memory
-- 原典: REF-001 — J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities”
-- 問い: Q-001 — 低負荷Hopfield networkは乱されたcueから保存パターンを回復できるか
-- 仮説: H-001 — N=100, P=5の操作条件で10% / 20% bit反転から高率にexact recallできる
-- 実験: EXP-001 — `experiments/EXP-001-hopfield-associative-memory/`
+### H-001
+N=100、P=5、10% / 20% bit反転という操作条件で高率にexact recallできるという仮説。EXP-001の有効な事前登録結果を根拠に、宣言条件へ限定して `SUPPORTED` とした。
 
-EXP-001の判定基準は結果を見る前にbranchへ記録済み。結果を見てから閾値を変更しない。
+### EXP-001
+`experiments/EXP-001-hopfield-associative-memory/`
+
+- 事前登録後に実行
+- 10% noise: 100/100 exact recall
+- 20% noise: 100/100 exact recall
+- 200/200 trialsが収束
+- 最大observed sweeps: 2
+- 事前判定: PASS
+- `results/summary.json`, `trials.csv`, `patterns.csv` を保存
+
+### F-001
+低負荷・固定pattern setの条件では、保存パターンがattractorとして働き、乱れたcueから元状態へ戻るcontent-addressable recallを実装上確認した、という範囲に限定した `PROVISIONAL` Finding。
+
+### L-001
+作者の理解を「記憶を保存場所から検索する」から「乱れた現在状態が重みで定められた地形を動き、安定状態へ戻る」という状態遷移中心の理解へ更新。
+
+この理解は `novel/structure.md` の第1話設計へ一部反映済み。
+
+## 物語側の現在位置
+
+- 再帰的起承転結: `起 / 起`
+- 第1話の技術的な核: attractor / content-addressable memory
+- 中心の緊張: **「部分から全体が戻る」ことと「同一人物が戻った」ことは同じではない**
+- 次の不可逆イベント候補: 欠けた研究者関連入力から、モデルが複数試行で同じ人物像・研究テーマへ収束する異常を観測する
+
+上記イベントはまだCanonではなく、`novel/structure.md` 上の制作候補。
 
 ## リポジトリ衛生状況
 
@@ -43,41 +64,56 @@ EXP-001の判定基準は結果を見る前にbranchへ記録済み。結果を�
 - `main` を人間が受理した正本として定義済み
 - `.github/workflows/` は存在しない
 - GitHub Actions workflow run は確認時点で0件
-- 自動起動はGitHub Actions CIではなく、PRイベントに反応した外部GitHub Appであることを確認
-- PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` の反応を確認
+- PRイベントに反応した処理はGitHub Actions CIではなく外部GitHub Appと確認済み
 - 内部AI作業はPRではなくwork branch比較でレビューする運用へ変更済み
 - open PRは0件
 
 ### 要対応・保留
 
-- Codexの自動Code Review / GitHub Appアクセスを、このrepoで無効化または対象外にする
-- Cursor GitHub AppのこのrepoへのPRフックを無効化または対象外にする
-- merge済みの `bootstrap/repository-design` branchを削除する
-- repository visibilityが現在Publicのため、このまま公開運用するかPrivateへ戻すか決める
-- `main` は現在branch protectionなし。外部自動レビュー問題を解消した後、必要な保護方式を決める
-- GitHub Pagesは研究・作品の最初の公開単位が揃った段階で設定する
+- Codex自動Code Review / GitHub Appアクセスのrepo別無効化または対象外化
+- Cursor GitHub Appのrepo別PRフック無効化または対象外化
+- merge済み `bootstrap/repository-design` branchの削除
+- Public / Privateの最終方針
+- main branch protection方針
+- GitHub Pages設定
 
-外部GitHub Appのrepo別アクセス設定、branch削除、Pages等はGitHub UI側で処理する可能性がある。研究作業を止めるblockerではないものは制作と並行して扱う。
+これらのうちUI設定が必要なものは、研究・作品の制作を止めるblockerではない限り並行して扱う。
 
-## 設計監査結果
+## 次の研究候補
 
-初回監査では外部長期記憶としての意味論に不足があり `NO-GO` となったため、PR #1内で修正した。修正後の再監査では、cold-start、正本関係、安定ID、実験判定、Experiment→Hypothesis、Finding競合、学習履歴の追跡を運用開始可能と判定した。
+EXP-001は低負荷条件で100% recallとなり、attractor basinの境界を見るには容易すぎた。
 
-## 作品・研究上の未解決
+次は別IDで、少なくとも次のどれかをExtensionとして事前登録する。
 
-- 主人公研究者の専門分野・所属・年の最終確定
-- 第1話の具体的な事件・視点人物・シーン構成
-- Hopfield追試の次にPerceptronへ戻るか、1984 graded-responseへ進むか
-- 公開後のContribution / Credit / Licenseの詳細
+1. 記憶負荷 `P/N` を増やす
+2. bit反転noiseを20%より増やす
+3. 複数pattern seedsで再確認する
+4. spurious attractorへの収束率を測る
 
-## 次に行うこと
+第1候補は、**負荷とnoiseの2軸を粗く掃引して回復境界を可視化する軽量Extension**。
 
-1. EXP-001を実行する
-2. raw resultとsummaryの整合を確認する
-3. EXP-001 READMEを実行後状態へ更新する
-4. Q-001 / H-001 / F-001 / L-001を結果に合わせて更新する
-5. `novel/structure.md` へ第1話の技術的な核を反映する
-6. `main...work/exp-001-hopfield` を比較し、人間レビューへ提示する
+## 次の物語作業
+
+1. 主人公研究者の専門を連想記憶 / attractor周辺でPROVISIONALにするか判断
+2. 1982–1985のどの時点を主人公の研究史の核にするか原典を追加確認
+3. 第1話の視点人物を決める
+4. 「通常の補完」と「異常な一貫性」をどう比較するか物語内の観測条件を作る
+5. 第1話の不可逆イベントを確定して本文へ進む
+
+## GitHub Pagesへ進む目安
+
+次のどちらかを満たしたら、公開導線を作る価値がある。
+
+- 第1話または公開可能な導入本文が1本できる
+- EXP-001に加えてExtension 1本が揃い、「原典 → 追試 → 学び → 物語」の1サイクルを読者へ見せられる
+
+現時点でもPagesの技術設定は可能だが、空のサイトを先に作るより、上記の最小公開単位を揃えてから設定する方針を推奨する。
+
+## 現在のwork branch
+
+`work/exp-001-hopfield`
+
+このbranchは候補状態。`main...work/exp-001-hopfield` の比較を人間が確認し、明示承認された場合のみmainへfast-forwardする。
 
 ## 参照順
 
