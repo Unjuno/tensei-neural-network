@@ -59,6 +59,43 @@
 3. 必要なら仮説を `INCONCLUSIVE` に戻す
 4. 追加検証後、主張を修正する必要があれば新しいFindingを作り、旧Findingを `SUPERSEDED` にする
 
-## 現在
+## F-001 低負荷の二状態Hopfield実装で中核的な連想記憶挙動を再現した
 
-まだ実験結果がないため、正式な知見は登録していません。
+状態: PROVISIONAL
+
+### 現在言えること
+
+EXP-001の事前定義条件（N=100, P=3, 対称Hebbian重み, 自己結合なし, 閾値0, 非同期更新）では、固定seedから生成した3個の保存パターンはすべて固定点になった。
+
+各保存パターンについて20%のbitを反転したcueを50回ずつ、合計150 trialで評価したところ、150/150 trialが対象パターンへ完全復元した。全trialが2 sweeps以内に停止し、追跡した非同期更新で `ΔE > 1e-10` のenergy increaseは0回だった。
+
+したがって、この限定条件ではHopfield (1982) の中核的なcontent-addressable memoryの挙動――安定状態、破損cueからのpattern completion、非増加energy――を小規模な現代実装で再現できた。
+
+### 根拠
+- EXP-001: `experiments/EXP-001-hopfield-core/`
+- 集計結果: `experiments/EXP-001-hopfield-core/results/summary.json`
+- REF-001: Hopfield (1982)
+- REF-002: Hopfield (1984、補助的文脈)
+
+### 反証・矛盾する証拠
+- 現時点では登録なし
+
+### 言えないこと
+
+この結果だけから次は言えない。
+
+- Hopfield networkの一般的なstorage capacityがどの値であるか
+- 20%より大きいnoiseでも同じ成功率になること
+- 保存パターン数や相関を変えても同じ挙動になること
+- graded-response modelでも同一条件・同一数値になること
+- 生物学的な記憶がHopfield modelそのもので実装されていること
+- AIや人間の意識・自己同一性がattractor dynamicsだけで説明できること
+
+### 関連
+- Q-001
+- H-001
+- L: 未登録
+- 小説章: 未定
+
+### 置換関係
+- なし
