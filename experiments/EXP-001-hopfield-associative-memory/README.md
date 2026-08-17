@@ -1,6 +1,8 @@
 # EXP-001 Hopfield連想記憶の追試
 
-状態: PRE-REGISTERED
+状態: COMPLETED
+
+判定: **PASS**
 
 ## 実験ID
 
@@ -21,7 +23,8 @@ N=100、P=5の低負荷条件で、Hebbian ruleにより保存した二値パタ
 - Q-001
 - H-001
 - REF-001
-- Finding: 実行後に作成する場合はF-001
+- F-001
+- L-001
 - 小説章: 未定
 
 ## 種別
@@ -32,7 +35,7 @@ Replication
 
 - REF-001: J. J. Hopfield, “Neural networks and physical systems with emergent collective computational abilities,” PNAS 79(8), 2554–2558 (1982). DOI: 10.1073/pnas.79.8.2554
 
-## 実行前に固定する条件
+## 実行前に固定した条件
 
 ### データ・入力条件
 
@@ -69,12 +72,11 @@ Hebbian outer-productを使う。
 - 20 sweepsより前に状態変化がなくなれば停止
 - 20 sweepsで停止しないtrialも実験結果として保持し、exact recallしていなければ未回復として数える
 
-### 実行環境
+### 実行環境の想定
 
-- Python 3.11以上を想定
+- Python 3.11以上
 - NumPy 1.26以上、3未満
 - CPUのみで実行可能
-- OSや実際に使ったPython / NumPy versionは実行後に記録する
 
 ## 必要試行数
 
@@ -111,19 +113,6 @@ Hebbian outer-productを使う。
 - raw outputと集計が整合しない
 - 実行環境の問題で結果が信頼できない
 
-## 測定値
-
-noise条件ごとに以下を保存する。
-
-- exact recall数 / trial数
-- exact recall率
-- 収束trial数 / trial数
-- 平均sweep数
-- 初期Hamming distance
-- 最終Hamming distance
-
-trial単位のraw dataを `results/trials.csv`、集計を `results/summary.json` に保存する。
-
 ## H-001への事前解釈
 
 - EXP-001 PASS: H-001を支持する証拠。ただし単一実装・単一pattern setのため、PASSだけでH-001を自動的にSUPPORTEDへしない
@@ -138,6 +127,78 @@ trial単位のraw dataを `results/trials.csv`、集計を `results/summary.json
 - cueの不完全性をbit反転noiseとして操作する
 - exact recall率の0.95 / 0.80閾値は本プロジェクトが事前に置く判定基準であり、原論文の閾値ではない
 
-## 実行後記録
+# 実行後記録
 
-未実行。結果を見る前にこのREADME、Q-001、H-001をbranchへ記録した。
+## 実行環境
+
+- Python: `3.13.5`
+- NumPy: `2.3.5`
+- Platform: `Linux-6.18.35-x86_64-with-glibc2.41`
+- CPU実行
+
+## 観測された結果
+
+| noise | trials | exact recall | exact recall率 | 収束率 | 平均sweeps | 平均最終Hamming distance |
+|---|---:|---:|---:|---:|---:|---:|
+| 10% | 100 | 100 | 1.00 | 1.00 | 2.0 | 0.0 |
+| 20% | 100 | 100 | 1.00 | 1.00 | 2.0 | 0.0 |
+
+200/200 trialsが実行され、全trialが20 sweeps以内に収束した。観測上の最大sweep数は2だった。
+
+## 判定
+
+**PASS**
+
+事前条件の両方を満たした。
+
+- 10% noise: `1.00 >= 0.95`
+- 20% noise: `1.00 >= 0.80`
+
+このPASSは「EXP-001の事前判定基準を満たした」という意味であり、Hopfield network一般やH-001が普遍的に真であることを意味しない。
+
+## 実行前計画からの逸脱
+
+重大な逸脱なし。
+
+実行環境のPython / NumPyは事前に想定した範囲内だった。
+
+## raw result検証
+
+`results/trials.csv` を集計と独立に確認した。
+
+- raw rows: 200
+- 10% noise: 100 rows、初期Hamming distanceはすべて10、exact recall 100
+- 20% noise: 100 rows、初期Hamming distanceはすべて20、exact recall 100
+- convergence: 200/200
+- 最大observed sweeps: 2
+
+保存ファイル:
+
+- `results/summary.json`
+- `results/trials.csv`
+- `results/patterns.csv`
+
+実行時のSHA-256:
+
+- summary: `cbb5bd49ab690de054d3af13c2d2e331d9ae812c673122e8128b713241ec2265`
+- trials: `8539e9de587ec2597bb2acbe0bf3ab11e545ff5ffeb9b6101d437cb90fdf1cac`
+- patterns: `2f86dff96ca675b39d1c3e4a46dda37f073486b7c0b138f11415d8fa014462cb`
+
+注: `summary.json` には検証メタデータを追記してrepositoryへ保存しているため、保存後のファイルhashは上記の実行直後hashと一致しない。上記hashは実行直後のraw artifactsを識別するための記録として残す。
+
+## 既知の限界・不確実性
+
+- 単一の固定pattern setのみ
+- pattern loadは0.05と低く、容量限界付近を検証していない
+- noiseはbit反転のみで、欠損cueや構造化noiseを試していない
+- 原論文の全条件の再現ではない
+- 同一コードの別実装による独立再現はまだない
+- 今回100%だったことから、事前閾値はこの低負荷条件では容易すぎた可能性がある。結果を受けて閾値を変更せず、次のExtensionで負荷・noiseを広げて境界を測る
+
+## 関連Finding
+
+- F-001
+
+## 小説への示唆
+
+「記憶」を静的な保存場所としてではなく、乱れた現在状態が更新によって特定の安定状態へ戻る**状態遷移・attractor**として描ける。ただし、人間の記憶やLLMの記憶機構そのものがHopfield networkと同一だと主張してはいけない。
