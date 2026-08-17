@@ -12,23 +12,27 @@
 
 リポジトリ全体を毎回無差別に読み込む必要はありません。
 
-`main` は人間が受理した現在の正本です。その他のbranch / PRは候補状態として扱い、merge前に正本へ確定したとみなしてはいけません。
+`main` は人間が受理した現在の正本です。その他のbranchは候補状態として扱い、`main`へ反映される前に正本へ確定したとみなしてはいけません。
 
 ## GitHubへの書き込み
 
-自動レビューや外部連携を不必要に何度も起動させないため、AIのまとまった変更は次の単位で扱います。
+このrepoでは、PRイベントにCodex / Cursor等の外部GitHub Appが反応することが確認されています。内部のAI作業では、不要な自動レビューを起動しないため、**PRを通常の作業・レビュー手段として使いません**。
 
-1. 作業開始時にwork branchを作る
-2. **作業中はPRを開かない**
-3. 関連する変更をbranch上でまとめて完了させる
-4. `STATUS.md` を含む必要な記録を更新し、branch内で自己確認する
-5. 人間にレビューを求める段階で初めてPRを1回作る
-6. PR作成後は、レビュー指摘への修正を除き、追加の反復pushをできるだけ避ける
-7. Draft PRを作業用branchの代わりに長時間保持しない
+AIによるまとまった変更は次の順で扱います。
 
-GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物です。`.github/workflows/` やActions runが存在しない場合、自動起動を「CI」と決めつけず、PRレビュー連携など別トリガーを確認します。
+1. `main` からwork branchを作る
+2. branch上で関連変更をまとめる
+3. `STATUS.md` を含む必要な記録を更新する
+4. branch内で自己確認する
+5. `main...work branch` のcompare結果を人間へ提示する
+6. 人間が明示的に承認した場合のみ、`main` をwork branchの確認済みcommitへfast-forwardする
+7. 反映後、不要になったwork branchは削除する
+
+Pull Requestは、外部Contribution、GitHub上で公開レビューを残す必要がある場合、または人間が明示的に要求した場合にだけ使用します。
 
 人間が明示的に指示した低リスクの状態修正・運用修正は、必要に応じて直接 `main` へ反映できます。ただし物語Canon、研究Finding、公開済み本文、権利方針など重要な正本変更ではこの例外を使いません。
+
+GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物です。`.github/workflows/` やActions runが存在しない場合、自動起動を「CI」と決めつけず、PRレビュー連携など別トリガーを確認します。
 
 ## 小説作業
 
