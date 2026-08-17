@@ -4,26 +4,36 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期設計完了・リポジトリ衛生確認中
-- 物語段階: 未着手
+- プロジェクト段階: 初期設計完了・第1追試準備中（リポジトリ衛生の一部は保留）
+- 物語段階: 第1技術テーマ選定済み・本文未着手
 - 学習段階: CATCH_UP
-- 研究段階: 最初の古典研究と追試対象を選定する前
+- 研究段階: Hopfield 1982の第1追試を事前登録済み・実行前
 
 ## Active ID
 
-- Q: なし
-- H: なし
-- EXP: なし
+- Q: Q-001
+- H: H-001
+- EXP: EXP-001
 - F: なし
 - L: なし
 
 ## 現在の目標
 
-1. 制作開始前にリポジトリをクリーンな運用状態へする
-2. 不要な自動PRレビューを止める
-3. 不要branchと設定上の残骸を整理する
-4. Public / Private と main保護方針を確定する
-5. 衛生確認後、第1技術テーマの選定へ進む
+1. REF-001 / Q-001 / H-001 / EXP-001の事前条件を維持したまま第1追試を実行する
+2. raw resultと集計を検証し、EXP-001をPASS / FAIL / UNCERTAINで判定する
+3. 結果からF-001とL-001を必要に応じて作成する
+4. 「状態ダイナミクスとしての記憶」を第1話・主人公研究者設計へ接続する
+5. ある程度の研究・作品内容が揃った段階でGitHub Pagesの公開設定を行う
+
+## 第1テーマ
+
+- テーマ: Hopfield network / content-addressable memory
+- 原典: REF-001 — J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities”
+- 問い: Q-001 — 低負荷Hopfield networkは乱されたcueから保存パターンを回復できるか
+- 仮説: H-001 — N=100, P=5の操作条件で10% / 20% bit反転から高率にexact recallできる
+- 実験: EXP-001 — `experiments/EXP-001-hopfield-associative-memory/`
+
+EXP-001の判定基準は結果を見る前にbranchへ記録済み。結果を見てから閾値を変更しない。
 
 ## リポジトリ衛生状況
 
@@ -35,53 +45,39 @@
 - GitHub Actions workflow run は確認時点で0件
 - 自動起動はGitHub Actions CIではなく、PRイベントに反応した外部GitHub Appであることを確認
 - PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` の反応を確認
-- work branch上で作業を完了してから、必要な場合のみレビュー境界でPRを作る運用へ変更済み
+- 内部AI作業はPRではなくwork branch比較でレビューする運用へ変更済み
 - open PRは0件
 
-### 要対応
+### 要対応・保留
 
 - Codexの自動Code Review / GitHub Appアクセスを、このrepoで無効化または対象外にする
 - Cursor GitHub AppのこのrepoへのPRフックを無効化または対象外にする
 - merge済みの `bootstrap/repository-design` branchを削除する
 - repository visibilityが現在Publicのため、このまま公開運用するかPrivateへ戻すか決める
 - `main` は現在branch protectionなし。外部自動レビュー問題を解消した後、必要な保護方式を決める
+- GitHub Pagesは研究・作品の最初の公開単位が揃った段階で設定する
 
-外部GitHub Appのrepo別アクセス設定とbranch削除は、現在利用しているGitHub接続から直接変更できない場合がある。その場合はGitHub UI側で処理する。
+外部GitHub Appのrepo別アクセス設定、branch削除、Pages等はGitHub UI側で処理する可能性がある。研究作業を止めるblockerではないものは制作と並行して扱う。
 
 ## 設計監査結果
 
-初回監査では外部長期記憶としての意味論に不足があり `NO-GO` となったため、PR #1内で修正しました。
-
-修正後の再監査では、次を運用開始可能と判定しました。
-
-- `main` = 人間が受理した正本、branch / PR = 候補状態
-- cold-start: `README.md` → `AGENTS.md` → `STATUS.md` → `POLICY.md`
-- `novel/canon.md` と `novel/timeline.md` の権威関係
-- Q / H / EXP / F / REF / L の安定ID規則
-- `PASS / FAIL / UNCERTAIN` の実験判定規則
-- Experiment → Hypothesis の状態更新
-- Findingの競合・置換処理
-- 作者の学習内容と作品反映の追跡
-- アイデア採用時の正本への反映
-- 人物の重要な信念更新履歴
+初回監査では外部長期記憶としての意味論に不足があり `NO-GO` となったため、PR #1内で修正した。修正後の再監査では、cold-start、正本関係、安定ID、実験判定、Experiment→Hypothesis、Finding競合、学習履歴の追跡を運用開始可能と判定した。
 
 ## 作品・研究上の未解決
 
-- 主人公研究者の専門分野と年代の最終確定
-- 第1話で扱う最初の技術テーマ
-- 第1追試の対象
+- 主人公研究者の専門分野・所属・年の最終確定
+- 第1話の具体的な事件・視点人物・シーン構成
+- Hopfield追試の次にPerceptronへ戻るか、1984 graded-responseへ進むか
 - 公開後のContribution / Credit / Licenseの詳細
 
-これらは意図的な未決定事項であり、現在のリポジトリ衛生問題とは分離する。
+## 次に行うこと
 
-## 衛生確認後に行うこと
-
-1. 第1テーマ候補を比較する
-2. 採用テーマの原典を `references/bibliography.md` に `REF-001` として登録する
-3. `Q-001` を作成する
-4. 必要なら `H-001` を作成する
-5. `EXP-001-.../` を作り、実行前条件を固定する
-6. 追試結果と理解を物語設計へ反映する
+1. EXP-001を実行する
+2. raw resultとsummaryの整合を確認する
+3. EXP-001 READMEを実行後状態へ更新する
+4. Q-001 / H-001 / F-001 / L-001を結果に合わせて更新する
+5. `novel/structure.md` へ第1話の技術的な核を反映する
+6. `main...work/exp-001-hopfield` を比較し、人間レビューへ提示する
 
 ## 参照順
 
