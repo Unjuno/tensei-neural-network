@@ -44,18 +44,19 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 小説生成・ペルソナ相互作用を行うときは、次を優先して参照します。
 
 1. `novel/canon.md`
-2. `novel/environment.md`
-3. `novel/state/world.md`
-4. `novel/personas/README.md`
-5. その場面でactiveな `novel/personas/PER-*.md`
-6. activeな人物の `novel/state/personas/PER-*.md`
-7. 関連する `novel/events/EVT-*.md`
-8. `novel/timeline.md`
-9. `novel/characters.md`
-10. `novel/structure.md`
-11. `notes/working-context.md`
-12. 関連する章
-13. 必要な研究・実験・参考文献
+2. 対象story timeの `novel/bootstrap/BOOT-*.md`
+3. `novel/environment.md`
+4. `novel/state/world.md`
+5. `novel/personas/README.md`
+6. その場面でactiveな `novel/personas/PER-*.md`
+7. activeな人物の `novel/state/personas/PER-*.md`
+8. 関連する `novel/events/EVT-*.md`
+9. `novel/timeline.md`
+10. `novel/characters.md`
+11. `novel/structure.md`
+12. `notes/working-context.md`
+13. 関連する章
+14. 必要な研究・実験・参考文献
 
 物語の客観的事実について `canon.md` と他の物語ファイルが食い違う場合は `canon.md` を優先します。
 
@@ -63,9 +64,10 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 
 `notes/working-context.md` にある輪廻・同一認識主体・顕在化等の案は、明示的にCanonへ採用されるまでは探索仮説です。
 
-### 定義と時系列状態を混同しない
+### 定義・Bootstrap・時系列状態を混同しない
 
-- `novel/personas/PER-*.md` はペルソナの定義・初期条件
+- `novel/bootstrap/BOOT-*.md` は、あるstory timeへworld/persona stateを同期生成する背景Frame
+- `novel/personas/PER-*.md` はペルソナの定義・baseline
 - `novel/state/personas/PER-*.md` は時間に依存する人物状態
 - `novel/environment.md` は世界・環境の定義と解決規則
 - `novel/state/world.md` は時間に依存する客観世界状態
@@ -74,24 +76,42 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 
 ペルソナや世界を一つの巨大な状態ファイルへ統合しません。一方、時系列状態をそれぞれ勝手に進めてもいけません。
 
-ある状態変更は、原則として前状態とeventまたは明示された時間経過から説明できるようにします。
+BootstrapはeventでもCanonでもありません。Canonに従い、その時点の状態を同期生成する入力です。
+
+### Bootstrapで初期化・再初期化する場合
+
+新しい物語開始時、大きな時代切替、長い中断、別AIセッションでの再構成では次を行います。
+
+1. 対象story timeを決める
+2. その時点までの`parent event head`を確認する
+3. 対象`BOOT-xxx`を読む。なければCanon・timeline・既存stateと矛盾しないBootstrapを候補として作る
+4. Bootstrapのworld projectionから`state/world.md`を同期する
+5. Persona discoveryで独立状態が必要な主体を確認し、必要なら新しい`PER-xxx`を作る
+6. 各persona projectionから、本人が知り得る情報だけで`state/personas/PER-xxx.md`を同期する
+7. world/persona stateの`BOOT / story time / parent event head`が一致することを確認する
+8. 未来event、他者の秘密、別時代の状態が漏れていないか確認する
+
+再初期化によって過去stateを上書きしません。Bootstrap本文を全ペルソナへそのまま与えません。
+
+一つのpersona stateから複数主体が独立経験を持ち始める場合は別`PER-xxx`へforkし、親state・story time・event headを追跡可能にします。
 
 ### ペルソナ駆動で進める場合
 
 完成済みの未来プロットを人物へ与えません。各ペルソナは、自分に許された局所状態だけから行動させます。
 
 1. `timeline.md` で対象場面のstory timeを確認する
-2. `state/world.md` でその時点の客観世界状態を確認する
-3. activeな各ペルソナについて、定義ファイルと、その時点までのstateを個別に読む
-4. 各ペルソナへ、その人物が観測できる情報だけを与える
-5. 各ペルソナの発言・行動を、その人物の現在の目的・信念・状況から生成する
-6. 人物の意図と結果を分離し、`environment.md` の規則でCanon・技術・歴史・制度・権限等の制約からeventを解決する
-7. 重要な出来事なら `EVT-xxx` として記録する
-8. `state/world.md` をeventの客観結果で更新する
-9. 各人物へ、実際に観測できた結果だけを返し、観測した人物の `state/personas/PER-xxx.md` だけを必要に応じて更新する
-10. `timeline.md` にstory timeとeventを索引する
-11. 発生した状態変化を `structure.md` の再帰的な起承転結で整理する
-12. 相互作用ログを材料に本文を書く
+2. 対象Bootstrapとworld/persona stateの同期キーを確認する
+3. `state/world.md` でその時点の客観世界状態を確認する
+4. activeな各ペルソナについて、定義ファイルと、その時点までのstateを個別に読む
+5. 各ペルソナへ、その人物が観測できる情報だけを与える
+6. 各ペルソナの発言・行動を、その人物の現在の目的・信念・状況から生成する
+7. 人物の意図と結果を分離し、`environment.md` の規則でCanon・技術・歴史・制度・権限等の制約からeventを解決する
+8. 重要な出来事なら `EVT-xxx` として記録する
+9. `state/world.md` をeventの客観結果で更新する
+10. 各人物へ、実際に観測できた結果だけを返し、観測した人物の `state/personas/PER-xxx.md` だけを必要に応じて更新する
+11. `timeline.md` にstory timeとeventを索引する
+12. 発生した状態変化を `structure.md` の再帰的な起承転結で整理する
+13. 相互作用ログを材料に本文を書く
 
 変化しなかったペルソナは前状態を継承してよく、毎eventごとに全員のsnapshotを作る必要はありません。
 
@@ -103,6 +123,7 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 - 一人のペルソナへ他者の秘密・未来プロット・作者側の真相候補を漏らす
 - 世界状態が変わっただけで、全人物がその変化を知ったことにする
 - 人物の現在状態を定義ファイルへ上書きして、過去の状態変化を消す
+- 現在の設定を寄せ集め、同期点を確認せずペルソナを再生成する
 - PER-004の自己申告を、そのまま本人性の証拠にする
 - ナレーターが予定した結論に合わせて、環境側の因果結果を書き換える
 
