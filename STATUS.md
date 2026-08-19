@@ -2,18 +2,17 @@
 
 このファイルはプロジェクトの詳細な記憶ではなく、現在位置を示す索引です。詳細は各正本ファイルを参照します。
 
-更新: 2026-08-19
+更新: 2026-08-20
 
 ## フェーズ
 
-- プロジェクト段階: 小説・研究・Pagesの基本骨格は `main` に存在するが、創発型の物語生成方法を再構築中
-- 物語段階: `起 / 起`。本文0話。未来プロットを固定せず、ペルソナ・世界・時系列状態の初期条件を整備している
+- プロジェクト段階: 小説・研究・Pagesの基本骨格と、ペルソナ駆動・世界状態・時系列eventの創発生成方式は `main` に受理済み
+- 物語段階: `起 / 起`。本文0話。物語開始状態をBootstrapから同期生成する層を `work/story-bootstrap` で整備中
 - 学習段階: CATCH_UP
-- 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語で必要になった箇所から調査・実験する
+- 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語で必要になった箇所から前史調査・追加実験へ戻る
 - 公開段階: GitHub Pagesは `main /docs` から公開中。連載読書導線へ再設計済み
-- 外部メモリ段階: GitHubを正本としているが、ペルソナ駆動・環境解決・時系列状態・再帰的起承転結の運用を `work/persona-environment-fractal-policy` で復元中
 
-## プロジェクトの主目的
+## 主目的
 
 **小説が主役。研究・追試は作品を現実に近づけるための制作工程。**
 
@@ -21,70 +20,71 @@
 
 **物語を書く → 技術的な疑問が出る → 原典を読む → 必要なら追試する → 理解を更新する → 小説へ戻す**
 
-## 物語生成の中核候補
+## 受理済みの物語生成方式
 
-現在のwork branchでは、次を正式な運用として復元している。
-
-1. 未来の完成プロットを人物へ配らない
-2. ペルソナ定義、世界・環境定義、ペルソナ状態、世界状態を別々に持つ
-3. ペルソナ数は固定せず、物語の進行に応じて増やす
-4. 時間に依存するペルソナ状態は `novel/state/personas/`、世界状態は `novel/state/world.md` で管理する
-5. ペルソナ状態と世界状態は独立した領域だが、時間方向には独立させず、共通の `EVT-xxx` とstory timeで因果的に更新する
-6. 他者の秘密、未観測Canon、長期探索仮説を自動共有しない
-7. `novel/environment.md` は世界・環境の定義と結果解決規則を持つ
-8. 各人物は実際に観測できた結果だけから更新される
-9. 成立した状態遷移を再帰的な起承転結で整理する
-10. 本文は、相互作用で成立した出来事を後から描写する
-
-この方式では、起承転結は予定イベントを強制する脚本ではなく、状態遷移を整理するフラクタル構造として使う。
-
-## 状態モデル
+D-017は `ACTIVE`。
 
 - ペルソナ定義: `novel/personas/`
 - 世界・環境定義: `novel/environment.md`
 - ペルソナの時系列状態: `novel/state/personas/`
 - 世界の時系列状態: `novel/state/world.md`
-- 時間上の結合イベント: `novel/events/`
-- 共通のstory time索引: `novel/timeline.md`
+- 時間上の結合event: `novel/events/`
+- story time索引: `novel/timeline.md`
+- 再帰的起承転結: `novel/structure.md`
 
-概念的には、
+ペルソナと世界は実体・状態領域として独立するが、時間方向には独立して進めず、共通eventとstory timeで因果的に更新する。
+
+未来の完成プロットを各ペルソナへ配らない。各人物はその時点で知り得る局所状態から行動し、世界側が結果を解決する。
+
+## 現在のBootstrap候補
+
+D-018は `PROPOSED`。
+
+`novel/bootstrap/` を、世界とペルソナ群を同じ背景から同期初期化・再初期化する層として追加している。
+
+現在の候補同期点:
 
 ```text
-(P_1(t), P_2(t), ..., W(t))
-          |
-          | EVT-k
-          v
-(P_1(t+1), P_2(t+1), ..., W(t+1))
+BOOT-001 @ T0-MODERN @ none
 ```
 
-同じeventでも各人物の観測範囲は異なる。変化しなかった状態は前時点から継承し、毎時点に全snapshotを複製しない。
+- `BOOT-001`: `novel/bootstrap/BOOT-001-modern-opening.md`
+- Target story time: `T0-MODERN`
+- Parent event head: `none`
+- `EVT-001`: まだ未発生
 
-story time上の因果順と、小説本文で読者へ提示する章・scene順は別管理する。
+BOOT本文は全ペルソナへ共有しない。各人物の時代・立場・観測境界に応じて別々にprojectionする。
 
-## 現在の初期ペルソナ候補
+## BOOT-001から生成した初期状態
 
-`novel/personas/`
-
-- PER-001: 現代評価担当
-- PER-002: 懐疑的研究者
-- PER-003: 史料担当
-- PER-004: モデル側の存在
-- PER-005: 1980年代研究者
-
-この5つは固定キャストではない。必要に応じて `PER-006` 以降を追加する。
-
-PER-004へ「過去の研究者本人」という正解は与えない。PER-005にも現代や長期真相の未来知識を与えない。
-
-## 現在の初期世界状態
+### World
 
 `novel/state/world.md`
 
 - 現代のモデル評価・調査環境
-- 1980年代研究者に関する不完全な資料群
-- 複数run / 必要に応じてcheckpointや対照条件を比較できる
-- 最初の異常、最初の発見者、第1話終端のイベントは未確定
+- run / prompt / output / logを扱える
+- 必要になればcheckpoint差・対照条件を比較できる余地
+- 1980年代研究者に関係する不完全な資料群
+- 最初の異常・発見者・第1話終端は未確定
 
-世界の構造と結果解決規則は `novel/environment.md` を参照する。
+### Personas
+
+同じ同期キーで次を生成済み。
+
+- `state/personas/PER-001.md` — active
+- `state/personas/PER-002.md` — standby
+- `state/personas/PER-003.md` — active
+- `state/personas/PER-004.md` — not-yet-instantiated
+
+PER-005は1980年代側のstory timeに属するため、BOOT-001では状態を初期化していない。1980年代場面を実際に動かす際は別Bootstrapを作る。
+
+## ペルソナ増加・増殖・再初期化
+
+- 新しい独立主体が必要になれば `PER-006` 以降を追加する
+- 背景に存在する全人物・組織を機械的にペルソナ化しない
+- 同じstateから複数主体が独立経験を持ち始めた場合は別`PER-xxx`へforkする
+- 再初期化時は `BOOT + story time + parent event head + state` から再構成し、設定の寄せ集めで作り直さない
+- 再初期化は物語eventではなく、過去stateを上書きしない
 
 ## 最新研究ID
 
@@ -99,36 +99,13 @@ PER-004へ「過去の研究者本人」という正解は与えない。PER-005
 - F-002: PROVISIONAL
 - L-002: 一部反映
 
-## 第1研究サイクル
-
-### REF-001
-
-J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities”。
-
-### EXP-001
-
-低負荷条件 N=100, P=5。10% / 20% noiseで200/200 trials exact recall。PASS。
-
-### EXP-002
-
-N=100、P=5,10,15,20、noise=10,20,30,40%、3 pattern seeds、960 trials。PASS。
-
-最終分類:
-
-- target exact: 442
-- wrong stored: 8
-- nonstored converged: 510
-- nonconverged: 0
-
 L-002:
 
 **「安定して収束した」ことは「意図した原像へ正しく戻った」ことを保証しない。**
 
-この理解は物語の同一性問題へ接続するが、本人性の科学的証明ではない。
+Hopfieldは最初の研究・追試入口だが、第1話の冒頭をHopfield説明から始めるとは決めない。Hopfield以前の技術史も、PER-005や物語上の必要性が生じた時点で調査する。
 
 ## 長期探索仮説
-
-詳細は `novel/structure.md` と `notes/working-context.md`。
 
 以下はCanonでも未来プロットでもない。
 
@@ -154,20 +131,19 @@ L-002:
 
 ## 次に行うこと
 
-### 最優先
+### このbranchのレビュー後
 
-1. `work/persona-environment-fractal-policy` の差分を人間レビュー
-2. 受理された場合のみ `main` へfast-forward
-3. PER-005を実在研究者・1980〜1985年の一次資料を参考に具体化する
-4. 初期story timeを定め、必要なペルソナの最初の `state/personas/PER-xxx.md` を生成する
-5. `起 / 起` の初期世界状態で、PER-001〜004の最小相互作用を1回実行する
-6. 成立した出来事を `EVT-001` として記録し、そこから `state/world.md` と観測した各persona状態を更新する
-7. `timeline.md` にEVT-001のstory timeを索引する
-8. そのEventを材料に `novel/chapters/001.md` を書き始める
+1. `work/story-bootstrap` を人間レビューし、受理された場合 `main` へfast-forward
+2. BOOT-001の`Unresolved slots`から、最初の相互作用に本当に必要な項目だけ具体化する
+3. 特に「最初にPER-001 / PER-004へ与えられる具体task」を決めるか、背景から自然に導出する
+4. 必要ならBOOT-001を更新し、world / persona stateを同じ同期キーで再生成する
+5. 同期が成立した状態で最初の相互作用を実行する
+6. 重要な状態変化が成立した場合のみ `EVT-001` として記録する
+7. event群が読書単位を形成した段階で `novel/chapters/001.md` を書く
 
-### 原則
+### 1980年代側
 
-先に第1話の結末や「不可逆イベント」を決めて人物をそこへ誘導しない。相互作用の結果、実際に不可逆な変化が成立した場合に、それを物語構造上の転換として採用する。
+PER-005の具体化や1980年代sceneが必要になった時点で、Hopfield以前を含む実在研究者・一次資料を必要範囲だけ調査し、1980年代用Bootstrapを作る。
 
 ## リポジトリ衛生の保留事項
 
@@ -176,11 +152,12 @@ L-002:
 - `work/pages-v2` の削除
 - `work/novel-reader-site` の削除
 - `work/public-copy-cleanup` の削除
+- `work/persona-environment-fractal-policy` の削除
 - Public / Privateの最終方針
 - main branch protection
 
 ## 現在のwork branch
 
-`work/persona-environment-fractal-policy`
+`work/story-bootstrap`
 
-ペルソナ駆動、世界・環境、時系列状態、未来プロット非共有、再帰的起承転結を復元する候補branch。`main` にはまだ反映していない。
+Bootstrap同期層、BOOT-001、現代側初期world/persona stateを整備する候補branch。`main` にはまだ反映していない。
