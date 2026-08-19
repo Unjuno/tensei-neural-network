@@ -11,7 +11,7 @@
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語上必要になった箇所から調査・実験する
 - 外部メモリ段階: `notes/working-context.md` を含むセッション横断メモリを `main` へ同期済み
-- 公開段階: 最新 `main` から `work/pages-v2` を作成し、最小静的サイトをレビュー中。公開設定はまだ有効化しない
+- 公開段階: Pages v2の最小静的サイトを `main` へ受理済み。GitHub Pagesの公開設定はまだ有効化していない
 
 ## プロジェクトの主目的
 
@@ -138,11 +138,9 @@ Cold Startは次の順。
 
 ## Pages v2
 
-現在の候補branch: `work/pages-v2`
+Pages v2は人間レビュー後、`main` へ受理済み。
 
-最新 `main` から作成し、旧 `work/pages-bootstrap-final` の静的サイト案から使える部分だけを移植した。
-
-候補ファイル:
+公開用ファイル:
 
 - `docs/index.html`
 - `docs/style.css`
@@ -154,17 +152,17 @@ Cold Startは次の順。
 
 長期プロット上の「1980年代研究者以前からの反復」は、現時点ではトップページで直接説明しすぎない。`TRACE` として1980年代研究者を置き、起源だと断定しない。
 
-GitHub Pagesを使う場合の公開元は、候補内容が `main` へ受理された後に `main /docs` とする。公開設定は人間レビュー後に行う。
+GitHub Pagesを使う場合の公開元は `main /docs` とする。公開設定はまだ有効化していない。
 
 ## 次に行うこと
 
-### Pagesレビュー
+### 公開設定
 
-1. `main...work/pages-v2` の差分を確認
-2. トップページの文章・ネタバレ量・スマホ向け構成を人間レビュー
-3. 明示承認された場合のみ `main` へ反映
-4. 反映後、必要なら GitHub Pages を `main /docs` で有効化
-5. 旧 `work/pages-bootstrap-final` は役目終了を確認後に削除
+1. GitHub Pagesを使う場合は `Settings → Pages` を開く
+2. Sourceを `Deploy from a branch` にする
+3. Branchを `main`、Folderを `/docs` にする
+4. 公開後、PC / mobile / 日本語表示 / リンク / ネタバレ量を確認する
+5. 旧 `work/pages-bootstrap-final` と `work/pages-v2` は役目終了を確認後に削除する
 
 ### 小説本線
 
@@ -180,7 +178,8 @@ GitHub Pagesを使う場合の公開元は、候補内容が `main` へ受理さ
 
 - Codex / Cursor等の外部GitHub Appのrepo別自動反応設定
 - `work/first-hopfield-replication` の監査・整理
-- `work/pages-bootstrap-final` のPages v2受理後の削除
+- `work/pages-bootstrap-final` の削除
+- `work/pages-v2` の削除
 - Public / Privateの最終方針
 - main branch protection
 - GitHub Pages設定
@@ -189,6 +188,6 @@ GitHub Pagesを使う場合の公開元は、候補内容が `main` へ受理さ
 
 ## 現在のwork branch
 
-`work/pages-v2`
+なし。
 
-このbranchはPages v2の候補状態。`main` へはまだ反映していない。
+`main` が人間受理済みの現在の正本。次のまとまった変更を始めるときに、最新 `main` から新しいwork branchを作る。
