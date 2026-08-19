@@ -11,7 +11,7 @@
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語上必要になった箇所から調査・実験する
 - 外部メモリ段階: `notes/working-context.md` を含むセッション横断メモリを `main` へ同期済み
-- 公開段階: GitHub Pagesは `main /docs` から公開中。`work/novel-reader-site` で「紹介サイト」から「連載小説を読むサイト」への再設計をレビュー中
+- 公開段階: GitHub Pagesは `main /docs` から公開中。連載小説の読書導線中心へ再設計したPagesを人間レビュー後 `main` へ受理済み
 
 ## プロジェクトの主目的
 
@@ -138,11 +138,11 @@ Cold Startは次の順。
 
 ## Pages / 連載読書サイト
 
-現在公開中のPagesは `main /docs` を公開元とする。
+GitHub Pagesは `main /docs` を公開元とする。
 
-`work/novel-reader-site` では、Pagesを作品紹介中心から**連載小説の読書導線中心**へ組み直している。
+D-016を `ACTIVE` とし、公開サイトを**連載小説の読書導線中心**で運用する。
 
-候補構造:
+現在の構造:
 
 ```text
 docs/
@@ -167,18 +167,16 @@ novel/chapters/002.md -> docs/novel/002.html
 
 各話ページは長文読書向けの専用CSSを使い、上部・下部に `前話 / 目次 / 次話` を置く。研究・実験は本文の主導線から外し、興味を持った読者が `docs/research/` へ進む構成とする。
 
-設計判断候補: D-016（`PROPOSED`）。参考にした読書パターンはカクヨム、小説家になろう、The Wandering Inn。視覚デザインはコピーせず、目次・第1話導線・前後話ナビ等の情報設計だけを参考にする。
+情報設計はカクヨム、小説家になろう、The Wandering Innの連載読書パターンを参考にした。視覚デザインはコピーしない。
 
 ## 次に行うこと
 
-### Pages再設計レビュー
+### 公開サイト
 
-1. `main...work/novel-reader-site` の差分を確認
-2. トップ → 目次 → 将来の各話、トップ → 制作の裏側、の導線を人間レビュー
-3. モバイル表示を含めて文章量とネタバレ量を確認
-4. 明示承認された場合のみ `main` へfast-forward
-5. 受理時にD-016を `ACTIVE` にする
-6. 公開Pages上でリンク切れ・CSS・日本語表示を確認
+1. Pagesの再デプロイ完了後、トップ → 目次 → 制作の裏側のリンクを実サイトで確認する
+2. PC / mobile / 日本語表示 / CSSを確認する
+3. 第1話が公開可能になった時点で `docs/novel/001.html` を作り、目次の第1話を有効化する
+4. 話数増加でMarkdownとHTMLの手動同期が負担になった時点で生成自動化を検討する
 
 ### 小説本線
 
@@ -187,7 +185,6 @@ novel/chapters/002.md -> docs/novel/002.html
 3. 現代側の第1話視点人物を決める
 4. 最初の「欠けた入力」と対照条件を具体化する
 5. `novel/chapters/001.md` として第1話本文を書き始める
-6. 第1話が公開可能になった時点で `docs/novel/001.html` を作り、目次の第1話を有効化する
 
 上記を完全に設計し切ってから執筆する必要はない。本文を書き、疑問が出た場所で調査・追試へ戻る。
 
@@ -197,6 +194,7 @@ novel/chapters/002.md -> docs/novel/002.html
 - `work/first-hopfield-replication` の監査・整理
 - `work/pages-bootstrap-final` の削除
 - `work/pages-v2` の削除
+- `work/novel-reader-site` の削除
 - Public / Privateの最終方針
 - main branch protection
 
@@ -204,6 +202,6 @@ novel/chapters/002.md -> docs/novel/002.html
 
 ## 現在のwork branch
 
-`work/novel-reader-site`
+なし。
 
-連載小説の読書導線へPagesを再設計する候補状態。`main` へはまだ反映していない。
+`main` が人間受理済みの現在の正本。次のまとまった変更を始めるときに、最新 `main` から新しいwork branchを作る。
