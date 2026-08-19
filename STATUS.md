@@ -11,7 +11,7 @@
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語上必要になった箇所から調査・実験する
 - 外部メモリ段階: `notes/working-context.md` を含むセッション横断メモリを `main` へ同期済み
-- 公開段階: Pages v2の最小静的サイトを `main` へ受理済み。GitHub Pagesの公開設定はまだ有効化していない
+- 公開段階: GitHub Pagesは `main /docs` から公開中。`work/novel-reader-site` で「紹介サイト」から「連載小説を読むサイト」への再設計をレビュー中
 
 ## プロジェクトの主目的
 
@@ -136,33 +136,49 @@ Cold Startは次の順。
 
 `notes/working-context.md` は公開可能な作業記憶であり正本ではない。生のAI内部推論や秘密情報は保存しない。
 
-## Pages v2
+## Pages / 連載読書サイト
 
-Pages v2は人間レビュー後、`main` へ受理済み。
+現在公開中のPagesは `main /docs` を公開元とする。
 
-公開用ファイル:
+`work/novel-reader-site` では、Pagesを作品紹介中心から**連載小説の読書導線中心**へ組み直している。
 
-- `docs/index.html`
-- `docs/style.css`
-- `docs/.nojekyll`
+候補構造:
 
-公開トップは次の順を基本とする。
+```text
+docs/
+├─ index.html              # 作品トップ。最上位CTAは「小説を読む」
+├─ novel/
+│  ├─ index.html           # 目次
+│  └─ reader.css           # 各話本文用CSS
+├─ research/
+│  └─ index.html           # 制作・研究の裏側
+├─ style.css
+└─ .nojekyll
+```
 
-**小説タイトル・事件の入口 → 物語の謎 → 制作方法 → 最初の技術的背景 → 実験から物語へ戻った点 → GitHubの制作記録**
+各話公開時は次の対応を基本とする。
 
-長期プロット上の「1980年代研究者以前からの反復」は、現時点ではトップページで直接説明しすぎない。`TRACE` として1980年代研究者を置き、起源だと断定しない。
+```text
+novel/chapters/001.md -> docs/novel/001.html
+novel/chapters/002.md -> docs/novel/002.html
+```
 
-GitHub Pagesを使う場合の公開元は `main /docs` とする。公開設定はまだ有効化していない。
+本文の正本はMarkdown側。各話HTMLは公開用派生物として扱い、HTMLだけを独立更新しない。
+
+各話ページは長文読書向けの専用CSSを使い、上部・下部に `前話 / 目次 / 次話` を置く。研究・実験は本文の主導線から外し、興味を持った読者が `docs/research/` へ進む構成とする。
+
+設計判断候補: D-016（`PROPOSED`）。参考にした読書パターンはカクヨム、小説家になろう、The Wandering Inn。視覚デザインはコピーせず、目次・第1話導線・前後話ナビ等の情報設計だけを参考にする。
 
 ## 次に行うこと
 
-### 公開設定
+### Pages再設計レビュー
 
-1. GitHub Pagesを使う場合は `Settings → Pages` を開く
-2. Sourceを `Deploy from a branch` にする
-3. Branchを `main`、Folderを `/docs` にする
-4. 公開後、PC / mobile / 日本語表示 / リンク / ネタバレ量を確認する
-5. 旧 `work/pages-bootstrap-final` と `work/pages-v2` は役目終了を確認後に削除する
+1. `main...work/novel-reader-site` の差分を確認
+2. トップ → 目次 → 将来の各話、トップ → 制作の裏側、の導線を人間レビュー
+3. モバイル表示を含めて文章量とネタバレ量を確認
+4. 明示承認された場合のみ `main` へfast-forward
+5. 受理時にD-016を `ACTIVE` にする
+6. 公開Pages上でリンク切れ・CSS・日本語表示を確認
 
 ### 小説本線
 
@@ -170,7 +186,8 @@ GitHub Pagesを使う場合の公開元は `main /docs` とする。公開設定
 2. 必要な範囲だけ1980–1985年ごろの実在研究者・一次資料を調べる
 3. 現代側の第1話視点人物を決める
 4. 最初の「欠けた入力」と対照条件を具体化する
-5. 第1話本文を書き始める
+5. `novel/chapters/001.md` として第1話本文を書き始める
+6. 第1話が公開可能になった時点で `docs/novel/001.html` を作り、目次の第1話を有効化する
 
 上記を完全に設計し切ってから執筆する必要はない。本文を書き、疑問が出た場所で調査・追試へ戻る。
 
@@ -182,12 +199,11 @@ GitHub Pagesを使う場合の公開元は `main /docs` とする。公開設定
 - `work/pages-v2` の削除
 - Public / Privateの最終方針
 - main branch protection
-- GitHub Pages設定
 
 研究・物語制作を止めるblockerではないものは並行して扱う。
 
 ## 現在のwork branch
 
-なし。
+`work/novel-reader-site`
 
-`main` が人間受理済みの現在の正本。次のまとまった変更を始めるときに、最新 `main` から新しいwork branchを作る。
+連載小説の読書導線へPagesを再設計する候補状態。`main` へはまだ反映していない。
