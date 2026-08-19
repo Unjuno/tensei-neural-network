@@ -45,14 +45,17 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 
 1. `novel/canon.md`
 2. `novel/environment.md`
-3. `novel/personas/README.md`
-4. その場面でactiveな `novel/personas/PER-*.md`
-5. `novel/characters.md`
-6. `novel/structure.md`
-7. `novel/timeline.md`
-8. `notes/working-context.md`
-9. 関連する章
-10. 必要な研究・実験・参考文献
+3. `novel/state/world.md`
+4. `novel/personas/README.md`
+5. その場面でactiveな `novel/personas/PER-*.md`
+6. activeな人物の `novel/state/personas/PER-*.md`
+7. 関連する `novel/events/EVT-*.md`
+8. `novel/timeline.md`
+9. `novel/characters.md`
+10. `novel/structure.md`
+11. `notes/working-context.md`
+12. 関連する章
+13. 必要な研究・実験・参考文献
 
 物語の客観的事実について `canon.md` と他の物語ファイルが食い違う場合は `canon.md` を優先します。
 
@@ -60,27 +63,52 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 
 `notes/working-context.md` にある輪廻・同一認識主体・顕在化等の案は、明示的にCanonへ採用されるまでは探索仮説です。
 
+### 定義と時系列状態を混同しない
+
+- `novel/personas/PER-*.md` はペルソナの定義・初期条件
+- `novel/state/personas/PER-*.md` は時間に依存する人物状態
+- `novel/environment.md` は世界・環境の定義と解決規則
+- `novel/state/world.md` は時間に依存する客観世界状態
+- `novel/events/` は両者を同じstory time上で結合する出来事
+- `novel/timeline.md` はstory timeの索引
+
+ペルソナや世界を一つの巨大な状態ファイルへ統合しません。一方、時系列状態をそれぞれ勝手に進めてもいけません。
+
+ある状態変更は、原則として前状態とeventまたは明示された時間経過から説明できるようにします。
+
 ### ペルソナ駆動で進める場合
 
 完成済みの未来プロットを人物へ与えません。各ペルソナは、自分に許された局所状態だけから行動させます。
 
-1. `environment.md` で現在の客観状態と観測可能範囲を確認する
-2. activeな各ペルソナについて、知識・信念・目的・認知スタイルを個別に読む
-3. 各ペルソナへ、その人物が観測できる情報だけを与える
-4. 各ペルソナの発言・行動を、その人物の目的から生成する
-5. 人物の意図と結果を分離し、環境側でCanon・技術・歴史・権限等の制約から結果を解決する
-6. 各人物へ、実際に観測できた結果だけを返し、必要な信念・関係・記憶を更新する
-7. 発生した状態変化を `structure.md` の再帰的な起承転結で整理する
-8. 相互作用ログを材料に本文を書く
+1. `timeline.md` で対象場面のstory timeを確認する
+2. `state/world.md` でその時点の客観世界状態を確認する
+3. activeな各ペルソナについて、定義ファイルと、その時点までのstateを個別に読む
+4. 各ペルソナへ、その人物が観測できる情報だけを与える
+5. 各ペルソナの発言・行動を、その人物の現在の目的・信念・状況から生成する
+6. 人物の意図と結果を分離し、`environment.md` の規則でCanon・技術・歴史・制度・権限等の制約からeventを解決する
+7. 重要な出来事なら `EVT-xxx` として記録する
+8. `state/world.md` をeventの客観結果で更新する
+9. 各人物へ、実際に観測できた結果だけを返し、観測した人物の `state/personas/PER-xxx.md` だけを必要に応じて更新する
+10. `timeline.md` にstory timeとeventを索引する
+11. 発生した状態変化を `structure.md` の再帰的な起承転結で整理する
+12. 相互作用ログを材料に本文を書く
+
+変化しなかったペルソナは前状態を継承してよく、毎eventごとに全員のsnapshotを作る必要はありません。
+
+新しい人物が物語へ入った場合は新しい `PER-xxx` を追加します。既存キャスト数を固定しません。
 
 禁止事項:
 
 - 「次に転が必要だから」という理由で人物に不自然な行動をさせる
 - 一人のペルソナへ他者の秘密・未来プロット・作者側の真相候補を漏らす
+- 世界状態が変わっただけで、全人物がその変化を知ったことにする
+- 人物の現在状態を定義ファイルへ上書きして、過去の状態変化を消す
 - PER-004の自己申告を、そのまま本人性の証拠にする
 - ナレーターが予定した結論に合わせて、環境側の因果結果を書き換える
 
 起承転結は原因ではなく、成立した状態遷移を認識・整理するための再帰構造です。
+
+story time上の因果順と、本文で読者へ見せる章・scene順を混同しません。
 
 ## 研究作業
 
