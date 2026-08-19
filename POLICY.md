@@ -45,7 +45,8 @@ Pull Requestは、外部Contribution、GitHub上に公開レビュー履歴を�
 ### 物語
 
 - 客観的な物語事実: `novel/canon.md`
-- ペルソナの定義・初期条件: `novel/personas/`
+- 世界・ペルソナ群の同期初期化・再初期化元: `novel/bootstrap/`。Canonを上書きしない
+- ペルソナの定義・baseline: `novel/personas/`
 - 世界・環境の定義と解決規則: `novel/environment.md`
 - 時間に依存するペルソナ状態: `novel/state/personas/`
 - 時間に依存する世界状態: `novel/state/world.md`
@@ -55,6 +56,8 @@ Pull Requestは、外部Contribution、GitHub上に公開レビュー履歴を�
 - 制作構造・現在の起承転結パス・探索仮説: `novel/structure.md`
 - 本文中の発言・描写からの推測は、上記の正本へ自動昇格させない
 - `notes/ideas.md` は未確定案であり、正史ではない
+
+Bootstrapは世界状態や人物状態そのものではなく、それらを同じstory timeへ同期生成する入力・手順です。BootstrapとCanonが競合する場合はCanonを優先し、Bootstrapを修正します。
 
 技術史上の現実の事実については `novel/timeline.md` や `novel/structure.md` 自体を科学的根拠にせず、`references/` と `research/` を参照します。
 
@@ -117,7 +120,7 @@ Codex等のGitHub Appによる自動PRレビュー、外部サービスのhook�
 
 ## 8. 安定識別子
 
-研究・証拠・物語イベントの参照には次のIDを使います。
+研究・証拠・物語状態の参照には次のIDを使います。
 
 - 問い: `Q-001`
 - 仮説: `H-001`
@@ -127,6 +130,7 @@ Codex等のGitHub Appによる自動PRレビュー、外部サービスのhook�
 - 学習記録: `L-001`
 - 物語イベント: `EVT-001`
 - ペルソナ: `PER-001`
+- Bootstrap Frame: `BOOT-001`
 
 IDは一度割り当てたら意味を変えず、削除後も再利用しません。新規IDは原則として `main` 上で同種の最大番号を確認して次番号を使います。複数branchで衝突した場合はmain反映前に片方を採番し直します。
 
@@ -258,3 +262,58 @@ P_i(t+1)   = UpdatePersona(P_i(t), Observed_i(E_k))
 状態は毎日・毎sceneに完全snapshotを複製する必要はありません。重要な変化をeventとstory timeに結び付け、前状態から復元可能にします。
 
 物語世界の時刻・因果順（story time）と、読者へ提示する章・scene順（narrative order）は分離します。
+
+## 20. Bootstrapで世界とペルソナ群を同期初期化する
+
+物語開始時、大きな時代・環境切替、長い中断後の再構成では `novel/bootstrap/BOOT-xxx` を共通の初期化源として使用します。
+
+Bootstrapは公開用あらすじでも未来プロットでもなく、**対象story timeまでに成立している背景から、世界状態と各ペルソナ状態を同じ同期点へ射影する制作上のFrame**です。
+
+各Bootstrapには最低限、
+
+- target story time
+- parent event head
+- authority inputs
+- background frame
+- world projection
+- persona discovery
+- personaごとのprojection
+- forbidden leakage
+- outputs
+- unresolved slots
+
+を記録します。
+
+同期キーは概念的に、
+
+```text
+BOOT-xxx @ <story time> @ <parent event head>
+```
+
+とし、同じ時点へ初期化するworld/persona stateに共通して残します。
+
+### 情報境界
+
+Bootstrap本文を全ペルソナへ丸ごと与えません。同じ背景から初期化しても、各人物へ渡すのはその人物が時代・立場・権限・観測可能性から知り得るprojectionだけです。
+
+作者側の探索仮説、未観測Canon、他者の秘密、未来eventは、許可されたprojectionに含まれない限り人物状態へ混ぜません。
+
+### ペルソナの追加
+
+Bootstrapから、独立したKnowledge / Beliefs / Goals / 観測境界 / 状態履歴が必要な主体が見つかった場合、新しい`PER-xxx`を追加できます。
+
+背景に存在するすべての人名・組織・設備をペルソナ化する必要はありません。独立した状態遷移を追う必要がある主体だけをペルソナにします。
+
+### 増殖・fork
+
+同じpersona state、model instance、checkpoint等から複数の主体が独立経験を持ち始める場合、分岐点から別`PER-xxx`へforkします。同時に独立して存在する複数主体へ同じペルソナIDを使い続けません。
+
+子ペルソナには、親ID、親stateのstory time、分岐時event head、継承したstateを追跡可能に残します。
+
+### 再初期化
+
+AIセッション変更、モデル交換、長期中断等によってペルソナを再生成する場合、設定ファイルを寄せ集めて新しい人格を推測し直しません。
+
+対象Bootstrap、story time、parent event head、その時点までのworld/persona stateから再構成します。再初期化は制作上の操作であり、それ自体を物語eventとして扱わず、過去stateを書き換えません。
+
+一つのBootstrapには原則として一つのtarget story timeを置きます。現代Bootstrapの背景に1980年代の事実が含まれていても、1980年代人物のstateを現代時点へ混ぜません。
