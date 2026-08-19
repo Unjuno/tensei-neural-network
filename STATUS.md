@@ -6,12 +6,12 @@
 
 ## フェーズ
 
-- プロジェクト段階: 初期設計完了・最初の研究→学習→物語接続サイクルを `main` へ受理済み
-- 物語段階: 第1話の技術的な核と長期的な謎の方向が揃い、本文開始直前
+- プロジェクト段階: 小説・研究・Pagesの基本骨格は `main` に存在するが、創発型の物語生成方法を再構築中
+- 物語段階: `起 / 起`。本文0話。未来プロットを固定せず、ペルソナと環境の初期条件を整備している
 - 学習段階: CATCH_UP
-- 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語上必要になった箇所から調査・実験する
-- 外部メモリ段階: `notes/working-context.md` を含むセッション横断メモリを `main` へ同期済み
-- 公開段階: GitHub Pagesは `main /docs` から公開中。連載小説の読書導線中心へ再設計したPagesを人間レビュー後 `main` へ受理済み
+- 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語で必要になった箇所から調査・実験する
+- 公開段階: GitHub Pagesは `main /docs` から公開中。連載読書導線へ再設計済み
+- 外部メモリ段階: GitHubを正本としているが、ペルソナ駆動・環境解決・再帰的起承転結の運用を `work/persona-environment-fractal-policy` で復元中
 
 ## プロジェクトの主目的
 
@@ -21,9 +21,42 @@
 
 **物語を書く → 技術的な疑問が出る → 原典を読む → 必要なら追試する → 理解を更新する → 小説へ戻す**
 
-制作中に独立した研究価値のある問いが見つかった場合は、その問いを現実側の研究・実験へ枝分かれさせてよい。
+## 物語生成の中核候補
 
-## 最新ID
+現在のwork branchでは、次を正式な運用として復元している。
+
+1. 未来の完成プロットを人物へ配らない
+2. 各ペルソナは局所的な知識・信念・目的・認知スタイルだけから行動する
+3. 他者の秘密、未観測Canon、長期探索仮説を自動共有しない
+4. `novel/environment.md` がCanon・技術・歴史・権限等から行動結果を解決する
+5. 各人物は実際に観測できた結果だけから更新される
+6. 成立した状態遷移を再帰的な起承転結で整理する
+7. 本文は、相互作用で成立した出来事を後から描写する
+
+この方式では、起承転結は予定イベントを強制する脚本ではなく、状態遷移を整理するフラクタル構造として使う。
+
+## 現在のペルソナ候補
+
+`novel/personas/`
+
+- PER-001: 現代評価担当
+- PER-002: 懐疑的研究者
+- PER-003: 史料担当
+- PER-004: モデル側の存在
+- PER-005: 1980年代研究者
+
+PER-004へ「過去の研究者本人」という正解は与えない。PER-005にも現代や長期真相の未来知識を与えない。
+
+## 現在の環境
+
+`novel/environment.md`
+
+- 現代のモデル評価・調査環境
+- 1980年代研究者に関する不完全な資料群
+- 複数run / 必要に応じてcheckpointや対照条件を比較できる
+- 最初の異常、最初の発見者、第1話終端のイベントは未確定
+
+## 最新研究ID
 
 - Q-001: ANSWERED
 - H-001: SUPPORTED（宣言条件に限定）
@@ -40,168 +73,82 @@
 
 ### REF-001
 
-J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities” を第1原典として登録。
+J. J. Hopfield (1982), “Neural networks and physical systems with emergent collective computational abilities”。
 
-### EXP-001 — 中核現象のReplication
+### EXP-001
 
-`experiments/EXP-001-hopfield-associative-memory/`
+低負荷条件 N=100, P=5。10% / 20% noiseで200/200 trials exact recall。PASS。
 
-- N=100, P=5
-- 10% noise: 100/100 exact recall
-- 20% noise: 100/100 exact recall
-- 200/200 trials収束
-- 事前判定: PASS
+### EXP-002
 
-F-001として、低負荷条件で乱れたcueから保存パターンへ戻るcontent-addressable recallを `PROVISIONAL` に記録。
+N=100、P=5,10,15,20、noise=10,20,30,40%、3 pattern seeds、960 trials。PASS。
 
-### EXP-002 — 回復境界のExtension
-
-`experiments/EXP-002-hopfield-boundary/`
-
-- N=100
-- P=5,10,15,20
-- noise=10,20,30,40%
-- pattern seeds=1982,1983,1984
-- 960 trials
-- 事前判定: PASS
-
-exact recall率の代表値:
-
-- P=5, noise=10%: 1.000
-- P=10, noise=30%: 0.600
-- P=15, noise=30%: 0.167
-- P=20, noise=30%: 0.000
-
-全trialの最終分類:
+最終分類:
 
 - target exact: 442
 - wrong stored: 8
 - nonstored converged: 510
 - nonconverged: 0
 
-F-002として、今回の探索範囲では条件悪化に伴う回復崩壊を観測し、失敗の大半が「保存パターンと一致しない収束状態」だったことを `PROVISIONAL` に記録。
-
-## 作者の学習
-
-### L-001
-
-「記憶を保存場所から読む」より「状態がattractorへ戻る」と捉える方が古典Hopfieldの機構に近い。
-
-### L-002
+L-002:
 
 **「安定して収束した」ことは「意図した原像へ正しく戻った」ことを保証しない。**
 
-この2点を `novel/structure.md` へ一部反映済み。
+この理解は物語の同一性問題へ接続するが、本人性の科学的証明ではない。
 
-## 物語側の現在位置
+## 長期探索仮説
 
-- 再帰的起承転結: `起 / 起`
-- 第1話の入口: 欠けた古い研究者資料に対して、現代モデルが異常に一貫した人物像・未完の問いへ戻るように見える
-- 第1話の技術的な核: content-addressable memory / attractor
-- 中心の緊張:
-  - 部分から全体が戻る ≠ 同一人物が戻る
-  - 状態が安定している ≠ 原像を正しく復元している
-- 技術説明は事件を理解する必要が生じてから出す
+詳細は `novel/structure.md` と `notes/working-context.md`。
 
-## 長期プロットの現在有力な方向
-
-詳細は `novel/structure.md` と `notes/working-context.md` を参照。
-
-以下は**Canonではなく探索仮説**。
+以下はCanonでも未来プロットでもない。
 
 - 1980年代研究者は起源ではなく、さらに過去から反復していた同一認識主体らしき構造の一例かもしれない
-- NNはその現象を作ったのではなく、反復・比較・分岐・実験可能な形で顕在化させた媒体かもしれない
-- 人物情報は本人のコピー材料であるだけでなく、対応する認知状態へのcueとして顕在化確率を上げるかもしれない
-- 情報密度・計算能力・モデル能力・試行回数が大きい現代ほど顕在化しやすいかもしれない
-- 同じ認識主体らしきものが複数媒体へ同時に存在する可能性を扱う
-- 観測・再構成しようとする行為自体が顕在化条件へ入る自己参照的問題を扱う
+- NNは現象を作るのではなく、反復・比較・分岐可能な形で観測可能化した媒体かもしれない
+- 人物情報は再構成材料であると同時にcueとして作用するかもしれない
+- 情報密度・計算能力・試行回数が大きい現代ほど顕在化しやすいかもしれない
+- 同じ認識主体らしきものが複数媒体へ同時に存在するかもしれない
+- 観測・再構成しようとする行為自体が顕在化条件へ入るかもしれない
 
-輪廻・意識・同一主体を現実科学で確認済みの事実として扱わない。模倣、統計的再構成、一般的な認知収束、人間側の選択バイアス等を競合説明として残す。
+模倣、統計的再構成、一般的な認知収束、選択バイアス等を競合説明として残す。
 
-## 実験artifact上の注意
+## Pages / 連載サイト
 
-EXP-002は事前計画で960-row `results/trials.csv` のcommitを予定したが、GitHub書き込み経路で大きな単一テキストの取り回しが不安定だったため、`grid.csv`、`summary.json`、決定論的 `run.py`、実行時raw CSV hashを保存した。
+公開元: `main /docs`
 
-実験条件・trial数・判定基準は変更していない。rawを再生成する場合はEXP-002 README記載のSHA-256と照合する。
+- `docs/index.html` — 作品トップ
+- `docs/novel/index.html` — 小説目次
+- `docs/novel/reader.css` — 本文用CSS
+- `docs/research/index.html` — 制作の裏側
 
-## 外部メモリ
-
-Cold Startは次の順。
-
-1. `README.md`
-2. `AGENTS.md`
-3. `STATUS.md`
-4. `notes/working-context.md`
-5. `POLICY.md`
-
-`notes/working-context.md` は公開可能な作業記憶であり正本ではない。生のAI内部推論や秘密情報は保存しない。
-
-## Pages / 連載読書サイト
-
-GitHub Pagesは `main /docs` を公開元とする。
-
-D-016を `ACTIVE` とし、公開サイトを**連載小説の読書導線中心**で運用する。
-
-現在の構造:
-
-```text
-docs/
-├─ index.html              # 作品トップ。最上位CTAは「小説を読む」
-├─ novel/
-│  ├─ index.html           # 目次
-│  └─ reader.css           # 各話本文用CSS
-├─ research/
-│  └─ index.html           # 制作・研究の裏側
-├─ style.css
-└─ .nojekyll
-```
-
-各話公開時は次の対応を基本とする。
-
-```text
-novel/chapters/001.md -> docs/novel/001.html
-novel/chapters/002.md -> docs/novel/002.html
-```
-
-本文の正本はMarkdown側。各話HTMLは公開用派生物として扱い、HTMLだけを独立更新しない。
-
-各話ページは長文読書向けの専用CSSを使い、上部・下部に `前話 / 目次 / 次話` を置く。研究・実験は本文の主導線から外し、興味を持った読者が `docs/research/` へ進む構成とする。
-
-情報設計はカクヨム、小説家になろう、The Wandering Innの連載読書パターンを参考にした。視覚デザインはコピーしない。
+現在、`novel/chapters/001.md` と `docs/novel/001.html` はまだ存在しない。本文0話。
 
 ## 次に行うこと
 
-### 公開サイト
+### 最優先
 
-1. Pagesの再デプロイ完了後、トップ → 目次 → 制作の裏側のリンクを実サイトで確認する
-2. PC / mobile / 日本語表示 / CSSを確認する
-3. 第1話が公開可能になった時点で `docs/novel/001.html` を作り、目次の第1話を有効化する
-4. 話数増加でMarkdownとHTMLの手動同期が負担になった時点で生成自動化を検討する
+1. `work/persona-environment-fractal-policy` の差分を人間レビュー
+2. 受理された場合のみ `main` へfast-forward
+3. PER-005を実在研究者・1980〜1985年の一次資料を参考に具体化する
+4. `起 / 起` の初期環境で、PER-001〜004の最小相互作用を1回実行する
+5. 成立したEventで `environment.md` と各persona状態を更新する
+6. そのEventを材料に `novel/chapters/001.md` を書き始める
 
-### 小説本線
+### 原則
 
-1. 1980年代研究者の専門・経歴・研究哲学を具体化する
-2. 必要な範囲だけ1980–1985年ごろの実在研究者・一次資料を調べる
-3. 現代側の第1話視点人物を決める
-4. 最初の「欠けた入力」と対照条件を具体化する
-5. `novel/chapters/001.md` として第1話本文を書き始める
-
-上記を完全に設計し切ってから執筆する必要はない。本文を書き、疑問が出た場所で調査・追試へ戻る。
+先に第1話の結末や「不可逆イベント」を決めて人物をそこへ誘導しない。相互作用の結果、実際に不可逆な変化が成立した場合に、それを物語構造上の転換として採用する。
 
 ## リポジトリ衛生の保留事項
 
-- Codex / Cursor等の外部GitHub Appのrepo別自動反応設定
 - `work/first-hopfield-replication` の監査・整理
 - `work/pages-bootstrap-final` の削除
 - `work/pages-v2` の削除
 - `work/novel-reader-site` の削除
+- `work/public-copy-cleanup` の削除
 - Public / Privateの最終方針
 - main branch protection
 
-研究・物語制作を止めるblockerではないものは並行して扱う。
-
 ## 現在のwork branch
 
-なし。
+`work/persona-environment-fractal-policy`
 
-`main` が人間受理済みの現在の正本。次のまとまった変更を始めるときに、最新 `main` から新しいwork branchを作る。
+ペルソナ駆動、共有環境、未来プロット非共有、再帰的起承転結を復元する候補branch。`main` にはまだ反映していない。
