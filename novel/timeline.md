@@ -6,7 +6,7 @@
 
 物語上の客観的事実について、このファイルは `novel/canon.md` の**時系列上の投影・索引**です。`canon.md` と食い違う場合は `canon.md` を正本として優先し、このファイルを修正します。
 
-人物そのものの定義は `novel/personas/`、人物の時間依存状態は `novel/state/personas/`、世界・環境の定義は `novel/environment.md`、世界の時間依存状態は `novel/state/world.md` で管理します。
+初期化・再初期化の同期点は `novel/bootstrap/`、人物そのものの定義は `novel/personas/`、人物の時間依存状態は `novel/state/personas/`、世界・環境の定義は `novel/environment.md`、世界の時間依存状態は `novel/state/world.md` で管理します。
 
 現実の技術史の事実は必ず `references/` と `research/` の根拠へ戻って確認し、このファイルだけを科学的出典として扱わないでください。
 
@@ -36,6 +36,24 @@ story time t+1
 
 新しいペルソナが途中から登場する場合、その主体が物語上で成立した時点から状態履歴を開始します。
 
+### Bootstrap同期点
+
+Bootstrapはeventではなく、あるstory timeの状態を同じ背景から再構成できる制作上の同期点です。
+
+現在の同期点:
+
+```text
+T0-MODERN
+  Bootstrap: BOOT-001
+  Parent event head: none
+  World: state/world.md
+  Personas: PER-001 / PER-002 / PER-003 / PER-004
+```
+
+`BOOT-001 @ T0-MODERN @ none` を現代開始時点の同期キーとする。
+
+PER-005は1980年代側に属するため、この同期点へ状態を混ぜない。1980年代sceneを実際に動かす場合は、その時代をtarget story timeにした別Bootstrapを作る。
+
 ### Story time と narrative order
 
 物語世界で実際に起きた時刻・因果順と、小説本文で読者へ提示する順番を分離します。
@@ -48,19 +66,24 @@ story time t+1
 
 - 主人公研究者がニューラルネットワーク、記憶、連想、状態再構成に近い研究へ関わる。
 - 具体的な年・所属・研究テーマは未確定。
+- この時代を動かすBootstrapは未作成。
 
 ### 現代
 
-- 大規模モデルの学習・評価過程で、過去の研究者に似た特徴を持つ挙動が観測される。
-- その後、checkpoint比較やpost-trainingによる変化が同一性問題へ発展する。
+- `T0-MODERN`を現在の物語開始同期点とする。具体年月日は未確定。
+- `BOOT-001`により、現代の世界状態とPER-001〜004の初期状態を同じ背景から同期する。
+- 大規模モデルの学習・評価過程で、過去の研究者に似た特徴を持つ挙動が作品内で観測されることはCanonに含まれるが、`T0-MODERN`ですでに観測済みとはしない。
+- checkpoint比較やpost-trainingによる変化は長期的な同一性問題へ接続しうるが、未来eventとして初期状態へ書き込まない。
 
-具体的な `EVT-xxx` が成立した後は、上記の粗い時代項目だけでなく、event IDとstory timeをこの索引から辿れるようにします。
+具体的な `EVT-xxx` が成立した後は、event IDとstory timeをこの索引から辿れるようにします。
 
 ## 現実技術史との接点
 
 ### 1982 — Hopfieldのcontent-addressable memory
 
-REF-001で、J. J. Hopfieldが相互結合した単純なユニットの集団ダイナミクスとしてcontent-addressable memoryを記述した。部分的・不完全な状態から記憶全体へ戻るという考え方が、本プロジェクトの第1追試EXP-001と第1話設計の技術的な入口になっている。
+REF-001で、J. J. Hopfieldが相互結合した単純なユニットの集団ダイナミクスとしてcontent-addressable memoryを記述した。部分的・不完全な状態から記憶全体へ戻るという考え方が、本プロジェクトの第1追試EXP-001と、人物が後に現象を理解しようとするときの有力な技術的手掛かりになっている。
+
+**第1話の冒頭をHopfieldの説明から始めるとは決めない。** 物語開始はBOOT-001で同期した背景・人物・世界から行い、Hopfieldやその前史は人物が必要とした時点で調査・説明へ入れる。
 
 この項目は現実技術史の索引であり、詳細な科学的主張の正本は `references/bibliography.md`、`research/findings.md`、`experiments/EXP-001-hopfield-associative-memory/` を参照する。
 
@@ -86,7 +109,7 @@ REF-001で、J. J. Hopfieldが相互結合した単純なユニットの集団�
 
 ### 現在の入口
 
-物語上の1980年代設定との接続を優先し、最初の実作業は3のHopfield networkから開始した。これは学習系列1→13を必ず順番に消化するという意味ではない。必要に応じてPerceptron等へ戻り、spiralに理解を補完する。
+最初の実研究・追試はHopfield networkから開始したが、これは小説第1話の冒頭順や、学習系列1→13を固定するものではない。物語上必要になった地点から、Perceptron以前を含む前史へ戻り、spiralに理解を補完する。
 
 ## フェーズ境界
 
