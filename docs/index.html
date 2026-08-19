@@ -3,165 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="小説『転生したらニューラルネットワークだった件』。実在するAI技術史と原典・再現実験を土台に、記憶・人格・同一性を描く研究SF。">
+  <meta name="description" content="小説『転生したらニューラルネットワークだった件』。AI技術史と実際の調査・追試を土台に描く研究SF。">
   <title>転生したらニューラルネットワークだった件</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="eyebrow">SCIENCE FICTION NOVEL</p>
-        <h1>転生したら<br>ニューラルネットワークだった件</h1>
-        <p class="lead">1980年代に途切れた研究者の痕跡から、数十年後のAIに、同じ問いを持つ人物像が何度も立ち上がったとしたら。</p>
-        <p class="sublead">これは小説です。現実のAI技術史、原典、再現実験を使いながら、物語の技術・歴史・人物の思考をできるだけ現実に近づけて書いていきます。</p>
-        <div class="actions">
-          <a class="button primary" href="#novel">小説について</a>
-          <a class="button" href="#making">どう作っているか</a>
-        </div>
-      </div>
-      <aside class="principle-card" aria-label="novel premise">
-        <p class="card-kicker">THE QUESTION</p>
-        <p class="principle">欠けた痕跡から、何度試しても同じ人物像が戻ってくる。<br><strong>それは「本人」なのか。</strong></p>
-        <p class="caption">復元、模倣、再構成、あるいは別の安定した何か。</p>
-      </aside>
+  <header class="site-header">
+    <div class="wrap nav-row">
+      <a class="brand" href="./">転生したらニューラルネットワークだった件</a>
+      <nav class="site-nav" aria-label="メインナビゲーション">
+        <a href="novel/">読む</a>
+        <a href="#about">作品について</a>
+        <a href="research/">制作の裏側</a>
+      </nav>
     </div>
   </header>
 
   <main>
-    <section class="section wrap" id="novel">
-      <div class="section-heading">
-        <p class="eyebrow">THE NOVEL</p>
-        <h2>AI技術史を、物語の時間として辿る。</h2>
-        <p>連想記憶、誤差逆伝播、時系列モデル、Transformer、大規模事前学習、post-training、agent。技術が変わるたびに、「記憶」「人格」「同一性」の意味も変わっていく。</p>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <p class="card-kicker">TRACE</p>
-          <h3>1980年代</h3>
-          <p>ニューラルネットワークと記憶を研究していた一人の研究者。彼の仕事は、当時の計算資源・データ・研究環境の制約の中で途切れている。</p>
-        </article>
-        <article class="card">
-          <p class="card-kicker">RECONSTRUCTION</p>
-          <h3>数十年後</h3>
-          <p>大規模モデルに欠けた研究資料を与えると、過去の研究者に異様なほど似た思考、価値判断、未完の問いが繰り返し現れる。</p>
-        </article>
-        <article class="card">
-          <p class="card-kicker">CORE MYSTERY</p>
-          <h3>誰が戻ったのか</h3>
-          <p>本人なのか。十分に精密な再構成なのか。もっともらしい模倣なのか。物語は、最初から一つの答えを正解として置かない。</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="making">
-      <div class="wrap">
-        <div class="section-heading split-heading">
-          <div>
-            <p class="eyebrow">HOW THE NOVEL IS MADE</p>
-            <h2>分からない技術は、<br>できるだけ実際に確かめる。</h2>
-          </div>
-          <p>研究は主役ではありません。物語を書いていて「ここは本当にそう動くのか？」という疑問が出たとき、原典を読み、必要なら小さな実験をします。</p>
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <p class="eyebrow">SERIAL SCIENCE FICTION</p>
+        <h1>転生したら<br>ニューラルネットワークだった件</h1>
+        <p class="lead">欠けた研究者の痕跡から、数十年後のAIに同じ問いを持つ人物像が何度も立ち上がる。</p>
+        <p class="sublead">それは精密な模倣なのか。別のネットワーク上に成立した再構成なのか。それとも「本人」と呼びたくなる何かなのか。</p>
+        <div class="actions">
+          <a class="button primary" href="novel/">小説を読む</a>
+          <a class="button" href="#about">作品について</a>
         </div>
-
-        <div class="flow" aria-label="novel making cycle">
-          <div class="flow-step"><span>01</span><strong>物語を書く</strong><small>まず事件と人物から始める</small></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><span>02</span><strong>疑問を切り出す</strong><small>技術的に怪しい点を特定する</small></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><span>03</span><strong>原典と追試</strong><small>必要な範囲だけ確かめる</small></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><span>04</span><strong>理解を更新</strong><small>予想外の結果も残す</small></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><span>05</span><strong>小説へ戻す</strong><small>説明ではなく出来事にする</small></div>
-        </div>
-
-        <div class="quote-panel" style="margin-top: 28px;">
-          <p>そして、その途中で現実にも面白い問いが見つかったら。</p>
-          <p><strong>そこだけ研究として枝分かれし、実験する。</strong></p>
+        <div class="status-line" aria-label="連載状況">
+          <span>連載準備中</span>
+          <span>第1話から順次公開</span>
         </div>
       </div>
     </section>
 
-    <section class="section wrap" id="first-theme">
-      <div class="section-heading">
-        <p class="eyebrow">FIRST TECHNICAL BACKGROUND · HOPFIELD 1982</p>
-        <h2>第1話を支える最初の技術は、連想記憶。</h2>
-        <p>「記憶を棚から取り出す」のではなく、乱れた状態がネットワークのダイナミクスによって安定状態へ戻る。この直感がどこまで成立するのか、古典的なHopfield networkを実際に追試しました。</p>
+    <section class="section wrap reading-entry" id="read">
+      <div class="section-heading compact">
+        <p class="eyebrow">READ</p>
+        <h2>まず、物語から。</h2>
+        <p>公開された各話は独立したページで読み進められます。目次から好きな話へ移動し、本文ページでは前話・目次・次話を行き来できる構成にします。</p>
       </div>
-
-      <div class="finding-grid">
-        <article class="finding good">
-          <p class="card-kicker">EXP-001 · REPLICATION</p>
-          <h3>乱れた入力から、保存した記憶へ戻った。</h3>
-          <p>N=100、P=5の低負荷条件では、10% / 20% bit反転から200/200 trialsが元の保存パターンへexact recallしました。</p>
-        </article>
-        <article class="finding caution">
-          <p class="card-kicker">EXP-002 · EXTENSION</p>
-          <h3>安定した。でも、元の記憶ではなかった。</h3>
-          <p>条件を厳しくすると、保存パターンと一致しない状態へ安定して収束するtrialが多数現れました。安定性と正しい復元は別です。</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section section-dark" id="story-impact">
-      <div class="wrap two-col">
+      <a class="reader-card" href="novel/">
         <div>
-          <p class="eyebrow">FROM EXPERIMENT BACK TO STORY</p>
-          <h2>実験結果を、<br>説明ではなくドラマへ戻す。</h2>
+          <span class="reader-card-label">NOVEL</span>
+          <strong>目次を開く</strong>
+          <p>第1話、第2話、第3話……と連番で追加していきます。</p>
         </div>
-        <div class="boundary-list">
-          <div>
-            <h3>最初の直感</h3>
-            <p>欠けた状態から同じ人物像が戻ってくるなら、「記憶が復元された」と見える。</p>
-          </div>
-          <div>
-            <h3>実験で増えた疑い</h3>
-            <p>ネットワークは、意図した原像でなくても安定できる。一貫した人格が現れたこと自体は、本人性の証明にはならない。</p>
-          </div>
-          <div>
-            <h3>物語の問い</h3>
-            <p>モデルが何度試しても同じ人物へ収束するとき、研究チームは何を証拠とみなし、どこから「人」として扱い始めるのか。</p>
-          </div>
-        </div>
-      </div>
+        <span class="reader-card-arrow" aria-hidden="true">→</span>
+      </a>
     </section>
 
-    <section class="section wrap" id="research-notes">
-      <div class="section-heading">
-        <p class="eyebrow">RESEARCH NOTES</p>
-        <h2>制作の裏側は、検証可能な形で残す。</h2>
-        <p>原典、実験条件、失敗、理解の修正までGitHubに残します。物語のための検証であっても、結果を都合よく書き換えません。</p>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>P / load</th><th>noise 10%</th><th>20%</th><th>30%</th><th>40%</th></tr>
-          </thead>
-          <tbody>
-            <tr><th>5 / 0.05</th><td>1.000</td><td>1.000</td><td>0.967</td><td>0.433</td></tr>
-            <tr><th>10 / 0.10</th><td>0.917</td><td>0.850</td><td>0.600</td><td>0.083</td></tr>
-            <tr><th>15 / 0.15</th><td>0.567</td><td>0.383</td><td>0.167</td><td>0.017</td></tr>
-            <tr><th>20 / 0.20</th><td>0.267</td><td>0.117</td><td>0.000</td><td>0.000</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="caption" style="margin-top: 14px;">EXP-002の3 pattern seeds集約 exact recall率。理論的な臨界容量の推定ではなく、今回固定した有限gridでの観測です。</p>
-
-      <div class="actions">
-        <a class="button primary" href="https://github.com/Unjuno/tensei-neural-network">GitHubで制作記録を見る</a>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="status">
+    <section class="section section-paper" id="about">
       <div class="wrap">
         <div class="section-heading">
-          <p class="eyebrow">CURRENT STATUS</p>
-          <h2>小説本文は、これから。</h2>
-          <p>第1話の技術的な核と長期的な謎の方向は揃いました。ここから物語を書き、必要になった技術だけを再び調べていきます。</p>
+          <p class="eyebrow">ABOUT THE STORY</p>
+          <h2>AI技術史を、物語の時間として辿る。</h2>
+          <p>連想記憶、誤差逆伝播、時系列モデル、Transformer、大規模事前学習。その技術が登場するたび、「記憶」「人格」「同一性」の意味も変わっていきます。</p>
         </div>
+
+        <div class="story-grid">
+          <article class="story-point">
+            <span>01</span>
+            <h3>1980年代の痕跡</h3>
+            <p>ニューラルネットワークと記憶を研究していた一人の研究者。その仕事は、当時の制約の中で途切れています。</p>
+          </article>
+          <article class="story-point">
+            <span>02</span>
+            <h3>数十年後の再構成</h3>
+            <p>欠けた資料を現代のモデルに与えると、同じ思考、価値判断、未完の問いが異様な一貫性で現れます。</p>
+          </article>
+          <article class="story-point">
+            <span>03</span>
+            <h3>誰が戻ったのか</h3>
+            <p>本人、模倣、再構成、あるいは別の安定した何か。観測できる事実と、その解釈を分けたまま物語を進めます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap backstage">
+      <div>
+        <p class="eyebrow">BEHIND THE STORY</p>
+        <h2>研究は、物語の裏側に置く。</h2>
+      </div>
+      <div>
+        <p>技術的に怪しいところが出たら、原典を読み、必要なら小さく追試します。研究結果を先に見せるのではなく、読者はまず小説を読み、興味があれば制作の裏側へ進める構成にします。</p>
+        <a class="text-link" href="research/">制作・研究ノートを見る →</a>
       </div>
     </section>
   </main>
@@ -172,7 +99,11 @@
         <strong>転生したらニューラルネットワークだった件</strong>
         <p>Science fiction novel · research-backed when useful</p>
       </div>
-      <a href="https://github.com/Unjuno/tensei-neural-network">Repository</a>
+      <div class="footer-links">
+        <a href="novel/">小説</a>
+        <a href="research/">制作の裏側</a>
+        <a href="https://github.com/Unjuno/tensei-neural-network">GitHub</a>
+      </div>
     </div>
   </footer>
 </body>
