@@ -10,8 +10,8 @@
 - 物語段階: 第1話の技術的な核と長期的な謎の方向が揃い、本文開始直前
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語上必要になった箇所から調査・実験する
-- 外部メモリ段階: `notes/working-context.md` を追加する同期作業中
-- 公開段階: GitHub Pages有効化は人間判断で後回し
+- 外部メモリ段階: `notes/working-context.md` を含むセッション横断メモリを `main` へ同期済み
+- 公開段階: 最新 `main` から `work/pages-v2` を作成し、最小静的サイトをレビュー中。公開設定はまだ有効化しない
 
 ## プロジェクトの主目的
 
@@ -136,19 +136,35 @@ Cold Startは次の順。
 
 `notes/working-context.md` は公開可能な作業記憶であり正本ではない。生のAI内部推論や秘密情報は保存しない。
 
-## GitHub Pages
+## Pages v2
 
-Pages有効化は現在の本線ではなく、人間判断で後回し。
+現在の候補branch: `work/pages-v2`
 
-`work/pages-bootstrap-final` 等のPages準備branchは受理済み正本ではない。公開を再開するときに `main` の最新状態から改めて整合性を確認する。
+最新 `main` から作成し、旧 `work/pages-bootstrap-final` の静的サイト案から使える部分だけを移植した。
+
+候補ファイル:
+
+- `docs/index.html`
+- `docs/style.css`
+- `docs/.nojekyll`
+
+公開トップは次の順を基本とする。
+
+**小説タイトル・事件の入口 → 物語の謎 → 制作方法 → 最初の技術的背景 → 実験から物語へ戻った点 → GitHubの制作記録**
+
+長期プロット上の「1980年代研究者以前からの反復」は、現時点ではトップページで直接説明しすぎない。`TRACE` として1980年代研究者を置き、起源だと断定しない。
+
+GitHub Pagesを使う場合の公開元は、候補内容が `main` へ受理された後に `main /docs` とする。公開設定は人間レビュー後に行う。
 
 ## 次に行うこと
 
-### この同期branchのレビュー後
+### Pagesレビュー
 
-1. `work/session-memory-sync` の内容を確認
-2. 明示承認された場合のみ `main` へfast-forward
-3. 以後の新規セッションはCold Start手順から再開
+1. `main...work/pages-v2` の差分を確認
+2. トップページの文章・ネタバレ量・スマホ向け構成を人間レビュー
+3. 明示承認された場合のみ `main` へ反映
+4. 反映後、必要なら GitHub Pages を `main /docs` で有効化
+5. 旧 `work/pages-bootstrap-final` は役目終了を確認後に削除
 
 ### 小説本線
 
@@ -163,8 +179,8 @@ Pages有効化は現在の本線ではなく、人間判断で後回し。
 ## リポジトリ衛生の保留事項
 
 - Codex / Cursor等の外部GitHub Appのrepo別自動反応設定
-- merge済み `bootstrap/repository-design` branchの削除
-- 不要な旧work branchの整理
+- `work/first-hopfield-replication` の監査・整理
+- `work/pages-bootstrap-final` のPages v2受理後の削除
 - Public / Privateの最終方針
 - main branch protection
 - GitHub Pages設定
@@ -173,6 +189,6 @@ Pages有効化は現在の本線ではなく、人間判断で後回し。
 
 ## 現在のwork branch
 
-`work/session-memory-sync`
+`work/pages-v2`
 
-このbranchはセッション横断メモリ同期の候補状態。`main` へはまだ反映していない。
+このbranchはPages v2の候補状態。`main` へはまだ反映していない。
