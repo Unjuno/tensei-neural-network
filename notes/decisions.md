@@ -217,12 +217,12 @@ PR #1で `chatgpt-codex-connector[bot]` と `cursor[bot]` がPRイベントに�
 
 ## D-016 Pagesは連載小説の読書導線を最優先する
 
-状態: PROPOSED
+状態: ACTIVE
 
 ### 判断
 GitHub Pagesの公開サイトは、研究紹介サイトではなく**連載小説を読むサイト**として設計する。
 
-候補構造を次とする。
+基本構造を次とする。
 
 - トップページの最上位CTAを「小説を読む」にする
 - `docs/novel/index.html` を目次とする
@@ -244,4 +244,4 @@ GitHub Pagesの公開サイトは、研究紹介サイトではなく**連載小
 ### 理由
 D-014の「小説を主目的とする」を公開サイトの情報設計にも反映するため。作品紹介や研究説明が先に来る構成より、読者が最短で第1話へ入り、そのまま次話へ進める構成を優先する。
 
-`PROPOSED` のまま `work/novel-reader-site` で人間レビューし、mainへ受理された時点で `ACTIVE` に更新する。
+2026-08-19に `work/novel-reader-site` を人間レビューし、受理されたため `ACTIVE` とした。
