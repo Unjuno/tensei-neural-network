@@ -59,6 +59,25 @@ P_i(t+1)   = UpdatePersona(P_i(t), Observed_i(E_k))
 6. 世界側で成立した事実でも、自動的に長期Canonへ昇格させない。重要な事実は人間レビュー後に `canon.md` へ反映する。
 7. 作者またはAIが初期条件を変更する場合、それを人物の自発的行動と偽装しない。
 8. eventで世界が変化しても、その事実を観測していないペルソナのKnowledgeへ自動反映しない。
+9. 結果へ影響する具体条件をresolverが自由に選べる場合、望ましい結果を知った後で条件を選び直さない。
+10. 生成者がpersonaには見えない作者側研究結果を既に知っており、その知識が具体条件選択へ効き得る場合は、結果を見る前に条件または選択規則をlockする。
+11. cleanな生成方式検証では、重要なoutcomeを解決する前に `events/README.md` の `ACTION_LOCKED` 手順で行動・条件・stopping / inclusion ruleをcommitする。
+12. lockedした条件で平凡・失敗・不都合な結果が出ても、その結果を採用し、別条件の結果へ差し替えない。
+
+## Resolverの知識とpersonaの知識を分ける
+
+人物への未来知識漏洩を防いでも、resolver自身が作者側研究結果を知っていることでselection biasが生じる場合がある。
+
+したがって次を分離する。
+
+- **Persona boundary**: 人物が何を知っているか
+- **Resolution provenance**: 生成者・resolverが結果へ影響する条件をどのように選んだか
+
+同じAI/sessionが現代側EXP結果を読んでいる状態で、過去人物の具体pattern、seed、update order、trial選択等を決める場合、その選択が結果へ効くなら、story-visibleな情報だけから導出できるdeterministic ruleを先に固定するか、結果知識を与えない別contextで選択してからresolverへ渡す。
+
+解決前lockがない場合、event自体を削除する必要はないが、生成方式の検証では `UNBLINDED` として扱う。
+
+詳細は `events/README.md` と `../notes/generation-validation.md` を参照する。
 
 ## 観測境界
 
