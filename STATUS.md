@@ -7,10 +7,10 @@
 ## フェーズ
 
 - プロジェクト段階: 小説・研究・Pagesの基本骨格と、ペルソナ駆動・世界状態・時系列eventの創発生成方式は `main` に受理済み
-- 物語段階: `起 / 起`。本文0話。物語開始状態をBootstrapから同期生成する層を `work/story-bootstrap` で整備中
+- 物語段階: `起 / 起`。本文0話。導入背景から1980年代側を同期初期化する候補状態まで到達
 - 学習段階: CATCH_UP
-- 研究段階: Hopfield 1982のReplication + Extension完了。以後は物語で必要になった箇所から前史調査・追加実験へ戻る
-- 公開段階: GitHub Pagesは `main /docs` から公開中。連載読書導線へ再設計済み
+- 研究段階: Hopfield 1982のReplication + Extension完了。Hopfield以前の哲学・思想・技術史背景を `research/pre-hopfield-background.md` で調査中
+- 公開段階: GitHub Pagesは `main /docs` から公開中。今回の導入原型はPages本文へ公開していない
 
 ## 主目的
 
@@ -36,13 +36,33 @@ D-017は `ACTIVE`。
 
 未来の完成プロットを各ペルソナへ配らない。各人物はその時点で知り得る局所状態から行動し、世界側が結果を解決する。
 
-## 現在のBootstrap候補
+## Bootstrap候補
 
 D-018は `PROPOSED`。
 
-`novel/bootstrap/` を、世界とペルソナ群を同じ背景から同期初期化・再初期化する層として追加している。
+Bootstrapは、物語として読めるOpening / Background frameを含み得る同期初期化層として運用候補になっている。
 
-現在の候補同期点:
+BOOT IDは作成順の識別子であり、story time / narrative orderではない。
+
+### 1980年代側
+
+```text
+BOOT-002 @ T0-1980S @ none
+```
+
+- `BOOT-002`: `novel/bootstrap/BOOT-002-1980s-opening.md`
+- Narrative role: 物語最初の実働開始点候補
+- Target story time: `T0-1980S`
+- 時代: 1984〜1985年前後を中心候補
+- World: `novel/state/world.md` の `T0-1980S`
+- Persona: `novel/state/personas/PER-005.md`
+- 最初の1980年代event: 未発生
+
+BOOT-002のOpening frameには、記憶・想起・自己同一性をめぐる古い問いから、20世紀のnetwork・feedback・安定状態、1980年代初頭のcollective dynamicsへ接続する導入原型を置いた。
+
+これは哲学史と技術史を一本の直接系譜だと断定するものではなく、作品上の共鳴と実際の技術継承を分離する。
+
+### 現代側
 
 ```text
 BOOT-001 @ T0-MODERN @ none
@@ -50,40 +70,34 @@ BOOT-001 @ T0-MODERN @ none
 
 - `BOOT-001`: `novel/bootstrap/BOOT-001-modern-opening.md`
 - Target story time: `T0-MODERN`
-- Parent event head: `none`
-- `EVT-001`: まだ未発生
+- World: `novel/state/world.md` の `T0-MODERN`
+- Personas: PER-001〜004
 
-BOOT本文は全ペルソナへ共有しない。各人物の時代・立場・観測境界に応じて別々にprojectionする。
+現代側は後の時代同期点として保持する。1980年代側のPER-005状態を混ぜない。
 
-## BOOT-001から生成した初期状態
+## PER-005 初期化状態
 
-### World
+`novel/state/personas/PER-005.md`
 
-`novel/state/world.md`
+状態: `ACTIVE / PROVISIONAL`
 
-- 現代のモデル評価・調査環境
-- run / prompt / output / logを扱える
-- 必要になればcheckpoint差・対照条件を比較できる余地
-- 1980年代研究者に関係する不完全な資料群
-- 最初の異常・発見者・第1話終端は未確定
+PER-005は現在、次の初期条件を持つ。
 
-### Personas
+- 記憶を静的な保存だけでなくnetwork全体の状態・相互作用・安定性から捉える可能性を考える
+- 不完全な状態から安定状態へ移る現象に研究価値を見る
+- 「収束した」と「正しい原像へ戻った」を分けて考える
+- これを意識・人格・魂・転生と直ちに同一視しない
+- 第一目的は「記憶が戻るとはnetwork上で何が起きることか」を実験可能な形へ落とすこと
+- 現代AI、輪廻仮説、自分の将来を知らない
 
-同じ同期キーで次を生成済み。
-
-- `state/personas/PER-001.md` — active
-- `state/personas/PER-002.md` — standby
-- `state/personas/PER-003.md` — active
-- `state/personas/PER-004.md` — not-yet-instantiated
-
-PER-005は1980年代側のstory timeに属するため、BOOT-001では状態を初期化していない。1980年代場面を実際に動かす際は別Bootstrapを作る。
+氏名、所属、年齢、具体的な計算環境、読了済み一次文献はまだ固定していない。
 
 ## ペルソナ増加・増殖・再初期化
 
-- 新しい独立主体が必要になれば `PER-006` 以降を追加する
-- 背景に存在する全人物・組織を機械的にペルソナ化しない
+- 現時点では1980年代側の新規ペルソナを追加していない
+- 最初の相互作用に独立した観測・目的・判断が必要になった時点で `PER-006` 以降を追加する
 - 同じstateから複数主体が独立経験を持ち始めた場合は別`PER-xxx`へforkする
-- 再初期化時は `BOOT + story time + parent event head + state` から再構成し、設定の寄せ集めで作り直さない
+- 再初期化時は `BOOT + story time + parent event head + state` から再構成する
 - 再初期化は物語eventではなく、過去stateを上書きしない
 
 ## 最新研究ID
@@ -103,7 +117,18 @@ L-002:
 
 **「安定して収束した」ことは「意図した原像へ正しく戻った」ことを保証しない。**
 
-Hopfieldは最初の研究・追試入口だが、第1話の冒頭をHopfield説明から始めるとは決めない。Hopfield以前の技術史も、PER-005や物語上の必要性が生じた時点で調査する。
+## 背景調査
+
+`research/pre-hopfield-background.md` を作業台帳とする。
+
+現在の調査軸:
+
+- 哲学的・概念的背景: 記憶、想起、personal identity
+- 神経・情報処理の形式化: McCulloch–Pitts、Hebb、Wiener、Ashby等
+- network上の学習・連想記憶: Rosenblatt、Anderson、Amari、Kohonen等
+- persistent state / statistical physics: LittleからHopfieldへ
+
+直接系譜と物語上の思想的共鳴を混同しない。
 
 ## 長期探索仮説
 
@@ -122,36 +147,29 @@ Hopfieldは最初の研究・追試入口だが、第1話の冒頭をHopfield説
 
 公開元: `main /docs`
 
-- `docs/index.html` — 作品トップ
-- `docs/novel/index.html` — 小説目次
-- `docs/novel/reader.css` — 本文用CSS
-- `docs/research/index.html` — 制作の裏側
-
 現在、`novel/chapters/001.md` と `docs/novel/001.html` はまだ存在しない。本文0話。
+
+今回のOpening frameはBootstrap内部の制作原型であり、Pages本文へ同期していない。
 
 ## 次に行うこと
 
-### このbranchのレビュー後
+### 最優先
 
-1. `work/story-bootstrap` を人間レビューし、受理された場合 `main` へfast-forward
-2. BOOT-001の`Unresolved slots`から、最初の相互作用に本当に必要な項目だけ具体化する
-3. 特に「最初にPER-001 / PER-004へ与えられる具体task」を決めるか、背景から自然に導出する
-4. 必要ならBOOT-001を更新し、world / persona stateを同じ同期キーで再生成する
-5. 同期が成立した状態で最初の相互作用を実行する
-6. 重要な状態変化が成立した場合のみ `EVT-001` として記録する
-7. event群が読書単位を形成した段階で `novel/chapters/001.md` を書く
+1. PER-005が `T0-1980S` で実際に知っている一次文献・用語の範囲を必要最小限調査する
+2. 1984〜1985の研究環境で最初の実験を実行可能にするため、計算機・研究室条件を必要範囲だけ具体化する
+3. その結果からPER-005の最初の研究行動を生成する
+4. 他者との独立相互作用が必要なら、その時点で `PER-006` を追加・初期化する
+5. 意味のある状態変化が成立した場合のみ、1980年代側の最初の `EVT-xxx` を記録する
+6. event群が読書単位を形成した段階で第1話本文へ投影する
 
-### 1980年代側
+### branch review
 
-PER-005の具体化や1980年代sceneが必要になった時点で、Hopfield以前を含む実在研究者・一次資料を必要範囲だけ調査し、1980年代用Bootstrapを作る。
+`work/story-bootstrap` はまだ `main` に未反映。D-018は人間受理・main反映までは `PROPOSED` のままとする。
 
 ## リポジトリ衛生の保留事項
 
 - `work/first-hopfield-replication` の監査・整理
-- `work/pages-bootstrap-final` の削除
-- `work/pages-v2` の削除
-- `work/novel-reader-site` の削除
-- `work/public-copy-cleanup` の削除
+- obsoleteな旧Pages/work branchの整理
 - `work/persona-environment-fractal-policy` の削除
 - Public / Privateの最終方針
 - main branch protection
@@ -160,4 +178,4 @@ PER-005の具体化や1980年代sceneが必要になった時点で、Hopfield�
 
 `work/story-bootstrap`
 
-Bootstrap同期層、BOOT-001、現代側初期world/persona stateを整備する候補branch。`main` にはまだ反映していない。
+Bootstrap同期層、1980年代導入原型、BOOT-002、PER-005と1980年代worldの初期状態を整備中。`main` にはまだ反映していない。
