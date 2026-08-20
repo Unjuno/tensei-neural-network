@@ -187,6 +187,50 @@ EVT-003から新しい現実研究EXPは自動生成していない。
 
 ---
 
+## T0-1980S + first paper calculation after EVT-003 / EVT-004
+
+状態: `PROVISIONAL`
+
+- Previous event head: `EVT-003`
+- Event head: `EVT-004`
+- Source event: `../events/EVT-004-same-cue-two-returns.md`
+
+### 変更前
+
+- A/Bへ同じbit差数を持つcueの構成手順と、観測項目の分離は成立済み
+- まだ物語世界内の具体的なnetwork計算は成立していない
+- 計算機、programming language、大規模simulation条件は未確定
+
+### 客観的に成立した出来事
+
+PER-005 / PER-006は、6 unit・3 stored patternsの小規模networkを紙上で構成した。
+
+A/Bへ2 bitずつ離れた同一cueを用い、同一weights・同一の非同期更新規則で、更新順だけを変えた二つの計算を追った。
+
+その結果、一方のupdate orderではAへ、別のupdate orderではBへ到達し、どちらもstable stateであることを確認した。
+
+### 変更後
+
+- 物語世界内で最初の具体的network計算が成立した
+- 同一cue・同一weightsでもupdate orderだけの差で異なるstored patternへ到達する6-unitの具体例が共同メモに残った
+- 「等距離」と「dynamics上の中立」の区別が、注意書きから観測済みの問題へ変わった
+- final stateだけから一意の`correct recall`を置く方針は、この例に対して維持できなくなった
+- ただし、この一例をmemory一般、生物学的記憶、頻度一般へ拡張していない
+- 計算機実装、大規模simulation、頻度推定はまだ未成立
+
+### 同期しているペルソナ状態
+
+EVT-004時点で1980年代側active:
+
+- `personas/PER-005.md`
+- `personas/PER-006.md`
+
+### 重要な境界
+
+PER-005 / PER-006が観測したのは6-unitの紙上例だけであり、現代側EXP-004の122/200、4000 runs、seed等の結果は知らない。
+
+---
+
 ## T0-MODERN / BOOT-001
 
 状態: `PROVISIONAL`
