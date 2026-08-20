@@ -55,7 +55,7 @@ GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物で�
 10. `novel/characters.md`
 11. `novel/structure.md`
 12. `notes/working-context.md`
-13. 関連する章
+13. 関連する章と `novel/chapters/README.md`
 14. 必要な研究・実験・参考文献
 
 物語の客観的事実について `canon.md` と他の物語ファイルが食い違う場合は `canon.md` を優先します。
@@ -117,6 +117,25 @@ BootstrapはeventでもCanonでもありません。Canonに従い、その時�
 
 新しい人物が物語へ入った場合は新しい `PER-xxx` を追加します。既存キャスト数を固定しません。
 
+### 結果へ影響する自由度がある場合のACTION_LOCKED
+
+生成者・resolverがpersonaには見えない作者側研究結果を既に知っており、具体pattern、seed、update order、trial選択等の自由度でoutcomeを寄せられる場合、上の手順7の前に `novel/events/README.md` の二段階手順を使います。
+
+1. personaのstory-visibleなKnowledge / Beliefs / Goals / 状況だけから行動を生成する
+2. outcome-sensitiveな具体条件、または条件を選ぶdeterministic ruleを固定する
+3. trial集合、update rule、stopping / inclusion ruleを固定する
+4. resolverが使ってよい情報と、action selectionへ使ってはいけない作者側情報を記録する
+5. eventを `ACTION_LOCKED` として**outcomeを書く前にcommitする**
+6. commit後にresolverが結果を解決する
+7. locked条件を結果を見て変更しない
+8. 平凡・失敗・不都合な結果もそのまま採用する
+
+同じAI/sessionが作者側研究結果を読んでいる場合、具体条件を自由選択してclean validationと主張しません。story-visibleな情報だけから導出する固定ruleを使うか、結果知識を与えない別contextで条件を選びます。
+
+解決前lockがないeventは物語として保持できますが、resolver独立性の検証では `UNBLINDED` として扱います。
+
+詳細: `novel/environment.md`, `novel/events/README.md`, `notes/generation-validation.md`
+
 禁止事項:
 
 - 「次に転が必要だから」という理由で人物に不自然な行動をさせる
@@ -128,10 +147,23 @@ BootstrapはeventでもCanonでもありません。Canonに従い、その時�
 - ナレーターが予定した結論に合わせて、環境側の因果結果を書き換える
 - 実験予定やEXP番号に合わせて人物の発言・行動を生成する
 - 小説本文をQ / H / EXP / PASS / FAILの研究レポート形式へ変換する
+- 既知の研究結果と同じ現象を出すために、結果解決前にlockしていない具体条件を選び、そのeventをcleanな創発生成の証拠とする
 
 起承転結は原因ではなく、成立した状態遷移を認識・整理するための再帰構造です。
 
 story time上の因果順と、本文で読者へ見せる章・scene順を混同しません。
+
+### 本文へNarrativeProjectionする場合
+
+本文は成立済みevent / stateの読者向け表現です。
+
+状態を変えない一時的な動作・描写は補ってよい一方、未確定の恒常属性を本文だけで確定しません。
+
+特に氏名、年齢、性別・性別代名詞、国籍、所属・職位、家族関係、具体地域、後続因果へ効く技術環境がstate/eventで未確定なら、本文でも未確定のまま書きます。
+
+本文とevent/stateが矛盾した場合は、本文の都合で過去stateを後付け変更せず、まず本文を修正します。
+
+詳細: `novel/chapters/README.md`
 
 ## 研究作業
 
