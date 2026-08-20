@@ -101,8 +101,37 @@ EXP-003でEXP-002の960 trialsを決定論的に再生成し、`NONSTORED_CONVER
 - F-003
 - EVT-001
 
+## Q-004 等距離の曖昧cueは更新順だけで異なる記憶へ解決され得るか
+
+状態: OPEN
+
+### 由来
+
+`novel/events/EVT-002-who-defines-correct-recall.md` で、PER-006がPER-005へ、
+
+> 手掛かりだけを見たときに二つの記憶が同じくらいもっともらしかったら、networkはどちらを「正解」だと知る？
+
+と問い返したことから、現実側で検証可能な問題として切り出す。
+
+### 問い
+
+低負荷の二値Hopfield networkで、二つのstored patterns A/BからHamming distanceが等しい同一cueを固定したとき、非同期更新順だけを変える複数runの中で、同じcueがAにもBにもexact recallする例は存在するか。
+
+この問いは「人間の曖昧な記憶も同じ仕組みで決まる」とは主張しない。Hopfield dynamicsの有限条件で、targetをcueだけから一意に決められない具体例があるかを問う。
+
+### 現時点の回答
+
+未実行。EXP-004で検証する。
+
+### 関連
+- Q-001
+- H-004
+- EXP-004
+- EVT-002
+
 ## 現在
 
 - Q-001: `ANSWERED`
 - Q-002: `ANSWERED`
 - Q-003: `ANSWERED` — EXP-002の有限trial群で3-pattern mixture exact matchを1件確認
+- Q-004: `OPEN` — 等距離cueの更新順依存を検証する
