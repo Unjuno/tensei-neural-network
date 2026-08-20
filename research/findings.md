@@ -91,9 +91,67 @@ EXP-002は複数seedを含むExtensionだが、同一コード・同一実験系
 - L-002
 - 小説章: 未定
 
+---
+
+## F-003 EXP-002の非保存収束状態に3-pattern majority mixtureのexact matchを確認
+
+状態: PROVISIONAL
+
+### 現在言えること
+
+EXP-003ではEXP-002の960 trialsを同じ決定論的条件で再生成し、`NONSTORED_CONVERGED` 510件を再確認した。
+
+その510件について、各条件のstored patternsから作れる3-pattern majority mixture
+
+`m = sign(ξ^a + ξ^b + ξ^c)`
+
+とその反転を列挙したところ、**1件がexact match**した。
+
+該当trial:
+
+- pattern seed: 1983
+- P=5
+- noise=0.40
+- trial index=2
+- nearest stored Hamming distance=21
+- nearest 3-pattern mixture Hamming distance=0
+
+したがって、今回の有限trial群では、F-002の「保存patternと一致しない収束状態」の内部に、stored patternsの単純な3-way mixtureそのものとして表せる例が少なくとも一つ含まれていた。
+
+### 探索的観測
+
+510件中363件（約71.2%）では、nearest stored patternよりnearest 3-pattern mixtureの方がHamming distanceが小さかった。
+
+これは事前判定条件ではなく、mixture attractorとしての同定でもない。近さだけから生成機構を断定しない。
+
+### 根拠
+- EXP-003 — 事前判定PASS
+- `experiments/EXP-003-hopfield-mixture-structure/results/summary.json`
+- `research/reports/EXP-003.md`
+
+### 言えないこと
+- 510件の大半が理論上の3-pattern mixture attractorであること
+- 3-pattern mixtureで全ての非保存収束状態を説明できること
+- 5-pattern以上のmixtureや他種のspurious minimaの寄与
+- 別N、別seed、別実装でも同じ割合になること
+- 人間の記憶、人格、LLMの誤再構成が同じ機構であること
+
+### 状態判断
+
+EXP-003はEXP-002と同一trial系列の決定論的再解析であり独立再現ではないため、`PROVISIONAL` とする。
+
+### 関連
+- Q-003
+- H-003
+- EXP-002
+- EXP-003
+- F-002
+- EVT-001
+
 ## 現在
 
 - F-001: PROVISIONAL — 低負荷での回復
 - F-002: PROVISIONAL — 条件悪化による回復崩壊と非保存収束状態
+- F-003: PROVISIONAL — 非保存収束状態に3-pattern majority mixture exact matchを1件確認
 
-次はF-002の「非保存の収束状態」が保存パターンの組合せ・反転・その他の安定状態のどれに近いかを調べる価値がある。
+次の研究候補は、より高次のodd mixture、energy比較、update-order依存、独立実装・別seedでの再確認。ただし物語上の必要性または独立した研究価値が生じたものから選ぶ。
