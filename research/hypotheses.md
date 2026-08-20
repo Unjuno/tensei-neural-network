@@ -109,8 +109,61 @@ N=100の同じ実装で保存負荷とnoiseを広げると、低負荷・低nois
 - F-002
 - L-002
 
+---
+
+## H-003 EXP-002の非保存収束状態には単純3-pattern mixtureが少なくとも一つ含まれる
+
+状態: TESTING
+
+### H
+EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち、少なくとも1件は、その条件で保存されている3 patternsのbit-wise majority mixture
+
+`m = sign(ξ^a + ξ^b + ξ^c)`
+
+またはその全bit反転 `-m` と完全一致する。
+
+この仮説は「非保存収束状態の大半がmixture stateである」とは主張しない。単純な3-pattern mixtureが実際の失敗先として少なくとも一つ現れるかだけを最小に問う。
+
+### T
+- EXP-003
+- Parent experiment: EXP-002
+- EXP-002と同じ決定論的pattern / trial生成を再実行する
+- `NONSTORED_CONVERGED` の最終stateを保持する
+- 各trialのstored patternsから全ての3-combinationを列挙する
+- 各3-combinationについてbit-wise majority mixture `m` と `-m` を生成する
+- 最終stateとのexact matchを数える
+- PASS: 有効な `NONSTORED_CONVERGED` 510件が再生成され、そのうちexact mixture matchが1件以上
+- FAIL: 510件が有効に再生成されたがexact mixture matchが0件
+- UNCERTAIN: EXP-002の再生成条件・分類・trial数が一致せず有効判定できない
+
+### D
+未実行。
+
+### C
+- 3-pattern majority mixture以外の高次mixture
+- stored patternの部分変形や局所minimum
+- finite-size effect
+- update order依存の安定状態
+- mixtureと関係しない別種のspurious state
+
+### U
+- EXP-002と同一コード系列からの再解析であり独立再現ではない
+- N=100、特定seed群、特定noise操作に限定
+- exact matchのみでは「近いが一致しないmixture-like state」を拾わない
+- 3-pattern mixtureだけを対象とし、5-pattern以上のodd mixtureは今回の判定対象外
+
+### 由来
+- EVT-001 — PER-005の「保存していないところで止まるなら、その状態は何からできている？」
+
+### 関連
+- Q-003
+- EXP-002
+- EXP-003
+- F-002
+- EVT-001
+
 ## 現在
 
 - H-001: `SUPPORTED`（EXP-001の宣言条件に限定）
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
-- 次の仮説候補: 保存パターンと一致しない収束状態の構造を分類する
+- H-003: `TESTING` — 単純3-pattern mixtureのexact matchを検証中
