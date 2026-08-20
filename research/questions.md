@@ -53,7 +53,7 @@ EXP-002の3 pattern seeds、960 trialsでは、今回の有限grid内に高回�
 
 ## Q-003 EXP-002の非保存収束状態に単純な3-pattern mixtureは含まれるか
 
-状態: OPEN
+状態: ANSWERED
 
 ### 由来
 
@@ -63,7 +63,7 @@ EXP-002の3 pattern seeds、960 trialsでは、今回の有限grid内に高回�
 
 という物語上の問いから、現実側で検証可能な最小問題として切り出した。
 
-小説の展開をこの問いへ合わせるのではなく、研究側で独立に検証する。
+小説の展開をこの問いへ合わせるのではなく、研究側で独立に検証した。
 
 ### 問い
 
@@ -77,17 +77,32 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態の中に、同�
 
 ### 現時点の回答
 
-未実行。EXP-003で検証する。
+EXP-003でEXP-002の960 trialsを決定論的に再生成し、`NONSTORED_CONVERGED` 510件を再確認した。
+
+この510件のうち **1件** が、対応条件の3-pattern majority mixtureとexact matchした。
+
+該当条件:
+
+- pattern seed: 1983
+- P=5
+- noise=0.40
+- trial index=2
+- mixture pattern index（0-based）=[1, 2, 4]
+
+したがって、今回の有限trial群では「単純な3-pattern mixtureが少なくとも一つ含まれる」に対する答えは **yes**。
+
+ただし510件の大半を3-pattern mixtureと同定したわけではない。探索的には363/510件でnearest stored patternよりnearest 3-pattern mixtureの方が近かったが、これは生成機構の同定ではない。
 
 ### 関連
 - Q-002
 - H-003
 - EXP-002
 - EXP-003
+- F-003
 - EVT-001
 
 ## 現在
 
 - Q-001: `ANSWERED`
 - Q-002: `ANSWERED`
-- Q-003: `OPEN` — 非保存収束状態と単純3-pattern mixtureの一致を検証する
+- Q-003: `ANSWERED` — EXP-002の有限trial群で3-pattern mixture exact matchを1件確認
