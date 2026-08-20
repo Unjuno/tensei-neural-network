@@ -47,7 +47,7 @@ T0-1980S
   Bootstrap: BOOT-002
   Parent event head: none
   World: state/world.md
-  Personas: PER-005
+  Initial personas: PER-005
 
 T0-MODERN
   Bootstrap: BOOT-001
@@ -63,14 +63,19 @@ T0-MODERN
 
 ### Current event heads
 
-- 1980年代側: `EVT-001`
+- 1980年代側: `EVT-002`
 - 現代側: none
+
+EVT-002時点の1980年代active personas:
+
+- PER-005
+- PER-006
 
 ### Story time と narrative order
 
 物語世界で実際に起きた時刻・因果順と、小説本文で読者へ提示する順番を分離します。
 
-現時点では、**哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き始める**ことをnarrative entry候補とする。ただし、第1話のscene境界や終了点までは固定しない。
+現時点では、**哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き、PER-006との相互作用へ進む**ことをnarrative entry候補とする。ただし、第1話のscene境界や終了点までは固定しない。
 
 将来、現代場面の後に1980年代を回想する等の構成へ変更しても、story time上の状態位置は変えない。
 
@@ -102,9 +107,26 @@ PER-005は当時利用可能なcontent-addressable memoryとspurious memoryを�
 
 という問いを残した。
 
-このeventではまだ具体的な実験結果や共同研究者との相互作用は成立していない。
-
 研究側ではこの問いからQ-003 / H-003 / EXP-003が独立に派生したが、その現代的な解析結果をPER-005が知ったことにはしない。
+
+#### EVT-002 — 正しい想起は誰が決める
+
+Story time: `T0-1980S + second research interaction`
+
+PER-005がEVT-001の問題を、実験神経科学・観測基準の側から考えるPER-006へ共有した。
+
+PER-006は、実験者がtargetを知っていることと、曖昧なcueに対してnetwork自身に一意な「正解」があることは別ではないかと問い返した。
+
+PER-005はノートへ、
+
+- 「原像を知っているのは誰だ」
+- 「手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか」
+
+という問いを追記した。
+
+このeventでPER-006が初めて独立ペルソナとして成立した。
+
+研究側ではこの問いからQ-004 / H-004 / EXP-004が独立に派生し、等距離cueのupdate-order依存を検証した。ただし、その結果をPER-005 / PER-006が知ったことにはしない。
 
 ### 現代
 
@@ -125,7 +147,7 @@ Hopfieldを「連想記憶を最初に考えた人物」とは扱わない。前
 
 また、**第1話をHopfield論文の解説から始めるのではなく、記憶・再構成という古い問いが1980年代に実験可能な形へ近づく導入から入る。**
 
-この項目は現実技術史の索引であり、詳細な科学的主張の正本は `references/bibliography.md`、`research/findings.md`、`experiments/EXP-001-hopfield-associative-memory/` を参照する。
+この項目は現実技術史の索引であり、詳細な科学的主張の正本は `references/bibliography.md`、`research/findings.md`、`experiments/` を参照する。
 
 主人公研究者がHopfield本人またはHopfield論文そのものに直接関与する設定は、現時点ではCanonではない。
 
