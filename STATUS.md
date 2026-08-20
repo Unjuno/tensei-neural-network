@@ -7,10 +7,10 @@
 ## フェーズ
 
 - 主目的: 小説
-- 物語段階: `起 / 起`
+- 物語段階: `起 / 承`
 - 本文: 0話。まだ公開本文は作っていない
 - 学習段階: CATCH_UP
-- 研究段階: Hopfield系EXP-001〜003まで実施
+- 研究段階: Hopfield系EXP-001〜004まで実施
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / research reportは未公開
 
 ## branch
@@ -29,28 +29,42 @@
 
 現在のevent head:
 
-`EVT-001`
+`EVT-002`
+
+現在active:
+
+- PER-005 — 1980年代研究者
+- PER-006 — 実験神経科学寄りの同僚
 
 ### EVT-001
 
 `novel/events/EVT-001-stopping-is-not-returning.md`
 
-PER-005が当時の連想記憶・spurious memoryをめぐる問題設定を比較し、研究ノートに次の問いを残した。
+PER-005が、
 
 - 「止まることと、戻ることは同じか」
 - 「保存していないところで止まるなら、その状態は何からできている？」
 
-これは最初の意味のある物語状態差分。
+という問いを研究ノートへ残した。
 
-まだ具体的な実験条件、実験結果、共同研究者との相互作用は物語世界で成立していない。
+### EVT-002
 
-PER-005の更新状態:
+`novel/events/EVT-002-who-defines-correct-recall.md`
 
-`novel/state/personas/PER-005.md`
+PER-005がEVT-001の問題をPER-006へ共有。
 
-世界状態:
+PER-006は、実験者がtargetを知っていることと、network自身に一意な`correct`があることは別ではないかと問い返した。
 
-`novel/state/world.md`
+PER-005は、
+
+- 「原像を知っているのは誰だ」
+- 「手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか」
+
+という問いを追加した。
+
+このeventでPER-006を、必要になった時点から独立ペルソナとして生成した。
+
+物語世界内では、balanced cueの具体実験やEXP-004の数値結果はまだ観測されていない。
 
 ## 小説と研究の分離
 
@@ -78,39 +92,51 @@ Q / H / EXP
 
 一話 = 一実験とはしない。
 
-## 物語由来の最初の研究分岐
+研究結果は、物語内人物がその時代・環境で実際に観測した場合だけ、その人物状態へ戻す。
 
-EVT-001の「その状態は何からできている？」からQ-003 / H-003 / EXP-003を現実研究側へ切り出した。
+## 物語由来の研究分岐
 
-### EXP-003
+### EVT-001 → EXP-003
 
-`experiments/EXP-003-hopfield-mixture-structure/`
+問い:
 
-状態: COMPLETED
+「保存していないところで止まるなら、その状態は何からできている？」
 
-判定: PASS
+`EXP-003-hopfield-mixture-structure`
 
-EXP-002の960 trialsを再生成し、`NONSTORED_CONVERGED` 510件を再確認。
+- 判定: PASS
+- EXP-002の`NONSTORED_CONVERGED` 510件を再解析
+- 3-pattern majority mixture exact match: 1件
+- F-003: PROVISIONAL
 
-事前判定対象:
+探索的な363/510 near-mixtureは生成機構の同定とは扱わない。
 
-- 3-pattern majority mixture exact match: **1件**
+### EVT-002 → EXP-004
 
-探索的観測:
+問い:
 
-- 363 / 510件（約71.2%）でnearest stored patternよりnearest 3-pattern mixtureの方が近かった
+「二つの記憶が同じくらいもっともらしいcueなら、どちらが正解なのか」
 
-この71.2%は事前PASS条件ではなく、mixture attractorとしての同定でもない。
+`EXP-004-hopfield-ambiguous-cue`
+
+- 判定: PASS
+- N=100, P=5
+- pattern seeds: 1982 / 1983 / 1984
+- 有効pair: 20
+- balanced cue: 200
+- update-order runs: 4000
+- A/B等距離違反: 0
+- 同じcueからA/B両方へexact recallしたBIDIRECTIONAL cue: 122 / 200
+- F-004: PROVISIONAL
+
+事前PASS条件はBIDIRECTIONALが1件以上存在すること。122/200は探索的集計であり一般的頻度とは扱わない。
 
 研究レポート:
 
-`research/reports/EXP-003.md`
+- `research/reports/EXP-003.md`
+- `research/reports/EXP-004.md`
 
-Finding:
-
-`F-003: PROVISIONAL`
-
-重要: EXP-003の結果は1980年代のPER-005へ直接与えていない。PER-005の物語内KnowledgeはEVT-001で本人が観測した範囲だけ。
+重要: EXP-003 / EXP-004の結果をPER-005 / PER-006へ直接与えていない。
 
 ## 最新研究ID
 
@@ -126,6 +152,10 @@ Finding:
 - H-003: SUPPORTED（EXP-002有限trial群に限定）
 - EXP-003: PASS
 - F-003: PROVISIONAL
+- Q-004: ANSWERED
+- H-004: SUPPORTED（EXP-004有限条件に限定）
+- EXP-004: PASS
+- F-004: PROVISIONAL
 
 ## 背景調査
 
@@ -136,26 +166,26 @@ Finding:
 
 ## 次に物語側で行うこと
 
-研究側の次候補を自動で実行しない。
+EXP-005を研究都合で自動生成しない。
 
-まずEVT-001後のPER-005を動かす。
+EVT-002後のPER-005 / PER-006を、その現在状態から再び動かす。
 
-候補となる行動はPER-005自身の現在状態から生成する。
+現在の局所問題:
 
-- 自分の問いを実行可能な操作へ落とそうとする
-- 文献上のspurious state / unlearningをさらに確認する
-- 計算を始めるため具体的な研究環境が必要になる
-- 他者の独立判断が必要になった場合のみPER-006以降を生成する
+- 曖昧なcueを物語世界内でどう定義するか
+- `correct recall`を誰の基準で判定するか
+- PER-006が要求する観測可能な基準と、PER-005のdynamics中心の見方をどう両立するか
 
-そこで実際に新しい言葉・観測・問題が生じた場合だけ、次の研究分岐を作る。
+次のeventで実際に新しい言葉・観測・制約が生じた場合だけ、次の研究分岐を作る。
 
 ## 未確定
 
-- PER-005の氏名・年齢
+- PER-005 / PER-006の氏名・年齢
 - 国・都市・所属機関
 - 具体年月日
 - 具体的な計算機・言語
-- 最初に相互作用する他者
+- 二人の正式な所属関係・上下関係
+- 物語世界内で最初に実行する具体的な計算・実験
 - 第1話の終了点
 - 現代側最初のevent
 
