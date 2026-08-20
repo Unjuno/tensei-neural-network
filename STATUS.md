@@ -11,6 +11,7 @@
 - 本文: 第1話ドラフト `novel/chapters/001.md` が成立
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜004まで実施
+- 生成方式検証: **PARTIAL PASS**。状態復元・情報境界・state同期・NarrativeProjectionは確認、resolver結果独立性は未確認
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフトは未公開
 
 ## branch
@@ -27,11 +28,11 @@
 
 `BOOT-002 @ T0-1980S @ none`
 
-現在のevent head:
+current event head:
 
 `EVT-004`
 
-現在active:
+active personas:
 
 - PER-005 — 1980年代研究者
 - PER-006 — 実験神経科学寄りの同僚
@@ -64,21 +65,13 @@ PER-005は、
 
 PER-005 / PER-006は、二つのstored patterns A/Bで異なるunitの半分ずつを使い、A/Bへ同じbit差数を持つcueを作るprotocol sketchを成立させた。
 
-同時に、
-
-- `等距離` と `dynamics上の中立` を同一視しない
-- cueからA/Bへの距離
-- final state
-- update条件
-- A/B以外へ停止したstate
-
-を分けて記録する方針を成立させた。
+同時に、`等距離` と `dynamics上の中立` を同一視せず、距離・final state・update条件・A/B以外のstateを分けて記録する方針を成立させた。
 
 ### EVT-004
 
-PER-005 / PER-006は、6 unit・3 stored patternsの紙上networkでEVT-003のprotocolを初めて具体計算へ適用した。
+PER-005 / PER-006は、6 unit・3 stored patternsの紙上networkでEVT-003のprotocolを具体計算へ適用した。
 
-A/Bへ2 bitずつ離れた同一cue、同一weights、同一の非同期更新規則を使い、update orderだけを変えたところ、
+同一cue・同一weights・同一の非同期更新規則でupdate orderだけを変え、
 
 - order α → A
 - order β → B
@@ -104,27 +97,61 @@ PER-005は、
 
 `EVT-001`〜`EVT-004`
 
-EVT-004で、EVT-001〜003まで蓄積した「correct recall」の前提が具体例によって維持できなくなり、新しい問いが次の初期条件として立ち上がったため、一つの読書単位として自然な切れ目が成立した。
+研究レポート形式ではなく、人物の問い・会話・protocol・紙上計算を小説へNarrativeProjectionした。
 
-第1話を成立させるためにEVT-004を起こしたのではない。EVT-003時点のPER-005のGoalsとPER-006の観測要求から、最小の紙上計算を行った結果としてEVT-004が成立した。
+未確定だったPER-005の性別を本文が勝手に固定しないよう、性別代名詞は除去済み。
+
+## 第1話生成テストの評価
+
+詳細:
+
+`notes/generation-validation.md`
+
+### 確認できたもの
+
+- repoからのstate recovery: PASS
+- stale indexから直接event/stateへの復元: PASS
+- persona情報境界: PASS
+- world / persona state同期: PASS
+- personaを必要時だけ追加: PASS
+- 小説 / 研究レポート分離: PASS
+- 一話=一実験の回避: PASS
+- event群から第1話へのNarrativeProjection: PASS
+- EVT-004の記載計算の数理的一貫性: PASS
+
+### 未確認のもの
+
+**environment resolverの結果独立性: INCONCLUSIVE**
+
+理由:
+
+EVT-004より前に作者側・生成側はEXP-004で同種のupdate-order依存を知っていたが、EVT-004のA/B/C、cue、order α/β、selection / stopping ruleは結果解決前にrepo上でlockされていない。
+
+したがって、人物への未来知識漏洩は防げていても、resolver側が反例の出る条件を選んだselection biasは排除できない。
+
+EVT-004は `Resolution provenance: UNBLINDED` とする。
+
+- 物語eventとしては保持
+- 数理的具体例としては保持
+- 第1話ドラフトの材料としては保持
+- cleanなresolver独立性の検証証拠には数えない
+
+## 次の生成方式テスト
+
+次の重要なoutcomeを解決するときは、`novel/events/README.md` の二段階手順を使う。
+
+1. personaの現在状態だけから次の行動を生成
+2. outcome-sensitiveな具体条件・選択規則・trial範囲・stopping ruleを `ACTION_LOCKED` としてeventへ記録
+3. **結果を書く前にcommit**
+4. locked条件をworld resolverへ渡して解決
+5. 平凡・失敗・不都合な結果も含め、そのままeventへ記録
+6. 結果を見て条件を差し替えない
+
+生成contextがpersonaには見えないEXP結果を既に知っている場合、具体条件はstory-visibleな情報だけからのdeterministic ruleで固定するか、結果知識を与えない別contextで選択する。
+
+成功条件は「面白い結果が出る」ではなく、**どの結果でもそのまま受け入れて次状態へ進めること**。
 
 ## 小説と研究の分離
-
-小説を実験レポート風にしない。
-
-運用:
-
-```text
-人物と世界が動く
-    ↓
-実際に出た言葉・観測・違和感
-    ↓
-検証可能なら研究側へ分岐
-    ↓
-Q / H / EXP
-    ↓
-research/reports/EXP-xxx.md
-```
 
 - 実験実行正本: `experiments/`
 - 研究レポート: `research/reports/`
@@ -134,44 +161,26 @@ research/reports/EXP-xxx.md
 
 一話 = 一実験とはしない。
 
-研究結果は、物語内人物がその時代・環境で実際に観測した場合だけ、その人物状態へ戻す。
+研究結果は、物語内人物がそのstory timeで実際に観測した場合だけ、その人物状態へ戻す。
 
 ## 物語由来の研究分岐
 
 ### EVT-001 → EXP-003
 
-問い:
-
-「保存していないところで止まるなら、その状態は何からできている？」
-
-`EXP-003-hopfield-mixture-structure`
-
 - 判定: PASS
-- EXP-002の`NONSTORED_CONVERGED` 510件を再解析
 - 3-pattern majority mixture exact match: 1件
 - F-003: PROVISIONAL
 
 ### EVT-002 → EXP-004
 
-問い:
-
-「二つの記憶が同じくらいもっともらしいcueなら、どちらが正解なのか」
-
-`EXP-004-hopfield-ambiguous-cue`
-
 - 判定: PASS
 - N=100, P=5
-- pattern seeds: 1982 / 1983 / 1984
-- 有効pair: 20
 - balanced cue: 200
 - update-order runs: 4000
-- A/B等距離違反: 0
-- 同じcueからA/B両方へexact recallしたBIDIRECTIONAL cue: 122 / 200
+- BIDIRECTIONAL cue: 122 / 200
 - F-004: PROVISIONAL
 
-EVT-003 / EVT-004から新しいQ / H / EXPは追加していない。
-
-EVT-004はQ-004と同種の論点に重なるが、物語人物が独立に得た6-unit紙上例であり、現代EXP-004の結果を未来知識として注入していない。
+EVT-003 / EVT-004から重複する新しいQ / H / EXPは追加していない。
 
 ## 最新研究ID
 
@@ -203,7 +212,7 @@ EVT-004はQ-004と同種の論点に重なるが、物語人物が独立に得�
 
 EXP-005を研究都合で自動生成しない。
 
-EVT-004後のPER-005 / PER-006を、その現在状態から再び動かす。
+EVT-004後のPER-005 / PER-006を現在状態から動かす。ただし、次の重要な結果解決は上記 `ACTION_LOCKED` 手順を必須とする。
 
 現在の局所問題:
 
@@ -211,13 +220,10 @@ EVT-004後のPER-005 / PER-006を、その現在状態から再び動かす。
 - `correct recall`をfinal state以外の何と結び付けるか
 - A/B以外のstable stateをどう分類するか
 - 紙上計算から計算機実装へ進む必要が実際に生じるか
-- その場合、1980年代の具体的計算環境をどこまで固定する必要があるか
-
-次のeventで実際に新しい言葉・観測・制約が生じた場合だけ、次の研究分岐を作る。
 
 ## 未確定
 
-- PER-005 / PER-006の氏名・年齢
+- PER-005 / PER-006の氏名・年齢・性別
 - 国・都市・所属機関
 - 具体年月日
 - 具体的な計算機・言語
