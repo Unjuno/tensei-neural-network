@@ -169,6 +169,41 @@ Memory:
 
 この6-unit例を現代側研究の追加データへ組み込むかは、別途研究上の必要が生じた場合に判断する。
 
+## Resolution provenance / 生成方式検証
+
+Provenance: `UNBLINDED`
+
+このeventの**数理的結果そのものは有効**である。2026-08-21のレビューで、記載されたA/B/C、Hebbian結合、cue、order α / βを再計算し、
+
+- order α → A
+- order β → B
+
+となり、A/Bがその後変化しないことを再確認した。
+
+ただし、このeventを生成した時点で作者側・生成側はすでにEXP-004から、同種のupdate-order依存が存在することを知っていた。
+
+EVT-004では、結果解決前にrepo上で次がlockされた記録がない。
+
+- A / B / Cの具体pattern
+- cueの具体値
+- order α / β
+- 候補例のselection rule
+- 試行範囲 / stopping / inclusion rule
+
+したがって、PER-005 / PER-006への未来知識漏洩は確認されない一方、**resolver側のselection biasは排除できない**。
+
+このためEVT-004は、
+
+- 物語event候補
+- 数理的具体例
+- 第1話ドラフトの材料
+
+としては保持するが、**「結果非依存のworld resolverから自然に反例が出た」ことを示すcleanな生成方式検証には数えない**。
+
+次の重要なoutcome解決では、`events/README.md` の `ACTION_LOCKED` → commit → resolveを使う。
+
+詳細: `../../notes/generation-validation.md`
+
 ## Canon candidate
 
 - PER-005 / PER-006が最初の具体計算として6-unitの紙上例を扱ったこと
@@ -181,6 +216,6 @@ Memory:
 
 EVT-004は、EVT-001〜003で蓄積した問いに対して最初の観測反例が出たため、現在の局所構造を `起 / 承 / 転` と整理できる。
 
-これは「第1話に転が必要だから」起こしたものではない。EVT-003で成立済みだったprotocolを、PER-005の局所目標に従って最小の紙上計算へ落とした結果、従来の「一つのcueには一つの正解を置ける」という暗黙前提が維持できなくなったためである。
+これは「第1話に転が必要だから」起こしたものではない。ただし生成方式の検証上は、EVT-004の具体pattern / update orderが結果解決前にlockされていないため、resolver独立性については `INCONCLUSIVE` とする。
 
 この地点では、次の大規模計算や結論はまだ成立していない。
