@@ -1,0 +1,54 @@
+{
+  "experiment_id": "EXP-004",
+  "status": "executed",
+  "decision": "PASS",
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "config": {
+    "N": 100,
+    "P": 5,
+    "pattern_seeds": [1982, 1983, 1984],
+    "cues_per_pair": 10,
+    "order_runs_per_cue": 20,
+    "max_sweeps": 20,
+    "update": "asynchronous shuffled order per sweep",
+    "weight_rule": "Hebbian outer-product, diagonal zero"
+  },
+  "valid_pair_count": 20,
+  "cue_count": 200,
+  "run_count": 4000,
+  "expected_run_count": 4000,
+  "distance_violations": 0,
+  "bidirectional_cue_count": 122,
+  "bidirectional_cue_rate": 0.61,
+  "category_counts": {
+    "A_EXACT": 632,
+    "B_EXACT": 630,
+    "OTHER_STORED": 1,
+    "NONSTORED_CONVERGED": 2737,
+    "NONCONVERGED": 0
+  },
+  "first_bidirectional_cue": {
+    "pattern_seed": 1982,
+    "a_idx": 0,
+    "b_idx": 1,
+    "pair_hamming": 54,
+    "cue_idx": 0,
+    "cue_hamming_to_a": 27,
+    "cue_hamming_to_b": 27,
+    "A_EXACT": 2,
+    "B_EXACT": 11,
+    "OTHER_STORED": 0,
+    "NONSTORED_CONVERGED": 7,
+    "NONCONVERGED": 0
+  },
+  "seed_summary": {
+    "1982": {"valid_pairs": 10, "cues": 100, "bidirectional": 63, "bidirectional_rate": 0.63, "A": 381, "B": 314, "OTHER": 1, "NONSTORED": 1304, "NONCONV": 0},
+    "1983": {"valid_pairs": 4, "cues": 40, "bidirectional": 24, "bidirectional_rate": 0.6, "A": 130, "B": 126, "OTHER": 0, "NONSTORED": 544, "NONCONV": 0},
+    "1984": {"valid_pairs": 6, "cues": 60, "bidirectional": 35, "bidirectional_rate": 0.5833333333333334, "A": 121, "B": 190, "OTHER": 0, "NONSTORED": 889, "NONCONV": 0}
+  },
+  "note": "Hamming-equidistant cues are not necessarily equidistant in energy or basin geometry. PASS is an existence claim for this finite setup only."
+}
