@@ -103,7 +103,7 @@ EXP-003でEXP-002の960 trialsを決定論的に再生成し、`NONSTORED_CONVER
 
 ## Q-004 等距離の曖昧cueは更新順だけで異なる記憶へ解決され得るか
 
-状態: OPEN
+状態: ANSWERED
 
 ### 由来
 
@@ -111,22 +111,30 @@ EXP-003でEXP-002の960 trialsを決定論的に再生成し、`NONSTORED_CONVER
 
 > 手掛かりだけを見たときに二つの記憶が同じくらいもっともらしかったら、networkはどちらを「正解」だと知る？
 
-と問い返したことから、現実側で検証可能な問題として切り出す。
+と問い返したことから、現実側で検証可能な問題として切り出した。
 
 ### 問い
 
 低負荷の二値Hopfield networkで、二つのstored patterns A/BからHamming distanceが等しい同一cueを固定したとき、非同期更新順だけを変える複数runの中で、同じcueがAにもBにもexact recallする例は存在するか。
 
-この問いは「人間の曖昧な記憶も同じ仕組みで決まる」とは主張しない。Hopfield dynamicsの有限条件で、targetをcueだけから一意に決められない具体例があるかを問う。
-
 ### 現時点の回答
 
-未実行。EXP-004で検証する。
+EXP-004ではN=100、P=5、pattern seeds 1982/1983/1984から、A/Bへ厳密にHamming等距離となるbalanced cueを200件生成し、各cueを20種類の非同期update orderで実行した。
+
+- 有効pair: 20
+- balanced cue: 200
+- runs: 4000
+- 距離条件違反: 0
+- 同一cueからA/B両方へexact recallした`BIDIRECTIONAL`: **122 / 200**
+
+したがって今回の有限条件では、答えは **yes**。
+
+ただしHamming等距離はenergy landscape上の等距離を意味せず、122/200を一般的な発生率として扱わない。また人間の曖昧な記憶へ直接一般化しない。
 
 ### 関連
-- Q-001
 - H-004
 - EXP-004
+- F-004
 - EVT-002
 
 ## 現在
@@ -134,4 +142,4 @@ EXP-003でEXP-002の960 trialsを決定論的に再生成し、`NONSTORED_CONVER
 - Q-001: `ANSWERED`
 - Q-002: `ANSWERED`
 - Q-003: `ANSWERED` — EXP-002の有限trial群で3-pattern mixture exact matchを1件確認
-- Q-004: `OPEN` — 等距離cueの更新順依存を検証する
+- Q-004: `ANSWERED` — 同一の等距離cueからupdate order差だけでA/B両方へのexact recallを確認
