@@ -148,10 +148,60 @@ EXP-003はEXP-002と同一trial系列の決定論的再解析であり独立再�
 - F-002
 - EVT-001
 
+---
+
+## F-004 等距離cueから更新順の違いだけで複数の候補記憶へexact recallする例を確認
+
+状態: PROVISIONAL
+
+### 現在言えること
+
+EXP-004のN=100、P=5、pattern seeds 1982/1983/1984では、二つのstored patterns A/BへHamming distanceが等しいbalanced cueを200件生成した。
+
+各cueについてweightsとinitial stateを固定し、非同期update orderだけを20通り変えたところ、**122 / 200 cues**でAへのexact recallとBへのexact recallの双方が同一cueから観測された。
+
+全4000 runs:
+
+- A_EXACT: 632
+- B_EXACT: 630
+- OTHER_STORED: 1
+- NONSTORED_CONVERGED: 2737
+- NONCONVERGED: 0
+
+最初のBIDIRECTIONAL例では、A/B間Hamming distance 54、cueからA/Bはいずれも27だった。同一cueの20 runsでAへ2回、Bへ11回、非保存stateへ7回収束した。
+
+したがって、今回の有限条件では、**cueだけを固定しても、そのcueから一意なstored targetへ必ず決まるわけではなく、非同期更新順の差だけで複数の候補記憶へexact recallする具体例がある**。
+
+### 根拠
+
+- EXP-004 — 事前判定PASS
+- `experiments/EXP-004-hopfield-ambiguous-cue/results/summary.json`
+- `experiments/EXP-004-hopfield-ambiguous-cue/results/cues.csv`
+- `research/reports/EXP-004.md`
+
+### 言えないこと
+
+- Hamming等距離がenergyやbasin境界上でも等距離であること
+- 122/200がHopfield network一般の分岐率であること
+- synchronous updateや他のN/Pでも同じになること
+- 人間の曖昧な記憶・選択・自己同一性が同じ機構であること
+
+### 状態判断
+
+単一実装・有限pattern setのExtensionであり、独立実装による再確認ではないため `PROVISIONAL` とする。
+
+### 関連
+
+- Q-004
+- H-004
+- EXP-004
+- EVT-002
+
 ## 現在
 
 - F-001: PROVISIONAL — 低負荷での回復
 - F-002: PROVISIONAL — 条件悪化による回復崩壊と非保存収束状態
 - F-003: PROVISIONAL — 非保存収束状態に3-pattern majority mixture exact matchを1件確認
+- F-004: PROVISIONAL — 等距離cueからupdate order差だけで複数候補へのexact recallを確認
 
-次の研究候補は、より高次のodd mixture、energy比較、update-order依存、独立実装・別seedでの再確認。ただし物語上の必要性または独立した研究価値が生じたものから選ぶ。
+次の研究候補は、energy/basin非対称性の定量化、別N/P・別実装での再確認、synchronous/asynchronous差など。ただし物語上の必要性または独立した研究価値が生じたものから選ぶ。
