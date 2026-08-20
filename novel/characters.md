@@ -48,13 +48,13 @@
 
 `personas/PER-005-1980s-researcher.md`
 
-1984〜1985年前後を中心候補とする研究者。記憶をnetworkのstate / dynamicsとして捉え、EVT-001で「止まること」と「戻ること」を区別し、EVT-002でtargetの一意性へ問題を広げた。
+1984〜1985年前後を中心候補とする研究者。記憶をnetworkのstate / dynamicsとして捉え、EVT-001で「止まること」と「戻ること」を区別し、EVT-002でtargetの一意性へ問題を広げた。EVT-003で等距離cueのprotocolをPER-006と作り、EVT-004では同一cueからupdate orderだけの違いでA/Bへ分かれる6-unit紙上例を観測した。
 
 ### PER-006 実験神経科学寄りの同僚
 
 `personas/PER-006-experimental-neuroscience-colleague.md`
 
-EVT-002で初めて独立主体として追加。model内部の`memory / correct recall`という語を、観測可能量・課題設定・target定義の側から問い返す。
+EVT-002で初めて独立主体として追加。model内部の`memory / correct recall`という語を、観測可能量・課題設定・target定義の側から問い返す。EVT-003では観測項目の分離を要求し、EVT-004では6-unit紙上例を共同で確認したが、それを生物学的memoryへ直接一般化していない。
 
 ## 関係の現在位置
 
@@ -64,7 +64,7 @@ EVT-002で初めて独立主体として追加。model内部の`memory / correct
 - PER-001 ↔ PER-003: モデル挙動と歴史資料を接続するため相互依存する
 - PER-002 ↔ PER-003: 歴史的な一致をどの程度証拠として扱うかで見解が分かれうる
 - PER-001 / 002 / 003 ↔ PER-004: 観測者と評価対象。質問・評価そのものがPER-004のcontextへ入り、対象を変化させうる
-- PER-005 ↔ PER-006: EVT-002で研究上の批判関係が成立。PER-006は「誰が正解を決めるのか」を問い、PER-005はtarget定義そのものを問題化し始めた
+- PER-005 ↔ PER-006: EVT-002の批判関係からEVT-003の共同protocol設計へ進み、EVT-004で最初の紙上計算を共同確認した。PER-005はPER-006の観測条件への要求を有用と認め、PER-006はPER-005が都合の悪い結果を捨てず問題として扱う点を評価している
 - PER-005 ↔ 現代側: 現代人物と直接の関係があるとは初期設定しない。史料・記録・モデル挙動を介した関係だけから始める
 
 ## 時系列更新
