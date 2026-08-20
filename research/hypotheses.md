@@ -177,7 +177,7 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち�
 
 ## H-004 同一の等距離cueは更新順だけで二つの候補記憶へ分岐し得る
 
-状態: TESTING
+状態: SUPPORTED
 
 ### H
 N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからHamming distanceが等しい一つのcueを固定し、重みとcueを変えずに非同期更新順だけを変えた複数runを行うと、少なくとも一つのcueについてAへのexact recallとBへのexact recallの両方が観測される。
@@ -196,12 +196,23 @@ N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからH
 - UNCERTAIN: 有効cueを生成できない、または条件・分類・実装に重大な疑義がある
 
 ### D
-未実行。
+- EXP-004: PASS
+- 有効pair: 20
+- balanced cue: 200
+- update-order runs: 4000 / 4000
+- balanced距離違反: 0
+- BIDIRECTIONAL cue: 122 / 200
+- 最初の例: seed 1982, pair 0/1, cue→A=27, cue→B=27, A_EXACT=2, B_EXACT=11, NONSTORED_CONVERGED=7
+
+### 状態判断
+事前PASS条件は`BIDIRECTIONAL >= 1`だった。122件を確認したため、**今回のN=100、P=5、3 pattern seeds、balanced-cue構成に限定して** `SUPPORTED` とする。
+
+122/200という探索的割合を、H-004の一般的な頻度主張へ拡張しない。
 
 ### C
-- energy landscapeがpairの一方へ強く非対称で、update orderを変えても一方へしか行かない
+- Hamming等距離でもenergy landscapeがA/Bに非対称であり得る
 - cueが他のstored patternやspurious stateのbasinへ入る
-- asynchronous orderよりcue constructionの違いの方が支配的
+- asynchronous order以外の更新則では結果が変わり得る
 
 ### U
 - random pattern、N=100、P=5に限定
@@ -215,6 +226,7 @@ N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからH
 ### 関連
 - Q-004
 - EXP-004
+- F-004
 - EVT-002
 
 ## 現在
@@ -222,4 +234,4 @@ N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからH
 - H-001: `SUPPORTED`（EXP-001の宣言条件に限定）
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
 - H-003: `SUPPORTED`（EXP-002の有限trial群でexact 3-pattern mixtureを1件確認）
-- H-004: `TESTING` — 等距離cueのupdate-order依存を検証中
+- H-004: `SUPPORTED`（EXP-004有限条件でupdate-orderのみのA/B分岐を確認）
