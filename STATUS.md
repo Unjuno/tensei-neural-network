@@ -2,16 +2,16 @@
 
 このファイルは詳細な正本ではなく、現在位置を示す索引です。
 
-更新: 2026-08-20
+更新: 2026-08-21
 
 ## フェーズ
 
 - 主目的: 小説
-- 物語段階: `起 / 承`
-- 本文: 0話。まだ公開本文は作っていない
+- 物語段階: `起 / 承 / 転`
+- 本文: 第1話ドラフト `novel/chapters/001.md` が成立
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜004まで実施
-- 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / research reportは未公開
+- 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフトは未公開
 
 ## branch
 
@@ -19,7 +19,7 @@
 
 `work/story-bootstrap`
 
-`main` にはまだ反映していない。
+`main` には反映していない。PRも作成しない。
 
 ## 1980年代側の現在位置
 
@@ -29,7 +29,7 @@
 
 現在のevent head:
 
-`EVT-002`
+`EVT-004`
 
 現在active:
 
@@ -37,8 +37,6 @@
 - PER-006 — 実験神経科学寄りの同僚
 
 ### EVT-001
-
-`novel/events/EVT-001-stopping-is-not-returning.md`
 
 PER-005が、
 
@@ -48,8 +46,6 @@ PER-005が、
 という問いを研究ノートへ残した。
 
 ### EVT-002
-
-`novel/events/EVT-002-who-defines-correct-recall.md`
 
 PER-005がEVT-001の問題をPER-006へ共有。
 
@@ -64,7 +60,53 @@ PER-005は、
 
 このeventでPER-006を、必要になった時点から独立ペルソナとして生成した。
 
-物語世界内では、balanced cueの具体実験やEXP-004の数値結果はまだ観測されていない。
+### EVT-003
+
+PER-005 / PER-006は、二つのstored patterns A/Bで異なるunitの半分ずつを使い、A/Bへ同じbit差数を持つcueを作るprotocol sketchを成立させた。
+
+同時に、
+
+- `等距離` と `dynamics上の中立` を同一視しない
+- cueからA/Bへの距離
+- final state
+- update条件
+- A/B以外へ停止したstate
+
+を分けて記録する方針を成立させた。
+
+### EVT-004
+
+PER-005 / PER-006は、6 unit・3 stored patternsの紙上networkでEVT-003のprotocolを初めて具体計算へ適用した。
+
+A/Bへ2 bitずつ離れた同一cue、同一weights、同一の非同期更新規則を使い、update orderだけを変えたところ、
+
+- order α → A
+- order β → B
+
+となり、双方がstable stateであることを確認した。
+
+PER-005は、
+
+- 「手掛かりが同じでも、戻り先は一つとは限らない」
+- 「想起の結果だけを見て原像を逆算してよいのか」
+
+という問いを追加した。
+
+これは6-unitの一例であり、memory一般・生物学的記憶・頻度一般へ一般化していない。
+
+物語人物は現代側EXP-004の122/200、4000 runs等を知らない。
+
+## 第1話ドラフト
+
+`novel/chapters/001.md`
+
+採用event範囲:
+
+`EVT-001`〜`EVT-004`
+
+EVT-004で、EVT-001〜003まで蓄積した「correct recall」の前提が具体例によって維持できなくなり、新しい問いが次の初期条件として立ち上がったため、一つの読書単位として自然な切れ目が成立した。
+
+第1話を成立させるためにEVT-004を起こしたのではない。EVT-003時点のPER-005のGoalsとPER-006の観測要求から、最小の紙上計算を行った結果としてEVT-004が成立した。
 
 ## 小説と研究の分離
 
@@ -81,7 +123,7 @@ PER-005は、
     ↓
 Q / H / EXP
     ↓
-独立した研究レポート
+research/reports/EXP-xxx.md
 ```
 
 - 実験実行正本: `experiments/`
@@ -109,8 +151,6 @@ Q / H / EXP
 - 3-pattern majority mixture exact match: 1件
 - F-003: PROVISIONAL
 
-探索的な363/510 near-mixtureは生成機構の同定とは扱わない。
-
 ### EVT-002 → EXP-004
 
 問い:
@@ -129,14 +169,9 @@ Q / H / EXP
 - 同じcueからA/B両方へexact recallしたBIDIRECTIONAL cue: 122 / 200
 - F-004: PROVISIONAL
 
-事前PASS条件はBIDIRECTIONALが1件以上存在すること。122/200は探索的集計であり一般的頻度とは扱わない。
+EVT-003 / EVT-004から新しいQ / H / EXPは追加していない。
 
-研究レポート:
-
-- `research/reports/EXP-003.md`
-- `research/reports/EXP-004.md`
-
-重要: EXP-003 / EXP-004の結果をPER-005 / PER-006へ直接与えていない。
+EVT-004はQ-004と同種の論点に重なるが、物語人物が独立に得た6-unit紙上例であり、現代EXP-004の結果を未来知識として注入していない。
 
 ## 最新研究ID
 
@@ -168,13 +203,15 @@ Q / H / EXP
 
 EXP-005を研究都合で自動生成しない。
 
-EVT-002後のPER-005 / PER-006を、その現在状態から再び動かす。
+EVT-004後のPER-005 / PER-006を、その現在状態から再び動かす。
 
 現在の局所問題:
 
-- 曖昧なcueを物語世界内でどう定義するか
-- `correct recall`を誰の基準で判定するか
-- PER-006が要求する観測可能な基準と、PER-005のdynamics中心の見方をどう両立するか
+- 6-unitの一例をどこまで一般化してよいか
+- `correct recall`をfinal state以外の何と結び付けるか
+- A/B以外のstable stateをどう分類するか
+- 紙上計算から計算機実装へ進む必要が実際に生じるか
+- その場合、1980年代の具体的計算環境をどこまで固定する必要があるか
 
 次のeventで実際に新しい言葉・観測・制約が生じた場合だけ、次の研究分岐を作る。
 
@@ -185,8 +222,8 @@ EVT-002後のPER-005 / PER-006を、その現在状態から再び動かす。
 - 具体年月日
 - 具体的な計算機・言語
 - 二人の正式な所属関係・上下関係
-- 物語世界内で最初に実行する具体的な計算・実験
-- 第1話の終了点
+- 紙上例の次に行う具体的な計算・実験
 - 現代側最初のevent
+- 第2話以降の切れ目
 
 これらは必要になるまで一括固定しない。
