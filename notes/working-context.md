@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-08-20
+更新: 2026-08-21
 
 このファイルは別セッションへ現在の探索状態を引き継ぐ公開可能な作業記憶。正本ではない。
 
@@ -17,9 +17,10 @@
 1980年代側:
 
 - Bootstrap: `BOOT-002 @ T0-1980S @ none`
-- current event head: `EVT-002`
+- current event head: `EVT-004`
 - active personas: PER-005 / PER-006
-- current structure: `起 / 承`
+- current structure: `起 / 承 / 転`
+- 第1話ドラフト: `novel/chapters/001.md`
 
 ### EVT-001
 
@@ -41,7 +42,53 @@ PER-005:
 
 PER-006は、この相互作用で独立状態を追う必要が生じたため初めて生成された。
 
-物語世界では具体的なbalanced-cue実験結果はまだ発生していない。
+### EVT-003
+
+PER-005 / PER-006は、A/Bへ同じbit差数を持つcueを構成するprotocol sketchを作った。
+
+重要な修正:
+
+- 等距離 = dynamics上の中立、とは扱わない
+- cueからA/Bへの距離
+- final state
+- update条件
+- A/B以外のstate
+
+を別々に記録する。
+
+### EVT-004
+
+EVT-003後、PER-005は具体的計算機を先に固定せず、まず紙で追える6-unit・3-pattern networkへprotocolを適用した。
+
+A/Bへ2 bitずつ離れた同一cue、同一weights、同一の非同期更新規則で、update orderだけを変えたところ、
+
+- order α → A
+- order β → B
+
+となり、双方がstableであることをPER-005 / PER-006が確認した。
+
+PER-005:
+
+- 「手掛かりが同じでも、戻り先は一つとは限らない」
+- 「想起の結果だけを見て原像を逆算してよいのか」
+
+この観測は6-unitの一例だけであり、memory一般や生物学的記憶へ一般化していない。
+
+現代側EXP-004の122/200、4000 runs、seed等をPER-005 / PER-006へ与えていない。
+
+## 第1話
+
+`novel/chapters/001.md`
+
+採用event範囲:
+
+`EVT-001`〜`EVT-004`
+
+EVT-004で初めて具体的な観測反例が成立し、「一つのcueには一つの正解を置ける」という暗黙前提が少なくとも小規模例では維持できなくなった。
+
+この認識変化が新しい問いの初期条件となるため、一つの読書単位として自然な切れ目と判断した。
+
+第1話の結末を先に置いてEVT-004を発生させたわけではない。
 
 ## 研究分岐ルール
 
@@ -104,20 +151,23 @@ research/findings.md
 - `research/reports/EXP-003.md`
 - `research/reports/EXP-004.md`
 
-重要: EXP-003 / EXP-004の結果をPER-005 / PER-006は知らない。
+EVT-003 / EVT-004から新しいQ / H / EXPは追加していない。
+
+EVT-004はQ-004と同種の現象を物語世界で独立に小規模観測したため、重複IDを作らない。
 
 ## 次の物語側作業
 
 EXP-005を研究都合で先回りして自動実行しない。
 
-EVT-002後のPER-005 / PER-006を、その人物のKnowledge / Beliefs / Goals / Relations / 状況から再び動かす。
+EVT-004後のPER-005 / PER-006を、その人物のKnowledge / Beliefs / Goals / Relations / 状況から再び動かす。
 
 現在の自然な局所問題:
 
-- 二つのstored patternsへ同程度に適合するcueを、物語世界内でどう操作化するか
-- `correct recall`を誰の基準で判定するか
-- PER-005のdynamics中心の見方と、PER-006の観測・課題設定中心の見方をどう両立するか
-- 具体計算を始める段階で、研究環境・計算機・第三者の助けが本当に必要になるか
+- 6-unitの作為的な一例をどこまで一般化してよいか
+- `correct recall`をfinal state以外の何と結び付けるべきか
+- A/B以外のstable stateをどう扱うか
+- 紙上計算から計算機実装へ進む必要が本当に生じるか
+- 具体計算機を必要とする段階で、研究環境・第三者の助けを本当に固定すべきか
 
 そこで実際に生じた相互作用だけを次eventへする。
 
@@ -128,9 +178,9 @@ EVT-002後のPER-005 / PER-006を、その人物のKnowledge / Beliefs / Goals /
 - PER-005 / PER-006の氏名・年齢
 - 計算機・言語・端末
 - 二人の正式な所属関係・上下関係
-- 物語世界内で最初に実行する具体的な計算
-- 第1話の終了点
+- 紙上例の次に実行する具体的計算
 - 現代側最初のevent
+- 第2話以降の終了点
 
 必要になる前に一括固定しない。
 
