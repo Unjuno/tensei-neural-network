@@ -380,3 +380,62 @@ research/findings.md で現在言えることを管理
 - または独立した研究価値が明確になった
 
 場合に改めて切り出します。
+
+## 22. 重要eventでは行動選択とworld resolverの結果解決を分離する
+
+人物への未来知識漏洩を防ぐだけでは、生成方式のselection biasは十分に防げません。
+
+生成者・resolverがpersonaには見えない作者側研究結果や未来候補を既に知っており、具体pattern、seed、update order、trial選択等の自由度でoutcomeを寄せられる場合、重要eventは二段階で扱います。
+
+### Phase 1: `ACTION_LOCKED`
+
+結果を計算・検索・観測する前に、同じ `EVT-xxx` ファイルへ次を記録しcommitします。
+
+- parent event head / story time
+- 各personaが実際に観測している情報
+- personaが選んだ行動
+- outcome-sensitiveな具体条件、または条件の選択規則
+- trial集合、update rule、stopping / inclusion rule
+- resolverが利用してよい情報
+- action selectionへ使ってはいけない作者側・未来側情報
+- 結果解決方法
+
+この段階ではoutcomeを書きません。
+
+### Phase 2: resolve
+
+`ACTION_LOCKED` のcommit後にenvironment resolverが結果を解決します。
+
+- locked条件を結果を見て変更しない
+- 規定したtrialを都合のよい結果だけに選別しない
+- 平凡・失敗・不都合な結果も採用する
+- 望ましいoutcomeが出なかったことを理由に別条件へ差し替えない
+
+### 生成contextが作者側結果を既に知っている場合
+
+具体条件の自由選択がoutcomeへ効くなら、次のいずれかを使います。
+
+1. story-visibleな情報だけから導出できるdeterministic selection ruleを結果前に固定する
+2. personaには見えない結果知識を与えない別contextでaction / parameter selectionを行い、commitしてからresolverへ渡す
+
+「同じ現象が出る例を探す」は、persona自身がその探索目的を持ち、探索範囲・停止条件・採用規則を事前固定している場合を除き、cleanなresolver検証には使いません。
+
+### Resolution provenance
+
+重要eventは必要に応じて次で分類します。
+
+- `LOCKED`: outcome-sensitiveな選択を解決前に固定し、その後変更していない
+- `UNBLINDED`: 結果知識を持つcontextで条件選択し、解決前lockがない。物語には使えるがcleanなresolver検証には使わない
+- `AUTHOR_CONDITIONED`: 人間作者または生成側が望む結果・演出へ向けて条件を意図的に設定した。介入として明記し、創発eventと偽装しない
+
+未lockの過去eventを削除する必要はありません。そのeventの事実性・数理的一貫性と、生成方式のcleanな検証価値を分離します。
+
+### NarrativeProjectionの属性境界
+
+本文へ投影するときも、未確定の恒常属性を文章の自然さだけで補いません。
+
+氏名、年齢、性別・性別代名詞、国籍、所属・職位、家族関係、具体地域、後続因果へ影響する技術環境等がevent/stateで未確定なら、本文でも未確定のまま書きます。
+
+状態を変えない一時的なscene detailは補ってよいものの、後続因果へ影響する重要事実になった場合はevent/state側へ戻して管理します。
+
+詳細は `novel/environment.md`, `novel/events/README.md`, `novel/chapters/README.md`, `notes/generation-validation.md` を参照します。
