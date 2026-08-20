@@ -8,7 +8,7 @@
 
 - 主目的: 小説
 - 物語段階: `起 / 承 / 転`
-- 本文: 第1話ドラフト `novel/chapters/001.md` が成立
+- 本文: 第1話ドラフト `novel/chapters/001.md` を現在のポリシーで再投影済み
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜004まで実施
 - 生成方式検証: **PARTIAL PASS**。状態復元・情報境界・state同期・NarrativeProjectionは確認、resolver結果独立性は未確認
@@ -97,9 +97,11 @@ PER-005は、
 
 `EVT-001`〜`EVT-004`
 
-研究レポート形式ではなく、人物の問い・会話・protocol・紙上計算を小説へNarrativeProjectionした。
+`BOOT-002`の導入背景と成立済みeventだけを材料に、現在のNarrativeProjection規則で再構成した。新しいeventやpersona stateは追加していない。
 
-未確定だったPER-005の性別を本文が勝手に固定しないよう、性別代名詞は除去済み。
+研究レポート形式ではなく、人物の問い・会話・protocol・紙上計算を小説として描写する。
+
+氏名、年齢、性別・性別代名詞、国籍、所属、具体機材等の未確定な恒常属性は本文で補っていない。
 
 ## 第1話生成テストの評価
 
