@@ -51,8 +51,43 @@ EXP-002の3 pattern seeds、960 trialsでは、今回の有限grid内に高回�
 - F-002
 - L-002
 
+## Q-003 EXP-002の非保存収束状態に単純な3-pattern mixtureは含まれるか
+
+状態: OPEN
+
+### 由来
+
+`novel/events/EVT-001-stopping-is-not-returning.md` でPER-005が残した、
+
+> 保存していないところで止まるなら、その状態は何からできている？
+
+という物語上の問いから、現実側で検証可能な最小問題として切り出した。
+
+小説の展開をこの問いへ合わせるのではなく、研究側で独立に検証する。
+
+### 問い
+
+EXP-002で `NONSTORED_CONVERGED` と分類された最終状態の中に、同じtrialのstored patternsから3つを選び、各bitで多数決を取った単純な3-pattern majority mixture、またはその全bit反転と完全一致する状態が含まれるか。
+
+ここで3-pattern majority mixtureは、3つの `{-1,+1}` pattern `ξ^a, ξ^b, ξ^c` に対して
+
+`m = sign(ξ^a + ξ^b + ξ^c)`
+
+と定義する。3項和なので0は生じない。
+
+### 現時点の回答
+
+未実行。EXP-003で検証する。
+
+### 関連
+- Q-002
+- H-003
+- EXP-002
+- EXP-003
+- EVT-001
+
 ## 現在
 
 - Q-001: `ANSWERED`
 - Q-002: `ANSWERED`
-- 次の問い候補: 保存パターンと一致しない収束状態の構造を調べる
+- Q-003: `OPEN` — 非保存収束状態と単純3-pattern mixtureの一致を検証する
