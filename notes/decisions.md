@@ -383,3 +383,56 @@ research/findings.md
 `experiments/` を再現性の正本、`research/reports/` を研究として読める記録、`novel/` を物語状態・本文として分離することで、研究価値と小説性を同時に保つ。
 
 `work/story-bootstrap` で人間レビューし、mainへ反映された場合に `ACTIVE` とする。
+
+---
+
+## D-020 重要eventではpersonaの行動選択とworld resolverの結果解決を二段階に分ける
+
+状態: PROPOSED
+
+### 判断
+
+生成者・resolverが、personaには見えない作者側研究結果や将来候補をすでに知っており、具体pattern・seed・update order・trial選択等の自由度で結果を寄せられる場合、重要なeventを一度に生成しない。
+
+結果を解決する前に、同じ `EVT-xxx` を `ACTION_LOCKED` 状態としてcommitし、次を固定する。
+
+- parent event head / story time
+- personaが実際に観測している情報
+- personaが選んだ行動
+- outcome-sensitiveな具体条件、または条件の選択規則
+- trial集合、update rule、stopping / inclusion rule
+- resolverが利用してよい情報
+- action selectionへ使ってはいけない作者側・未来側情報
+- 結果解決方法
+
+commit後、world resolverがlocked条件だけを使ってoutcomeを解決する。
+
+結果を見て条件を変更したり、都合のよいtrialだけを採用したりしない。平凡・失敗・不都合な結果もそのまま物語状態へ返す。
+
+### Resolution provenance
+
+重要eventは必要に応じて次で分類する。
+
+- `LOCKED`: outcome-sensitiveな選択を解決前に固定し、その後変更していない
+- `UNBLINDED`: 結果知識を持つcontextで条件選択し、解決前lockがない。物語には使えるがcleanなresolver検証には使わない
+- `AUTHOR_CONDITIONED`: 人間作者または生成側が望む結果・演出へ向けて条件を意図的に設定した。介入として明示する
+
+### EVT-004から得た修正
+
+第1話生成テストでは、EVT-004の6-unit例の計算自体は正しかった。一方、生成側はその前にEXP-004で同種のupdate-order依存を知っており、EVT-004のA/B/C、cue、order α/β、selection / stopping ruleが結果解決前にrepoへlockされていなかった。
+
+したがって、人物への未来知識漏洩は防げていても、resolver側のselection biasは排除できない。
+
+EVT-004は `UNBLINDED` とし、物語event・第1話材料として保持するが、「結果非依存のresolverから自然に転が生じた」ことのcleanな検証証拠には数えない。
+
+### 理由
+
+D-017の情報境界だけでは、人物が未来を知らないことは保証できても、人物を生成する側・環境を解決する側が既知の研究結果へ無意識に条件を寄せることまでは防げない。
+
+行動・条件を結果の前に外部化してcommitすれば、後から結果に合わせて初期条件を選び直す自由度を減らせる。
+
+重要なのは面白いoutcomeを得ることではなく、**どのoutcomeでも差し替えず、その結果から次状態へ進めること**である。
+
+詳細は `novel/events/README.md`, `novel/environment.md`, `notes/generation-validation.md` を参照する。
+
+`work/story-bootstrap` で人間レビューし、mainへ反映された場合に `ACTIVE` とする。
