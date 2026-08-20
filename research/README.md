@@ -54,34 +54,43 @@ research/findings.md
 
 追試やExtensionから新しい問いが生じた場合、判定対象が変わるなら新しいEXPとして分離します。
 
-例:
+研究の因果関係は小説の章構成とは別です。
 
-```text
-EXP-001 Replication
-    ↓
-EXP-002 boundary Extension
-    ↓
-物語EVT-001で「その状態は何からできている？」という問いが成立
-    ↓
-Q-003 / H-003
-    ↓
-EXP-003 mixture structure
-    ↓
-research/reports/EXP-003.md
-```
+## 物語由来研究の実例
 
-この系列は研究の因果関係であり、小説の章構成ではありません。
+### EVT-001 → EXP-003
 
-## 最初の実例
-
-`EVT-001` でPER-005が、
+PER-005:
 
 > 保存していないところで止まるなら、その状態は何からできている？
 
-という問いを残した。
+この問いからQ-003 / H-003 / EXP-003を独立に作り、EXP-002の `NONSTORED_CONVERGED` を3-pattern majority mixtureとの関係から解析した。
 
-そこから現実側でQ-003 / H-003 / EXP-003を独立に作り、EXP-002の `NONSTORED_CONVERGED` を3-pattern majority mixtureとの関係から解析した。
+- EXP-003: PASS
+- F-003: PROVISIONAL
+- report: `reports/EXP-003.md`
 
-結果は `research/reports/EXP-003.md` に保存する。
+### EVT-002 → EXP-004
 
-この結果はPER-005の物語内知識ではない。
+PER-006:
+
+> 手掛かりだけを見たときに二つの記憶が同じくらいもっともらしかったら、networkはどちらを「正解」だと知る？
+
+この問いからQ-004 / H-004 / EXP-004を独立に作った。
+
+二つのstored patternsへHamming等距離となる同一cueを固定し、非同期update orderだけを変更した。
+
+- balanced cues: 200
+- runs: 4000
+- BIDIRECTIONAL cues: 122
+- EXP-004: PASS
+- F-004: PROVISIONAL
+- report: `reports/EXP-004.md`
+
+いずれも研究結果は、PER-005 / PER-006の物語内Knowledgeではない。
+
+## 次の研究
+
+EXP-005を研究都合で自動生成しません。
+
+次の物語相互作用で実際に生じた問い、または明確に独立した研究価値がある問題だけを次のQ / H / EXPへ分離します。
