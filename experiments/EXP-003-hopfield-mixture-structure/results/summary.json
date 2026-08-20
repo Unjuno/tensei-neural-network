@@ -1,0 +1,59 @@
+{
+  "experiment_id": "EXP-003",
+  "status": "executed",
+  "decision": "PASS",
+  "regeneration": {
+    "expected_total_trials": 960,
+    "observed_total_trials": 960,
+    "expected_nonstored_converged": 510,
+    "observed_nonstored_converged": 510,
+    "valid": true,
+    "category_counts": {
+      "TARGET_EXACT": 442,
+      "WRONG_STORED": 8,
+      "NONSTORED_CONVERGED": 510,
+      "NONCONVERGED": 0
+    }
+  },
+  "pre_registered_result": {
+    "exact_three_pattern_mixture_match_trials": 1,
+    "pass_condition": "at least one exact match among 510 NONSTORED_CONVERGED states",
+    "matched_trial": {
+      "pattern_seed": 1983,
+      "P": 5,
+      "noise_rate": 0.4,
+      "trial_index": 2,
+      "target_index": 4,
+      "trial_seed": 3005002,
+      "sweeps": 3,
+      "nearest_stored_hamming": 21,
+      "nearest_mixture_hamming": 0,
+      "mixture_patterns_zero_based": [1, 2, 4],
+      "mixture_sign": 1
+    }
+  },
+  "exploratory": {
+    "nonstored_states_closer_to_three_pattern_mixture_than_any_stored_pattern": 363,
+    "fraction_closer_to_mixture": 0.711764705882353,
+    "ties": 8,
+    "mixture_farther_than_nearest_stored": 139,
+    "nearest_mixture_hamming": {
+      "mean": 14.292156862745099,
+      "median": 15.0,
+      "min": 0,
+      "max": 31
+    },
+    "nearest_stored_hamming": {
+      "mean": 19.311764705882354,
+      "median": 21.0,
+      "min": 1,
+      "max": 49
+    }
+  },
+  "limitations": [
+    "EXP-002と同一trial系列の決定論的再解析であり独立再現ではない",
+    "3-pattern majority mixtureだけをexact判定対象とした",
+    "5-pattern以上のodd mixtureや他種のspurious minimaは判定していない",
+    "N=100、3 pattern seeds、bit-flip noiseに限定される"
+  ]
+}
