@@ -6,9 +6,9 @@
 
 ## ペルソナ数は固定しない
 
-現在の5ペルソナは初期集合にすぎません。
+現在の6ペルソナも途中状態にすぎません。
 
-物語が進み、新しい人物、モデルinstance、組織的主体、歴史上の人物などが必要になれば、`PER-006`, `PER-007` ... と安定IDを追加します。
+物語が進み、新しい人物、モデルinstance、組織的主体、歴史上の人物などが必要になれば、`PER-007`, `PER-008` ... と安定IDを追加します。
 
 一度登場したペルソナは、離脱・死亡・休眠・分岐などでactiveでなくなっても、過去状態を消しません。
 
@@ -100,6 +100,14 @@ P_i(t) = {K, B, G, C, R, M, X}
 9. 状態遷移を `structure.md` の再帰的な起承転結で整理する。
 10. そのログを材料に小説本文を書く。本文は結果の表現であり、結果を先に決める装置ではない。
 
+## 増加の実例
+
+PER-006はBOOT-002で先に固定した人物ではありません。
+
+EVT-001後、PER-005が`correct recall`の観測基準を他者へ問い返す必要が生じ、独立したKnowledge / Beliefs / Goals / observation boundaryを持つ主体としてEVT-002で初めて追加されました。
+
+このように、**背景上に存在し得る人物を先に全員作るのではなく、因果上必要になった時点でペルソナ化する**ことを標準とします。
+
 ## 増殖・fork
 
 同じ人物状態、model instance、checkpoint等が物語上で複数へ分かれ、同時に独立した経験を持つようになった場合は、分岐点から別`PER-xxx`にします。
@@ -112,14 +120,15 @@ AIセッション変更、モデル交換、長期間の中断等でペルソナ
 
 対象`BOOT-xxx`、story time、parent event head、対象時点までのworld/persona stateを読み、同じ同期点から再構成します。再初期化によって過去stateを書き換えたり、未観測情報をKnowledgeへ補ったりしません。
 
-## 現在の初期ペルソナ
+## 現在のペルソナ
 
 - `PER-001-modern-evaluator.md` — 現代側の評価担当
 - `PER-002-skeptical-researcher.md` — 再現性・反証を要求する研究者
 - `PER-003-archive-researcher.md` — 史料・来歴を調べる人物
 - `PER-004-model-instance.md` — 現代モデル側に観測される存在
 - `PER-005-1980s-researcher.md` — 1980年代の研究者
+- `PER-006-experimental-neuroscience-colleague.md` — EVT-002で必要になった実験神経科学寄りの同僚
 
 氏名・所属・年齢などは、現時点で必要なものだけ後から具体化します。人物を細部まで先に固定して物語を閉じない一方、行動が恣意的にならないだけの目的・知識境界・認知スタイルは持たせます。
 
-現代開始時点の実際の同期状態は `../bootstrap/BOOT-001-modern-opening.md` と `../state/personas/` を参照します。PER-005の1980年代時点stateはBOOT-001では初期化しません。
+現代開始時点の実際の同期状態は `../bootstrap/BOOT-001-modern-opening.md` と `../state/personas/` を参照します。1980年代側は `BOOT-002` から開始し、EVT-002時点でPER-005とPER-006がactiveです。
