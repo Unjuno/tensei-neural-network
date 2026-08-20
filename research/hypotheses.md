@@ -173,8 +173,53 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち�
 - F-003
 - EVT-001
 
+---
+
+## H-004 同一の等距離cueは更新順だけで二つの候補記憶へ分岐し得る
+
+状態: TESTING
+
+### H
+N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからHamming distanceが等しい一つのcueを固定し、重みとcueを変えずに非同期更新順だけを変えた複数runを行うと、少なくとも一つのcueについてAへのexact recallとBへのexact recallの両方が観測される。
+
+### T
+- EXP-004
+- N=100、P=5
+- pattern seeds: 1982, 1983, 1984
+- 各seedの5 patternsから全pairを候補化
+- pair間Hamming distanceが偶数のpairだけを使い、異なるbitの半数をA、残り半数をBから取ることで両者へ等距離なcueを作る
+- pairごとに10個のbalanced cueを決定論的に生成する
+- 各cueについて20個のupdate-order seedで非同期更新する
+- 同一cueでA exactとB exactの双方が1回以上出れば、そのcueを`BIDIRECTIONAL`とする
+- PASS: 有効cueのうち`BIDIRECTIONAL`が1件以上
+- FAIL: 有効cueを全て実行したが`BIDIRECTIONAL`が0件
+- UNCERTAIN: 有効cueを生成できない、または条件・分類・実装に重大な疑義がある
+
+### D
+未実行。
+
+### C
+- energy landscapeがpairの一方へ強く非対称で、update orderを変えても一方へしか行かない
+- cueが他のstored patternやspurious stateのbasinへ入る
+- asynchronous orderよりcue constructionの違いの方が支配的
+
+### U
+- random pattern、N=100、P=5に限定
+- 「等距離」はHamming distance上の定義であり、energyやbasin境界の等距離を意味しない
+- existence testであり、一般的頻度を推定しない
+- 人間の曖昧な記憶へ直接一般化しない
+
+### 由来
+- EVT-002 — PER-006の「二つの記憶が同じくらいもっともらしかったら、networkはどちらを正解だと知る？」
+
+### 関連
+- Q-004
+- EXP-004
+- EVT-002
+
 ## 現在
 
 - H-001: `SUPPORTED`（EXP-001の宣言条件に限定）
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
 - H-003: `SUPPORTED`（EXP-002の有限trial群でexact 3-pattern mixtureを1件確認）
+- H-004: `TESTING` — 等距離cueのupdate-order依存を検証中
