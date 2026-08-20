@@ -1,8 +1,8 @@
 # EXP-003 Hopfield非保存収束状態の3-pattern mixture解析
 
-状態: `PLANNED`
+状態: `COMPLETED`
 
-判定: 未実行
+判定: **PASS**
 
 ## 実験ID
 
@@ -23,7 +23,7 @@ PER-005が物語上で残した、
 
 ## 目的
 
-EXP-002で `NONSTORED_CONVERGED` と分類された最終状態に、Hopfield networkで典型的に検討される単純なodd mixtureのうち、3つのstored patternsのbit-wise majority mixtureと完全一致する状態が含まれるかを確認する。
+EXP-002で `NONSTORED_CONVERGED` と分類された最終状態に、単純なodd mixtureのうち、3つのstored patternsのbit-wise majority mixtureと完全一致する状態が含まれるかを確認する。
 
 ## 判定対象
 
@@ -43,8 +43,9 @@ EXP-002と同じ決定論的trial群を再生成し、`NONSTORED_CONVERGED` の�
 - H-003
 - EXP-002
 - F-002
+- F-003
 - EVT-001
-- 対応研究レポート: `research/reports/EXP-003.md`（実行後作成）
+- 対応研究レポート: `research/reports/EXP-003.md`
 
 ## 種別
 
@@ -83,8 +84,6 @@ EXP-002と同じ分類規則で `NONSTORED_CONVERGED` になったstateのみ。
 
 `m` と `-m` の双方をcandidateとする。
 
-重複candidateがある場合、exact match trial数の判定には重複して数えない。どのcombinationに一致したかは別途記録してよい。
-
 ## 事前判定基準
 
 ### PASS
@@ -101,34 +100,82 @@ EXP-002と同じ分類規則で `NONSTORED_CONVERGED` になったstateのみ。
 
 ### UNCERTAIN
 
-次のいずれかにより事前基準へ有効に判定できない場合。
+EXP-002との再生成不一致、またはmixture集計の実装上の疑義により有効判定できない場合。
 
-- EXP-002とtrial数・分類数が一致しない
-- pattern / noise / update / seed生成がEXP-002から逸脱する
-- mixture生成またはexact match集計に実装上の疑義がある
+# 実行後記録
 
-## H-003への事前解釈
+## 再生成確認
 
-- PASS: H-003を支持する証拠。ただし少なくとも1件の存在確認に限定する
-- FAIL: 今回のEXP-002条件では単純3-pattern majority mixtureのexact matchを確認できなかった証拠
-- UNCERTAIN: H-003の支持・不支持へ使わない
+- total trials: `960 / 960`
+- `TARGET_EXACT`: 442
+- `WRONG_STORED`: 8
+- `NONSTORED_CONVERGED`: `510 / 510`
+- `NONCONVERGED`: 0
 
-## 探索的に記録してよい項目
+EXP-002の分類数と一致した。
 
-PASS/FAIL判定には使わないが、次を結果として保存してよい。
+## 事前判定対象の結果
 
-- exact match trial数・割合
-- `m` と `-m` の内訳
-- P / noise / seed別match数
-- mixtureまでの最小Hamming distance
-- nearest stored patternまでのdistanceとの比較
+3-pattern majority mixture `m` または `-m` とのexact match:
 
-これらを見て事前PASS基準を変更しない。
+- **1 trial**
+
+一致trial:
+
+- pattern seed: `1983`
+- `P = 5`
+- noise: `0.40`
+- trial index: `2`
+- target index: `4`
+- trial seed: `3005002`
+- convergence: `3 sweeps`
+- nearest stored Hamming distance: `21`
+- nearest 3-pattern mixture Hamming distance: `0`
+- mixture構成pattern index（0-based）: `[1, 2, 4]`
+- sign: `+1`
+
+## 判定
+
+**PASS**
+
+事前に固定した3条件をすべて満たした。
+
+このPASSが示すのは、EXP-002の有限trial群の非保存収束状態の中に、単純な3-pattern majority mixtureと完全一致する例が少なくとも1件存在したことだけである。
+
+「非保存収束状態の大半がmixture stateである」とは判定していない。
+
+## 探索的結果
+
+事前PASS条件には使用しない追加集計:
+
+- 510件中363件で、nearest stored patternよりnearest 3-pattern mixtureの方がHamming distanceが小さかった
+- 比率: `363 / 510 = 0.7117647059`
+- tie: 8件
+- nearest 3-pattern mixtureの方が遠い: 139件
+- nearest mixture distance: mean `14.2922`, median `15`, min `0`, max `31`
+- nearest stored distance: mean `19.3118`, median `21`, min `1`, max `49`
+
+この71.2%という値は結果を見た後の探索的観測であり、H-003の事前判定基準ではない。
+
+## 実行前計画からの逸脱
+
+重大な逸脱なし。
+
+## 保存結果
+
+- `run.py`
+- `results/summary.json`
 
 ## 既知の限界
 
-- EXP-002と同じtrial群の再解析であり独立再現ではない
+- EXP-002と同一trial系列の決定論的再解析であり独立再現ではない
 - 3-pattern majority mixtureだけを扱う
-- 5-pattern以上のodd mixtureや他のspurious minimaは判定対象外
+- 5-pattern以上のodd mixtureや他種のspurious minimaは判定対象外
 - exact matchしないmixture-like stateの解釈は探索的
 - N=100、3 pattern seeds、bit-flip noiseに限定
+
+## 小説との境界
+
+この結果をPER-005へ未来知識として直接与えない。
+
+EVT-001はこの実験結果より先に、PER-005自身の時代内の知識・問題意識から成立している。EXP-003はその問いを現実側で独立検証した研究記録である。
