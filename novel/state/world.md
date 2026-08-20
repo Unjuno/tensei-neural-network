@@ -131,6 +131,62 @@ PER-005 / PER-006がその結果を知ったことにはしない。
 
 ---
 
+## T0-1980S + protocol sketch after EVT-002 / EVT-003
+
+状態: `PROVISIONAL`
+
+- Previous event head: `EVT-002`
+- Event head: `EVT-003`
+- Source event: `../events/EVT-003-a-fair-cue-is-not-neutral.md`
+
+### 変更前
+
+- 二人は曖昧cueの必要性には合意している
+- しかし「二つのmemoryへ同程度に適合するcue」をどう作るかはまだ抽象的だった
+- `correct`の基準を実験者が後から都合よく選ばないための観測項目も未整理だった
+
+### 客観的に成立した出来事
+
+PER-005 / PER-006は、二つのstored patterns A/Bで異なるunitの半分をA、残り半分をBから取ることで、A/Bへ同じbit差数を持つcueを作るprotocol sketchを共同メモへ記録した。
+
+同時に、PER-006の指摘を受けて、
+
+- bit差数が等しいこと
+- dynamics上でA/Bが等価であること
+
+を同一視しないと明記した。
+
+次の計算で記録すべき項目として、
+
+1. cueからA/Bへのbit差数
+2. final state
+3. update条件
+4. A/B以外へ停止したstate
+
+を分けて残す方針が成立した。
+
+### 変更後
+
+- 抽象的な曖昧cue問題が、実行前protocol sketchへ進んだ
+- PER-005 / PER-006の関係が、批判関係から共同protocol設計を含む関係へ進んだ
+- A/B以外のstateを失敗として捨てず、観測対象へ残す方針が成立した
+- 具体的なN、pattern数、run数、計算機、language、simulation結果はまだ未成立
+
+### 同期しているペルソナ状態
+
+EVT-003時点で1980年代側active:
+
+- `personas/PER-005.md`
+- `personas/PER-006.md`
+
+### 重要な境界
+
+EVT-003から新しい現実研究EXPは自動生成していない。
+
+現代側EXP-004が類似したbalanced cueを扱ったという作者側情報を、このprotocol sketchの原因にはしない。
+
+---
+
 ## T0-MODERN / BOOT-001
 
 状態: `PROVISIONAL`
@@ -157,7 +213,7 @@ PER-005 / PER-006がその結果を知ったことにはしない。
 
 ### 現在成立している客観境界
 
-- EVT-001 / EVT-002は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
+- EVT-001 / EVT-002 / EVT-003は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
 - 最初の現代側異常の具体像、最初の発見者、その時点の解釈は未確定
 - 現代モデル内に過去の研究者と機能的・行動的に似たパターンが作品内で現れることはCanonに含まれるが、それを`T0-MODERN`ですでに観測済みの世界状態とはしない
 - それが本人の意識・輪廻・同一主体であることは確定していない
