@@ -113,7 +113,7 @@ N=100の同じ実装で保存負荷とnoiseを広げると、低負荷・低nois
 
 ## H-003 EXP-002の非保存収束状態には単純3-pattern mixtureが少なくとも一つ含まれる
 
-状態: TESTING
+状態: SUPPORTED
 
 ### H
 EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち、少なくとも1件は、その条件で保存されている3 patternsのbit-wise majority mixture
@@ -137,7 +137,17 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち�
 - UNCERTAIN: EXP-002の再生成条件・分類・trial数が一致せず有効判定できない
 
 ### D
-未実行。
+- EXP-003: PASS
+- EXP-002の960 trialsを再生成
+- NONSTORED_CONVERGED: 510/510再現
+- 3-pattern majority mixture exact match: 1件
+- 該当: pattern seed 1983, P=5, noise=0.40, trial index=2
+- 探索的には363/510件でnearest stored patternよりnearest 3-pattern mixtureの方が近かった
+
+### 状態判断
+事前PASS条件である「510件中に少なくとも1件のexact 3-pattern mixture match」を満たしたため、**EXP-002の有限trial群に限定して** `SUPPORTED` とする。
+
+この状態更新は、残り509件をmixture stateと同定するものではない。探索的な363/510という近接結果もH-003の事前判定には使わない。
 
 ### C
 - 3-pattern majority mixture以外の高次mixture
@@ -149,7 +159,7 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち�
 ### U
 - EXP-002と同一コード系列からの再解析であり独立再現ではない
 - N=100、特定seed群、特定noise操作に限定
-- exact matchのみでは「近いが一致しないmixture-like state」を拾わない
+- exact matchのみでは「近いが一致しないmixture-like state」を同定できない
 - 3-pattern mixtureだけを対象とし、5-pattern以上のodd mixtureは今回の判定対象外
 
 ### 由来
@@ -160,10 +170,11 @@ EXP-002で `NONSTORED_CONVERGED` と分類された最終状態510件のうち�
 - EXP-002
 - EXP-003
 - F-002
+- F-003
 - EVT-001
 
 ## 現在
 
 - H-001: `SUPPORTED`（EXP-001の宣言条件に限定）
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
-- H-003: `TESTING` — 単純3-pattern mixtureのexact matchを検証中
+- H-003: `SUPPORTED`（EXP-002の有限trial群でexact 3-pattern mixtureを1件確認）
