@@ -31,22 +31,18 @@ PER-005:
 
 ### EVT-002
 
-PER-005がEVT-001の問いをPER-006へ共有。
-
-PER-006は、実験者がtargetを知っていることと、network自身に一意な`correct`があることは別ではないかと問い返した。
+PER-006が、実験者がtargetを知っていることとnetwork自身に一意な`correct`があることは別ではないかと問い返した。
 
 PER-005:
 
 - 「原像を知っているのは誰だ」
 - 「手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか」
 
-PER-006は、この相互作用で独立状態を追う必要が生じたため初めて生成された。
+PER-006はこの相互作用で初めて独立persona化。
 
 ### EVT-003
 
-PER-005 / PER-006は、A/Bへ同じbit差数を持つcueを構成するprotocol sketchを作った。
-
-重要な修正:
+PER-005 / PER-006はA/Bへ同じbit差数を持つcueのprotocol sketchを作った。
 
 - 等距離 = dynamics上の中立、とは扱わない
 - cueからA/Bへの距離
@@ -54,27 +50,18 @@ PER-005 / PER-006は、A/Bへ同じbit差数を持つcueを構成するprotocol 
 - update条件
 - A/B以外のstate
 
-を別々に記録する。
+を分けて記録する方針が成立。
 
 ### EVT-004
 
-EVT-003後、PER-005は具体的計算機を先に固定せず、まず紙で追える6-unit・3-pattern networkへprotocolを適用した。
-
-A/Bへ2 bitずつ離れた同一cue、同一weights、同一の非同期更新規則で、update orderだけを変えたところ、
-
-- order α → A
-- order β → B
-
-となり、双方がstableであることをPER-005 / PER-006が確認した。
+6-unit・3-patternの紙上networkで、同一cue・同一weights・同一非同期更新規則から、update orderだけを変えてA/Bへ別々にstable到達する例をPER-005 / PER-006が観測した。
 
 PER-005:
 
 - 「手掛かりが同じでも、戻り先は一つとは限らない」
 - 「想起の結果だけを見て原像を逆算してよいのか」
 
-この観測は6-unitの一例だけであり、memory一般や生物学的記憶へ一般化していない。
-
-現代側EXP-004の122/200、4000 runs、seed等をPER-005 / PER-006へ与えていない。
+現代側EXP-004の122/200、4000 runs等を人物へ与えていない。
 
 ## 第1話
 
@@ -84,98 +71,100 @@ PER-005:
 
 `EVT-001`〜`EVT-004`
 
-EVT-004で初めて具体的な観測反例が成立し、「一つのcueには一つの正解を置ける」という暗黙前提が少なくとも小規模例では維持できなくなった。
+研究レポート形式ではなく、人物の問い・会話・protocol・紙上計算からNarrativeProjectionした。
 
-この認識変化が新しい問いの初期条件となるため、一つの読書単位として自然な切れ目と判断した。
+未確定属性を本文が勝手に固定しないよう、PER-005の性別代名詞は除去済み。
 
-第1話の結末を先に置いてEVT-004を発生させたわけではない。
+## 生成方式検証
 
-## 研究分岐ルール
+詳細:
 
-```text
-物語中の実際の言葉・観測
-    ↓
-検証可能か判断
-    ↓
-Q / H / EXP
-    ↓
-research/reports/EXP-xxx.md
-    ↓
-research/findings.md
-```
+`notes/generation-validation.md`
 
-- 一話 = 一実験ではない
-- 実験番号と話数を対応させない
-- 派生実験は判定対象が変わるなら別EXP
-- 実験は `experiments/`、研究としての読み物は `research/reports/`
-- 現代研究結果を過去人物へ未来知識として注入しない
+第1話生成テストは **PARTIAL PASS**。
 
-詳細: `research/README.md`, `experiments/README.md`, `research/reports/README.md`
+確認できた:
 
-## 物語由来の現実研究
+- repoからのstate recovery
+- stale indexの検出
+- personaごとの情報境界
+- world / persona state同期
+- personaを必要時だけ追加
+- 一話=一実験を回避
+- 小説 / research reportを分離
+- event群から第1話へ投影
+- EVT-004の記載計算自体の数理的一貫性
+
+未確認:
+
+**environment resolverの結果独立性**。
+
+EVT-004より前に生成側はEXP-004でupdate-order依存を知っていた。一方、EVT-004のA/B/C、cue、order α/β、selection / stopping ruleは結果を見る前にrepoへlockされていない。
+
+したがって、人物への未来知識漏洩とは別に、resolver側のselection biasを排除できない。
+
+EVT-004 Resolution provenance:
+
+`UNBLINDED`
+
+EVT-004は物語event・数理例・第1話材料として保持するが、cleanなresolver独立性の証拠には数えない。
+
+## 次の重要ルール: ACTION_LOCKED
+
+次の重要なoutcomeを解決するときは `novel/events/README.md` と `novel/environment.md` に従う。
+
+1. 現在のpersona stateとstory-visible情報だけから行動を生成
+2. outcome-sensitiveな具体条件または選択規則をeventへ書く
+3. trial集合 / update rule / stopping / inclusion ruleも固定
+4. resolverが使ってよい情報と、action selectionへ使ってはいけない作者側情報を明記
+5. event状態を `ACTION_LOCKED` として**結果を書く前にcommit**
+6. そのcommit後にresolverが結果を解決
+7. locked条件を結果を見て変更しない
+8. 平凡・失敗・不都合な結果も採用する
+
+生成contextがpersonaには見えないEXP結果を既に知っている場合、具体条件はstory-visible情報だけからのdeterministic ruleで固定するか、結果知識を与えない別contextで選ぶ。
+
+clean validationの成功条件は「面白い結果」ではなく、**どんな結果でも差し替えず、その結果から次状態へ進めること**。
+
+## 研究分岐
 
 ### EVT-001 → Q-003 / H-003 / EXP-003
 
-- 対象: EXP-002の`NONSTORED_CONVERGED` 510件
 - 3-pattern majority mixture exact match: 1件
 - 判定: PASS
-- H-003: SUPPORTED（有限trial群に限定）
 - F-003: PROVISIONAL
-
-探索的に363/510件でnearest storedよりnearest 3-pattern mixtureの方が近かったが、mixture attractor同定とはしない。
 
 ### EVT-002 → Q-004 / H-004 / EXP-004
 
 - N=100, P=5
-- pattern seeds: 1982 / 1983 / 1984
-- 有効pair: 20
 - balanced cue: 200
 - update-order runs: 4000
-- A/B Hamming等距離違反: 0
 - BIDIRECTIONAL cue: 122 / 200
 - 判定: PASS
-- H-004: SUPPORTED（有限条件に限定）
 - F-004: PROVISIONAL
 
-最初のBIDIRECTIONAL例:
-
-- pair Hamming distance: 54
-- cue→A = 27
-- cue→B = 27
-- 同一cue・同一weightsの20 runsでA exact 2、B exact 11、nonstored converged 7
-
-事前PASS条件はBIDIRECTIONALが1件以上存在すること。122/200は探索的集計であり一般的頻度ではない。
-
-研究レポート:
-
-- `research/reports/EXP-003.md`
-- `research/reports/EXP-004.md`
-
-EVT-003 / EVT-004から新しいQ / H / EXPは追加していない。
-
-EVT-004はQ-004と同種の現象を物語世界で独立に小規模観測したため、重複IDを作らない。
+EVT-003 / EVT-004から重複EXPは作っていない。
 
 ## 次の物語側作業
 
-EXP-005を研究都合で先回りして自動実行しない。
+EXP-005を研究都合で自動生成しない。
 
-EVT-004後のPER-005 / PER-006を、その人物のKnowledge / Beliefs / Goals / Relations / 状況から再び動かす。
+EVT-004後のPER-005 / PER-006を現在状態から動かす。
 
 現在の自然な局所問題:
 
-- 6-unitの作為的な一例をどこまで一般化してよいか
-- `correct recall`をfinal state以外の何と結び付けるべきか
+- 6-unitの一例をどこまで一般化してよいか
+- `correct recall`をfinal state以外の何と結び付けるか
 - A/B以外のstable stateをどう扱うか
 - 紙上計算から計算機実装へ進む必要が本当に生じるか
-- 具体計算機を必要とする段階で、研究環境・第三者の助けを本当に固定すべきか
 
-そこで実際に生じた相互作用だけを次eventへする。
+重要なoutcomeを伴う次eventは、上記ACTION_LOCKED手順を使う。
 
 ## 未確定
 
 - 具体年月日
 - 国・都市・所属研究機関
-- PER-005 / PER-006の氏名・年齢
+- PER-005 / PER-006の氏名・年齢・性別
 - 計算機・言語・端末
 - 二人の正式な所属関係・上下関係
 - 紙上例の次に実行する具体的計算
