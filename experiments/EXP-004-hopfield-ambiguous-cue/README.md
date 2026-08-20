@@ -1,8 +1,8 @@
 # EXP-004 Hopfield等距離cueの更新順依存
 
-状態: `PLANNED`
+状態: `COMPLETED`
 
-判定: 未実行
+判定: **PASS**
 
 ## 実験ID
 
@@ -38,8 +38,9 @@ PER-006が物語上で、
 
 - Q-004
 - H-004
+- F-004
 - EVT-002
-- 対応研究レポート: `research/reports/EXP-004.md`（実行後作成）
+- 対応研究レポート: `research/reports/EXP-004.md`
 
 ## 種別
 
@@ -88,8 +89,6 @@ AとBが異なる`d`個のbitのうち、ちょうど`d/2`個をB側の値、残
 
 ### final分類
 
-各runを次へ分類する。
-
 1. `A_EXACT`
 2. `B_EXACT`
 3. `OTHER_STORED`
@@ -113,8 +112,6 @@ AとBが異なる`d`個のbitのうち、ちょうど`d/2`個をB側の値、残
 
 ### UNCERTAIN
 
-次のいずれかの場合。
-
 - 有効pair / cueが1件も生成できない
 - balanced距離条件が破れる
 - run数、update rule、pattern生成等に重大な逸脱がある
@@ -126,22 +123,79 @@ AとBが異なる`d`個のbitのうち、ちょうど`d/2`個をB側の値、残
 - FAIL: 今回の有限条件では、update orderだけでA/B両方へ分岐する同一cueを確認できなかった証拠
 - UNCERTAIN: H-004の支持・不支持へ使わない
 
-## 探索的に記録してよい項目
+# 実行後記録
 
-事前判定には使わないが、次を保存してよい。
+## 実行環境
 
-- 有効pair数 / cue数 / total runs
-- A / B / other / nonstored / nonconvergedの総数
-- `BIDIRECTIONAL` cue数・割合
-- pair別・seed別の分岐頻度
-- 同一cueでのA/B割合
+- Python: `3.13.5`
+- NumPy: `2.3.5`
+- Platform: `Linux-6.18.35-x86_64-with-glibc2.41`
 
-これらを見てPASS基準を変更しない。
+## 観測結果
 
-## 既知の限界
+- 有効pair: `20`
+- balanced cue: `200`
+- update-order runs: `4000 / 4000`
+- balanced距離違反: `0`
+- `BIDIRECTIONAL` cue: `122 / 200 = 0.61`
 
-- Hamming等距離はenergy landscape上の等距離を意味しない
-- N=100、P=5、random patternsだけ
-- asynchronous shuffled updateだけ
-- existence testであり、一般的な頻度推定ではない
-- 人間の曖昧な記憶・意思決定と同じ機構だとは言えない
+全run分類:
+
+- `A_EXACT`: 632
+- `B_EXACT`: 630
+- `OTHER_STORED`: 1
+- `NONSTORED_CONVERGED`: 2737
+- `NONCONVERGED`: 0
+
+## 最初のBIDIRECTIONAL例
+
+- pattern seed: 1982
+- pair: A=0, B=1
+- pair Hamming distance: 54
+- cue index: 0
+- cue→A: 27
+- cue→B: 27
+- 20 update-order runs:
+  - A_EXACT: 2
+  - B_EXACT: 11
+  - NONSTORED_CONVERGED: 7
+
+同一weights・同一cueで、update-order seedだけを変えた結果としてA/B両方へのexact recallが観測された。
+
+## 判定
+
+**PASS**
+
+事前条件の `BIDIRECTIONAL >= 1` を満たした。
+
+122/200という割合は探索的集計であり、事前PASS条件ではない。この値を見て判定基準は変更していない。
+
+## 保存結果
+
+- `results/summary.json`
+- `results/cues.csv`
+- `run.py`
+
+`runs.csv` は4000 rowsとなるためcommitせず、`run.py` で決定論的に再生成可能とする。
+
+保存した `cues.csv` の実行時SHA-256:
+
+`3b03e9aa66b50b7371a43e236cb14a339bee383da8711f55e85a097baf59c982`
+
+## 解釈上の注意
+
+Hamming等距離なcueでも、energy landscapeやbasin geometry上でA/Bに等しいとは限らない。
+
+したがって今回確認したのは、
+
+**今回の有限条件では、cueだけから一意なtargetを指定できない具体例があり、非同期更新順の差だけで複数の候補記憶へexact recallし得る**
+
+ということに限定する。
+
+人間の曖昧な記憶や意思決定が同じ機構であるとは言えない。
+
+## 小説との分離
+
+この結果は現実研究側の記録であり、1980年代のPER-005 / PER-006へ自動的に与えない。
+
+物語世界で本人たちが同様の現象を時代内の手段で観測した場合のみ、その観測を別eventとして状態へ反映する。
