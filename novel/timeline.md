@@ -63,10 +63,10 @@ T0-MODERN
 
 ### Current event heads
 
-- 1980年代側: `EVT-005`
+- 1980年代側: `EVT-006`
 - 現代側: none
 
-EVT-005時点の1980年代active personas:
+EVT-006時点の1980年代active personas:
 
 - PER-005
 - PER-006
@@ -75,15 +75,11 @@ EVT-005時点の1980年代active personas:
 
 物語世界で実際に起きた時刻・因果順と、小説本文で読者へ提示する順番を分離します。
 
-現時点では、**哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き、PER-006との相互作用と最初の紙上計算へ進む**流れが第1話ドラフト `chapters/001.md` として成立している。
+現時点では、哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き、PER-006との相互作用と最初の紙上計算へ進む流れが第1話ドラフト `chapters/001.md` として成立している。
 
-第1話の採用event範囲は `EVT-001`〜`EVT-004` のままにする。EVT-005が後から成立したことを理由に、第1話へ自動追加しない。
+第1話の採用event範囲は `EVT-001`〜`EVT-004` のままにする。EVT-005 / EVT-006が後から成立したことを理由に、第1話へ自動追加しない。
 
-第1話はEVT-004成立後に、同一cueから複数のstored stateへ到達する具体例によって局所的な認識状態に切れ目が生じていたため、NarrativeProjectionではそこを読書単位として採用した。
-
-ただし、この切れ目が自然に見えることと、EVT-004の具体outcomeが結果非依存のresolverから生じたことは別問題である。EVT-004は解決前lockがなく、生成側が同種現象を既知だったため、Resolution provenanceは `UNBLINDED`、resolver独立性の検証価値は `INCONCLUSIVE` とする。
-
-EVT-005は第1話後のstory timeに属し、初めて `ACTION_LOCKED → commit → RESOLVED` を実際に通したeventである。
+EVT-004は第1話のNarrativeProjection上の切れ目として有効だが、具体条件の解決前lockがないためResolution provenanceは `UNBLINDED`。EVT-005 / EVT-006はその後のstory timeで `ACTION_LOCKED → commit → RESOLVED` を通したeventである。
 
 将来、現代場面の後に1980年代を回想する等の構成へ変更しても、story time上の状態位置は変えない。
 
@@ -108,24 +104,22 @@ EVT-005は第1話後のstory timeに属し、初めて `ACTION_LOCKED → commit
 
 Story time: `T0-1980S + first research session`
 
-PER-005は当時利用可能なcontent-addressable memoryとspurious memoryをめぐる問題設定を比較し、研究ノートに、
+PER-005はcontent-addressable memoryとspurious memoryをめぐる問題設定を比較し、
 
 - 「止まることと、戻ることは同じか」
 - 「保存していないところで止まるなら、その状態は何からできている？」
 
 という問いを残した。
 
-研究側ではこの問いからQ-003 / H-003 / EXP-003が独立に派生したが、その現代的な解析結果をPER-005が知ったことにはしない。
+研究側ではこの問いからQ-003 / H-003 / EXP-003が独立に派生したが、その現代的解析結果をPER-005が知ったことにはしない。
 
 #### EVT-002 — 正しい想起は誰が決める
 
 Story time: `T0-1980S + second research interaction`
 
-PER-005がEVT-001の問題を、実験神経科学・観測基準の側から考えるPER-006へ共有した。
+PER-006は、実験者がtargetを知っていることと、曖昧cueに対してnetwork自身に一意な「正解」があることは別ではないかと問い返した。
 
-PER-006は、実験者がtargetを知っていることと、曖昧なcueに対してnetwork自身に一意な「正解」があることは別ではないかと問い返した。
-
-PER-005はノートへ、
+PER-005は、
 
 - 「原像を知っているのは誰だ」
 - 「手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか」
@@ -134,89 +128,93 @@ PER-005はノートへ、
 
 このeventでPER-006が初めて独立ペルソナとして成立した。
 
-研究側ではこの問いからQ-004 / H-004 / EXP-004が独立に派生し、等距離cueのupdate-order依存を検証した。ただし、その結果をPER-005 / PER-006が知ったことにはしない。
+研究側ではこの問いからQ-004 / H-004 / EXP-004が派生したが、その結果をPER-005 / PER-006へ逆流させない。
 
 #### EVT-003 — 公平な手掛かりは中立ではない
 
 Story time: `T0-1980S + protocol sketch after EVT-002`
 
-PER-005 / PER-006は、二つのstored patterns A/Bで異なるunitの半分ずつを使い、A/Bへ同じbit差数を持つcueを作る手順を共同メモへ記録した。
+PER-005 / PER-006は、A/Bで異なるunitの半分ずつを使い、A/Bへ同じbit差数を持つcueを作る手順を共同メモへ記録した。
 
-同時に、
-
-- bit差数が等しいこと
-- dynamics上でA/Bが等価であること
-
-を同一視しないと明記した。
-
-距離、final state、update条件、A/B以外へ停止したstateを別々に記録する方針が成立した。
-
-このeventから新しいQ / H / EXPは自動生成していない。
+同時に、bit差数が等しいこととdynamics上でA/Bが等価であることを同一視せず、距離、final state、update条件、A/B以外へ停止したstateを別々に記録する方針を成立させた。
 
 #### EVT-004 — 同じ手掛かりから二つの戻り先
 
 Story time: `T0-1980S + first paper calculation after EVT-003`
 
-PER-005 / PER-006は、6 unit・3 stored patternsの紙上networkを用いてEVT-003のprotocolを初めて具体計算へ適用した。
+6 unit・3 stored patternsの紙上networkで、同一cue・weights・非同期更新規則から、更新順だけを変えてA/Bへ別々にstable到達する例を観測した。
 
-A/Bへ2 bitずつ離れた同一cue、同一weights、同一の非同期更新規則を用い、更新順だけを変えたところ、ある順序ではA、別の順序ではBへstableに到達した。
-
-PER-005は、final stateだけから唯一の原像を逆算するには追加条件が必要だと考え、
+PER-005:
 
 - 「手掛かりが同じでも、戻り先は一つとは限らない」
 - 「想起の結果だけを見て原像を逆算してよいのか」
 
-という問いを記録した。
+現代側EXP-004の統計値は二人へ共有していない。
 
-これは6-unitの一例であり、memory一般や生物学的記憶へ一般化していない。
-
-現代側EXP-004の122/200、4000 runs等は二人へ共有していない。
-
-生成方式検証上は、具体pattern・cue・update order・selection ruleをoutcome前にlockした記録がないため、このeventをcleanなresolver独立性の証拠には使わない。Resolution provenance: `UNBLINDED`。
+Resolution provenance: `UNBLINDED`。数理例・物語eventとして保持するが、clean resolver validationには使わない。
 
 #### EVT-005 — 更新順の選び方を先に固定する
 
 Story time: `T0-1980S + next joint paper check after EVT-004`
 
-PER-005 / PER-006はEVT-004の同じ6-unit networkを使い、update orderを追加で都合よく選ばないため、unit番号の自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを**結果前に固定**した。
+EVT-004と同じnetwork / cueについて、自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に固定した。
 
 Action-lock commit:
 
 `59ff6530d202b79834afbe8ffdceee1256437315`
 
-同じcue・weights・update rule・stopping / inclusion ruleで6本をすべて追った結果、
-
-- r1 → A
-- r2 → D
-- r3 → B
-- r4 → B
-- r5 → D
-- r6 → D
-
-となった。
-
-Dは、
+全6本を同じruleで解決した結果:
 
 ```text
-(+1, +1, +1, +1, -1, +1)
+r1 -> A
+r2 -> D
+r3 -> B
+r4 -> B
+r5 -> D
+r6 -> D
 ```
 
-であり、A / B / Cの保存patternのどれとも一致しないstable stateだった。
+DはA/B/Cのどれとも一致しないnonstored stable state。
 
-PER-005は、
+PER-005:
 
 - 「二つの原像のどちらへ戻るか、では足りない」
 - 「戻り先そのものが、原像の一覧の外にもある」
 
-という問題へ進んだ。
+Resolution provenance: `LOCKED`。
 
-PER-006はDをmemoryと呼ばず、まず`nonstored stable state`として扱うよう要求した。
+#### EVT-006 — 全balanced cueを先に固定する
 
-この結果も6-unitの一構成・6 orderだけであり、一般頻度や生物学的memoryへ一般化していない。
+Story time: `T0-1980S + systematic cue check after EVT-005`
+
+EVT-005でupdate-order selectionを固定した後、initial cue自体のselection freedomを減らすため、A/Bが異なる4 unitから作れるA/B等距離cue全6種類を結果前に固定した。
+
+Action-lock commit:
+
+`97ee4b3d322d367468258775443d6f2aa3551ef1`
+
+各cueへEVT-005と同じ6 cyclic ordersをすべて適用し、36 trialを全て記録した。
+
+結果:
+
+- A exact: 11
+- B exact: 11
+- C exact: 2
+- nonstored stable D: 12
+- nonconverged: 0
+
+q16はA/B/CすべてへHamming distance 2で、2 ordersからCへ到達した。
+
+q24はA/Bへdistance 2ずつだが、initial cue自体がDだった。
+
+PER-005:
+
+- 「AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない」
+- 「手掛かりは二つの原像だけでは定義できない」
 
 Resolution provenance: `LOCKED`。
 
-生成方式Test-002では、`ACTION_LOCKED → commit → resolver → 全結果を受理` の手順が実際に機能したことをPASSとした。これはA/B/Dという結果自体の一般性を意味しない。
+このeventから現実研究側ではQ-005 / H-005 / EXP-005が派生した。EXP-005はN=100/P=5の200 balanced cuesで第三stored patternとのHamming同距離/近距離を検証し、全200 cueがPAIR_ISOLATEDだったためFAIL。これは現代研究側の結果であり、PER-005 / PER-006のKnowledgeへは入れない。
 
 ### 現代
 
@@ -225,7 +223,7 @@ Resolution provenance: `LOCKED`。
 - 大規模モデルの学習・評価過程で、過去の研究者に似た特徴を持つ挙動が作品内で観測されることはCanonに含まれるが、`T0-MODERN`ですでに観測済みとはしない。
 - checkpoint比較やpost-trainingによる変化は長期的な同一性問題へ接続しうるが、未来eventとして初期状態へ書き込まない。
 
-具体的な現代側 `EVT-xxx` が成立した後は、event IDとstory timeをこの索引から辿れるようにします。
+具体的な現代側 `EVT-xxx` が成立した後は、event IDとstory timeをこの索引から辿れるようにする。
 
 ## 現実技術史との接点
 
