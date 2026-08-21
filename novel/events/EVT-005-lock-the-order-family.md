@@ -1,8 +1,10 @@
 # EVT-005 更新順の選び方を先に固定する
 
-状態: `ACTION_LOCKED`
+状態: `PROVISIONAL / RESOLVED`
 
-Resolution provenance: `LOCKED_PENDING_RESOLUTION`
+Resolution provenance: `LOCKED`
+
+Action-lock commit: `59ff6530d202b79834afbe8ffdceee1256437315`
 
 ## Story time
 
@@ -143,32 +145,173 @@ resolverは次だけを使ってよい。
 
 ## Resolution method
 
-このcommit後に、上記6 trialをexactに解決する。
+Action-lock commit後、上記6 trialだけを整数演算でexactに解決した。
 
-outcomeはこの`ACTION_LOCKED`版には書かない。
+locked条件、order集合、stopping / inclusion ruleは変更していない。
 
-解決後、同じファイルを更新して:
+## Resolved results
 
-- 各r1〜r6のfinal state
-- sweeps数
-- classification
-- 客観的なworld delta
-- PER-005 / PER-006が実際に観測した内容
-- persona delta
-- Structure impact
+6本すべてが2 sweeps目でstable判定になった。
 
-を記録する。
+```text
+r1 -> (-1, +1, +1, +1, -1, -1) = A             / 2 sweeps
+r2 -> (+1, +1, +1, +1, -1, +1) = OTHER_STABLE  / 2 sweeps
+r3 -> (+1, -1, +1, -1, -1, +1) = B             / 2 sweeps
+r4 -> (+1, -1, +1, -1, -1, +1) = B             / 2 sweeps
+r5 -> (+1, +1, +1, +1, -1, +1) = OTHER_STABLE  / 2 sweeps
+r6 -> (+1, +1, +1, +1, -1, +1) = OTHER_STABLE  / 2 sweeps
+```
 
-## Research branch before resolution
+結果分類:
 
-新しいQ / H / EXPは作成しない。
+- A: 1 / 6
+- B: 2 / 6
+- C: 0 / 6
+- OTHER_STABLE: 3 / 6
+- NONCONVERGED: 0 / 6
 
-このeventの第一目的は、既存の物語問題を人物側で続けることと、`ACTION_LOCKED → RESOLVED` の生成方式を実際に検証すること。
+`OTHER_STABLE`として現れた状態をDと呼ぶ。
 
-結果が新しい独立研究価値を持つかどうかは、結果解決後に別途判断する。
+```text
+D = (+1, +1, +1, +1, -1, +1)
+```
 
-## Validation target
+DはA / B / Cのどれとも一致しない。
 
-成功条件はA/B分岐が再現することではない。
+- Hamming(D, A) = 2
+- Hamming(D, B) = 2
+- Hamming(D, C) = 6
 
-**このlock後にどの結果が出ても、条件を差し替えず、その結果を物語状態として受け入れること。**
+Dでは各unitのlocal fieldの符号が現在値と一致しており、paper model上のstable stateである。
+
+## Actions after observing results
+
+PER-005は、EVT-004で二つだけ選んだorderの結果を増やすのではなく、先に決めた6本の欄を最後まで埋める。
+
+AとBだけでなく、保存していないDが3本で現れたため、ノート上の分類をA/Bの二択から、少なくとも
+
+- stored A
+- stored B
+- nonstored stable D
+
+へ書き換える。
+
+PER-006は、Dを「第三の記憶」と呼ぶことを止める。保存したpatternではない以上、まずは`保存していない安定状態`として記録し、memory一般の語へ広げないよう求める。
+
+PER-005は、
+
+> 二つの原像のどちらへ戻るか、では足りない。
+>
+> 戻り先そのものが、原像の一覧の外にもある。
+
+と追記する。
+
+## Resolved consequence
+
+- EVT-004の二つの手選択orderだけに依存せず、結果前に固定した6 cyclic ordersでも複数のfinal stateが観測された
+- 同一cue・同一weights・同一update ruleから、A / B / nonstored stable Dの三種類へ分かれた
+- PER-005の局所問題は「AとBのどちらが正しいか」だけでは足りなくなった
+- final stateから唯一のstored原像を逆算する作業前提は、少なくともこのpaper modelではさらに弱くなった
+- 6 unit・一つのpattern集合・6 ordersだけの観測であり、頻度一般や生物学的memoryへ一般化しない
+
+## World delta
+
+客観的に成立したもの:
+
+- 共同メモに、結果前に固定した6 cyclic ordersと全結果が残った
+- r1〜r6を選別せずすべて記録した
+- stored A / stored B / nonstored stable Dという三分類が同一cueから観測された
+- Dの具体状態とA/B/CへのHamming距離が記録された
+- 具体的な計算機・language・所属環境はまだ固定していない
+
+## Persona deltas
+
+### PER-005
+
+Beliefs:
+- update orderが異なると、同じcueから複数のstored stateだけでなくnonstored stable stateへも到達し得る小例を自分で確認した
+- `correct recall`を「AかBのどちらへ戻ったか」だけで定義するのは不十分
+- final stateから原像を逆向きに一意推定するには、初期条件・update protocol・保存集合との関係を分ける必要がある
+
+Goals:
+- DがA/Bの単純な中間なのか、別種の安定構造なのかを記述したい
+- 一つの小例から一般化せず、何を固定し何を変えたかを先に記録する方法を続けたい
+
+Relations:
+- PER-006の「先に検査集合を固定する」要求を、結果選別を減らす研究上の手続きとして評価する
+
+Memory:
+- cyclic rotations全6本の結果A / D / B / B / D / Dを保持する
+- Dが保存patternではないことを保持する
+
+### PER-006
+
+Beliefs:
+- 結果を見てorderを選ぶより、検査集合を先に固定した方がmodel内の主張を狭くできる
+- Dをmemoryと呼ぶ根拠はなく、nonstored stable stateとして扱うべき
+- update-order依存はA/Bの二者択一だけの問題ではない
+
+Goals:
+- Dの構造を述べる場合も、model内の事実と生物学的memoryの主張を分けさせる
+- 次の比較でも観測項目・変更条件・停止条件を先に決めさせる
+
+Relations:
+- PER-005がA/B以外の結果を捨てずに記録したため、共同検討を継続する価値が高まった
+
+Memory:
+- 6 cyclic ordersすべてを先に固定し、A / B / Dの三種が出たことを保持する
+
+## Who observed what
+
+- PER-005 / PER-006: lockedした6 orders、全紙上計算、A/B/Dへの分類、相互の発言
+- 他ペルソナ: 未観測
+
+## Research branch after resolution
+
+新しいQ / H / EXPはこのeventだけでは作成しない。
+
+理由:
+
+- `nonstored stable state`の構造は既存のQ-003 / EXP-003と論点が重なる
+- `same cue + update-order dependence`は既存のQ-004 / EXP-004と論点が重なる
+- EVT-005は両論点が同一の小規模paper modelで同時に現れたが、それだけで新しい独立research targetを作る必要はない
+
+PER-005 / PER-006が後続eventでDについて既存問いとは異なる検証可能な問題を実際に立てた場合に、改めて研究分岐を判断する。
+
+## Canon candidate
+
+- PER-005 / PER-006がEVT-004の小規模networkに対し、結果前に固定した6 cyclic update ordersをすべて検査したこと
+- 同一cueからA / B / nonstored stable Dの三種を観測したこと
+- PER-005の問いが「どのstored原像か」から「stored集合外の戻り先をどう扱うか」へ広がったこと
+
+人間受理前に`canon.md`へ自動昇格させない。
+
+## Structure impact
+
+EVT-005は、EVT-004で成立した局所的な`転`を結果前lockされた追加観測で補強した。
+
+ただし、`転`が強くなったからという理由で`結`へ進めない。
+
+現在の新しい局所問題は、
+
+**同じcueからstored A / stored B / nonstored stable Dへ到達し得るとき、「戻る」という語は何を指しているのか。**
+
+である。
+
+次のeventは、この問いに予定された答えを与えるのではなく、PER-005 / PER-006の現在stateと環境から改めて生成する。
+
+## Validation result
+
+生成方式のTest-002として、このeventは `PASS` とする。
+
+確認できたこと:
+
+- outcome-sensitiveな条件を結果前にexternalizeできた
+- action-lock commit後にだけ結果を解決した
+- locked order集合を変更しなかった
+- A/B以外の結果も削除しなかった
+- 結果が三種類へ分かれても、そのまま物語状態へ採用した
+
+このPASSは「A/B/Dという結果が一般的である」ことを意味しない。
+
+**ACTION_LOCKED → resolver → outcomeを差し替えず受理する手順が実際に動いた**ことに対する生成方式上の判定である。
