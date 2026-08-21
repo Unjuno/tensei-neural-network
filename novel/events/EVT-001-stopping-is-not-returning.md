@@ -12,7 +12,7 @@
 
 - Parent: `BOOT-002 @ T0-1980S @ none`
 - Previous event: none
-- Next event: 未成立
+- Next event: `EVT-002`
 
 ## Participants
 
