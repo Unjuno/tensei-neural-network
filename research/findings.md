@@ -197,11 +197,81 @@ EXP-004のN=100、P=5、pattern seeds 1982/1983/1984では、二つのstored pat
 - EXP-004
 - EVT-002
 
+---
+
+## F-005 EXP-004のbalanced cueはHamming距離上pair-isolatedだったが、dynamics上のpair isolationは保証されない
+
+状態: PROVISIONAL
+
+### 現在言えること
+
+EXP-005では、EXP-004のN=100、P=5、pattern seeds 1982/1983/1984で生成した200 balanced cuesをstored set全体へのHamming distanceから再解析した。
+
+selected pair A/Bへの共通距離を `d_pair`、残り3 stored patternsへの最小距離を `d_other_min` とすると、
+
+- `PAIR_ISOLATED` (`d_other_min > d_pair`): **200 / 200**
+- `THIRD_TIED`: 0
+- `THIRD_CLOSER`: 0
+
+だった。
+
+margin `d_other_min - d_pair` は最小11、最大30だった。
+
+したがって、この有限cue集合では、pairwise balanced cueは**initial Hamming geometry上ではselected A/Bを残りstored patternsから明確に孤立させていた**。
+
+一方、探索的にEXP-004の4000 runsを再確認すると、`OTHER_STORED`が1 run存在した。そのrunでは、
+
+- selected A/Bへのinitial cue距離: 28
+- 到達した第三stored patternへのinitial cue距離: 44
+- Hamming margin: 16
+- 6 sweepsで第三stored patternへexact到達
+
+だった。
+
+したがって今回の有限条件では、**Hamming距離上のpair isolationは、dynamics / basin geometry上でもselected pairだけに孤立していることを保証しない。**
+
+### 根拠
+
+- EXP-005 — 事前判定FAIL
+- `experiments/EXP-005-hopfield-pair-isolation/results/summary.json`
+- `research/reports/EXP-005.md`
+- EXP-004 — 探索的OTHER_STORED runの再確認
+
+### 重要な負の結果
+
+H-005は「200 balanced cuesの少なくとも1件で第三stored patternがA/Bと同距離以下」と予測したが、該当cueは0件だった。
+
+したがって、EVT-006のN=6 toy networkで観測した第三patternとの同距離geometryを、N=100 random-pattern条件へそのまま一般化してはいけない。
+
+このFAILは削除せず、small-N toy exampleとN=100 random setの差として保持する。
+
+### 言えないこと
+
+- Hamming pair-isolated cueが一般に第三stored patternへ到達しやすいこと
+- OTHER_STOREDの頻度。今回のEXP-004では1/4000 runのみ
+- その1 runの原因が特定のbasin geometryであること
+- energy、local field margin、basin volumeのどれが第三pattern到達を説明するか
+- 他のN/P/pattern ensembleでも同じになること
+- 人間の記憶が同じ機構であること
+
+### 状態判断
+
+EXP-005はEXP-004と同じcode/data系列の決定論的再解析であり独立再現ではない。さらにdynamicalな第三pattern到達は探索的1 runだけなので、`PROVISIONAL` とする。
+
+### 関連
+
+- Q-005
+- H-005
+- EXP-004
+- EXP-005
+- EVT-006
+
 ## 現在
 
 - F-001: PROVISIONAL — 低負荷での回復
 - F-002: PROVISIONAL — 条件悪化による回復崩壊と非保存収束状態
 - F-003: PROVISIONAL — 非保存収束状態に3-pattern majority mixture exact matchを1件確認
 - F-004: PROVISIONAL — 等距離cueからupdate order差だけで複数候補へのexact recallを確認
+- F-005: PROVISIONAL — balanced cueはHamming距離上pair-isolatedでも、dynamics上のpair isolationは保証されない
 
 次の研究候補は、energy/basin非対称性の定量化、別N/P・別実装での再確認、synchronous/asynchronous差など。ただし物語上の必要性または独立した研究価値が生じたものから選ぶ。
