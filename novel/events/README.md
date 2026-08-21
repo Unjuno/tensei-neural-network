@@ -10,6 +10,21 @@
 
 IDは発生順または採番順の識別子であり、必ずしも小説の章順とは一致しません。
 
+### eventの補助データ
+
+一つのeventに全trial表・CSV等の大きな補助記録が必要な場合、event本文と同じEVT IDを持つ補助ファイルを置いてよい。
+
+例:
+
+```text
+EVT-007-enumerate-the-whole-small-state-space.md
+EVT-007-state-space.csv
+```
+
+このCSVは**別eventではなくEVT-007の証拠・補助データ**であり、新しいEVT番号を消費しない。
+
+補助ファイル単独からworld/persona stateを進めず、対応するevent本文から参照する。
+
 ## 最低限の記録
 
 ```text
