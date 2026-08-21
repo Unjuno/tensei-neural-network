@@ -233,7 +233,7 @@ N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからH
 
 ## H-005 EXP-004のpairwise balanced cueには第三stored patternがA/Bと同距離以下の例が少なくとも一つある
 
-状態: TESTING
+状態: NOT_SUPPORTED
 
 ### H
 EXP-004で生成済みの200 balanced cuesのうち少なくとも1件について、selected pair A/Bへの共通Hamming距離を `d_pair`、残り3 stored patternsへの最小Hamming距離を `d_other_min` としたとき、
@@ -248,7 +248,7 @@ EXP-004で生成済みの200 balanced cuesのうち少なくとも1件につい�
 - EXP-005
 - Parent experiment: EXP-004
 - EXP-004のN=100、P=5、pattern seeds 1982/1983/1984をそのまま使う
-- EXP-004で生成した200 balanced cuesを同一条件で再生成または保存済みcue記録から復元する
+- EXP-004で生成した200 balanced cuesを同一条件で再生成する
 - 各cueについてselected A/Bへの距離が等しいことを再確認する
 - 残り3 stored patternsへのHamming距離を全て計算する
 - `PAIR_ISOLATED`: `d_other_min > d_pair`
@@ -259,7 +259,25 @@ EXP-004で生成済みの200 balanced cuesのうち少なくとも1件につい�
 - UNCERTAIN: EXP-004のcue/pattern/pair対応を再現できない、距離条件違反、件数不一致
 
 ### D
-未実行。
+- EXP-005: **FAIL**
+- 有効pair: 20
+- balanced cue: 200
+- A/B等距離違反: 0
+- `PAIR_ISOLATED`: 200
+- `THIRD_TIED`: 0
+- `THIRD_CLOSER`: 0
+- `d_other_min - d_pair`: min 11, max 30
+
+探索的にEXP-004の4000 runsを再生成すると既存分類と一致し、`OTHER_STORED`が1 run存在した。そのrunではselected pairへのinitial cue距離が28、到達した第三stored patternへの距離が44だった。
+
+この探索結果はH-005の事前判定を変更しない。
+
+### 状態判断
+事前FAIL条件である「200 cueすべてPAIR_ISOLATED」を満たしたため、**EXP-004のN=100、P=5、3 seeds、200 balanced cueという有限集合に限定して** `NOT_SUPPORTED` とする。
+
+EVT-006のN=6 toy networkで観測された「第三stored patternがselected A/Bと同距離にいる」というgeometryを、今回のN=100 random setへ一般化する証拠は得られなかった。
+
+一方、探索的OTHER_STORED runは、Hamming距離上のpair isolationとdynamics / basin isolationが別問題である可能性を示す。これはH-005を救済するものではなく、別の仮説候補である。
 
 ### C
 - high-dimensional random patternsでは第三patternがA/Bと同距離以下になる確率が非常に低い可能性
@@ -270,6 +288,7 @@ EXP-004で生成済みの200 balanced cuesのうち少なくとも1件につい�
 - EXP-004と同じdata/code系列の再解析であり独立再現ではない
 - Hamming distanceだけを測り、energyやbasin boundaryは測らない
 - N=100/P=5/random patterns/3 seedsに限定
+- OTHER_STOREDは1 runだけで、dynamicalな第三pattern到達の一般的頻度は分からない
 
 ### 由来
 - EVT-006 — pairwise balanced cue全列挙で、第三stored pattern Cとnonstored fixed point Dが候補になった観測
@@ -278,6 +297,7 @@ EXP-004で生成済みの200 balanced cuesのうち少なくとも1件につい�
 - Q-005
 - EXP-004
 - EXP-005
+- F-005
 - EVT-006
 
 ## 現在
@@ -286,4 +306,4 @@ EXP-004で生成済みの200 balanced cuesのうち少なくとも1件につい�
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
 - H-003: `SUPPORTED`（EXP-002の有限trial群でexact 3-pattern mixtureを1件確認）
 - H-004: `SUPPORTED`（EXP-004有限条件でupdate-orderのみのA/B分岐を確認）
-- H-005: `TESTING`（EXP-004 balanced cueのstored-set全体距離をEXP-005で再解析）
+- H-005: `NOT_SUPPORTED`（EXP-004の200 balanced cuesは全てstored-pattern Hamming距離上PAIR_ISOLATED）
