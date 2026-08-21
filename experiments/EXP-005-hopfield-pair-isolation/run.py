@@ -128,7 +128,7 @@ def main() -> None:
                         "d_other_min": d_other_min,
                         "margin": margin,
                         "classification": classification,
-                        "other_distances": ";".join(str(x) for x in other_distances),
+                        "other_distances": other_distances,
                     }
                 )
 
@@ -211,10 +211,18 @@ def main() -> None:
                         category = "NONCONVERGED"
                     run_category_counts[category] += 1
 
+    # Row-level audit output. JSON summary keeps other_distances as an array;
+    # CSV serializes the same values with ';' for a stable flat representation.
+    csv_rows: list[dict[str, object]] = []
+    for row in cue_rows:
+        csv_row = dict(row)
+        csv_row["other_distances"] = ";".join(str(x) for x in row["other_distances"])
+        csv_rows.append(csv_row)
+
     with (results_dir / "cue_geometry.csv").open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=list(cue_rows[0].keys()))
+        writer = csv.DictWriter(f, fieldnames=list(csv_rows[0].keys()))
         writer.writeheader()
-        writer.writerows(cue_rows)
+        writer.writerows(csv_rows)
 
     summary = {
         "experiment_id": "EXP-005",
@@ -243,7 +251,9 @@ def main() -> None:
         "exploratory_other_stored": other_stored_rows,
         "note": (
             "PASS/FAIL concerns initial Hamming geometry only. "
-            "PAIR_ISOLATED does not imply basin isolation."
+            "All 200 cues were pair-isolated by Hamming distance, but one exploratory "
+            "EXP-004 run still reached a farther third stored pattern; Hamming pair "
+            "isolation does not imply basin isolation."
         ),
     }
 
