@@ -137,9 +137,47 @@ EXP-004ではN=100、P=5、pattern seeds 1982/1983/1984から、A/Bへ厳密にH
 - F-004
 - EVT-002
 
+## Q-005 pairwise balanced cueは選択したA/Bをstored-pattern距離上で孤立させるか
+
+状態: OPEN
+
+### 由来
+
+`novel/events/EVT-006-all-balanced-cues-locked.md` で、PER-005 / PER-006が6-unit toy networkのA/B等距離cue全6種類を固定して調べたところ、
+
+- A/B/Cへ同距離のcueからCへ到達する例
+- A/B等距離cueそのものがnonstored fixed pointである例
+
+を観測した。
+
+この小規模例を一般化せず、既存EXP-004のN=100/P=5 balanced cuesで、まず**stored patternsへのHamming距離だけ**を独立に確認する。
+
+### 問い
+
+EXP-004で生成済みの200 balanced cuesについて、selected pair A/Bへの共通距離 `d_pair` と、同じnetwork内の残り3 stored patternsへの最小Hamming距離 `d_other_min` を比較したとき、
+
+`d_other_min <= d_pair`
+
+となるcueは存在するか。
+
+存在する場合、pairwiseにA/Bへ等距離としただけでは、Hamming距離上もA/Bだけを候補として孤立させていない。
+
+存在しない場合、EVT-006の第三stored pattern問題は少なくともEXP-004のこのrandom N=100/P=5 cue集合では距離上再現されなかったことになる。
+
+### 現時点の回答
+
+未実行。EXP-005で事前基準を固定して再解析する。
+
+### 関連
+- H-005
+- EXP-004
+- EXP-005
+- EVT-006
+
 ## 現在
 
 - Q-001: `ANSWERED`
 - Q-002: `ANSWERED`
 - Q-003: `ANSWERED` — EXP-002の有限trial群で3-pattern mixture exact matchを1件確認
 - Q-004: `ANSWERED` — 同一の等距離cueからupdate order差だけでA/B両方へのexact recallを確認
+- Q-005: `OPEN` — EXP-004 balanced cueをstored set全体の距離から再解析予定
