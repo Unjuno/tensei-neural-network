@@ -229,9 +229,61 @@ N=100、P=5の低負荷Hopfield networkで、二つのstored patterns A/BからH
 - F-004
 - EVT-002
 
+---
+
+## H-005 EXP-004のpairwise balanced cueには第三stored patternがA/Bと同距離以下の例が少なくとも一つある
+
+状態: TESTING
+
+### H
+EXP-004で生成済みの200 balanced cuesのうち少なくとも1件について、selected pair A/Bへの共通Hamming距離を `d_pair`、残り3 stored patternsへの最小Hamming距離を `d_other_min` としたとき、
+
+`d_other_min <= d_pair`
+
+となる。
+
+これは「第三stored patternへ実際に収束する」とは主張しない。pairwise balanced cueの**initial-state geometry**だけを対象にする。
+
+### T
+- EXP-005
+- Parent experiment: EXP-004
+- EXP-004のN=100、P=5、pattern seeds 1982/1983/1984をそのまま使う
+- EXP-004で生成した200 balanced cuesを同一条件で再生成または保存済みcue記録から復元する
+- 各cueについてselected A/Bへの距離が等しいことを再確認する
+- 残り3 stored patternsへのHamming距離を全て計算する
+- `PAIR_ISOLATED`: `d_other_min > d_pair`
+- `THIRD_TIED`: `d_other_min == d_pair`
+- `THIRD_CLOSER`: `d_other_min < d_pair`
+- PASS: `THIRD_TIED + THIRD_CLOSER >= 1`
+- FAIL: 有効200 cueを再現し、全て`PAIR_ISOLATED`
+- UNCERTAIN: EXP-004のcue/pattern/pair対応を再現できない、距離条件違反、件数不一致
+
+### D
+未実行。
+
+### C
+- high-dimensional random patternsでは第三patternがA/Bと同距離以下になる確率が非常に低い可能性
+- EVT-006の第三stored pattern CはN=6というsmall finite-size geometryに依存する可能性
+- 第三patternが距離上遠くてもdynamics上はそのbasinへ入る可能性があり、このHだけではbasin geometryを判定できない
+
+### U
+- EXP-004と同じdata/code系列の再解析であり独立再現ではない
+- Hamming distanceだけを測り、energyやbasin boundaryは測らない
+- N=100/P=5/random patterns/3 seedsに限定
+
+### 由来
+- EVT-006 — pairwise balanced cue全列挙で、第三stored pattern Cとnonstored fixed point Dが候補になった観測
+
+### 関連
+- Q-005
+- EXP-004
+- EXP-005
+- EVT-006
+
 ## 現在
 
 - H-001: `SUPPORTED`（EXP-001の宣言条件に限定）
 - H-002: `SUPPORTED`（EXP-002の有限gridに限定）
 - H-003: `SUPPORTED`（EXP-002の有限trial群でexact 3-pattern mixtureを1件確認）
 - H-004: `SUPPORTED`（EXP-004有限条件でupdate-orderのみのA/B分岐を確認）
+- H-005: `TESTING`（EXP-004 balanced cueのstored-set全体距離をEXP-005で再解析）
