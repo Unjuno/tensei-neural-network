@@ -1,8 +1,8 @@
 # EXP-005 Hopfield pairwise balanced cueのstored-set距離再解析
 
-状態: `PREREGISTERED`
+状態: `COMPLETED`
 
-判定: 未実行
+判定: **FAIL**
 
 ## 実験ID
 
@@ -45,14 +45,15 @@ EXP-004でselected pair A/Bへ厳密にHamming等距離となるよう生成し�
 - Q-005
 - H-005
 - EXP-004
+- F-005
 - EVT-006
-- 対応研究レポート: `research/reports/EXP-005.md`（実行後作成）
+- 対応研究レポート: `research/reports/EXP-005.md`
 
 ## 種別
 
 Extension / deterministic reanalysis
 
-## 実行前に固定する条件
+## 実行前に固定した条件
 
 ### network / pattern ensemble
 
@@ -75,8 +76,6 @@ EXP-004の有効pairとbalanced cue生成規則をそのまま再現する。
 - A/Bが異なるbitのちょうど半数をB側、残りをA側から取る
 - cue生成seed / 順序はEXP-004と一致させる
 - 期待件数はEXP-004と同じ `200 cues`
-
-保存済み `results/cues.csv` と再生成結果を照合する。
 
 ### 距離計算
 
@@ -117,7 +116,7 @@ selected pair indexを除いた3 patternsの最小値を `d_other_min` とする
 - cue件数が200と一致しない
 - stored patterns / selected pair / cueの対応がEXP-004と再現できない
 - A/B等距離条件に違反がある
-- 保存済みcues.csvと再生成結果に説明できない不一致がある
+- 再生成条件に説明できない不一致がある
 
 ## H-005への事前解釈
 
@@ -130,13 +129,116 @@ selected pair indexを除いた3 patternsの最小値を `d_other_min` とする
 PASS/FAIL判定には使わないが、実行後に次を保存してよい。
 
 - `d_other_min - d_pair` の最小値・分布
-- EXP-004のfinal category (`A_EXACT`, `B_EXACT`, `OTHER_STORED`, `NONSTORED_CONVERGED`)との関係
+- EXP-004のfinal categoryとの関係
 - `OTHER_STORED` runがある場合、その到達patternとinitial cueの距離
 
 探索結果を事後的にPASS基準へ変更しない。
 
+# 実行後記録
+
+## 実行環境
+
+- Python: `3.13.5`
+- NumPy: `2.3.5`
+- Platform: `Linux-6.18.35-x86_64-with-glibc2.41`
+
+## 観測結果
+
+- 有効pair: `20`
+- balanced cue: `200`
+- A/B等距離違反: `0`
+- `PAIR_ISOLATED`: **200**
+- `THIRD_TIED`: **0**
+- `THIRD_CLOSER`: **0**
+
+したがって事前PASS条件 `THIRD_TIED + THIRD_CLOSER >= 1` は満たさず、事前FAIL条件「200 cueすべてPAIR_ISOLATED」を満たした。
+
+## 判定
+
+**FAIL**
+
+結果を見てH-005やPASS基準は変更しない。
+
+今回のN=100、P=5、3 seeds、EXP-004で生成した200 cueという有限集合では、EVT-006のN=6 toy networkで観測した「selected pair以外のstored patternも同じHamming距離にいる」というgeometryは再現されなかった。
+
+## 距離margin
+
+`margin = d_other_min - d_pair` とすると、
+
+- 最小margin: `11`
+- 最大margin: `30`
+
+最も第三stored patternが近かったcueでも、
+
+- pattern seed: `1984`
+- selected pair: `2 / 4`
+- pair Hamming distance: `54`
+- cue index: `8`
+- `d_pair = 27`
+- `d_other_min = 38`
+- margin: `11`
+
+だった。
+
+したがって、少なくともinitial Hamming geometry上ではselected A/Bが残りstored patternsより明確に近かった。
+
+## 探索的観測
+
+EXP-004の4000 runsを同じ決定論的条件で再生成してfinal分類も確認した。
+
+- `A_EXACT`: 632
+- `B_EXACT`: 630
+- `OTHER_STORED`: 1
+- `NONSTORED_CONVERGED`: 2737
+- `NONCONVERGED`: 0
+
+これはEXP-004の既存集計と一致した。
+
+唯一の `OTHER_STORED` runでは、
+
+- pattern seed: `1982`
+- selected pair: `0 / 2`
+- cue index: `5`
+- run index: `12`
+- selected pairへのcue距離: `28`
+- 到達した第三stored pattern index: `1`
+- cueからその第三patternへの距離: `44`
+- `d_other_min = 44`
+- margin: `16`
+- convergence: `6 sweeps`
+
+だった。
+
+つまり、**initial Hamming distance上ではselected pairが第三stored patternより16 bit近いにもかかわらず、非同期dynamicsは第三stored patternへexactに到達したrunが1件存在した。**
+
+これは探索的観測であり、H-005の事前判定をPASSへ変更する根拠には使わない。
+
+## 解釈
+
+今回区別すべきなのは次の二つ。
+
+1. **pair isolation in Hamming geometry**
+   - EXP-005の200 cueでは成立した。
+2. **pair isolation in dynamics / basin geometry**
+   - Hamming isolationだけからは保証できない。EXP-004のOTHER_STORED runが反例候補になる。
+
+したがって、EVT-006のN=6 toy exampleから得た「pairwise記述だけではnetwork全体を隠す」という問題意識自体は有効だが、その具体的理由をN=100 random setへそのまま移してはいけない。
+
+## 保存結果
+
+- `run.py`
+- `results/summary.json`
+
+`cue_geometry.csv` は `run.py` で決定論的に再生成可能であり、必要なら後続解析で保存する。
+
 ## 逸脱
 
-実行前: なし。
+事前PASS/FAIL対象について重大な逸脱なし。
 
-実行後に条件変更が必要になった場合は、変更理由を明記し、必要なら判定をUNCERTAINとする。
+保存済みEXP-004 `cues.csv` の全vector自体は保持していないため、同一seed規則で200 cueを再生成した。cue件数・A/B等距離条件・EXP-004探索的run分類が既存集計と一致することを確認した。
+
+## 小説との分離
+
+このFAILと探索的OTHER_STORED結果は現実研究側の知見である。
+
+PER-005 / PER-006の1980年代Knowledgeへ自動的に与えない。本人たちはEVT-006で自分たちが観測した6-unit / 36 trialまでしか知らない。
