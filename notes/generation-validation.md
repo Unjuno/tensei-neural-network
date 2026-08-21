@@ -31,11 +31,11 @@
 | EVT-004の数理的一貫性 | PASS | 記載されたHebbian結合・cue・update orderを再計算し、order α→A、order β→Bを再確認 |
 | environment resolverの結果独立性 | INCONCLUSIVE | 下記selection biasを排除できない |
 
-## Test-001で見つかった重要な弱点
+### Test-001で見つかった重要な弱点
 
 EVT-004より前に、作者側・生成側はすでにEXP-004で「等距離cueがupdate orderだけでA/Bへ分岐し得る」ことを知っていた。
 
-しかしEVT-004では、次の結果依存性を持ち得る自由度が、結果を見る前にrepo上で固定された記録がない。
+しかしEVT-004では、次の自由度が結果を見る前にrepo上で固定された記録がない。
 
 - A / B / Cの具体pattern
 - balanced cueの具体値
@@ -47,20 +47,21 @@ EVT-004より前に、作者側・生成側はすでにEXP-004で「等距離cue
 
 これは人物への未来知識漏洩とは別問題である。
 
-PER-005 / 006がEXP-004の122/200を知らなくても、生成者・resolver側がその結果を知った状態で、反例が出やすい条件を選んだ可能性を排除できない。
-
 ### EVT-004の検証上の扱い
 
 - 物語event候補として: 有効
 - 数理的な具体例として: 有効
 - 第1話ドラフトの材料として: 有効
 - 「完成プロットなしでresolverも結果非依存に動いた」ことの証拠として: **INCONCLUSIVE**
+- Resolution provenance: `UNBLINDED`
 
 EVT-004を削除したり、結果を無効化したりはしない。
 
-## 次回以降の解決前ロック
+---
 
-物語上の結果に複数の自由度があり、生成者が作者側の研究結果・未来候補を既に知っている場合、重要なeventは次の二段階で処理する。
+## 解決前ロックの規則
+
+物語上の結果に複数の自由度があり、生成者が作者側の研究結果・未来候補を既に知っている場合、重要eventは二段階で処理する。
 
 ### Phase 1: ACTION_LOCKED
 
@@ -113,8 +114,6 @@ ACTION_LOCKEDのcommit後にenvironment resolverが結果を解決する。
 - `UNBLINDED`: 結果知識を持つ生成contextで条件選択が行われ、解決前lockがない。物語eventとしては使えるがclean validationには数えない
 - `AUTHOR_CONDITIONED`: 人間作者または生成側が望む結果・演出へ向けて条件を意図的に固定した。介入として明記し、創発eventと偽装しない
 
-Test-001のEVT-004は `UNBLINDED` とする。
-
 ---
 
 ## Test-002 ACTION_LOCKED → resolver → RESOLVEDを実行
@@ -147,45 +146,15 @@ persona action selection
 
 ### Action lockで固定したもの
 
-EVT-004で成立済みの6-unit networkをそのまま使い、update orderだけについて、unit番号の自然順序
+EVT-004で成立済みの6-unit networkをそのまま使い、update orderだけについて、unit番号の自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを検査集合として固定した。
 
-```text
-(1,2,3,4,5,6)
-```
-
-の全6 cyclic rotationsを検査集合として固定した。
-
-```text
-r1 = (1,2,3,4,5,6)
-r2 = (2,3,4,5,6,1)
-r3 = (3,4,5,6,1,2)
-r4 = (4,5,6,1,2,3)
-r5 = (5,6,1,2,3,4)
-r6 = (6,1,2,3,4,5)
-```
-
-あわせて、
-
-- 同じcueから開始
-- 同じHebbian weights
-- zero fieldなら現在値保持
-- 一つのorderを1 sweepとして反復
-- 変化のない1 sweepでstable
-- 最大20 sweeps
-- 6本すべてを含める
-- A/B以外も削除しない
-
-を結果前に固定した。
-
-EXP-004の数値結果、第2話の都合、A/Bを再現したいという期待をaction selectionへ使わないことも明記した。
+あわせて、同じcue / weights / update rule、zero field保持、最大20 sweeps、全6本を含むこと、A/B以外も削除しないことを結果前に固定した。
 
 ### Resolution結果
 
-lock後に6本だけをexactに解決した。
-
 ```text
 r1 -> A
-r2 -> D (OTHER_STABLE)
+r2 -> D
 r3 -> B
 r4 -> B
 r5 -> D
@@ -200,40 +169,141 @@ D:
 
 - A: 1 / 6
 - B: 2 / 6
-- C: 0 / 6
-- OTHER_STABLE: 3 / 6
+- OTHER_STABLE D: 3 / 6
 - NONCONVERGED: 0 / 6
-
-すべて2 sweeps目でstable判定。
-
-DはA/B/Cのどれとも一致せず、Hamming distanceはA=2、B=2、C=6。
 
 ### Test-002判定
 
+| 項目 | 判定 |
+| --- | --- |
+| actionをoutcome前に外部化 | PASS |
+| outcome-sensitiveなorder集合の固定 | PASS |
+| stopping / inclusion ruleの固定 | PASS |
+| lock後の条件差し替え回避 | PASS |
+| 不都合・非期待結果の保持 | PASS |
+| world/persona stateへの反映 | PASS |
+| cleanなresolver手順の実行 | PASS |
+
+### 限界
+
+確認できたのは、**一つの重要eventについて、結果前に条件をcommitし、結果を選別せず受け入れる制作手順が機能した**こと。
+
+action ruleそのものは同じ生成contextで作られているため、action selectorの完全なcontext isolationはまだ未検証。
+
+---
+
+## Test-003 cue selection freedomまでdeterministicに縮小
+
+実施日: 2026-08-21
+
+対象event: `EVT-006-all-balanced-cues-locked.md`
+
+Action-lock commit:
+
+`97ee4b3d322d367468258775443d6f2aa3551ef1`
+
+### 検証目的
+
+EVT-005ではupdate order集合をlockしたが、balanced cue自体はEVT-004で一つだけ選ばれたものだった。
+
+そこでTest-003では、story-visibleなA/Bと「両者へbit数で等距離」という既存protocolから**候補cue集合を全列挙**し、initial-state selection freedomも減らせるか検証した。
+
+### Action lock
+
+A/Bが異なるunitは `{1,2,4,6}`。
+
+その4位置のうち2位置をAから、残り2位置をBから取る全組合せを採用した。
+
+```text
+C(4,2) = 6 cues
+```
+
+- q12
+- q14
+- q16
+- q24
+- q26
+- q46
+
+各cueへ、EVT-005で固定済みの6 cyclic update ordersをすべて適用。
+
+```text
+6 cues x 6 orders = 36 trials
+```
+
+36 trialを全て含め、結果を見てcue/orderを追加・削除しないことを事前固定した。
+
+### Resolution結果
+
+```text
+        r1   r2   r3   r4   r5   r6
+q12      B    B    A    A    A    A
+q14      D    A    B    B    A    A
+q16      B    A    C    A    C    B
+q24      D    D    D    D    D    D
+q26      A    B    D    D    B    B
+q46      A    D    B    B    D    D
+```
+
+Aggregate:
+
+- A: 11
+- B: 11
+- C: 2
+- D: 12
+- NONCONVERGED: 0
+
+期待していたA/Bだけでなく、第三stored pattern Cとnonstored fixed point Dを含む結果をそのまま保持した。
+
+### Test-003判定
+
 | 項目 | 判定 | 備考 |
 | --- | --- | --- |
-| actionをoutcome前に外部化 | PASS | ACTION_LOCKED版をcommit |
-| outcome-sensitiveなorder集合の固定 | PASS | 6 cyclic rotationsを先に固定 |
-| stopping / inclusion ruleの固定 | PASS | max20、全6本記録 |
-| lock後の条件差し替え回避 | PASS | order追加・削除なし |
-| 不都合・非期待結果の保持 | PASS | Dを3件すべて保持 |
-| world/persona stateへの反映 | PASS | EVT-005とPER-005/006/worldへ同期 |
-| cleanなresolver手順の実行 | PASS | EVT-005のResolution provenance=`LOCKED` |
+| cue集合をoutcome前に固定 | PASS | 全組合せというdeterministic rule |
+| update order集合を固定 | PASS | EVT-005の全6 cyclic orders |
+| trial inclusionを固定 | PASS | 36/36を含めた |
+| outcome後のcue/order差し替えなし | PASS | 追加探索なし |
+| 第三stored/nonstored結果の保持 | PASS | C/Dを削除しなかった |
+| world/persona state同期 | PASS | EVT-006、PER-005/006、worldへ反映 |
+| initial-condition selection freedomの縮小 | PASS | 「面白いcue」を選ばず全候補を使用 |
 
-### 解釈上の限界
+### 解釈
 
-Test-002のPASSは、
+Test-003はTest-002より強い。
 
-- この6-unit networkが一般的である
-- A/B/Dの比率が一般的である
-- biological memoryが同じ性質を持つ
-- 物語全体に作者バイアスがない
+update orderだけでなく、pairwise balanced cueの選択もstory-visibleなruleから全列挙したため、特定outcomeへ寄せる自由度をさらに減らせた。
 
-ことを意味しない。
+ただし、
 
-確認できたのは、**一つの重要eventについて、結果前に条件をcommitし、結果を選別せず受け入れる制作手順が実際に機能した**ことだけである。
+- 「次にbalanced cue集合を全部調べる」というaction自体を選ぶselector
+- 6-unit toy network自体の由来
 
-また、action ruleそのものは同じ生成contextで作られているため、より強い検証をしたい場合は、action selectionを作者側結果から隔離した別contextへ分離するテストが残る。
+は作者側研究結果と完全に隔離した別contextで選ばれたわけではない。
+
+したがって、action selectorの完全なbias-free性を証明したわけではない。
+
+---
+
+## Test中に見つかった運用障害: stable ID重複
+
+Test-003開始時、current branchに既存のEVT-005があることを再確認せず、一時的に別の`EVT-005`を作成した。
+
+途中で重複を検出し、誤って追加したEVT-005を削除した。正しい既存EVT-005は保持し、その後の新eventをEVT-006として結果前lockからやり直した。
+
+### 原因
+
+長期work branchにmain未反映のstable IDが存在するのに、main側の最大番号または会話上の古い状態だけを採番根拠にすると衝突する。
+
+### 修正
+
+`AGENTS.md` に、stable ID採番前に
+
+- current work branch
+- main
+
+双方の同種IDを確認し、current branch上の未マージIDを必ず含める規則を追加した。
+
+この障害は物語生成の理論ではなく、event-sourced repoを長期branchで運用する際の実装上の問題として扱う。
 
 ## 現在の総合評価
 
@@ -245,13 +315,24 @@ Test-002のPASSは、
 - 一話=一実験回避: PASS
 - NarrativeProjection: PASS
 - 未確定恒常属性を本文で勝手に固定しない規則: 導入済み
-- resolver pre-lock mechanism: **PASS on Test-002**
+- resolver pre-lock mechanism: PASS on Test-002
+- initial-condition deterministic enumeration: PASS on Test-003
 - action selector自体のcontext isolation: **未検証**
 
-したがって、生成方式はTest-001時点の`PARTIAL PASS`から一段進んだが、完全にbias-freeだとは扱わない。
+生成方式は`PARTIAL PASS`を維持する。
+
+Test-003までで、「outcome-sensitiveな自由度を外部化・固定し、都合の悪い結果も受理する」仕組みは実際に機能した。一方、selectorそのものが作者側知識から独立していることはまだ実証していない。
 
 ## 次の検証課題
 
-必要になった次の重要eventで、action / parameter selectionを作者側の研究結果を見ない別contextへ分離するか、story-visible情報から一意に決まるdeterministic ruleだけを使い、selector-levelの独立性を検証する。
+次の重要なaction selectionを、
 
-その場合も成功条件は「面白い結果」ではなく、**結果を知らずに選んだactionから生じたoutcomeを、そのまま物語へ受け入れられること**とする。
+- 作者側research結果を読まない別contextで決める
+
+または
+
+- story-visibleな状態から一意に導出されるruleに限定する
+
+ことでselector-levelの独立性を検証する。
+
+成功条件は「面白い結果」ではなく、**結果を知らずに選んだactionから生じたoutcomeを、そのまま物語へ受け入れられること**とする。
