@@ -17,10 +17,11 @@
 1980年代側:
 
 - Bootstrap: `BOOT-002 @ T0-1980S @ none`
-- current event head: `EVT-004`
+- current event head: `EVT-005`
 - active personas: PER-005 / PER-006
 - current structure: `起 / 承 / 転`
 - 第1話ドラフト: `novel/chapters/001.md`
+- 第1話採用範囲: `EVT-001`〜`EVT-004`
 
 ### EVT-001
 
@@ -61,22 +62,63 @@ PER-005:
 - 「手掛かりが同じでも、戻り先は一つとは限らない」
 - 「想起の結果だけを見て原像を逆算してよいのか」
 
-現代側EXP-004の122/200、4000 runs等を人物へ与えていない。
+人物への現代EXP結果漏洩はない。
+
+ただし生成方式検証上、具体条件がoutcome前にlockされていないためResolution provenanceは `UNBLINDED`。cleanなresolver独立性の証拠には数えない。
+
+### EVT-005
+
+EVT-004の弱点を踏まえ、同じ6-unit networkについてunit番号の自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に固定した。
+
+Action-lock commit:
+
+`59ff6530d202b79834afbe8ffdceee1256437315`
+
+locked条件を変えず6本をすべて解決:
+
+- r1 → A
+- r2 → D
+- r3 → B
+- r4 → B
+- r5 → D
+- r6 → D
+
+D:
+
+```text
+(+1, +1, +1, +1, -1, +1)
+```
+
+DはA/B/Cのどれとも一致しないstable state。
+
+- Hamming(D, A) = 2
+- Hamming(D, B) = 2
+- Hamming(D, C) = 6
+
+PER-005:
+
+- 「二つの原像のどちらへ戻るか、では足りない」
+- 「戻り先そのものが、原像の一覧の外にもある」
+
+PER-006はDをmemoryと呼ばず、nonstored stable stateとして扱う。
+
+Resolution provenance: `LOCKED`。
 
 ## 第1話
 
 `novel/chapters/001.md`
 
-採用event範囲:
+採用event範囲は `EVT-001`〜`EVT-004` のまま。
 
-`EVT-001`〜`EVT-004`
+EVT-005が後から成立したことを理由に第1話へ追加しない。
 
-2026-08-21、`BOOT-002`の導入背景と成立済みeventだけを材料に、現在のNarrativeProjection規則で本文を再構成した。
+本文は現在のNarrativeProjection規則に合わせ、未確定だったPER-005の性別を「彼」と補っていた箇所を修正済み。
+
+本文では:
 
 - 研究レポート形式にしない
 - event/stateにない未来因果を追加しない
 - 氏名、年齢、性別・性別代名詞、国籍、所属、具体機材等の未確定な恒常属性を補わない
-- 第1話本文の再投影によってworld/persona stateやevent headは動かさない
 
 ## 生成方式検証
 
@@ -84,50 +126,61 @@ PER-005:
 
 `notes/generation-validation.md`
 
-第1話生成テストは **PARTIAL PASS**。
+### Test-001
 
-確認できた:
+PASS:
 
-- repoからのstate recovery
-- stale indexの検出
-- personaごとの情報境界
+- repoからstate recovery
+- stale index検出
+- persona情報境界
 - world / persona state同期
-- personaを必要時だけ追加
-- 一話=一実験を回避
-- 小説 / research reportを分離
-- event群から第1話へ投影
-- EVT-004の記載計算自体の数理的一貫性
+- persona必要時生成
+- 一話=一実験回避
+- 小説 / research report分離
+- NarrativeProjection
+- EVT-004の数理的一貫性
 
-未確認:
+INCONCLUSIVE:
 
-**environment resolverの結果独立性**。
+- EVT-004のresolver結果独立性
 
-EVT-004より前に生成側はEXP-004でupdate-order依存を知っていた。一方、EVT-004のA/B/C、cue、order α/β、selection / stopping ruleは結果を見る前にrepoへlockされていない。
+理由: 生成側が同種現象を既知で、具体pattern / cue / order / selection ruleが結果前にlockされていなかった。
 
-したがって、人物への未来知識漏洩とは別に、resolver側のselection biasを排除できない。
+### Test-002
 
-EVT-004 Resolution provenance:
+EVT-005で初めて、
 
-`UNBLINDED`
+```text
+ACTION_LOCKED
+→ commit
+→ resolver
+→ locked条件を変えず全結果を受理
+```
 
-EVT-004は物語event・数理例・第1話材料として保持するが、cleanなresolver独立性の証拠には数えない。
+を実行。
 
-## 次の重要ルール: ACTION_LOCKED
+判定:
 
-次の重要なoutcomeを解決するときは `novel/events/README.md` と `novel/environment.md` に従う。
+- resolver pre-lock mechanism: PASS
+- 不都合・非期待結果保持: PASS
+- state同期: PASS
 
-1. 現在のpersona stateとstory-visible情報だけから行動を生成
-2. outcome-sensitiveな具体条件または選択規則をeventへ書く
-3. trial集合 / update rule / stopping / inclusion ruleも固定
-4. resolverが使ってよい情報と、action selectionへ使ってはいけない作者側情報を明記
-5. event状態を `ACTION_LOCKED` として**結果を書く前にcommit**
-6. そのcommit後にresolverが結果を解決
-7. locked条件を結果を見て変更しない
-8. 平凡・失敗・不都合な結果も採用する
+ただし、action selector自体を作者側EXP知識から隔離したcontext isolationは未検証。
 
-生成contextがpersonaには見えないEXP結果を既に知っている場合、具体条件はstory-visible情報だけからのdeterministic ruleで固定するか、結果知識を与えない別contextで選ぶ。
+## 次の重要ルール
 
-clean validationの成功条件は「面白い結果」ではなく、**どんな結果でも差し替えず、その結果から次状態へ進めること**。
+outcome-sensitiveな重要eventは、結果前に:
+
+1. personaのstory-visible stateから行動を決める
+2. 具体条件またはdeterministic selection ruleを固定
+3. trial / stopping / inclusion ruleを固定
+4. `ACTION_LOCKED` としてcommit
+5. commit後にresolverで解決
+6. 結果を見て条件を差し替えない
+
+さらに強い検証が必要なら、action / parameter selection自体を作者側研究結果を見ない別contextで行う。
+
+成功条件は「面白い結果」ではなく、**どんな結果でも差し替えず、その結果から次状態へ進めること**。
 
 ## 研究分岐
 
@@ -146,22 +199,22 @@ clean validationの成功条件は「面白い結果」ではなく、**どん�
 - 判定: PASS
 - F-004: PROVISIONAL
 
-EVT-003 / EVT-004から重複EXPは作っていない。
+EVT-003 / EVT-004 / EVT-005から重複EXPは作っていない。
+
+EVT-005のDは、nonstored stable stateとしてQ-003 / EXP-003、update-order依存としてQ-004 / EXP-004と重なるため、現時点では新規research targetにしない。
 
 ## 次の物語側作業
 
 EXP-005を研究都合で自動生成しない。
 
-EVT-004後のPER-005 / PER-006を現在状態から動かす。
+EVT-005後のPER-005 / PER-006を現在stateから動かす。
 
 現在の自然な局所問題:
 
-- 6-unitの一例をどこまで一般化してよいか
-- `correct recall`をfinal state以外の何と結び付けるか
-- A/B以外のstable stateをどう扱うか
+- DがA/Bの単純な中間なのか、別種の安定構造なのか
+- stored集合外のstateが存在するとき「戻る」を何と定義するか
 - 紙上計算から計算機実装へ進む必要が本当に生じるか
-
-重要なoutcomeを伴う次eventは、上記ACTION_LOCKED手順を使う。
+- 次の比較で何を固定し何を変えるか
 
 ## 未確定
 
@@ -170,7 +223,7 @@ EVT-004後のPER-005 / PER-006を現在状態から動かす。
 - PER-005 / PER-006の氏名・年齢・性別
 - 計算機・言語・端末
 - 二人の正式な所属関係・上下関係
-- 紙上例の次に実行する具体的計算
+- 次に実行する具体的計算
 - 現代側最初のevent
 - 第2話以降の終了点
 
