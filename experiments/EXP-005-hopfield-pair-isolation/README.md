@@ -228,8 +228,9 @@ EXP-004の4000 runsを同じ決定論的条件で再生成してfinal分類も�
 
 - `run.py`
 - `results/summary.json`
+- `results/cue_geometry.csv` — 200 cueすべてのpair距離、第三stored pattern最小距離、margin、分類を保存したrow-level監査データ
 
-`cue_geometry.csv` は `run.py` で決定論的に再生成可能であり、必要なら後続解析で保存する。
+`run.py` を再実行すると、同じseed規則から `summary.json` と `cue_geometry.csv` を再生成する。
 
 ## 逸脱
 
