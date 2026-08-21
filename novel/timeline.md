@@ -77,7 +77,9 @@ EVT-004時点の1980年代active personas:
 
 現時点では、**哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き、PER-006との相互作用と最初の紙上計算へ進む**流れが第1話ドラフト `chapters/001.md` として成立した。
 
-第1話はEVT-004までを採用するが、これは先に章末を決めた結果ではない。EVT-004で同一cueから複数のstored stateへ到達する具体例が成立し、局所的な認識状態に自然な切れ目が生じたためである。
+第1話はEVT-004までを採用する。EVT-004成立後に、同一cueから複数のstored stateへ到達する具体例によって局所的な認識状態に切れ目が生じていたため、NarrativeProjectionではそこを読書単位として採用した。
+
+ただし、この切れ目が自然に見えることと、EVT-004の具体outcomeが結果非依存のresolverから生じたことは別問題である。EVT-004は解決前lockがなく、生成側が同種現象を既知だったため、Resolution provenanceは `UNBLINDED`、resolver独立性の検証価値は `INCONCLUSIVE` とする。
 
 将来、現代場面の後に1980年代を回想する等の構成へ変更しても、story time上の状態位置は変えない。
 
@@ -165,6 +167,8 @@ PER-005は、final stateだけから唯一の原像を逆算するには追加�
 これは6-unitの一例であり、memory一般や生物学的記憶へ一般化していない。
 
 現代側EXP-004の122/200、4000 runs等は二人へ共有していない。
+
+生成方式検証上は、具体pattern・cue・update order・selection ruleをoutcome前にlockした記録がないため、このeventをcleanなresolver独立性の証拠には使わない。Resolution provenance: `UNBLINDED`。
 
 ### 現代
 
