@@ -37,6 +37,24 @@ Pull Requestは、外部Contribution、GitHub上で公開レビューを残す�
 
 GitHub ActionsとCodex等の外部GitHub App / 自動PRレビューは別物です。`.github/workflows/` やActions runが存在しない場合、自動起動を「CI」と決めつけず、PRレビュー連携など別トリガーを確認します。
 
+### 安定IDを採番する前にcurrent branchを確認する
+
+`EVT-xxx`, `PER-xxx`, `BOOT-xxx`, `Q-xxx`, `H-xxx`, `EXP-xxx`, `F-xxx`, `REF-xxx`, `L-xxx` を新しく割り当てる前に、**`main`だけでなく現在書き込み中のwork branch上の同種IDも確認します。**
+
+長く続くwork branchにはmain未反映のIDが存在するため、mainの最大番号だけを見て次番号を決めてはいけません。
+
+標準:
+
+1. 現在書き込むbranchを確認する
+2. そのbranch上の同種IDを検索・列挙する
+3. `main`上の同種IDも必要に応じて確認する
+4. 両方に存在する最大番号より大きい未使用番号を使う
+5. IDを作った直後に同一branch内の重複がないか確認する
+
+別work branchとの衝突が後で判明した場合は、mainへ反映する前に採番し直します。
+
+一度正当に割り当てたIDを、内容を差し替える目的で再利用しません。
+
 ## 小説作業
 
 本プロジェクトでは**小説を主目的**とします。研究を先に積み上げるのではなく、物語を書き、技術的な確認が必要になった箇所で研究へ戻ります。
