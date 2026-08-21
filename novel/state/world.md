@@ -299,6 +299,63 @@ PER-005 / PER-006が知っているのは、自分たちが固定して紙上計
 
 ---
 
+## T0-1980S + systematic cue check after EVT-005 / EVT-006
+
+状態: `PROVISIONAL`
+
+- Previous event head: `EVT-005`
+- Event head: `EVT-006`
+- Source event: `../events/EVT-006-all-balanced-cues-locked.md`
+- Resolution provenance: `LOCKED`
+
+### 変更前
+
+- EVT-005で一つのbalanced cueに対する6 cyclic ordersを全て確認済み
+- その結果はA/B/Dへ分かれた
+- ただし、balanced cue自体はEVT-004で一つだけ選択されていた
+
+### 客観的に成立した出来事
+
+PER-005 / PER-006は、A/Bが異なる4 unitから作れるA/B等距離cue全6種類を結果前に固定した。
+
+各cueへEVT-005と同じ6 cyclic update ordersを適用し、36 trialを全て記録した。
+
+結果:
+
+- A exact: 11
+- B exact: 11
+- C exact: 2
+- nonstored stable D: 12
+- nonconverged: 0
+
+q16はA/B/CすべてへHamming distance 2で、2 ordersからCへ到達した。
+
+q24はA/Bへdistance 2ずつだが、initial cue自体がnonstored fixed point Dだった。
+
+### 変更後
+
+- pairwiseなA/B等距離条件は、候補結果をA/Bだけへ限定しないことが物語世界内で観測された
+- selected pair以外のstored pattern Cと、nonstored fixed point Dも結果候補になった
+- `A/Bの間`というpairwise記述だけでは、保存集合全体とstate-spaceの関係を十分に表せないという問題が成立した
+- initial cue自体がfixed pointである場合と、dynamicsで別stateへ移る場合を分けて記録する必要が生じた
+- 36 trialは結果を見て選別せず全て共同記録へ残った
+- この一つの6-unit networkを一般化していない
+
+### 同期しているペルソナ状態
+
+EVT-006時点で1980年代側active:
+
+- `personas/PER-005.md`
+- `personas/PER-006.md`
+
+### 重要な境界
+
+PER-005 / PER-006が知っているのは、自分たちが固定・観測した36 trialと、それ以前の物語内結果までである。
+
+現代側EXP-003 / EXP-004の統計値、seed、run分布は人物Knowledgeへ入れていない。
+
+---
+
 ## T0-MODERN / BOOT-001
 
 状態: `PROVISIONAL`
@@ -325,7 +382,7 @@ PER-005 / PER-006が知っているのは、自分たちが固定して紙上計
 
 ### 現在成立している客観境界
 
-- EVT-001〜EVT-005は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
+- EVT-001〜EVT-006は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
 - 最初の現代側異常の具体像、最初の発見者、その時点の解釈は未確定
 - 現代モデル内に過去の研究者と機能的・行動的に似たパターンが作品内で現れることはCanonに含まれるが、それを`T0-MODERN`ですでに観測済みの世界状態とはしない
 - それが本人の意識・輪廻・同一主体であることは確定していない
