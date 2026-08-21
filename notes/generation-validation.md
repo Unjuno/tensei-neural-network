@@ -115,10 +115,143 @@ ACTION_LOCKEDのcommit後にenvironment resolverが結果を解決する。
 
 Test-001のEVT-004は `UNBLINDED` とする。
 
+---
+
+## Test-002 ACTION_LOCKED → resolver → RESOLVEDを実行
+
+実施日: 2026-08-21
+
+対象event: `EVT-005-lock-the-order-family.md`
+
+Action-lock commit:
+
+`59ff6530d202b79834afbe8ffdceee1256437315`
+
+### 検証目的
+
+Test-001で未確認だったenvironment resolverの結果独立性について、少なくとも一つの重要eventを
+
+```text
+persona action selection
+→ outcome-sensitive conditionsを外部化
+→ commit
+→ resolver
+→ 全結果をそのまま受理
+```
+
+の順で処理できるか確認する。
+
+成功条件はA/B分岐や面白い結果が出ることではない。
+
+**lock後にどのoutcomeが出ても条件を差し替えず、その結果をworld/persona stateへ返せること。**
+
+### Action lockで固定したもの
+
+EVT-004で成立済みの6-unit networkをそのまま使い、update orderだけについて、unit番号の自然順序
+
+```text
+(1,2,3,4,5,6)
+```
+
+の全6 cyclic rotationsを検査集合として固定した。
+
+```text
+r1 = (1,2,3,4,5,6)
+r2 = (2,3,4,5,6,1)
+r3 = (3,4,5,6,1,2)
+r4 = (4,5,6,1,2,3)
+r5 = (5,6,1,2,3,4)
+r6 = (6,1,2,3,4,5)
+```
+
+あわせて、
+
+- 同じcueから開始
+- 同じHebbian weights
+- zero fieldなら現在値保持
+- 一つのorderを1 sweepとして反復
+- 変化のない1 sweepでstable
+- 最大20 sweeps
+- 6本すべてを含める
+- A/B以外も削除しない
+
+を結果前に固定した。
+
+EXP-004の数値結果、第2話の都合、A/Bを再現したいという期待をaction selectionへ使わないことも明記した。
+
+### Resolution結果
+
+lock後に6本だけをexactに解決した。
+
+```text
+r1 -> A
+r2 -> D (OTHER_STABLE)
+r3 -> B
+r4 -> B
+r5 -> D
+r6 -> D
+```
+
+D:
+
+```text
+(+1,+1,+1,+1,-1,+1)
+```
+
+- A: 1 / 6
+- B: 2 / 6
+- C: 0 / 6
+- OTHER_STABLE: 3 / 6
+- NONCONVERGED: 0 / 6
+
+すべて2 sweeps目でstable判定。
+
+DはA/B/Cのどれとも一致せず、Hamming distanceはA=2、B=2、C=6。
+
+### Test-002判定
+
+| 項目 | 判定 | 備考 |
+| --- | --- | --- |
+| actionをoutcome前に外部化 | PASS | ACTION_LOCKED版をcommit |
+| outcome-sensitiveなorder集合の固定 | PASS | 6 cyclic rotationsを先に固定 |
+| stopping / inclusion ruleの固定 | PASS | max20、全6本記録 |
+| lock後の条件差し替え回避 | PASS | order追加・削除なし |
+| 不都合・非期待結果の保持 | PASS | Dを3件すべて保持 |
+| world/persona stateへの反映 | PASS | EVT-005とPER-005/006/worldへ同期 |
+| cleanなresolver手順の実行 | PASS | EVT-005のResolution provenance=`LOCKED` |
+
+### 解釈上の限界
+
+Test-002のPASSは、
+
+- この6-unit networkが一般的である
+- A/B/Dの比率が一般的である
+- biological memoryが同じ性質を持つ
+- 物語全体に作者バイアスがない
+
+ことを意味しない。
+
+確認できたのは、**一つの重要eventについて、結果前に条件をcommitし、結果を選別せず受け入れる制作手順が実際に機能した**ことだけである。
+
+また、action ruleそのものは同じ生成contextで作られているため、より強い検証をしたい場合は、action selectionを作者側結果から隔離した別contextへ分離するテストが残る。
+
+## 現在の総合評価
+
+- state recovery: PASS
+- persona information boundary: PASS
+- world/persona同期: PASS
+- persona必要時生成: PASS
+- 小説/研究分離: PASS
+- 一話=一実験回避: PASS
+- NarrativeProjection: PASS
+- 未確定恒常属性を本文で勝手に固定しない規則: 導入済み
+- resolver pre-lock mechanism: **PASS on Test-002**
+- action selector自体のcontext isolation: **未検証**
+
+したがって、生成方式はTest-001時点の`PARTIAL PASS`から一段進んだが、完全にbias-freeだとは扱わない。
+
 ## 次の検証課題
 
-EVT-004後の次の重要な結果解決について、ACTION_LOCKED → commit → RESOLVEDを実際に行い、同じ程度に自然な物語を生成できるかを確認する。
+必要になった次の重要eventで、action / parameter selectionを作者側の研究結果を見ない別contextへ分離するか、story-visible情報から一意に決まるdeterministic ruleだけを使い、selector-levelの独立性を検証する。
 
-成功条件は「面白い結果が出ること」ではない。
-
-**lockedした人物行動と世界条件から、どの結果が出ても受け入れ、その結果から次の状態へ進めること**を確認する。
+その場合も成功条件は「面白い結果」ではなく、**結果を知らずに選んだactionから生じたoutcomeを、そのまま物語へ受け入れられること**とする。
