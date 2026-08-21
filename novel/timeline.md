@@ -63,10 +63,10 @@ T0-MODERN
 
 ### Current event heads
 
-- 1980年代側: `EVT-006`
+- 1980年代側: `EVT-007`
 - 現代側: none
 
-EVT-006時点の1980年代active personas:
+EVT-007時点の1980年代active personas:
 
 - PER-005
 - PER-006
@@ -77,9 +77,9 @@ EVT-006時点の1980年代active personas:
 
 現時点では、哲学・技術史を圧縮した導入から1980年代側へ入り、PER-005の研究・思考が動き、PER-006との相互作用と最初の紙上計算へ進む流れが第1話ドラフト `chapters/001.md` として成立している。
 
-第1話の採用event範囲は `EVT-001`〜`EVT-004` のままにする。EVT-005 / EVT-006が後から成立したことを理由に、第1話へ自動追加しない。
+第1話の採用event範囲は `EVT-001`〜`EVT-004` のままにする。EVT-005〜EVT-007が後から成立したことを理由に、第1話へ自動追加しない。
 
-EVT-004は第1話のNarrativeProjection上の切れ目として有効だが、具体条件の解決前lockがないためResolution provenanceは `UNBLINDED`。EVT-005 / EVT-006はその後のstory timeで `ACTION_LOCKED → commit → RESOLVED` を通したeventである。
+EVT-004は第1話のNarrativeProjection上の切れ目として有効だが、具体条件の解決前lockがないためResolution provenanceは `UNBLINDED`。EVT-005〜EVT-007はその後のstory timeで結果前lockを通したeventである。
 
 将来、現代場面の後に1980年代を回想する等の構成へ変更しても、story time上の状態位置は変えない。
 
@@ -174,7 +174,7 @@ r5 -> D
 r6 -> D
 ```
 
-DはA/B/Cのどれとも一致しないnonstored stable state。
+DはA/B/Cのどれとも一致しないnonstored stable stateとして観測された。
 
 PER-005:
 
@@ -215,6 +215,39 @@ PER-005:
 Resolution provenance: `LOCKED`。
 
 このeventから現実研究側ではQ-005 / H-005 / EXP-005が派生した。EXP-005はN=100/P=5の200 balanced cuesで第三stored patternとのHamming同距離/近距離を検証し、全200 cueがPAIR_ISOLATEDだったためFAIL。これは現代研究側の結果であり、PER-005 / PER-006のKnowledgeへは入れない。
+
+#### EVT-007 — 小さい系なら全状態を見る
+
+Story time: `T0-1980S + exhaustive small-state check after EVT-006`
+
+EVT-006でpairwiseに選んだcue集合そのものがnetwork全体の関係を隠し得ると分かったため、6-unit systemの全binary initial states `2^6 = 64` を結果前に固定した。
+
+Action-lock commit:
+
+`3c1034c70853c5704d4064f71ef4e989b4dc296f`
+
+64 states × 6 cyclic orders = 384 trialsを全て解決。
+
+結果:
+
+- 384 / 384 trialが2 sweeps以内にstable
+- fixed pointsは `A / B / C / -A / -B / -C` の6種類
+- EVT-005 / 006のDは `-C`
+- 18 / 64 initial statesは6 ordersすべてで同じfinal
+- 46 / 64 initial statesはorderによって2種類以上のfinalへ分岐
+
+このtoy networkでは、全状態列挙の範囲でA/B/Cとその符号反転以外のstable final stateは現れなかった。
+
+PER-005:
+
+- 「保存していない、だけでは足りない」
+- 「Cを裏返したものまで、別の記憶と呼んでいた」
+
+Resolution provenance: `LOCKED`。
+
+このeventにより、物語側の局所問題は`stored / nonstored`という観測分類から、符号反転対称性・mixture・その他のstateを機構上どう区別するかへ進んだ。
+
+現代側EXP-003〜005の結果は人物Knowledgeへ入れていない。
 
 ### 現代
 
