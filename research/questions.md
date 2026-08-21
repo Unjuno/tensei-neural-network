@@ -139,7 +139,7 @@ EXP-004ではN=100、P=5、pattern seeds 1982/1983/1984から、A/Bへ厳密にH
 
 ## Q-005 pairwise balanced cueは選択したA/Bをstored-pattern距離上で孤立させるか
 
-状態: OPEN
+状態: ANSWERED
 
 ### 由来
 
@@ -150,7 +150,7 @@ EXP-004ではN=100、P=5、pattern seeds 1982/1983/1984から、A/Bへ厳密にH
 
 を観測した。
 
-この小規模例を一般化せず、既存EXP-004のN=100/P=5 balanced cuesで、まず**stored patternsへのHamming距離だけ**を独立に確認する。
+この小規模例を一般化せず、既存EXP-004のN=100/P=5 balanced cuesで、まず**stored patternsへのHamming距離だけ**を独立に確認した。
 
 ### 問い
 
@@ -160,18 +160,32 @@ EXP-004で生成済みの200 balanced cuesについて、selected pair A/Bへの
 
 となるcueは存在するか。
 
-存在する場合、pairwiseにA/Bへ等距離としただけでは、Hamming距離上もA/Bだけを候補として孤立させていない。
-
-存在しない場合、EVT-006の第三stored pattern問題は少なくともEXP-004のこのrandom N=100/P=5 cue集合では距離上再現されなかったことになる。
-
 ### 現時点の回答
 
-未実行。EXP-005で事前基準を固定して再解析する。
+EXP-005でEXP-004と同じ200 balanced cuesを決定論的に再生成し、全5 stored patternsへのHamming distanceを計算した。
+
+結果は、
+
+- `PAIR_ISOLATED`: **200**
+- `THIRD_TIED`: **0**
+- `THIRD_CLOSER`: **0**
+- A/B等距離違反: 0
+
+だった。
+
+したがって今回のN=100、P=5、pattern seeds 1982/1983/1984、EXP-004で生成した200 cueという有限集合では、問いへの答えは **no**。第三stored patternがA/Bと同距離以下になるcueは確認できなかった。
+
+`d_other_min - d_pair` のmarginは最小でも11だった。
+
+ただし探索的にEXP-004の4000 runsを再確認すると、initial cueからselected pairは各28 bit、第三stored patternは44 bit離れていたにもかかわらず、その第三patternへexactに到達したrunが1件あった。
+
+したがって、**Hamming距離上でpairが孤立していることは、dynamics / basin上でもpairだけに孤立していることを保証しない**。これはQ-005のPASS/FAIL判定とは別の探索的観測である。
 
 ### 関連
 - H-005
 - EXP-004
 - EXP-005
+- F-005
 - EVT-006
 
 ## 現在
@@ -180,4 +194,4 @@ EXP-004で生成済みの200 balanced cuesについて、selected pair A/Bへの
 - Q-002: `ANSWERED`
 - Q-003: `ANSWERED` — EXP-002の有限trial群で3-pattern mixture exact matchを1件確認
 - Q-004: `ANSWERED` — 同一の等距離cueからupdate order差だけでA/B両方へのexact recallを確認
-- Q-005: `OPEN` — EXP-004 balanced cueをstored set全体の距離から再解析予定
+- Q-005: `ANSWERED` — EXP-004の200 balanced cuesは全てstored-pattern Hamming距離上PAIR_ISOLATED。第三stored patternへの同距離/近距離は0件
