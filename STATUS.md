@@ -11,7 +11,7 @@
 - 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004のまま
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜005まで実施
-- 生成方式検証: **PARTIAL PASS**。state recovery / 情報境界 / state同期 / NarrativeProjection / resolver pre-lock / cue-set pre-lockを確認。action selectorの完全なcontext isolationは未検証
+- 生成方式検証: **PARTIAL PASS**。state recovery / 情報境界 / state同期 / NarrativeProjection / resolver pre-lock / cue-set pre-lock / finite state-space全列挙を確認。action selectorの完全なcontext isolationは未検証
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフト / EXP-003以降は未公開
 
 ## branch
@@ -30,7 +30,7 @@
 
 current event head:
 
-`EVT-006`
+`EVT-007`
 
 active personas:
 
@@ -65,27 +65,19 @@ r5 -> D
 r6 -> D
 ```
 
-D:
-
-```text
-(+1, +1, +1, +1, -1, +1)
-```
-
-DはA/B/Cのどれとも一致しないstable state。
+この時点ではDをA/B/Cのどれとも一致しないstable stateとして記録した。
 
 Resolution provenance: `LOCKED`。
 
 ### EVT-006 — balanced cue集合も結果前に全列挙
 
-EVT-005後、order選択だけでなくinitial cue選択にも自由度が残るため、A/Bが異なる4 unitから作れるA/B等距離cue全6種類を結果前に固定した。
+A/Bが異なる4 unitから作れるA/B等距離cue全6種類を結果前に固定した。
 
 Action-lock commit:
 
 `97ee4b3d322d367468258775443d6f2aa3551ef1`
 
-6 cues × EVT-005の6 cyclic orders = 36 trialsをすべて解決。
-
-結果:
+6 cues × 6 cyclic orders = 36 trialsをすべて解決。
 
 ```text
 A_EXACT        11
@@ -95,19 +87,48 @@ OTHER_STABLE   12
 NONCONVERGED    0
 ```
 
-重要な観測:
+- q16はA/B/CすべてへHamming distance 2で、2 ordersからCへ到達
+- q24はA/Bへdistance 2ずつだが、initial cue自体がD
+- pairwiseな`A/Bの間`という記述だけではnetwork全体の関係を隠し得る
 
-- `q16` はA/B/CすべてへHamming distance 2で、2 ordersからCへ到達
-- `q24` はA/Bへdistance 2ずつだが、initial cue自体がnonstored fixed point D
-- pairwiseな`A/Bの間`という記述だけでは、第三stored patternやnonstored stateとの関係を隠し得る
-
-PER-005は、
+PER-005:
 
 > AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
 >
 > 手掛かりは二つの原像だけでは定義できない。
 
-と記録した。
+Resolution provenance: `LOCKED`。
+
+### EVT-007 — 6-unit state spaceを全列挙
+
+EVT-006でsubset選択自体が盲点になり得ると分かったため、現在の6-unit networkについて全64 binary initial statesを結果前に固定した。
+
+Action-lock commit:
+
+`3c1034c70853c5704d4064f71ef4e989b4dc296f`
+
+64 states × 6 cyclic orders = 384 trialsを全て解決。
+
+結果:
+
+- 384 / 384 trialが2 sweeps以内にstable
+- initial fixed pointsは6個
+- unique stable final statesは `A / B / C / -A / -B / -C`
+- EVT-005 / EVT-006でDと呼んだ `(+1,+1,+1,+1,-1,+1)` は **`-C`**
+- 18 / 64 initial statesは6 ordersすべてで同じfinal
+- 46 / 64 initial statesはorderによって2種類以上のfinalへ分岐
+
+46/64を一般的なHopfield networkの頻度へ一般化しない。
+
+row-level結果:
+
+`novel/events/EVT-007-state-space.csv`
+
+PER-005:
+
+> 保存していない、だけでは足りない。
+>
+> Cを裏返したものまで、別の記憶と呼んでいた。
 
 Resolution provenance: `LOCKED`。
 
@@ -119,7 +140,7 @@ Resolution provenance: `LOCKED`。
 
 `EVT-001`〜`EVT-004`
 
-EVT-005 / EVT-006が後から成立したことを理由に第1話へ自動追加しない。
+EVT-005〜EVT-007が後から成立したことを理由に第1話へ自動追加しない。
 
 本文は研究レポート形式にせず、未確定の氏名・年齢・性別・国籍・所属・具体機材等を本文だけで固定しない。
 
@@ -129,11 +150,14 @@ EVT-005 / EVT-006が後から成立したことを理由に第1話へ自動追�
 
 - Test-001: 第1話までのstate recovery / persona境界 / NarrativeProjectionはPASS。EVT-004 resolver独立性はUNBLINDEDでINCONCLUSIVE
 - Test-002: EVT-005で `ACTION_LOCKED -> commit -> RESOLVED` を実行し、order集合・stopping/inclusion ruleのpre-lockを確認
-- Test-003: EVT-006でinitial cue集合もdeterministicに全列挙し、36 trialを選別せず受理。selector freedomをさらに縮小
+- Test-003: EVT-006でinitial cue集合もdeterministicに全列挙し、36 trialを選別せず受理
+- Test-004: EVT-007でsubset samplingをやめ、全64 states × 6 ordersを結果前lock。予期していなかった`D=-C`という分類修正もそのまま受理
 
 まだ未検証:
 
 - action selectorそのものを作者側研究結果から完全に隔離した別contextで生成しても同様に進められるか
+
+したがって生成方式全体はFULL PASSではなく `PARTIAL PASS` を維持する。
 
 ## 物語由来の研究分岐
 
@@ -162,23 +186,25 @@ EXP-005は結果前に事前登録してEXP-004の200 cuesを再解析した。
 
 結果:
 
-- `PAIR_ISOLATED`: **200 / 200**
+- `PAIR_ISOLATED`: 200 / 200
 - `THIRD_TIED`: 0
 - `THIRD_CLOSER`: 0
 - margin `d_other_min - d_pair`: min 11 / max 30
 - 判定: **FAIL**
 
-したがってH-005は `NOT_SUPPORTED`。EVT-006のN=6 toy networkで見えた第三stored patternとの同距離geometryは、今回のN=100 random-pattern cue集合では再現されなかった。
+H-005は `NOT_SUPPORTED`。
 
-ただし探索的に、EXP-004の4000 runsにはinitial cueからselected pairが各28 bit、第三stored patternが44 bit離れているにもかかわらず、その第三patternへexact到達したrunが1件ある。
-
-このためF-005は、
+F-005:
 
 > **Hamming距離上のpair isolationは、dynamics / basin上のpair isolationを保証しない。**
 
-とPROVISIONALに整理した。
+PROVISIONAL。
 
-EXP-005は現在の`run.py`と`summary.json`の出力表現を同期し、row-level監査データ `results/cue_geometry.csv` も保存済み。200 cueの分類とmarginは独立再計算でも一致した。
+### EVT-007からの研究候補
+
+EVT-007では、Dが `-C` だったため、既存EXP-002 / EXP-003の `NONSTORED_CONVERGED` にもstored patternのexact negationが含まれているかという検証可能な問いが生じた。
+
+ただし、これだけを理由にEXP-006を自動生成しない。判定対象と独立研究価値を確認してから必要なら切り出す。
 
 ## 最新研究ID
 
@@ -206,14 +232,14 @@ Test-003中、current work branch上の既存EVT-005を確認せず一時的に�
 
 研究レポートの「次候補」だけを理由にEXP-006を自動生成しない。
 
-EVT-006後のPER-005 / PER-006を現在状態から動かす。
+EVT-007後のPER-005 / PER-006を現在状態から動かす。
 
 現在の局所問題:
 
-- pairwiseな`ambiguous cue`を保存集合全体に対してどう記述するか
-- initial cue自体がfixed pointの場合と、dynamicsで別stateへ戻る場合をどう分けるか
-- Dのようなnonstored fixed pointをどう扱うか
-- 紙上toy modelから計算機実装へ進む必要が実際に生じるか
+- `x`と`-x`のfixed-point対称性をweight/update ruleからどう説明するか
+- `nonstored stable`を符号反転・mixture・その他へどう分けるか
+- modelの構造上の対称性とmemoryとしての意味をどう分離するか
+- toy modelから計算機実装・より大きな条件へ進む必要が実際に生じるか
 
 outcome-sensitiveな次eventではACTION_LOCKEDを維持する。
 
