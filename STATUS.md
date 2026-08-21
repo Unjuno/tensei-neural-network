@@ -178,6 +178,8 @@ EXP-005は結果前に事前登録してEXP-004の200 cuesを再解析した。
 
 とPROVISIONALに整理した。
 
+EXP-005は現在の`run.py`と`summary.json`の出力表現を同期し、row-level監査データ `results/cue_geometry.csv` も保存済み。200 cueの分類とmarginは独立再計算でも一致した。
+
 ## 最新研究ID
 
 - Q-001: ANSWERED / H-001: SUPPORTED / EXP-001: PASS / F-001: PROVISIONAL
@@ -196,11 +198,9 @@ EXP-005は結果前に事前登録してEXP-004の200 cuesを再解析した。
 
 ## 運用上の修正
 
-今回、current work branch上に既存EVT-005があるのを確認せず、main側の番号感覚から一時的に別EVT-005を作る重複が発生した。重複ファイルは検出後に削除し、正しい先行EVT-005を保持した。
+Test-003中、current work branch上の既存EVT-005を確認せず一時的に別EVT-005を作る重複が発生した。重複ファイルは検出後に削除し、正しい先行EVT-005を保持した。
 
-再発防止として `AGENTS.md` を更新し、stable ID採番前に**mainだけでなく現在のwork branchの同種IDも必ず確認する**手順を追加した。
-
-`POLICY.md` の旧文言「main上の最大番号を確認」は、main未反映IDがある長期work branchでは不十分なので、main反映前にbranch-aware規則へ同期する必要がある。
+再発防止として、stable ID採番前に**`main`だけでなく現在のwork branch上の同種IDも確認する**規則を `AGENTS.md` と `POLICY.md` の双方へ同期済み。
 
 ## 次に物語側で行うこと
 
@@ -216,6 +216,8 @@ EVT-006後のPER-005 / PER-006を現在状態から動かす。
 - 紙上toy modelから計算機実装へ進む必要が実際に生じるか
 
 outcome-sensitiveな次eventではACTION_LOCKEDを維持する。
+
+生成方式の次の厳密なテストは、action selector自体を作者側研究結果から隔離した別context、または事前に固定したstory-visibleな一般ruleで選ぶこと。
 
 ## 未確定
 
