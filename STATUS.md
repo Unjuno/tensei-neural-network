@@ -8,10 +8,10 @@
 
 - 主目的: 小説
 - 物語段階: `起 / 承 / 転`
-- 本文: 第1話ドラフト `novel/chapters/001.md` を現在のポリシーで再投影済み
+- 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004のまま
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜004まで実施
-- 生成方式検証: **PARTIAL PASS**。状態復元・情報境界・state同期・NarrativeProjectionは確認、resolver結果独立性は未確認
+- 生成方式検証: **PARTIAL PASS**。state recovery / 情報境界 / state同期 / NarrativeProjection / resolver pre-lockは確認。action selectorのcontext isolationは未検証
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフトは未公開
 
 ## branch
@@ -30,7 +30,7 @@
 
 current event head:
 
-`EVT-004`
+`EVT-005`
 
 active personas:
 
@@ -85,9 +85,49 @@ PER-005は、
 
 という問いを追加した。
 
-これは6-unitの一例であり、memory一般・生物学的記憶・頻度一般へ一般化していない。
+人物は現代側EXP-004の122/200、4000 runs等を知らない。
 
-物語人物は現代側EXP-004の122/200、4000 runs等を知らない。
+ただし生成方式検証上、EVT-004は具体pattern / cue / orderをoutcome前にlockした記録がないため `Resolution provenance: UNBLINDED`。数理例・物語event・第1話材料として保持するが、cleanなresolver独立性の証拠には数えない。
+
+### EVT-005
+
+EVT-004と同じ6-unit networkについて、PER-005 / PER-006はorder選択を後から都合よく変えないため、自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に固定した。
+
+Action-lock commit:
+
+`59ff6530d202b79834afbe8ffdceee1256437315`
+
+固定後に6本をすべて解決した結果:
+
+- r1 → A
+- r2 → D
+- r3 → B
+- r4 → B
+- r5 → D
+- r6 → D
+
+D:
+
+```text
+(+1, +1, +1, +1, -1, +1)
+```
+
+DはA/B/Cのどれとも一致しないstable state。
+
+- Hamming(D, A) = 2
+- Hamming(D, B) = 2
+- Hamming(D, C) = 6
+
+PER-005は、
+
+- 「二つの原像のどちらへ戻るか、では足りない」
+- 「戻り先そのものが、原像の一覧の外にもある」
+
+という局所問題へ進んだ。
+
+PER-006はDをmemoryとは呼ばず、`nonstored stable state`として扱うよう要求した。
+
+Resolution provenance: `LOCKED`。
 
 ## 第1話ドラフト
 
@@ -97,19 +137,24 @@ PER-005は、
 
 `EVT-001`〜`EVT-004`
 
-`BOOT-002`の導入背景と成立済みeventだけを材料に、現在のNarrativeProjection規則で再構成した。新しいeventやpersona stateは追加していない。
+EVT-005が後から成立したことを理由に、第1話へ自動追加していない。
 
-研究レポート形式ではなく、人物の問い・会話・protocol・紙上計算を小説として描写する。
+`BOOT-002`の導入背景と成立済みeventだけを材料に、現在のNarrativeProjection規則で再構成済み。
 
-氏名、年齢、性別・性別代名詞、国籍、所属、具体機材等の未確定な恒常属性は本文で補っていない。
+- 研究レポート形式にしない
+- event/stateにない未来因果を追加しない
+- 氏名、年齢、性別・性別代名詞、国籍、所属、具体機材等の未確定な恒常属性を補わない
+- 本文の再投影によってworld/persona stateやevent headを動かさない
 
-## 第1話生成テストの評価
+## 生成方式検証
 
 詳細:
 
 `notes/generation-validation.md`
 
-### 確認できたもの
+### Test-001
+
+確認できた:
 
 - repoからのstate recovery: PASS
 - stale indexから直接event/stateへの復元: PASS
@@ -121,37 +166,39 @@ PER-005は、
 - event群から第1話へのNarrativeProjection: PASS
 - EVT-004の記載計算の数理的一貫性: PASS
 
-### 未確認のもの
+未確認だった:
 
-**environment resolverの結果独立性: INCONCLUSIVE**
+- EVT-004 resolver結果独立性: `INCONCLUSIVE / UNBLINDED`
 
-理由:
+### Test-002
 
-EVT-004より前に作者側・生成側はEXP-004で同種のupdate-order依存を知っていたが、EVT-004のA/B/C、cue、order α/β、selection / stopping ruleは結果解決前にrepo上でlockされていない。
+`EVT-005` で `ACTION_LOCKED → commit → resolver → RESOLVED` を実行。
 
-したがって、人物への未来知識漏洩は防げていても、resolver側が反例の出る条件を選んだselection biasは排除できない。
+確認:
 
-EVT-004は `Resolution provenance: UNBLINDED` とする。
+- outcome前のaction/condition外部化: PASS
+- 6 cyclic ordersの事前固定: PASS
+- stopping / inclusion rule固定: PASS
+- lock後の条件差し替えなし: PASS
+- A/B以外のDを削除せず保持: PASS
+- world / PER-005 / PER-006へ結果を同期: PASS
+- resolver pre-lock mechanism: **PASS**
 
-- 物語eventとしては保持
-- 数理的具体例としては保持
-- 第1話ドラフトの材料としては保持
-- cleanなresolver独立性の検証証拠には数えない
+ただしTest-002は、action selectorそのものが作者側既知情報から完全に隔離されていたことまでは証明しない。
 
 ## 次の生成方式テスト
 
-次の重要なoutcomeを解決するときは、`novel/events/README.md` の二段階手順を使う。
+より強い検証を行う場合、次の重要なaction / parameter selectionを、
 
-1. personaの現在状態だけから次の行動を生成
-2. outcome-sensitiveな具体条件・選択規則・trial範囲・stopping ruleを `ACTION_LOCKED` としてeventへ記録
-3. **結果を書く前にcommit**
-4. locked条件をworld resolverへ渡して解決
-5. 平凡・失敗・不都合な結果も含め、そのままeventへ記録
-6. 結果を見て条件を差し替えない
+- 作者側EXP結果を読まない別contextで決める
 
-生成contextがpersonaには見えないEXP結果を既に知っている場合、具体条件はstory-visibleな情報だけからのdeterministic ruleで固定するか、結果知識を与えない別contextで選択する。
+または
 
-成功条件は「面白い結果が出る」ではなく、**どの結果でもそのまま受け入れて次状態へ進めること**。
+- story-visible情報から一意に決まるdeterministic ruleだけで決める
+
+ようにし、selector-levelの独立性を確認する。
+
+成功条件は「面白い結果が出る」ではなく、**結果を知らずに選んだactionから生じたoutcomeを、そのまま物語へ受け入れること**。
 
 ## 小説と研究の分離
 
@@ -182,7 +229,9 @@ EVT-004は `Resolution provenance: UNBLINDED` とする。
 - BIDIRECTIONAL cue: 122 / 200
 - F-004: PROVISIONAL
 
-EVT-003 / EVT-004から重複する新しいQ / H / EXPは追加していない。
+EVT-003 / EVT-004 / EVT-005から重複する新しいQ / H / EXPは追加していない。
+
+EVT-005のDは、nonstored stable stateとしてQ-003 / EXP-003、update-order依存としてQ-004 / EXP-004と論点が重なるため、現時点では新規EXPを作らない。
 
 ## 最新研究ID
 
@@ -214,14 +263,16 @@ EVT-003 / EVT-004から重複する新しいQ / H / EXPは追加していない�
 
 EXP-005を研究都合で自動生成しない。
 
-EVT-004後のPER-005 / PER-006を現在状態から動かす。ただし、次の重要な結果解決は上記 `ACTION_LOCKED` 手順を必須とする。
+EVT-005後のPER-005 / PER-006を現在状態から動かす。
 
 現在の局所問題:
 
-- 6-unitの一例をどこまで一般化してよいか
-- `correct recall`をfinal state以外の何と結び付けるか
-- A/B以外のstable stateをどう分類するか
+- DがA/Bの単純な中間なのか、別種の安定構造なのか
+- stored集合外のstateが存在するとき`correct recall`をどう記述するか
 - 紙上計算から計算機実装へ進む必要が実際に生じるか
+- 次の比較で何を固定し、何を変えるか
+
+outcome-sensitiveな次eventではACTION_LOCKEDを維持する。
 
 ## 未確定
 
