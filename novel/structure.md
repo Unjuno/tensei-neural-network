@@ -47,6 +47,7 @@ Bootstrap / 現在の同期点
 各ペルソナ P_i(t)
     ↓ 各自の目的から行動
 行動 A_i(t)
+    ↓ outcome-sensitive条件を必要ならACTION_LOCKED
     ↓ Canon / 技術 / 歴史 / 権限で解決
 次の環境 W_(t+1)
     ↓
@@ -63,11 +64,20 @@ Bootstrap / 現在の同期点
 
 `起 / 承 / 転`
 
-BOOT-002の導入から、PER-005一人の局所問題が立ち上がった `EVT-001`、独立した観測境界を持つPER-006との相互作用 `EVT-002`、操作可能なcueと観測項目を作った `EVT-003` を経て、`EVT-004` で初めて具体的な紙上計算が成立した。
+BOOT-002の導入から、PER-005一人の局所問題が立ち上がった `EVT-001`、独立した観測境界を持つPER-006との相互作用 `EVT-002`、操作可能なcueと観測項目を作った `EVT-003` を経て、`EVT-004` で最初の具体的な紙上計算が成立した。
 
 EVT-004では、同じ等距離cue・同じweightsから、update orderだけの違いでA/Bという二つのstored stateへ到達する例が観測された。このため、少なくともこの例では「一つのcueに一つのcorrect targetを置き、final stateだけで正誤を判定できる」という暗黙前提を維持できなくなった。
 
-したがって局所状態を、成立後の分類として `起 / 承 / 転` へ更新する。
+その後の `EVT-005` では、EVT-004と同じ小networkに対し、結果前に固定した6 cyclic update ordersをすべて追った。そこではA / Bだけでなく、保存patternではないstable state Dも現れた。
+
+したがって現在の局所的な`転`は、
+
+- 一つのcueから戻り先が一意とは限らない
+- しかも戻り先がstored pattern集合の外にもあり得る
+
+という状態まで進んでいる。
+
+まだ自動的に`結`へ進めない。
 
 現在のstory-time event head:
 
@@ -80,14 +90,22 @@ EVT-002
   ↓
 EVT-003
   ↓
-EVT-004
+EVT-004   [UNBLINDED]
+  ↓
+EVT-005   [LOCKED]
 ```
 
 起承転結ラベルはこれらのeventを発生させた原因ではなく、成立後の状態分類です。
 
-`novel/chapters/001.md` はEVT-004までを第1話として切った。EVT-004成立後に、認識上の前提が崩れ、次の問い「想起結果だけから原像を逆算してよいのか」が新しい初期条件として立ち上がっていたため、NarrativeProjection上はここを一つの読書単位として自然な切れ目と判断した。
+`novel/chapters/001.md` はEVT-004までを第1話として切っている。EVT-005が成立したことを理由に第1話へ自動追加しない。story timeとNarrativeProjectionの切れ目は別管理する。
 
-ただし、**このこと自体は「EVT-004のoutcomeが結果非依存のresolverから自然に生じた」ことを証明しない。** EVT-004の具体pattern・cue・update orderは結果解決前にlockされた記録がなく、生成側はすでにEXP-004で同種現象を知っていたため、resolver selection biasは排除できない。EVT-004のResolution provenanceは `UNBLINDED`、生成方式検証上のresolver独立性は `INCONCLUSIVE` とする。詳細は `events/EVT-004-same-cue-two-returns.md` と `../notes/generation-validation.md` を参照する。
+EVT-004成立後には、認識上の前提が崩れ、次の問い「想起結果だけから原像を逆算してよいのか」が新しい初期条件として立ち上がっていたため、NarrativeProjection上はそこを第1話の切れ目と判断した。
+
+ただし、**そのこと自体は「EVT-004のoutcomeが結果非依存のresolverから自然に生じた」ことを証明しない。** EVT-004の具体pattern・cue・update orderは結果解決前にlockされた記録がなく、生成側はすでにEXP-004で同種現象を知っていたため、resolver selection biasは排除できない。EVT-004のResolution provenanceは `UNBLINDED`、生成方式検証上のresolver独立性は `INCONCLUSIVE` とする。
+
+EVT-005ではこの弱点へ対応し、`ACTION_LOCKED → commit → resolver → RESOLVED` を実際に通した。6 cyclic ordersを結果前に固定し、A / B / Dという全結果を差し替えず受理したため、Test-002ではresolver pre-lock mechanismをPASSとした。ただしaction selector自体を作者側知識から隔離した検証はまだ残る。
+
+詳細は `events/EVT-004-same-cue-two-returns.md`, `events/EVT-005-lock-the-order-family.md`, `../notes/generation-validation.md` を参照する。
 
 ## 導入背景
 
@@ -110,9 +128,11 @@ EVT-004
 - PER-005が理論検討、文献読解、簡略化したnetwork計算・実験を行える研究環境がある
 - Hopfield 1982、1983のspurious memory / unlearningを含む問題設定を当時の文献として扱える
 - 具体的な所属、計算機、資金条件はまだ固定しない
-- 物語世界内では6-unit・3-patternの紙上計算だけが具体的に成立している
-- 同じ等距離cueからupdate orderだけの違いでA/Bへ到達する一例をPER-005 / PER-006が観測した
-- 現代側EXP-004の頻度集計・seed・run数はPER-005 / PER-006の知識ではない
+- 物語世界内では6-unit・3-patternの紙上networkが具体化している
+- EVT-004で同じ等距離cueからupdate orderだけの違いでA/Bへ到達する一例を観測した
+- EVT-005で結果前に固定した6 cyclic ordersからA / B / nonstored stable Dの三種を観測した
+- D = `(+1,+1,+1,+1,-1,+1)` で、A/Bから各Hamming distance 2、Cから6
+- 現代側EXP-003 / EXP-004の頻度集計・seed・run数はPER-005 / PER-006の知識ではない
 - 輪廻、現代AI、将来の人格再構成問題はPER-005 / PER-006の現在知識ではない
 
 ### 現在activeなペルソナ
@@ -168,6 +188,32 @@ PER-005:
 
 生成方式検証上は、この観測の具体条件が結果前にlockされていないため、EVT-004をcleanなresolver独立性の証拠には使わない。
 
+### EVT-005
+
+EVT-004と同じnetwork / cueについて、6 cyclic update ordersを結果前に固定してすべて追った。
+
+結果は、
+
+- A: 1 order
+- B: 2 orders
+- nonstored stable D: 3 orders
+
+となった。
+
+PER-005:
+
+> 二つの原像のどちらへ戻るか、では足りない。
+>
+> 戻り先そのものが、原像の一覧の外にもある。
+
+PER-006はDをmemoryと呼ばず、まずnonstored stable stateとして扱うよう要求した。
+
+現在の局所的な問いは、
+
+**同じcueからstored A / stored B / nonstored stable Dへ到達し得るとき、「戻る」という語は何を指しているのか。**
+
+へ進んでいる。
+
 ## 第1局面の技術的な核
 
 最初の研究局面では、Hopfieldだけを孤立して置かず、Hopfield以前の背景を必要範囲で参照します。
@@ -191,20 +237,22 @@ PER-005:
 
 ただし、EXP-003 / EXP-004の結果をPER-005 / PER-006へ未来知識として直接渡しません。本人たちが当時の手段で観測した結果だけを、その人物のKnowledgeへ反映します。
 
-EVT-004で二人が知ったのは、作者側EXP-004の統計結果ではなく、紙上で追った6-unitの一例だけである。人物のKnowledge境界と、その例を生成側がどのように選んだかというResolution provenanceは別に評価する。
+EVT-004 / EVT-005で二人が知ったのは、作者側EXPの統計結果ではなく、自分たちが紙上で追った6-unit networkの結果だけである。人物のKnowledge境界と、その例を生成側がどのように選んだかというResolution provenanceは別に評価する。
 
 ## 現在の環境から発生しうる観測
 
-以下は**順番を指定するプロットではなく、EVT-004後の環境から生じうる観測候補**です。
+以下は**順番を指定するプロットではなく、EVT-005後の環境から生じうる観測候補**です。
 
-- 6-unitの一例を別のpattern構成でも再現できるか検討する
-- A/B以外のstable stateへ入る具体例が出る
-- 当時の計算資源へ実装する必要が生じ、具体的な計算機・言語・支援者の制約が初めて重要になる
-- 文献上の`memory`という語と、二人が採用する操作的定義が食い違う
-- PER-006がmodel内の非一意性を生物学的memoryへ一般化することへ強く制動をかける
+- DがA/Bの単純な組合せとして説明できるか、二人の時代の語彙で検討する
+- 別のpattern構成やcueでもstored集合外へ入るかを比較したくなる
+- 紙上での列挙が重くなり、当時の計算資源へ実装する必要が生じる
+- 文献上の`memory`、`spurious state`、`stable state`の語と二人の操作的定義が食い違う
+- PER-006がmodel内の非一意性を生物学的memoryへ一般化することへさらに制動をかける
 - 新しい人物・技術スタッフ・上司等の独立判断が必要になる
 
-どれも発生を保証しません。実際のペルソナ行動と環境解決から成立したものだけを採用します。次の重要なoutcome解決では `events/README.md` の `ACTION_LOCKED` 手順を使う。
+どれも発生を保証しません。実際のペルソナ行動と環境解決から成立したものだけを採用します。
+
+次のoutcome-sensitive eventでも `events/README.md` の `ACTION_LOCKED` 手順を使う。さらに強い生成方式検証を行う場合は、action selector自体を作者側研究結果から隔離したcontextで決める。
 
 ## 長期的な中心問題
 
@@ -281,16 +329,16 @@ checkpointや別モデルが同時に同じ自己同一性を主張する状況�
 
 次の状態へ進むために、特定の予定イベントを必須にしません。
 
-EVT-004で局所的な`転`は成立したが、これを自動的に`結`へ進めない。
+EVT-004で局所的な`転`は成立し、EVT-005で結果前lockされた追加観測がその認識変化を補強したが、これを自動的に`結`へ進めない。
 
 現在状態がさらに動く条件:
 
-- PER-005 / PER-006が6-unit例をどう位置付けるかについて新しい証拠・制約・誤解を得る
+- PER-005 / PER-006がDをどう位置付けるかについて新しい証拠・制約・誤解を得る
 - 紙上例から計算機実装へ進む必要が実際に生じる
-- A/B以外のstateや再現しない例が出て、現在の理解がさらに修正される
+- 別条件ではA/B/Dの構図が再現せず、現在の理解が修正される
 - 文献・他者・制度上の制約で研究方針が変わる
 
-`結` は問題解決そのものを意味せず、EVT-004で生じた新しい前提と問いが、次の局面の初期条件として整理されたときに成立します。
+`結` は問題解決そのものを意味せず、EVT-004/005で生じた新しい前提と問いが、次の局面の初期条件として整理されたときに成立します。
 
 ## 研究との接続
 
@@ -301,6 +349,8 @@ EVT-004で局所的な`転`は成立したが、これを自動的に`結`へ進
 - Q-003 / H-003 / EXP-003 / F-003 — EVT-001由来のmixture解析
 - Q-004 / H-004 / EXP-004 / F-004 — EVT-002由来の等距離cue・update-order依存
 
-EVT-003 / EVT-004から新しいQ / H / EXPは追加していない。EVT-004の観測はQ-004と同種の論点に重なるため、重複IDを作らない。
+EVT-003 / EVT-004 / EVT-005から新しいQ / H / EXPは追加していない。
+
+EVT-005で現れたDは、nonstored stable stateという点ではQ-003 / EXP-003、update-order依存という点ではQ-004 / EXP-004と論点が重なる。後続の物語で既存問いとは異なる検証可能な問題が実際に立つまでは、重複EXPを作らない。
 
 次の研究を研究都合だけで自動的にEXP-005へ進めません。再び物語側を動かし、実際に生じた語・観測・問題、または明確に独立した研究価値が生じた場合にだけ次の研究を切り出します。
