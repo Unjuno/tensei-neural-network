@@ -151,15 +151,15 @@ F-005:
 
 PROVISIONAL。
 
+EXP-005の数値は再計算済みで既存summaryと一致。現在の`run.py`は`summary.json`の型表現と同期し、row-level監査データ `experiments/EXP-005-hopfield-pair-isolation/results/cue_geometry.csv` も保存した。
+
 研究レポート: `research/reports/EXP-005.md`
 
 ## stable ID採番の注意
 
-今回、current work branchの既存EVT-005を確認せず、一時的に別EVT-005を作る重複が発生した。重複は検出して削除済み。
+Test-003中、current work branchの既存EVT-005を確認せず、一時的に別EVT-005を作る重複が発生した。重複は検出して削除済み。
 
-再発防止として `AGENTS.md` に、stable ID採番前にmainだけでなく**現在のwork branch上の同種IDを確認する**規則を追加した。
-
-`POLICY.md` の旧い「main上の最大番号」文言もbranch-awareへ同期する必要がある。
+再発防止として、stable ID採番前にmainだけでなく**現在のwork branch上の同種IDも確認する**規則を `AGENTS.md` と `POLICY.md` の双方へ同期済み。
 
 ## 次の物語側作業
 
@@ -175,6 +175,8 @@ EVT-006後のPER-005 / PER-006を現在stateから動かす。
 - 紙上toy networkから計算機実装へ進む必要が実際に生じるか
 
 outcome-sensitiveな次eventではACTION_LOCKEDを使う。
+
+生成方式の次の厳密な検証では、action selector自体を作者側研究結果から隔離した別context、または事前に固定したstory-visibleな一般ruleを用いる。
 
 ## 未確定
 
