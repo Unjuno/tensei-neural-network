@@ -17,7 +17,7 @@
 1980年代側:
 
 - Bootstrap: `BOOT-002 @ T0-1980S @ none`
-- current event head: `EVT-006`
+- current event head: `EVT-007`
 - active personas: PER-005 / PER-006
 - current structure: `起 / 承 / 転`
 - 第1話ドラフト: `novel/chapters/001.md`
@@ -32,66 +32,66 @@
 
 EVT-004は数理的には有効だが、具体条件をoutcome前にlockしていなかったため生成検証上は `UNBLINDED`。
 
-### EVT-005
+### EVT-005 / EVT-006
 
-同じ6-unit network / cueについて、自然順序の全6 cyclic update ordersを結果前に固定。
+EVT-005では同じ6-unit network / cueについて全6 cyclic update ordersを結果前に固定し、A / B / Dを観測した。
 
-Action-lock commit:
-
-`59ff6530d202b79834afbe8ffdceee1256437315`
-
-結果:
-
-```text
-A / D / B / B / D / D
-```
-
-D:
-
-```text
-(+1, +1, +1, +1, -1, +1)
-```
-
-Dはnonstored fixed point。
-
-Resolution provenance: `LOCKED`。
-
-### EVT-006
-
-EVT-005後、update orderだけでなくbalanced cue自体のselection freedomも減らすため、A/Bが異なる4位置から作れるA/B等距離cue全6種類を結果前に全列挙した。
-
-Action-lock commit:
-
-`97ee4b3d322d367468258775443d6f2aa3551ef1`
-
-6 cues × 6 cyclic orders = 36 trials。
-
-結果:
+EVT-006ではA/B-balanced cue全6種類も結果前に全列挙し、36 trialsを全て受理した。
 
 - A: 11
 - B: 11
 - C: 2
-- nonstored D: 12
+- D: 12
 - nonconverged: 0
 
-重要:
+この段階でpairwiseな`A/Bの間`だけでは第三stored patternやnonstored stateとの関係を隠し得ると分かった。
 
-- q16はA/B/Cすべてへdistance 2で、2 ordersからCへ到達
-- q24はA/Bへdistance 2ずつだが、initial cue自体がD
+### EVT-007
+
+EVT-006後の局所Goalから、特定cueの選択をやめ、6-unit binary state space全体を調べた。
+
+Action-lock commit:
+
+`3c1034c70853c5704d4064f71ef4e989b4dc296f`
+
+locked:
+
+- 全64 initial states
+- 既存6 cyclic update orders
+- 64 × 6 = 384 trials全部
+- zero field保持
+- max 20 sweeps
+- 全結果を含む
+
+結果:
+
+- 384 / 384 trialが2 sweeps以内にstable
+- fixed points / unique finalsは `A / B / C / -A / -B / -C`
+- EVT-005 / 006のD `(+1,+1,+1,+1,-1,+1)` は **`-C`**
+- 18 / 64 initial statesはorder-invariant
+- 46 / 64 initial statesは2種類以上のfinalへorder-dependentに分岐
+
+row-level:
+
+`novel/events/EVT-007-state-space.csv`
+
+重要な更新:
+
+`nonstored stable`は観測カテゴリとしては正しいが、符号反転対称性・mixture・その他を同じ箱へ入れる粗い分類になり得る。
 
 PER-005:
 
-> AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
+> 保存していない、だけでは足りない。
 >
-> 手掛かりは二つの原像だけでは定義できない。
+> Cを裏返したものまで、別の記憶と呼んでいた。
 
-Resolution provenance: `LOCKED`。
+46/64を一般的なHopfield networkの頻度へ一般化しない。
 
 ## 第1話
 
 `novel/chapters/001.md`
 
-採用範囲はEVT-001〜004のまま。EVT-005/006を後から自動追加しない。
+採用範囲はEVT-001〜004のまま。EVT-005〜007を後から自動追加しない。
 
 本文では未確定の氏名・年齢・性別・国籍・所属・具体機材等を勝手に固定しない。
 
@@ -100,12 +100,15 @@ Resolution provenance: `LOCKED`。
 詳細: `notes/generation-validation.md`
 
 - Test-001: state recovery / persona境界 / state同期 / NarrativeProjection PASS。EVT-004 resolver独立性はINCONCLUSIVE
-- Test-002: EVT-005でACTION_LOCKED→commit→resolveを実行し、order selectionのpre-lockを確認
-- Test-003: EVT-006でinitial cue集合もdeterministicに全列挙し、36 trialを選別せず受理
+- Test-002: EVT-005でACTION_LOCKED→commit→resolveを実行
+- Test-003: EVT-006でbalanced cue集合をdeterministicに全列挙
+- Test-004: EVT-007で有限state space全体を結果前lock。`D=-C`という既存分類を弱める非予定結果も選別せず受理
+
+生成方式は `PARTIAL PASS`。
 
 未検証:
 
-- action selector自体を作者側研究結果から完全隔離したcontext isolation
+- action selector自体を作者側research結果から完全隔離したcontext isolation
 
 ## 物語由来の現実研究
 
@@ -125,56 +128,38 @@ Resolution provenance: `LOCKED`。
 
 ### EVT-006 → EXP-005
 
-Q-005:
-
-> pairwise balanced cueは、selected A/Bをstored-pattern Hamming距離上で残りstored patternsから孤立させるか。
-
-EXP-005を結果前に事前登録して、EXP-004の200 balanced cuesをstored set全体へのHamming距離で再解析。
-
-結果:
-
-- PAIR_ISOLATED: 200
+- Q-005: pairwise balanced cueのstored-set Hamming isolation
+- PAIR_ISOLATED: 200/200
 - THIRD_TIED: 0
 - THIRD_CLOSER: 0
-- margin `d_other_min - d_pair`: min 11 / max 30
-- 判定: **FAIL**
+- 判定: FAIL
+- H-005: NOT_SUPPORTED
+- F-005: `Hamming距離上のpair isolationは、dynamics / basin上のpair isolationを保証しない。` PROVISIONAL
 
-H-005: `NOT_SUPPORTED`。
+### EVT-007から生じた研究候補
 
-つまりEVT-006のN=6 toy networkにあった「第三stored patternもA/Bと同距離」というgeometryは、今回のN=100 random-pattern cue集合では再現しなかった。
+既存EXP-002 / EXP-003の `NONSTORED_CONVERGED` のうち、stored patternのexact negationに一致するstateを分離すべきか。
 
-ただし探索的にEXP-004では、selected pairがcueから各28 bit、第三stored patternが44 bit離れているのに、その第三patternへexact到達したrunが1件あった。
+これはEXP-003のmixture判定とは別の判定対象になり得る。
 
-F-005:
-
-> **Hamming距離上のpair isolationは、dynamics / basin上のpair isolationを保証しない。**
-
-PROVISIONAL。
-
-EXP-005の数値は再計算済みで既存summaryと一致。現在の`run.py`は`summary.json`の型表現と同期し、row-level監査データ `experiments/EXP-005-hopfield-pair-isolation/results/cue_geometry.csv` も保存した。
-
-研究レポート: `research/reports/EXP-005.md`
+ただし、この候補だけを理由にEXP-006を自動作成しない。
 
 ## stable ID採番の注意
 
-Test-003中、current work branchの既存EVT-005を確認せず、一時的に別EVT-005を作る重複が発生した。重複は検出して削除済み。
-
-再発防止として、stable ID採番前にmainだけでなく**現在のwork branch上の同種IDも確認する**規則を `AGENTS.md` と `POLICY.md` の双方へ同期済み。
+stable IDを追加する前に、`main`だけでなく**現在のwork branch上の同種IDも確認する**。
 
 ## 次の物語側作業
 
-研究レポートの派生候補だけを理由にEXP-006を自動作成しない。
-
-EVT-006後のPER-005 / PER-006を現在stateから動かす。
+EVT-007後のPER-005 / PER-006を現在stateから動かす。
 
 現在の自然な局所問題:
 
-- pairwiseな`A/Bの間`をstored set全体に対してどう記述するか
-- initial cue自体がfixed pointの場合とdynamicsで移動した場合をどう分けるか
-- Dのようなnonstored fixed pointの扱い
-- 紙上toy networkから計算機実装へ進む必要が実際に生じるか
+- なぜA/B/Cの符号反転もfixed pointになるのか
+- `nonstored stable`を符号反転・mixture・その他へどう分けるか
+- modelの対称性とmemoryとしての意味をどう分離するか
+- toy modelからより大きな計算へ進む必要が実際に生じるか
 
-outcome-sensitiveな次eventではACTION_LOCKEDを使う。
+次のoutcome-sensitive eventではACTION_LOCKEDを使う。
 
 生成方式の次の厳密な検証では、action selector自体を作者側研究結果から隔離した別context、または事前に固定したstory-visibleな一般ruleを用いる。
 
