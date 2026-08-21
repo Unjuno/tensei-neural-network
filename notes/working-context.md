@@ -17,71 +17,34 @@
 1980年代側:
 
 - Bootstrap: `BOOT-002 @ T0-1980S @ none`
-- current event head: `EVT-005`
+- current event head: `EVT-006`
 - active personas: PER-005 / PER-006
 - current structure: `起 / 承 / 転`
 - 第1話ドラフト: `novel/chapters/001.md`
 - 第1話採用範囲: `EVT-001`〜`EVT-004`
 
-### EVT-001
+### EVT-004まで
 
-PER-005:
+- EVT-001: 「止まることと、戻ることは同じか」「保存していないところで止まるなら、その状態は何からできている？」
+- EVT-002: `correct recall`のtargetを誰が定義するか
+- EVT-003: A/B等距離cueと観測項目のprotocol
+- EVT-004: 同一cue・weightsからupdate orderだけの差でA/Bへ分岐する6-unit例
 
-- 「止まることと、戻ることは同じか」
-- 「保存していないところで止まるなら、その状態は何からできている？」
-
-### EVT-002
-
-PER-006が、実験者がtargetを知っていることとnetwork自身に一意な`correct`があることは別ではないかと問い返した。
-
-PER-005:
-
-- 「原像を知っているのは誰だ」
-- 「手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか」
-
-PER-006はこの相互作用で初めて独立persona化。
-
-### EVT-003
-
-PER-005 / PER-006はA/Bへ同じbit差数を持つcueのprotocol sketchを作った。
-
-- 等距離 = dynamics上の中立、とは扱わない
-- cueからA/Bへの距離
-- final state
-- update条件
-- A/B以外のstate
-
-を分けて記録する方針が成立。
-
-### EVT-004
-
-6-unit・3-patternの紙上networkで、同一cue・同一weights・同一非同期更新規則から、update orderだけを変えてA/Bへ別々にstable到達する例をPER-005 / PER-006が観測した。
-
-PER-005:
-
-- 「手掛かりが同じでも、戻り先は一つとは限らない」
-- 「想起の結果だけを見て原像を逆算してよいのか」
-
-人物への現代EXP結果漏洩はない。
-
-ただし生成方式検証上、具体条件がoutcome前にlockされていないためResolution provenanceは `UNBLINDED`。cleanなresolver独立性の証拠には数えない。
+EVT-004は数理的には有効だが、具体条件をoutcome前にlockしていなかったため生成検証上は `UNBLINDED`。
 
 ### EVT-005
 
-EVT-004の弱点を踏まえ、同じ6-unit networkについてunit番号の自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に固定した。
+同じ6-unit network / cueについて、自然順序の全6 cyclic update ordersを結果前に固定。
 
 Action-lock commit:
 
 `59ff6530d202b79834afbe8ffdceee1256437315`
 
-locked条件を変えず6本をすべて解決:
+結果:
 
-- r1 → A
-- r2 → D
-- r3 → B
-- r4 → B
-- r5 → D
-- r6 → D
+```text
+A / D / B / B / D / D
+```
 
 D:
 
@@ -89,18 +52,38 @@ D:
 (+1, +1, +1, +1, -1, +1)
 ```
 
-DはA/B/Cのどれとも一致しないstable state。
+Dはnonstored fixed point。
 
-- Hamming(D, A) = 2
-- Hamming(D, B) = 2
-- Hamming(D, C) = 6
+Resolution provenance: `LOCKED`。
+
+### EVT-006
+
+EVT-005後、update orderだけでなくbalanced cue自体のselection freedomも減らすため、A/Bが異なる4位置から作れるA/B等距離cue全6種類を結果前に全列挙した。
+
+Action-lock commit:
+
+`97ee4b3d322d367468258775443d6f2aa3551ef1`
+
+6 cues × 6 cyclic orders = 36 trials。
+
+結果:
+
+- A: 11
+- B: 11
+- C: 2
+- nonstored D: 12
+- nonconverged: 0
+
+重要:
+
+- q16はA/B/Cすべてへdistance 2で、2 ordersからCへ到達
+- q24はA/Bへdistance 2ずつだが、initial cue自体がD
 
 PER-005:
 
-- 「二つの原像のどちらへ戻るか、では足りない」
-- 「戻り先そのものが、原像の一覧の外にもある」
-
-PER-006はDをmemoryと呼ばず、nonstored stable stateとして扱う。
+> AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
+>
+> 手掛かりは二つの原像だけでは定義できない。
 
 Resolution provenance: `LOCKED`。
 
@@ -108,113 +91,90 @@ Resolution provenance: `LOCKED`。
 
 `novel/chapters/001.md`
 
-採用event範囲は `EVT-001`〜`EVT-004` のまま。
+採用範囲はEVT-001〜004のまま。EVT-005/006を後から自動追加しない。
 
-EVT-005が後から成立したことを理由に第1話へ追加しない。
-
-本文は現在のNarrativeProjection規則に合わせ、未確定だったPER-005の性別を「彼」と補っていた箇所を修正済み。
-
-本文では:
-
-- 研究レポート形式にしない
-- event/stateにない未来因果を追加しない
-- 氏名、年齢、性別・性別代名詞、国籍、所属、具体機材等の未確定な恒常属性を補わない
+本文では未確定の氏名・年齢・性別・国籍・所属・具体機材等を勝手に固定しない。
 
 ## 生成方式検証
 
-詳細:
+詳細: `notes/generation-validation.md`
 
-`notes/generation-validation.md`
+- Test-001: state recovery / persona境界 / state同期 / NarrativeProjection PASS。EVT-004 resolver独立性はINCONCLUSIVE
+- Test-002: EVT-005でACTION_LOCKED→commit→resolveを実行し、order selectionのpre-lockを確認
+- Test-003: EVT-006でinitial cue集合もdeterministicに全列挙し、36 trialを選別せず受理
 
-### Test-001
+未検証:
 
-PASS:
+- action selector自体を作者側研究結果から完全隔離したcontext isolation
 
-- repoからstate recovery
-- stale index検出
-- persona情報境界
-- world / persona state同期
-- persona必要時生成
-- 一話=一実験回避
-- 小説 / research report分離
-- NarrativeProjection
-- EVT-004の数理的一貫性
+## 物語由来の現実研究
 
-INCONCLUSIVE:
+### EVT-001 → EXP-003
 
-- EVT-004のresolver結果独立性
+- PASS
+- 3-pattern majority mixture exact match 1件
+- F-003 PROVISIONAL
 
-理由: 生成側が同種現象を既知で、具体pattern / cue / order / selection ruleが結果前にlockされていなかった。
+### EVT-002 → EXP-004
 
-### Test-002
+- PASS
+- balanced cue 200
+- update-order runs 4000
+- BIDIRECTIONAL 122/200
+- F-004 PROVISIONAL
 
-EVT-005で初めて、
+### EVT-006 → EXP-005
 
-```text
-ACTION_LOCKED
-→ commit
-→ resolver
-→ locked条件を変えず全結果を受理
-```
+Q-005:
 
-を実行。
+> pairwise balanced cueは、selected A/Bをstored-pattern Hamming距離上で残りstored patternsから孤立させるか。
 
-判定:
+EXP-005を結果前に事前登録して、EXP-004の200 balanced cuesをstored set全体へのHamming距離で再解析。
 
-- resolver pre-lock mechanism: PASS
-- 不都合・非期待結果保持: PASS
-- state同期: PASS
+結果:
 
-ただし、action selector自体を作者側EXP知識から隔離したcontext isolationは未検証。
+- PAIR_ISOLATED: 200
+- THIRD_TIED: 0
+- THIRD_CLOSER: 0
+- margin `d_other_min - d_pair`: min 11 / max 30
+- 判定: **FAIL**
 
-## 次の重要ルール
+H-005: `NOT_SUPPORTED`。
 
-outcome-sensitiveな重要eventは、結果前に:
+つまりEVT-006のN=6 toy networkにあった「第三stored patternもA/Bと同距離」というgeometryは、今回のN=100 random-pattern cue集合では再現しなかった。
 
-1. personaのstory-visible stateから行動を決める
-2. 具体条件またはdeterministic selection ruleを固定
-3. trial / stopping / inclusion ruleを固定
-4. `ACTION_LOCKED` としてcommit
-5. commit後にresolverで解決
-6. 結果を見て条件を差し替えない
+ただし探索的にEXP-004では、selected pairがcueから各28 bit、第三stored patternが44 bit離れているのに、その第三patternへexact到達したrunが1件あった。
 
-さらに強い検証が必要なら、action / parameter selection自体を作者側研究結果を見ない別contextで行う。
+F-005:
 
-成功条件は「面白い結果」ではなく、**どんな結果でも差し替えず、その結果から次状態へ進めること**。
+> **Hamming距離上のpair isolationは、dynamics / basin上のpair isolationを保証しない。**
 
-## 研究分岐
+PROVISIONAL。
 
-### EVT-001 → Q-003 / H-003 / EXP-003
+研究レポート: `research/reports/EXP-005.md`
 
-- 3-pattern majority mixture exact match: 1件
-- 判定: PASS
-- F-003: PROVISIONAL
+## stable ID採番の注意
 
-### EVT-002 → Q-004 / H-004 / EXP-004
+今回、current work branchの既存EVT-005を確認せず、一時的に別EVT-005を作る重複が発生した。重複は検出して削除済み。
 
-- N=100, P=5
-- balanced cue: 200
-- update-order runs: 4000
-- BIDIRECTIONAL cue: 122 / 200
-- 判定: PASS
-- F-004: PROVISIONAL
+再発防止として `AGENTS.md` に、stable ID採番前にmainだけでなく**現在のwork branch上の同種IDを確認する**規則を追加した。
 
-EVT-003 / EVT-004 / EVT-005から重複EXPは作っていない。
-
-EVT-005のDは、nonstored stable stateとしてQ-003 / EXP-003、update-order依存としてQ-004 / EXP-004と重なるため、現時点では新規research targetにしない。
+`POLICY.md` の旧い「main上の最大番号」文言もbranch-awareへ同期する必要がある。
 
 ## 次の物語側作業
 
-EXP-005を研究都合で自動生成しない。
+研究レポートの派生候補だけを理由にEXP-006を自動作成しない。
 
-EVT-005後のPER-005 / PER-006を現在stateから動かす。
+EVT-006後のPER-005 / PER-006を現在stateから動かす。
 
 現在の自然な局所問題:
 
-- DがA/Bの単純な中間なのか、別種の安定構造なのか
-- stored集合外のstateが存在するとき「戻る」を何と定義するか
-- 紙上計算から計算機実装へ進む必要が本当に生じるか
-- 次の比較で何を固定し何を変えるか
+- pairwiseな`A/Bの間`をstored set全体に対してどう記述するか
+- initial cue自体がfixed pointの場合とdynamicsで移動した場合をどう分けるか
+- Dのようなnonstored fixed pointの扱い
+- 紙上toy networkから計算機実装へ進む必要が実際に生じるか
+
+outcome-sensitiveな次eventではACTION_LOCKEDを使う。
 
 ## 未確定
 
@@ -223,7 +183,6 @@ EVT-005後のPER-005 / PER-006を現在stateから動かす。
 - PER-005 / PER-006の氏名・年齢・性別
 - 計算機・言語・端末
 - 二人の正式な所属関係・上下関係
-- 次に実行する具体的計算
 - 現代側最初のevent
 - 第2話以降の終了点
 
