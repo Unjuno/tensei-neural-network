@@ -1,0 +1,62 @@
+{
+  "experiment_id": "EXP-005",
+  "status": "executed",
+  "decision": "FAIL",
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "config": {
+    "N": 100,
+    "P": 5,
+    "pattern_seeds": [1982, 1983, 1984],
+    "cues_per_pair": 10,
+    "parent_experiment": "EXP-004"
+  },
+  "valid_pair_count": 20,
+  "cue_count": 200,
+  "distance_violations": 0,
+  "classification_counts": {
+    "PAIR_ISOLATED": 200,
+    "THIRD_TIED": 0,
+    "THIRD_CLOSER": 0
+  },
+  "min_margin": 11,
+  "max_margin": 30,
+  "first_min_margin_cue": {
+    "pattern_seed": 1984,
+    "a_idx": 2,
+    "b_idx": 4,
+    "pair_hamming": 54,
+    "cue_idx": 8,
+    "d_pair": 27,
+    "d_other_min": 38,
+    "margin": 11,
+    "classification": "PAIR_ISOLATED",
+    "other_distances": [53, 49, 38]
+  },
+  "exploratory_exp004_run_category_counts": {
+    "A_EXACT": 632,
+    "B_EXACT": 630,
+    "OTHER_STORED": 1,
+    "NONSTORED_CONVERGED": 2737,
+    "NONCONVERGED": 0
+  },
+  "exploratory_other_stored": [
+    {
+      "pattern_seed": 1982,
+      "a_idx": 0,
+      "b_idx": 2,
+      "cue_idx": 5,
+      "run_idx": 12,
+      "reached_idx": 1,
+      "d_pair": 28,
+      "d_reached_other": 44,
+      "d_other_min": 44,
+      "margin": 16,
+      "sweeps": 6
+    }
+  ],
+  "note": "PASS/FAIL concerns initial Hamming geometry only. All 200 cues were pair-isolated by Hamming distance, but one exploratory EXP-004 run still reached a farther third stored pattern; Hamming pair isolation does not imply basin isolation."
+}
