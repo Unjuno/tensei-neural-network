@@ -229,6 +229,74 @@ EVT-004時点で1980年代側active:
 
 PER-005 / PER-006が観測したのは6-unitの紙上例だけであり、現代側EXP-004の122/200、4000 runs、seed等の結果は知らない。
 
+生成方式検証上はEVT-004の具体条件が結果前にlockされていないため、Resolution provenanceは `UNBLINDED` とする。
+
+---
+
+## T0-1980S + next joint paper check after EVT-004 / EVT-005
+
+状態: `PROVISIONAL`
+
+- Previous event head: `EVT-004`
+- Event head: `EVT-005`
+- Source event: `../events/EVT-005-lock-the-order-family.md`
+- Resolution provenance: `LOCKED`
+
+### 変更前
+
+- 同じ6-unit networkで二つの手選択orderからA/Bへ分岐する例は成立済み
+- しかし、order選択自体が結果に依存していないことはEVT-004では保証されていない
+- PER-005 / PER-006は、A/B以外のstateも結果に残す方針を持っている
+
+### 客観的に成立した出来事
+
+PER-005 / PER-006は、EVT-004と同じA / B / C / cue / weights / update ruleを使い、unit番号の自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に検査集合として固定した。
+
+Action-lock commit後、6本をすべて同じstopping / inclusion ruleで紙上計算した。
+
+結果:
+
+- r1 → A
+- r2 → D
+- r3 → B
+- r4 → B
+- r5 → D
+- r6 → D
+
+D:
+
+```text
+(+1, +1, +1, +1, -1, +1)
+```
+
+DはA / B / Cのどれとも一致しないstable stateである。
+
+- Hamming(D, A) = 2
+- Hamming(D, B) = 2
+- Hamming(D, C) = 6
+
+### 変更後
+
+- 同一cue・同一weights・同一update ruleからstored A / stored B / nonstored stable Dの三種類が観測された
+- 6 cyclic ordersは結果を見て選別せずすべて共同メモへ残った
+- PER-005の局所問題は「A/Bのどちらへ戻るか」だけでは足りず、stored集合外の戻り先をどう扱うかへ広がった
+- PER-006はDをmemoryと呼ばず、nonstored stable stateとして扱うよう要求した
+- この小例を頻度一般・memory一般・生物学的記憶へ一般化していない
+- 計算機実装、大規模simulation、頻度推定はまだ未成立
+
+### 同期しているペルソナ状態
+
+EVT-005時点で1980年代側active:
+
+- `personas/PER-005.md`
+- `personas/PER-006.md`
+
+### 重要な境界
+
+PER-005 / PER-006が知っているのは、自分たちが固定して紙上計算した6 cyclic ordersとA/B/Dの結果までである。
+
+現代側EXP-003 / EXP-004の数値集計、seed、run分布は人物Knowledgeへ入れていない。
+
 ---
 
 ## T0-MODERN / BOOT-001
@@ -257,7 +325,7 @@ PER-005 / PER-006が観測したのは6-unitの紙上例だけであり、現代
 
 ### 現在成立している客観境界
 
-- EVT-001 / EVT-002 / EVT-003は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
+- EVT-001〜EVT-005は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
 - 最初の現代側異常の具体像、最初の発見者、その時点の解釈は未確定
 - 現代モデル内に過去の研究者と機能的・行動的に似たパターンが作品内で現れることはCanonに含まれるが、それを`T0-MODERN`ですでに観測済みの世界状態とはしない
 - それが本人の意識・輪廻・同一主体であることは確定していない
