@@ -356,6 +356,60 @@ PER-005 / PER-006が知っているのは、自分たちが固定・観測した
 
 ---
 
+## T0-1980S + exhaustive small-state check after EVT-006 / EVT-007
+
+状態: `PROVISIONAL`
+
+- Previous event head: `EVT-006`
+- Event head: `EVT-007`
+- Source event: `../events/EVT-007-enumerate-the-whole-small-state-space.md`
+- Resolution provenance: `LOCKED`
+
+### 変更前
+
+- EVT-006でA/B-balanced cue全6種類 × 6 cyclic ordersを全件確認済み
+- pairwiseなA/B等距離条件が第三stored Cやnonstored Dとの関係を隠し得ることを観測済み
+- ただしinitial state全体ではなく、pairwiseに選んだsubsetだけを見ていた
+
+### 客観的に成立した出来事
+
+PER-005 / PER-006は、6-unit binary state space `{-1,+1}^6` の64 initial statesを結果前に全列挙し、既存6 cyclic update ordersとの384 trialをすべて解決した。
+
+結果:
+
+- 384 / 384 trialが2 sweeps以内にstable
+- initial fixed pointsは6個
+- unique stable final statesは `A / B / C / -A / -B / -C` の6種類だけ
+- EVT-005 / EVT-006でDと呼んだ `(+1,+1,+1,+1,-1,+1)` は `-C`
+- 18 / 64 initial statesは6 ordersすべてで同じfinal
+- 46 / 64 initial statesはupdate orderで2種類以上のfinalへ分岐
+
+row-level結果は `../events/EVT-007-state-space.csv` に保存した。
+
+### 変更後
+
+- `stored / nonstored`だけの二分類では、stored patternの符号反転というmodel上の対称構造を隠すことが分かった
+- Dは独立した未知のnonstored形状ではなく `-C` と再分類された
+- `-A / -B`もfixed pointとして明示された
+- このtoy networkの全状態列挙では、A/B/Cとその符号反転以外のstable final stateは現れなかった
+- update order依存はsubsetだけでなく全64 initial statesの多くで観測されたが、46/64を一般頻度へ拡張していない
+- PER-005 / PER-006の局所問題は、nonstored stateを機構ごとに分類する必要へ進んだ
+
+### 同期しているペルソナ状態
+
+EVT-007時点で1980年代側active:
+
+- `personas/PER-005.md`
+- `personas/PER-006.md`
+
+### 重要な境界
+
+PER-005 / PER-006が知っているのはEVT-007までに自分たちが解決したtoy networkの全状態結果である。
+
+現代側EXP-003〜005の統計集計・仮説判定・後世の研究結果は人物Knowledgeへ入れていない。
+
+---
+
 ## T0-MODERN / BOOT-001
 
 状態: `PROVISIONAL`
@@ -382,7 +436,7 @@ PER-005 / PER-006が知っているのは、自分たちが固定・観測した
 
 ### 現在成立している客観境界
 
-- EVT-001〜EVT-006は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
+- EVT-001〜EVT-007は1980年代側で成立しているが、現代側の最初のeventはまだ成立していない
 - 最初の現代側異常の具体像、最初の発見者、その時点の解釈は未確定
 - 現代モデル内に過去の研究者と機能的・行動的に似たパターンが作品内で現れることはCanonに含まれるが、それを`T0-MODERN`ですでに観測済みの世界状態とはしない
 - それが本人の意識・輪廻・同一主体であることは確定していない
