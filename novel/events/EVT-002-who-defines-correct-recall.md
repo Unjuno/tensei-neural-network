@@ -12,7 +12,7 @@
 
 - Parent: `EVT-001`
 - Previous event: `EVT-001`
-- Next event: 未成立
+- Next event: `EVT-003`
 
 ## Participants
 
