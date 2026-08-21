@@ -284,6 +284,131 @@ update orderだけでなく、pairwise balanced cueの選択もstory-visibleなr
 
 ---
 
+## Test-004 subset選択をやめ、有限state spaceを全列挙
+
+実施日: 2026-08-21
+
+対象event: `EVT-007-enumerate-the-whole-small-state-space.md`
+
+Action-lock commit:
+
+`3c1034c70853c5704d4064f71ef4e989b4dc296f`
+
+### 検証目的
+
+EVT-006ではbalanced cueの候補を全列挙したが、そもそも「A/Bへ等距離」というsubset自体を選んでいた。
+
+EVT-006後のstory-visibleな状態では、PER-005 / PER-006自身が「pairwiseな選び方がnetwork全体の関係を隠す」と認識している。
+
+現在のnetworkは6 unitしかないため、binary state space全体は `2^6 = 64` statesで有限かつ全列挙可能である。
+
+そこでTest-004では、特定のcueや反例を選ぶ代わりに、**全64 initial states × 既存6 cyclic update orders = 384 trials**を結果前に固定した。
+
+成功条件は特定のattractorや意外な結果が出ることではない。
+
+**全有限state spaceを固定条件で解決し、どのoutcomeでも選別せず物語状態へ返すこと。**
+
+### Action lock
+
+結果解決前に次を固定した。
+
+- 既存A/B/CとHebbian weights
+- `{-1,+1}^6` の64 initial states全部
+- 辞書順の列挙規則
+- EVT-005/006と同じ6 cyclic update orders
+- 64 × 6 = 384 trials全部
+- zero local fieldではcurrent value保持
+- 最大20 sweeps
+- initial fixed stateも除外しない
+- stored patternへ行かない結果も除外しない
+- outcome後に別state/order/networkを追加しない
+
+row-level結果は `novel/events/EVT-007-state-space.csv` に保存した。
+
+### Resolution結果
+
+全384 trialが2 sweeps以内にstableとなった。
+
+fixed points / unique stable finalsは6種類:
+
+```text
+A, B, C, -A, -B, -C
+```
+
+重要な非予定観測:
+
+EVT-005 / EVT-006で `D` と呼んでいた
+
+```text
+(+1,+1,+1,+1,-1,+1)
+```
+
+は、実際には
+
+```text
+-C
+```
+
+そのものだった。
+
+全384 trialのfinal count:
+
+```text
+A   62
+B   66
+C   64
+-A  62
+-B  66
+-C  64
+```
+
+64 initial statesについて:
+
+```text
+6 ordersですべて同じfinal   18
+2種類以上のfinalへ分岐      46
+```
+
+distinct-final-count distribution:
+
+```text
+1 final : 18 states
+2 finals: 16 states
+3 finals: 22 states
+4 finals:  4 states
+5 finals:  4 states
+6 finals:  0 states
+```
+
+46/64はこのtoy networkと6 cyclic ordersに限定し、一般的頻度へ拡張しない。
+
+### Test-004判定
+
+| 項目 | 判定 | 備考 |
+| --- | --- | --- |
+| actionをstory-visibleな問題から導出 | PASS | pairwise subsetが盲点というEVT-006後Goalから全状態列挙へ |
+| initial-state selection freedom除去 | PASS | 64/64 statesを全列挙 |
+| update-order集合のpre-lock | PASS | 既存6 cyclic ordersを固定 |
+| stopping / inclusion ruleのpre-lock | PASS | 384/384を対象化 |
+| outcome後の条件差し替えなし | PASS | 別state/order/networkを追加せず |
+| 非予定の分類修正を受理 | PASS | Dを守らず `D=-C` と再分類 |
+| world / persona stateへ反映 | PASS | EVT-007 / PER-005 / PER-006 / worldへ同期 |
+| selector context isolation | INCONCLUSIVE | 同じ生成contextがaction rule自体を書いている |
+
+### 解釈
+
+Test-004は、Test-003よりさらにoutcome-sensitiveな自由度を減らした。
+
+特に `D=-C` は、期待した「新しいspurious state」を保持する方向ではなく、以前の分類を弱める結果だった。それでも結果をそのまま受理し、人物状態の分類を修正できた。
+
+これは「都合のよいoutcomeだけを選ぶ」ことへの耐性を示す実例になる。
+
+ただし、これでも**action selectorそのものの完全な独立性を証明したわけではない**。生成contextは作者側研究を知っており、「全64 statesを見る」というaction ruleを選んだ主体でもある。
+
+したがってTest-004をもって生成方式全体をFULL PASSにはしない。
+
+---
+
 ## Test中に見つかった運用障害: stable ID重複
 
 Test-003開始時、current branchに既存のEVT-005があることを再確認せず、一時的に別の`EVT-005`を作成した。
@@ -296,7 +421,7 @@ Test-003開始時、current branchに既存のEVT-005があることを再確認
 
 ### 修正
 
-`AGENTS.md` に、stable ID採番前に
+`AGENTS.md` と `POLICY.md` に、stable ID採番前に
 
 - current work branch
 - main
@@ -317,11 +442,15 @@ Test-003開始時、current branchに既存のEVT-005があることを再確認
 - 未確定恒常属性を本文で勝手に固定しない規則: 導入済み
 - resolver pre-lock mechanism: PASS on Test-002
 - initial-condition deterministic enumeration: PASS on Test-003
+- finite state-space exhaustive locked resolution: PASS on Test-004
+- outcomeが既存分類を崩しても受理できること: PASS on Test-004 (`D=-C`)
 - action selector自体のcontext isolation: **未検証**
 
 生成方式は`PARTIAL PASS`を維持する。
 
-Test-003までで、「outcome-sensitiveな自由度を外部化・固定し、都合の悪い結果も受理する」仕組みは実際に機能した。一方、selectorそのものが作者側知識から独立していることはまだ実証していない。
+Test-004までで、「outcome-sensitiveな自由度を外部化・固定し、都合の悪い結果も受理する」仕組みは実際に機能した。
+
+一方、selectorそのものが作者側知識から独立していることはまだ実証していない。この点は、単にdeterministic ruleを増やすだけでは完全には解消しない。
 
 ## 次の検証課題
 
@@ -329,9 +458,9 @@ Test-003までで、「outcome-sensitiveな自由度を外部化・固定し、�
 
 - 作者側research結果を読まない別contextで決める
 
-または
+または、action候補が複数ある場合に
 
-- story-visibleな状態から一意に導出されるruleに限定する
+- story-visibleな状態だけから事前に固定した一般ruleで一意に選ぶ
 
 ことでselector-levelの独立性を検証する。
 
