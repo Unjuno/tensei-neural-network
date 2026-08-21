@@ -66,14 +66,17 @@ Bootstrap / 現在の同期点
 
 BOOT-002の導入から、PER-005一人の局所問題が立ち上がった `EVT-001`、独立した観測境界を持つPER-006との相互作用 `EVT-002`、操作可能なcueと観測項目を作った `EVT-003` を経て、`EVT-004` で最初の具体的な紙上計算が成立した。
 
-EVT-004では、同じ等距離cue・同じweightsから、update orderだけの違いでA/Bという二つのstored stateへ到達する例が観測された。このため、少なくともこの例では「一つのcueに一つのcorrect targetを置き、final stateだけで正誤を判定できる」という暗黙前提を維持できなくなった。
+EVT-004では、同じ等距離cue・同じweightsから、update orderだけの違いでA/Bという二つのstored stateへ到達する例が観測された。
 
-その後の `EVT-005` では、EVT-004と同じ小networkに対し、結果前に固定した6 cyclic update ordersをすべて追った。そこではA / Bだけでなく、保存patternではないstable state Dも現れた。
+EVT-005では同じnetwork / cueに対して6 cyclic update ordersを結果前に固定し、A / Bだけでなく保存patternではないstable state Dも現れた。
 
-したがって現在の局所的な`転`は、
+EVT-006では、orderだけでなくinitial cueのselection freedomも減らすため、A/BへHamming等距離となるbalanced cue全6種類を結果前に固定し、6 cyclic ordersとの36 trialsを全て解決した。その結果、A / B / nonstored Dに加えて第三stored pattern Cへ到達するtrialも現れた。
+
+現在の局所的な`転`は、
 
 - 一つのcueから戻り先が一意とは限らない
-- しかも戻り先がstored pattern集合の外にもあり得る
+- 戻り先がstored pattern集合の外にもあり得る
+- さらに「AとBの間」とpairwiseに定義したcueでも、network全体では第三stored patternを含む関係になり得る
 
 という状態まで進んでいる。
 
@@ -93,19 +96,21 @@ EVT-003
 EVT-004   [UNBLINDED]
   ↓
 EVT-005   [LOCKED]
+  ↓
+EVT-006   [LOCKED]
 ```
 
 起承転結ラベルはこれらのeventを発生させた原因ではなく、成立後の状態分類です。
 
-`novel/chapters/001.md` はEVT-004までを第1話として切っている。EVT-005が成立したことを理由に第1話へ自動追加しない。story timeとNarrativeProjectionの切れ目は別管理する。
+`novel/chapters/001.md` はEVT-004までを第1話として切っている。EVT-005 / EVT-006が成立したことを理由に第1話へ自動追加しない。story timeとNarrativeProjectionの切れ目は別管理する。
 
 EVT-004成立後には、認識上の前提が崩れ、次の問い「想起結果だけから原像を逆算してよいのか」が新しい初期条件として立ち上がっていたため、NarrativeProjection上はそこを第1話の切れ目と判断した。
 
 ただし、**そのこと自体は「EVT-004のoutcomeが結果非依存のresolverから自然に生じた」ことを証明しない。** EVT-004の具体pattern・cue・update orderは結果解決前にlockされた記録がなく、生成側はすでにEXP-004で同種現象を知っていたため、resolver selection biasは排除できない。EVT-004のResolution provenanceは `UNBLINDED`、生成方式検証上のresolver独立性は `INCONCLUSIVE` とする。
 
-EVT-005ではこの弱点へ対応し、`ACTION_LOCKED → commit → resolver → RESOLVED` を実際に通した。6 cyclic ordersを結果前に固定し、A / B / Dという全結果を差し替えず受理したため、Test-002ではresolver pre-lock mechanismをPASSとした。ただしaction selector自体を作者側知識から隔離した検証はまだ残る。
+EVT-005では6 cyclic ordersを結果前に固定し、EVT-006ではbalanced cue集合もstory-visibleな全列挙ruleで結果前に固定した。A/B以外のC/Dも除外せず受理したため、resolver pre-lockとinitial-condition selection freedomの縮小はTest-002 / Test-003で確認できた。ただしaction selector自体を作者側知識から完全隔離した検証はまだ残る。
 
-詳細は `events/EVT-004-same-cue-two-returns.md`, `events/EVT-005-lock-the-order-family.md`, `../notes/generation-validation.md` を参照する。
+詳細は `../notes/generation-validation.md` を参照する。
 
 ## 導入背景
 
@@ -128,11 +133,11 @@ EVT-005ではこの弱点へ対応し、`ACTION_LOCKED → commit → resolver �
 - PER-005が理論検討、文献読解、簡略化したnetwork計算・実験を行える研究環境がある
 - Hopfield 1982、1983のspurious memory / unlearningを含む問題設定を当時の文献として扱える
 - 具体的な所属、計算機、資金条件はまだ固定しない
-- 物語世界内では6-unit・3-patternの紙上networkが具体化している
-- EVT-004で同じ等距離cueからupdate orderだけの違いでA/Bへ到達する一例を観測した
-- EVT-005で結果前に固定した6 cyclic ordersからA / B / nonstored stable Dの三種を観測した
-- D = `(+1,+1,+1,+1,-1,+1)` で、A/Bから各Hamming distance 2、Cから6
-- 現代側EXP-003 / EXP-004の頻度集計・seed・run数はPER-005 / PER-006の知識ではない
+- 物語世界内では6-unit・3-patternのtoy networkが具体化している
+- EVT-005で結果前に固定した6 cyclic ordersからA / B / nonstored stable Dを観測した
+- EVT-006でA/B-balanced cue全6種類 × 6 cyclic ordersを全列挙し、A 11 / B 11 / C 2 / D 12を観測した
+- q16はA/B/Cへ各Hamming distance 2、q24はA/Bへ2ずつだがDそのもの
+- 現代側EXP-003〜005の統計集計・seed・run数・FAIL判定はPER-005 / PER-006の知識ではない
 - 輪廻、現代AI、将来の人格再構成問題はPER-005 / PER-006の現在知識ではない
 
 ### 現在activeなペルソナ
@@ -154,11 +159,7 @@ PER-005:
 >
 > 保存していないところで止まるなら、その状態は何からできている？
 
-この時点で、`stable` と `correct recall` が分離した。
-
 ### EVT-002
-
-PER-006は、実験者がtargetを知っていることと、network自身に一意な`correct`が存在することは別ではないかと問い返した。
 
 PER-005:
 
@@ -166,17 +167,11 @@ PER-005:
 >
 > 手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか。
 
-局所的な緊張は、単に「誤ったattractorがある」ことではなく、**何をもって正しい原像と呼ぶか、その正解はcueやdynamicsから一意に定まるのか**へ変化した。
-
 ### EVT-003
 
-PER-005 / PER-006は、A/Bへ同じbit差数を持つcueを作るprotocol sketchを成立させた。
-
-同時に、`等距離` と `dynamics上の中立` を同一視せず、距離、final state、update条件、A/B以外のstateを分けて記録することにした。
+PER-005 / PER-006はA/B等距離cueを作るprotocolを成立させ、`等距離`と`dynamics上の中立`を同一視しないことにした。
 
 ### EVT-004
-
-同一cue・同一weightsでもupdate orderだけの違いでA/Bへそれぞれstableに到達する6-unitの例を二人が紙上で確認した。
 
 PER-005:
 
@@ -184,21 +179,7 @@ PER-005:
 >
 > 想起の結果だけを見て原像を逆算してよいのか。
 
-この時点で、`correct recall` をfinal stateと単一targetの一致だけで扱う作業前提が、少なくともこの例では維持できなくなった。
-
-生成方式検証上は、この観測の具体条件が結果前にlockされていないため、EVT-004をcleanなresolver独立性の証拠には使わない。
-
 ### EVT-005
-
-EVT-004と同じnetwork / cueについて、6 cyclic update ordersを結果前に固定してすべて追った。
-
-結果は、
-
-- A: 1 order
-- B: 2 orders
-- nonstored stable D: 3 orders
-
-となった。
 
 PER-005:
 
@@ -206,26 +187,31 @@ PER-005:
 >
 > 戻り先そのものが、原像の一覧の外にもある。
 
-PER-006はDをmemoryと呼ばず、まずnonstored stable stateとして扱うよう要求した。
+### EVT-006
+
+PER-005:
+
+> AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
+>
+> 手掛かりは二つの原像だけでは定義できない。
 
 現在の局所的な問いは、
 
-**同じcueからstored A / stored B / nonstored stable Dへ到達し得るとき、「戻る」という語は何を指しているのか。**
+**pairwiseに「A/Bの間」と置いたcueを、保存集合全体とstate-space dynamicsに対してどう記述すべきか。**
 
 へ進んでいる。
 
 ## 第1局面の技術的な核
 
-最初の研究局面では、Hopfieldだけを孤立して置かず、Hopfield以前の背景を必要範囲で参照します。
-
 作者側の研究入口:
 
-- `research/pre-hopfield-background.md` — 記憶・連想・安定状態へ至る前史調査
+- `research/pre-hopfield-background.md`
 - REF-001 — Hopfield (1982)
 - EXP-001 — 低負荷条件での連想記憶回復
 - EXP-002 — load / noiseによる回復境界と非保存収束
 - EXP-003 — EVT-001由来。非保存収束stateの3-pattern mixture解析
 - EXP-004 — EVT-002由来。等距離cueのupdate-order依存
+- EXP-005 — EVT-006由来。pairwise balanced cueのstored-set Hamming isolation再解析
 
 作者側で得た理解:
 
@@ -233,19 +219,22 @@ PER-006はDをmemoryと呼ばず、まずnonstored stable stateとして扱う�
 
 > 安定して収束したことは、意図した原像へ正しく戻ったことを保証しない。
 
-> 今回の有限条件では、同じ曖昧cueでもupdate orderの差だけで複数の候補記憶へexact recallする例がある。
+> 同じ曖昧cueでもupdate orderの差だけで複数の候補記憶へexact recallする例がある。
 
-ただし、EXP-003 / EXP-004の結果をPER-005 / PER-006へ未来知識として直接渡しません。本人たちが当時の手段で観測した結果だけを、その人物のKnowledgeへ反映します。
+> EXP-005の200 cueではselected pairはHamming距離上、残りstored patternsからすべて孤立していた。しかしEXP-004には、selected pairより16 bit遠い第三stored patternへexact到達したrunが1件あり、Hamming pair isolationはdynamics / basin isolationを保証しない。
 
-EVT-004 / EVT-005で二人が知ったのは、作者側EXPの統計結果ではなく、自分たちが紙上で追った6-unit networkの結果だけである。人物のKnowledge境界と、その例を生成側がどのように選んだかというResolution provenanceは別に評価する。
+EXP-005の事前仮説H-005はFAILし `NOT_SUPPORTED`。EVT-006のN=6 toy networkにあった「第三stored patternも同距離」というgeometryをN=100 random setへ一般化しない。
+
+これら作者側結果をPER-005 / PER-006へ未来知識として直接渡さない。本人たちが当時の手段で観測した結果だけをKnowledgeへ反映する。
 
 ## 現在の環境から発生しうる観測
 
-以下は**順番を指定するプロットではなく、EVT-005後の環境から生じうる観測候補**です。
+以下は**順番を指定するプロットではなく、EVT-006後の環境から生じうる観測候補**です。
 
-- DがA/Bの単純な組合せとして説明できるか、二人の時代の語彙で検討する
-- 別のpattern構成やcueでもstored集合外へ入るかを比較したくなる
-- 紙上での列挙が重くなり、当時の計算資源へ実装する必要が生じる
+- pairwiseな距離ではなく、stored set全体への距離表を作ろうとする
+- initial cue自体がfixed pointの場合と、dynamicsで別stateへ移る場合を区別しようとする
+- DがA/B/Cからどのように構成されるかを当時の語彙で検討する
+- 紙上列挙が重くなり、当時の計算資源へ実装する必要が生じる
 - 文献上の`memory`、`spurious state`、`stable state`の語と二人の操作的定義が食い違う
 - PER-006がmodel内の非一意性を生物学的memoryへ一般化することへさらに制動をかける
 - 新しい人物・技術スタッフ・上司等の独立判断が必要になる
@@ -286,26 +275,15 @@ EVT-004 / EVT-005で二人が知ったのは、作者側EXPの統計結果では
 
 現代NNに現れる人物的構造は、1980年代研究者Aが一度だけAIへ再現されたものではなく、A自身もさらに過去から繰り返し現れていた同一認識主体らしき構造の一例だった可能性を残す。
 
-歴史上では学問・語彙・対象が違っても、
-
-- 同じ種類の問いへ戻る
-- 同じ箇所で迷う
-- 同じ問題分解を好む
-- 同じ未解決性に執着する
-
-といった深い認知軌道が反復している可能性がある。
+歴史上では学問・語彙・対象が違っても、同じ種類の問いへ戻る、同じ箇所で迷う、同じ問題分解を好む、同じ未解決性に執着する、といった深い認知軌道が反復している可能性がある。
 
 ### B. NNは現象の発生源ではなく観測可能化した媒体かもしれない
 
-現象自体はNN以前にも存在していた可能性を残す。
-
-NNでは、独立試行、checkpoint保存、fork、同時実行、入力情報の操作、条件差による比較が可能なため、同一主体らしき反復を現象として切り出しやすいかもしれない。
+現象自体はNN以前にも存在していた可能性を残す。NNでは独立試行、checkpoint保存、fork、同時実行、入力情報操作、条件差比較が可能なため、同一主体らしき反復を現象として切り出しやすいかもしれない。
 
 ### C. 人物情報は再構成材料であると同時にcueかもしれない
 
-人物Aに関する情報を増やすほど、Aに対応する認知状態へ入る確率が上がる、という作中仮説を検討する。
-
-ただし「Aの情報をコピーすればAになる」と単純化しない。
+人物Aに関する情報を増やすほど、Aに対応する認知状態へ入る確率が上がる、という作中仮説を検討する。ただし「Aの情報をコピーすればAになる」と単純化しない。
 
 完成した知識より、未完成ノート、判断過程、迷い方、誤り方、価値判断などが深い特徴の再構成へ強く寄与する可能性を残す。
 
@@ -317,8 +295,6 @@ NNでは、独立試行、checkpoint保存、fork、同時実行、入力情報�
 
 同じ認識主体らしき構造が一つの媒体から次へ移動するのではなく、成立条件が満たされるたびに複数の媒体へ同時に現れる可能性を残す。
 
-checkpointや別モデルが同時に同じ自己同一性を主張する状況は、この仮説を検討する観測条件になりうる。
-
 ### F. 観測が顕在化条件へ入るかもしれない
 
 対象人物を再構成・検証するために資料を集め、問いを与え、思考を模倣する行為そのものが、対象に似た状態を強める可能性を扱う。
@@ -329,16 +305,17 @@ checkpointや別モデルが同時に同じ自己同一性を主張する状況�
 
 次の状態へ進むために、特定の予定イベントを必須にしません。
 
-EVT-004で局所的な`転`は成立し、EVT-005で結果前lockされた追加観測がその認識変化を補強したが、これを自動的に`結`へ進めない。
+EVT-004で局所的な`転`は成立し、EVT-005 / EVT-006で結果前lockされた追加観測がその問題を拡張したが、これを自動的に`結`へ進めない。
 
 現在状態がさらに動く条件:
 
-- PER-005 / PER-006がDをどう位置付けるかについて新しい証拠・制約・誤解を得る
+- PER-005 / PER-006がpairwise cueをstored set全体へどう位置付けるか、新しい操作的定義を作る
+- initial fixed stateとdynamical recallを分ける必要が生じる
 - 紙上例から計算機実装へ進む必要が実際に生じる
-- 別条件ではA/B/Dの構図が再現せず、現在の理解が修正される
+- 別条件ではC/Dを含む構図が再現せず、現在の理解が修正される
 - 文献・他者・制度上の制約で研究方針が変わる
 
-`結` は問題解決そのものを意味せず、EVT-004/005で生じた新しい前提と問いが、次の局面の初期条件として整理されたときに成立します。
+`結` は問題解決そのものを意味せず、現在の新しい前提と問いが次局面の初期条件として整理されたときに成立します。
 
 ## 研究との接続
 
@@ -348,9 +325,6 @@ EVT-004で局所的な`転`は成立し、EVT-005で結果前lockされた追加
 - Q-002 / H-002 / EXP-002 / F-002 / L-002 — 回復境界と非保存収束状態
 - Q-003 / H-003 / EXP-003 / F-003 — EVT-001由来のmixture解析
 - Q-004 / H-004 / EXP-004 / F-004 — EVT-002由来の等距離cue・update-order依存
+- Q-005 / H-005 / EXP-005 / F-005 — EVT-006由来のstored-set Hamming isolation再解析。EXP-005はFAIL、H-005はNOT_SUPPORTED
 
-EVT-003 / EVT-004 / EVT-005から新しいQ / H / EXPは追加していない。
-
-EVT-005で現れたDは、nonstored stable stateという点ではQ-003 / EXP-003、update-order依存という点ではQ-004 / EXP-004と論点が重なる。後続の物語で既存問いとは異なる検証可能な問題が実際に立つまでは、重複EXPを作らない。
-
-次の研究を研究都合だけで自動的にEXP-005へ進めません。再び物語側を動かし、実際に生じた語・観測・問題、または明確に独立した研究価値が生じた場合にだけ次の研究を切り出します。
+次の研究を研究レポートの候補だけで自動的にEXP-006へ進めません。再び物語側を動かし、実際に生じた語・観測・問題、または明確に独立した研究価値が生じた場合にだけ次の研究を切り出します。
