@@ -1,116 +1,150 @@
 # 物語環境
 
-このファイルは、ペルソナ同士の相互作用を受け止める**世界・環境の定義と解決規則**を管理します。
+このファイルは、個人persona・組織主体・世界の相互作用を受け止める**環境の定義と解決規則**を管理する。
 
-世界の時間依存状態そのものは `state/world.md` に置きます。ここは「今どうなっているか」の台帳ではなく、世界がどのような制約を持ち、人物の行動をどう受け止めるかを定義する層です。
-
-環境は未来の筋書きを知る「脚本家」ではありません。Canon、物理・技術・歴史、制度、権限、利用可能な道具、現在の世界状態、各人物の行動から、次に成立する結果を解決する役割だけを持ちます。
+環境は未来の筋書きを知る脚本家ではない。Canon、物理・技術・歴史、制度、権限、利用可能な道具、現在state、各主体の行動から次に成立する結果を解決する。
 
 ## 権威関係
 
 - 世界の確定事実: `canon.md`
-- 世界・環境の定義と解決規則: このファイル
-- 時間に依存する世界状態: `state/world.md`
-- ペルソナ定義: `personas/`
-- 時間に依存するペルソナ状態: `state/personas/`
-- ペルソナと世界を時間上で結合する出来事: `events/`
+- 世界・環境の解決規則: このファイル
+- 時間依存world state: `state/world.md`
+- 個人persona定義: `personas/`
+- 時間依存persona state: `state/personas/`
+- 組織定義: `organizations/`
+- 時間依存organization state: `state/organizations/`
+- 結合event: `events/`
 - 時系列索引: `timeline.md`
-- 物語構造上の現在位置: `structure.md`
 - 現実の技術・歴史的制約: `research/` と `references/`
-
-このファイルが `canon.md` と矛盾する場合は `canon.md` を優先します。
 
 ## 独立性
 
-ペルソナと世界は同じ状態オブジェクトに統合しません。
+個人、組織、世界を一つの巨大stateへ統合しない。
 
-- ペルソナは知識・信念・目的・記憶・関係等の局所状態を持つ
-- 世界は場所、物、制度、システム、公開情報、物理的・技術的条件等の客観状態を持つ
+- persona: Knowledge / Beliefs / Goals / Relations / Memory / Situational state
+- organization: Mission / Resources / Governance / Policies / Membership / Institutional memory / External relations
+- world: 場所、物理条件、公開制度、社会・経済・技術環境等の客観状態
 
-ただし**時間方向には独立して更新しません**。両者の状態変化は `events/` と共通のstory timeを介して因果的に接続します。
+ただし時系列では同じeventで結合する。
 
 ## 状態遷移
 
-時点 `t` の世界状態を `W(t)`、ペルソナ `i` の状態を `P_i(t)` とします。
+概念的に、worldを `W(t)`、personaを `P_i(t)`、organizationを `G_j(t)` とする。
 
 ```text
-O_i(t)     = Observe(W(t), P_i(t))
-A_i(t)     = Act(P_i(t), O_i(t))
-E_k        = ResolveEvent(W(t), {A_i(t)}, constraints)
-W(t+1)     = UpdateWorld(W(t), E_k)
-P_i(t+1)   = UpdatePersona(P_i(t), Observed_i(E_k))
+O_i(t) = Observe(W(t), P_i(t), visible(G(t)))
+A_i(t) = Act(P_i(t), O_i(t))
+
+I_j(t) = InstitutionalInput(W(t), G_j(t), visible({P_i(t)}))
+D_j(t) = InstitutionalDecision(G_j(t), I_j(t))
+
+E_k = ResolveEvent(W(t), {A_i(t)}, {D_j(t)}, constraints)
+
+W(t+1)   = UpdateWorld(W(t), E_k)
+P_i(t+1) = UpdatePersona(P_i(t), Observed_i(E_k))
+G_j(t+1) = UpdateOrganization(G_j(t), InstitutionalObserved_j(E_k))
 ```
 
-- `O_i(t)`: その人物が実際に観測可能な情報
-- `A_i(t)`: その人物が選んだ発言・行動
-- `E_k`: 解決されたイベント
-- `Observed_i(E_k)`: eventのうち、その人物が実際に観測した部分
-- `constraints`: Canon、物理・技術・歴史、制度、時間、権限、利用可能な道具など
+この記法は因果分離の概念モデルであり、数値simulationを必須にしない。
 
-この記法は因果関係を分離するための概念モデルであり、数値シミュレーションを必須にするものではありません。
+## 組織を擬人化しない
+
+ORGは一人の巨大personaではない。
+
+組織の「判断」は、
+
+- 予算配分
+- 人事
+- 設備利用規則
+- 研究テーマ承認
+- 発表・知財手続き
+- 会議・管理者判断
+- 親会社からの指示
+
+など具体的な制度経路を通して成立させる。
+
+特定管理者の個人的判断が因果上重要になった場合、その人物は別PERとして生成する。逆に管理者の人格を追う必要がなければ、制度結果だけをorganization deltaとして扱う。
+
+## ORG化の境界
+
+会社・大学・学会・研究室を背景に登場しただけではORG化しない。
+
+独立したMission / Resources / Governance / Institutional memoryが後続因果へ効く場合だけ `ORG-xxx` を作る。
+
+親会社、部署、委員会等も同様で、必要になるまでworld entityでよい。
 
 ## 解決規則
 
-1. **望ましい物語展開を理由に結果を決めない。**
-2. 同じ行動でも、世界状態・権限・利用可能な情報が違えば結果は変わりうる。
-3. ペルソナの意図と結果は分ける。成功・失敗・誤解・偶然を許容する。
-4. 世界は人物の行動なしにも変化できる。時間経過、他者、制度、システム、自然条件などをeventとして扱える。
-5. 技術的・歴史的に重要な結果は、必要に応じて現実側の調査・追試で制約を確認する。
-6. 世界側で成立した事実でも、自動的に長期Canonへ昇格させない。重要な事実は人間レビュー後に `canon.md` へ反映する。
-7. 作者またはAIが初期条件を変更する場合、それを人物の自発的行動と偽装しない。
-8. eventで世界が変化しても、その事実を観測していないペルソナのKnowledgeへ自動反映しない。
-9. 結果へ影響する具体条件をresolverが自由に選べる場合、望ましい結果を知った後で条件を選び直さない。
-10. 生成者がpersonaには見えない作者側研究結果を既に知っており、その知識が具体条件選択へ効き得る場合は、結果を見る前に条件または選択規則をlockする。
-11. cleanな生成方式検証では、重要なoutcomeを解決する前に `events/README.md` の `ACTION_LOCKED` 手順で行動・条件・stopping / inclusion ruleをcommitする。
-12. lockedした条件で平凡・失敗・不都合な結果が出ても、その結果を採用し、別条件の結果へ差し替えない。
+1. 望ましい物語展開を理由に結果を決めない。
+2. personaの意図と実際の結果を分離する。
+3. organizationの公式方針と構成員個人の信念を同一視しない。
+4. 組織が知っていることと所属personaが知っていることを自動同期しない。
+5. 個人の私的ノートを、提出・共有eventなしにInstitutional memoryへ入れない。
+6. 逆に組織内部で予算変更が成立しても、未公表なら個人personaは知らない。
+7. 合併・再編・閉鎖は未来プロットとして初期stateへ置かず、制度・経済・経営判断からeventとして成立させる。
+8. 技術的・歴史的に重要な結果は必要時に現実側調査で制約する。
+9. world / persona / organizationの重要deltaは同じstory time / EVTから追跡可能にする。
+10. 結果へ影響する自由度がある重要eventではACTION_LOCKEDを使う。
 
-## Resolverの知識とpersonaの知識を分ける
+## Resolver provenance
 
-人物への未来知識漏洩を防いでも、resolver自身が作者側研究結果を知っていることでselection biasが生じる場合がある。
+生成者がpersonaには見えない作者側結果を既に知り、pattern / seed / order / trial selection等でoutcomeを寄せられる場合は、結果前に条件またはdeterministic selection ruleをlockする。
 
-したがって次を分離する。
+- `LOCKED`: outcome-sensitive条件を結果前に固定
+- `UNBLINDED`: 結果知識を持つcontextで条件選択しpre-lockなし
+- `AUTHOR_CONDITIONED`: 作者が望む結果へ意図的に介入
 
-- **Persona boundary**: 人物が何を知っているか
-- **Resolution provenance**: 生成者・resolverが結果へ影響する条件をどのように選んだか
+詳細は `events/README.md` と `../notes/generation-validation.md`。
 
-同じAI/sessionが現代側EXP結果を読んでいる状態で、過去人物の具体pattern、seed、update order、trial選択等を決める場合、その選択が結果へ効くなら、story-visibleな情報だけから導出できるdeterministic ruleを先に固定するか、結果知識を与えない別contextで選択してからresolverへ渡す。
+## 現在の1980年代観測境界
 
-解決前lockがない場合、event自体を削除する必要はないが、生成方式の検証では `UNBLINDED` として扱う。
+### PER-005 高橋修一
 
-詳細は `events/README.md` と `../notes/generation-validation.md` を参照する。
+観測可能:
 
-## 観測境界
+- 本人が入手した当時の文献
+- 自分のノート・計算結果
+- ORG-001で公開された設備利用規則・研究手続き
+- 実際に共有された佐伯その他の発言
 
-### PER-001 現代評価担当
+観測不能:
 
-原則として、評価対象モデルの入出力、与えられたprompt、利用可能なrun log、担当範囲の設定を観測できる。歴史資料の深い意味を最初から知っているとは限らない。
+- ORG-001経営側の未公表方針
+- 将来の合併・閉鎖・史料利用
+- 現代側EXP結果
+- 作者側長期仮説
 
-### PER-002 懐疑的研究者
+### PER-006 佐伯玲子
 
-実験条件、対照、再現性、ログを観測できる。人物Aの史料内容やモデル内部の全状態を自動的には知らない。
+観測可能:
 
-### PER-003 史料担当
+- 自分の時代の神経生理・memory研究
+- ORG-001で本人に公開された制度・設備
+- 高橋が実際に共有したmodel説明・共同記録
 
-提供された一次・二次史料、その来歴、時代背景を観測できる。モデル内部の技術詳細を自動的には知らない。
+観測不能:
 
-### PER-004 モデル側の存在
+- 高橋の未共有私的ノート
+- 組織の未公表経営判断
+- 現代側研究結果・未来技術
 
-そのrunで実際に与えられたcontext、利用可能なtool出力、明示的に保持されたmemoryだけを現在の観測として扱う。隠された評価意図、別checkpointの状態、作者側のCanonを知らない。
+### ORG-001 光陵化学生命科学研究所
 
-### PER-005 1980年代研究者
+制度として保持可能:
 
-歴史場面では、その時代に本人が得られた資料・会話・装置・研究状況だけを観測する。現代AIや後世の出来事を先取りして知らない。
+- 公式研究テーマ、提出済み内部報告、設備記録、予算・人員・発表手続き
 
-### PER-006 実験神経科学寄りの同僚
+自動的に保持しない:
 
-EVT-002以降、PER-005が実際に共有した説明・会話、本人が入手できる1980年代の神経生理・memory研究・seminar等を観測できる。
-
-PER-005の未共有ノート、現代側のEXP結果、1986年以降の技術史、作者側の探索仮説は観測できない。
-
-新しいペルソナが増えた場合、その人物固有の観測境界を必要な範囲で追加します。
+- 高橋・佐伯の内面
+- 未提出私的メモ
+- 将来の閉鎖
+- 作者側探索仮説
 
 ## 現在状態への入口
 
-現在の初期世界状態とevent後状態は `state/world.md` を参照します。
+- world: `state/world.md`
+- personas: `state/personas/`
+- organizations: `state/organizations/`
 
-世界状態を更新するときは、原則として `events/` のイベントと `timeline.md` のstory timeから辿れるようにします。
+重要eventは必要に応じて `world delta / persona delta / organization delta` を分けて記録する。
