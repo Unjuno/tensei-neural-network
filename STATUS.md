@@ -11,18 +11,16 @@
 - 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜005まで実施
-- 生成方式検証: **PARTIAL PASS**。state recovery / 情報境界 / state同期 / NarrativeProjection / resolver pre-lock / cue-set pre-lock / finite state-space全列挙を確認。action selectorの完全なcontext isolationは未検証
+- 生成方式検証: `PARTIAL PASS`
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフト / EXP-003以降は未公開
 
 ## branch
-
-現在のwork branch:
 
 `work/story-bootstrap`
 
 `main` には反映していない。PRも作成しない。
 
-## 1980年代側の現在位置
+## 1980年代側
 
 開始同期点:
 
@@ -32,27 +30,75 @@ current event head:
 
 `EVT-007`
 
-active personas:
+### Active personas
 
 - PER-005 — **高橋修一**。日本人、30代後半、数理工学・理論物理寄りから神経回路・連想記憶へ越境
 - PER-006 — **佐伯玲子**。日本人、30代半ば〜後半、神経生理学・biophysics寄り
 
-二人の具体的な所属機関・職位・具体年齢は未固定。研究上は互いを「高橋さん」「佐伯さん」と呼ぶ。
+### Active organization
 
-### EVT-001〜004
+- ORG-001 — **光陵化学生命科学研究所**。1970〜80年代日本の企業基礎研究所文化をモデルにした架空の企業系生命科学研究所
 
-- EVT-001: 高橋が「止まることと、戻ることは同じか」「保存していないところで止まるなら、その状態は何からできている？」と記録
+高橋・佐伯の所属先としてORG-001をPROVISIONALに固定した。具体所在地、職位、部門名、機種、親会社の詳細は未確定。
+
+親会社「光陵化学株式会社」は現在、独立した制度判断をevent上で必要としていないためORG化せずworld entityのまま。
+
+## 組織主体モデル
+
+個人personaだけでは扱えない制度的因果を管理するため、`ORG-xxx` を導入した。
+
+ORG化するのは、独立した
+
+- Mission
+- Resources
+- Governance / Policies
+- Membership
+- Institutional memory
+- External relations
+
+が後続因果へ効く組織だけ。
+
+会社・大学・学会・部署を背景に出ただけでは機械的にORG化しない。
+
+管理先:
+
+- 定義: `novel/organizations/`
+- 時系列state: `novel/state/organizations/`
+- 初期化手順: `novel/organizations/INITIALIZATION.md`
+- world/persona/organization resolver: `novel/environment.md`
+
+BOOT-002はworld + persona + organizationを同じ同期キーへ投影する形へ更新済み。
+
+重要な境界:
+
+- 組織を巨大personaとして擬人化しない
+- 個人のBeliefと組織の公式Missionを同一視しない
+- 私的ノートを自動的にInstitutional memoryへ入れない
+- 組織内部の未公表判断を所属personaへ自動共有しない
+- 将来の合併・再編・閉鎖を1980年代の初期stateへ未来知識として入れない
+
+## 歴史的モデル
+
+ORG-001は特定の実在研究所の別名ではない。
+
+史実上の制約として、1971年設立・2010年解散の三菱化成／三菱化学生命科学研究所など、企業が長期基礎研究へ投資した実例を参照する。
+
+1980年代は日本企業が基礎研究へ進出した時期であり、1990年代以降には企業研究所の名称・mission・組織構造が変化した実例がある。ただしORG-001が将来どうなるかはfuture eventとしてのみ解決する。
+
+## EVT-001〜004
+
+- EVT-001: 高橋が「止まることと、戻ることは同じか」を記録
 - EVT-002: 佐伯が`correct recall`のtargetを誰が定義するか問い返す
-- EVT-003: A/Bへ等距離なcueを作り、距離 / final state / update条件 / A/B以外のstateを別記録するprotocolを作成
-- EVT-004: 6-unit toy networkで、同一cue・weightsからupdate orderだけの差でA/Bへ分岐する例を観測
+- EVT-003: A/B等距離cueと観測protocolを作成
+- EVT-004: 6-unit toy networkで同一cue・weightsからupdate orderだけの差でA/Bへ分岐する例を観測
 
-EVT-004は数理的一貫性は確認済みだが、具体pattern/cue/orderがoutcome前にlockされていなかったため生成方式検証上は `UNBLINDED`。第1話材料・物語eventとして保持するが、clean resolver validationには数えない。
+EVT-004は数理的一貫性は確認済みだが、resolver provenanceは `UNBLINDED`。
 
-### EVT-005〜007
+## EVT-005〜007
 
-- EVT-005: 6 cyclic update ordersを結果前にlock。A / B / nonstored stable Dへ分岐
-- EVT-006: A/B-balanced cue全6種類 × 6 orders = 36 trialsを結果前lock。A/B/C/Dへ分岐
-- EVT-007: 6-unit全64 initial states × 6 orders = 384 trialsを全列挙。Dは `-C` と再分類され、fixed pointsは `A/B/C/-A/-B/-C` の6種類だった
+- EVT-005: 6 cyclic update ordersを結果前lock。A/B/Dへ分岐
+- EVT-006: balanced cue全6種類 × 6 orders = 36 trialsをpre-lock
+- EVT-007: 全64 initial states × 6 orders = 384 trialsを列挙。Dは `-C` と再分類。fixed pointsは `A/B/C/-A/-B/-C`
 
 これらは第1話へ遡及追加しない。
 
@@ -60,77 +106,41 @@ EVT-004は数理的一貫性は確認済みだが、具体pattern/cue/orderがou
 
 `novel/chapters/001.md`
 
-採用event範囲:
+採用event範囲: `EVT-001`〜`EVT-004`
 
-`EVT-001`〜`EVT-004`
+高橋修一・佐伯玲子の名前とpersona差は反映済み。
 
-2026-08-23の改稿で、匿名の「研究者 / 同僚」表現を廃止し、
+次の文学的改稿では、ORG-001という所属環境を本文に入れることが可能になった。ただし研究所の設備・所在地・制度を本文都合だけで捏造せず、必要な細部は歴史調査後に追加する。
 
-- 高橋修一
-- 佐伯玲子
-
-を本文へ反映した。
-
-単なる名前置換ではなく、
-
-- 高橋: dynamics、state、失敗例から考える
-- 佐伯: 観測可能量、用語の射程、手続きの先行固定を要求する
-
-という既存persona差が会話上で反復して見えるよう改稿した。
-
-具体機関名・機種・OS・programming languageは第1話だけの都合で固定していない。
-
-## 技術史上の人物配置
-
-二人を日本人研究者とすること自体は、1960〜70年代から日本で神経回路・連想記憶の数理研究が存在したことと整合する。
-
-ただし、**第1話の研究場所そのものを日本国内とはまだ固定していない**。海外滞在・共同研究環境も含め、具体的な国・都市・機関は後続の歴史調査で決める。
-
-高橋・佐伯はいずれも実在研究者のコピーではなく、1980年代の学際的研究文化を背景にしたfictional personasとして扱う。
-
-詳細根拠は `research/1980s-research-environment.md` と `research/pre-hopfield-background.md` を参照する。
-
-## 生成方式検証
-
-詳細: `notes/generation-validation.md`
-
-- Test-001: 第1話までのstate recovery / persona境界 / NarrativeProjectionはPASS。EVT-004 resolver独立性はUNBLINDEDでINCONCLUSIVE
-- Test-002: EVT-005で `ACTION_LOCKED -> commit -> RESOLVED` を実行
-- Test-003: EVT-006でinitial cue集合をdeterministicに全列挙
-- Test-004: EVT-007で全64 states × 6 ordersを結果前lockし、予期していなかった`D=-C`という分類修正も受理
-
-生成方式全体はFULL PASSではなく `PARTIAL PASS` を維持する。
-
-## 物語由来の研究分岐
+## 研究分岐
 
 - EVT-001 → Q-003 / H-003 / EXP-003 / F-003
 - EVT-002 → Q-004 / H-004 / EXP-004 / F-004
 - EVT-006 → Q-005 / H-005 / EXP-005 / F-005
 
-EXP-005はFAIL、H-005はNOT_SUPPORTED。pairwise Hamming isolationがdynamics上のpair isolationを保証しないというF-005をPROVISIONALで保持する。
-
-EVT-007からは、既存のNONSTORED_CONVERGEDにstored patternのexact negationが含まれるかという研究候補があるが、自動的にEXP-006へ進めない。
+EXP-005はFAIL、H-005はNOT_SUPPORTED。
 
 ## 次に物語側で行うこと
 
-第1話の人物密度をさらに上げる場合、次に固定すべきは名前ではなく、**所属研究環境と二人の制度上の関係**。
+ORG-001を導入したことで、次から個人だけでなく制度的制約もevent因果へ入れられる。
 
-ただし章の都合だけで機関名を決めず、1984〜85年の実在研究文化・計算環境と照合する。
+候補はプロットではなく、現在stateから生じ得るもの:
 
-EVT-007後の局所問題:
+- 共用計算資源を本当に使う段階で設備・利用手続きが必要になる
+- 研究テーマを正式化すると研究所内の承認・記録が発生する
+- 高橋の私的ノートと研究所の公式記録が分岐する
+- 将来の経営・研究政策変化が人物に観測された時点でorganization stateが動く
 
-- `x`と`-x`のfixed-point対称性をweight/update ruleからどう説明するか
-- `nonstored stable`を符号反転・mixture・その他へどう分けるか
-- modelの構造上の対称性とmemoryとしての意味をどう分離するか
-- toy modelから計算機実装・より大きな条件へ進む必要が実際に生じるか
+EVT-007後の局所問題は引き続き、符号反転fixed point、nonstored分類、model対称性とmemory解釈。
 
 ## 未確定
 
-- 高橋修一 / 佐伯玲子の具体年齢
-- 二人は日本人として固定したが、第1話時点の国・都市・所属機関は未確定
+- ORG-001の具体所在地・設立年・所長・研究グループ構成
+- 高橋・佐伯の具体職位・年齢
 - 具体年月日
-- 具体的な計算機・言語
-- 二人の正式な所属関係・上下関係
+- 計算機・OS・programming language
+- 二人の正式な上下関係
+- ORG-001の将来の再編・閉鎖過程
 - 現代側最初のevent
 - 第2話以降の切れ目
 
