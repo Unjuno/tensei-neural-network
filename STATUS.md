@@ -2,13 +2,13 @@
 
 このファイルは詳細な正本ではなく、現在位置を示す索引です。
 
-更新: 2026-08-21
+更新: 2026-08-23
 
 ## フェーズ
 
 - 主目的: 小説
 - 物語段階: `起 / 承 / 転`
-- 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004のまま
+- 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜005まで実施
 - 生成方式検証: **PARTIAL PASS**。state recovery / 情報境界 / state同期 / NarrativeProjection / resolver pre-lock / cue-set pre-lock / finite state-space全列挙を確認。action selectorの完全なcontext isolationは未検証
@@ -34,103 +34,27 @@ current event head:
 
 active personas:
 
-- PER-005 — 1980年代研究者
-- PER-006 — 実験神経科学寄りの同僚
+- PER-005 — **高橋修一**。日本人、30代後半、数理工学・理論物理寄りから神経回路・連想記憶へ越境
+- PER-006 — **佐伯玲子**。日本人、30代半ば〜後半、神経生理学・biophysics寄り
+
+二人の具体的な所属機関・職位・具体年齢は未固定。研究上は互いを「高橋さん」「佐伯さん」と呼ぶ。
 
 ### EVT-001〜004
 
-- EVT-001: PER-005が「止まることと、戻ることは同じか」「保存していないところで止まるなら、その状態は何からできている？」と記録
-- EVT-002: PER-006が`correct recall`のtargetを誰が定義するか問い返す
+- EVT-001: 高橋が「止まることと、戻ることは同じか」「保存していないところで止まるなら、その状態は何からできている？」と記録
+- EVT-002: 佐伯が`correct recall`のtargetを誰が定義するか問い返す
 - EVT-003: A/Bへ等距離なcueを作り、距離 / final state / update条件 / A/B以外のstateを別記録するprotocolを作成
 - EVT-004: 6-unit toy networkで、同一cue・weightsからupdate orderだけの差でA/Bへ分岐する例を観測
 
 EVT-004は数理的一貫性は確認済みだが、具体pattern/cue/orderがoutcome前にlockされていなかったため生成方式検証上は `UNBLINDED`。第1話材料・物語eventとして保持するが、clean resolver validationには数えない。
 
-### EVT-005 — update order集合を結果前にlock
+### EVT-005〜007
 
-同じ6-unit network / cueについて、自然順序 `(1,2,3,4,5,6)` の全6 cyclic rotationsを結果前に固定し、その後すべてを解決した。
+- EVT-005: 6 cyclic update ordersを結果前にlock。A / B / nonstored stable Dへ分岐
+- EVT-006: A/B-balanced cue全6種類 × 6 orders = 36 trialsを結果前lock。A/B/C/Dへ分岐
+- EVT-007: 6-unit全64 initial states × 6 orders = 384 trialsを全列挙。Dは `-C` と再分類され、fixed pointsは `A/B/C/-A/-B/-C` の6種類だった
 
-Action-lock commit:
-
-`59ff6530d202b79834afbe8ffdceee1256437315`
-
-結果:
-
-```text
-r1 -> A
-r2 -> D
-r3 -> B
-r4 -> B
-r5 -> D
-r6 -> D
-```
-
-この時点ではDをA/B/Cのどれとも一致しないstable stateとして記録した。
-
-Resolution provenance: `LOCKED`。
-
-### EVT-006 — balanced cue集合も結果前に全列挙
-
-A/Bが異なる4 unitから作れるA/B等距離cue全6種類を結果前に固定した。
-
-Action-lock commit:
-
-`97ee4b3d322d367468258775443d6f2aa3551ef1`
-
-6 cues × 6 cyclic orders = 36 trialsをすべて解決。
-
-```text
-A_EXACT        11
-B_EXACT        11
-C_EXACT         2
-OTHER_STABLE   12
-NONCONVERGED    0
-```
-
-- q16はA/B/CすべてへHamming distance 2で、2 ordersからCへ到達
-- q24はA/Bへdistance 2ずつだが、initial cue自体がD
-- pairwiseな`A/Bの間`という記述だけではnetwork全体の関係を隠し得る
-
-PER-005:
-
-> AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
->
-> 手掛かりは二つの原像だけでは定義できない。
-
-Resolution provenance: `LOCKED`。
-
-### EVT-007 — 6-unit state spaceを全列挙
-
-EVT-006でsubset選択自体が盲点になり得ると分かったため、現在の6-unit networkについて全64 binary initial statesを結果前に固定した。
-
-Action-lock commit:
-
-`3c1034c70853c5704d4064f71ef4e989b4dc296f`
-
-64 states × 6 cyclic orders = 384 trialsを全て解決。
-
-結果:
-
-- 384 / 384 trialが2 sweeps以内にstable
-- initial fixed pointsは6個
-- unique stable final statesは `A / B / C / -A / -B / -C`
-- EVT-005 / EVT-006でDと呼んだ `(+1,+1,+1,+1,-1,+1)` は **`-C`**
-- 18 / 64 initial statesは6 ordersすべてで同じfinal
-- 46 / 64 initial statesはorderによって2種類以上のfinalへ分岐
-
-46/64を一般的なHopfield networkの頻度へ一般化しない。
-
-row-level結果:
-
-`novel/events/EVT-007-state-space.csv`
-
-PER-005:
-
-> 保存していない、だけでは足りない。
->
-> Cを裏返したものまで、別の記憶と呼んでいた。
-
-Resolution provenance: `LOCKED`。
+これらは第1話へ遡及追加しない。
 
 ## 第1話ドラフト
 
@@ -140,115 +64,68 @@ Resolution provenance: `LOCKED`。
 
 `EVT-001`〜`EVT-004`
 
-EVT-005〜EVT-007が後から成立したことを理由に第1話へ自動追加しない。
+2026-08-23の改稿で、匿名の「研究者 / 同僚」表現を廃止し、
 
-本文は研究レポート形式にせず、未確定の氏名・年齢・性別・国籍・所属・具体機材等を本文だけで固定しない。
+- 高橋修一
+- 佐伯玲子
+
+を本文へ反映した。
+
+単なる名前置換ではなく、
+
+- 高橋: dynamics、state、失敗例から考える
+- 佐伯: 観測可能量、用語の射程、手続きの先行固定を要求する
+
+という既存persona差が会話上で反復して見えるよう改稿した。
+
+具体機関名・機種・OS・programming languageは第1話だけの都合で固定していない。
+
+## 技術史上の人物配置
+
+日本側に置くこと自体は、1960〜70年代から日本で神経回路・連想記憶の数理研究が存在したことと整合する。
+
+高橋・佐伯はいずれも実在研究者のコピーではなく、1980年代の学際的研究文化を背景にしたfictional personasとして扱う。
+
+詳細根拠は `research/1980s-research-environment.md` と `research/pre-hopfield-background.md` を参照する。
 
 ## 生成方式検証
 
 詳細: `notes/generation-validation.md`
 
 - Test-001: 第1話までのstate recovery / persona境界 / NarrativeProjectionはPASS。EVT-004 resolver独立性はUNBLINDEDでINCONCLUSIVE
-- Test-002: EVT-005で `ACTION_LOCKED -> commit -> RESOLVED` を実行し、order集合・stopping/inclusion ruleのpre-lockを確認
-- Test-003: EVT-006でinitial cue集合もdeterministicに全列挙し、36 trialを選別せず受理
-- Test-004: EVT-007でsubset samplingをやめ、全64 states × 6 ordersを結果前lock。予期していなかった`D=-C`という分類修正もそのまま受理
+- Test-002: EVT-005で `ACTION_LOCKED -> commit -> RESOLVED` を実行
+- Test-003: EVT-006でinitial cue集合をdeterministicに全列挙
+- Test-004: EVT-007で全64 states × 6 ordersを結果前lockし、予期していなかった`D=-C`という分類修正も受理
 
-まだ未検証:
-
-- action selectorそのものを作者側研究結果から完全に隔離した別contextで生成しても同様に進められるか
-
-したがって生成方式全体はFULL PASSではなく `PARTIAL PASS` を維持する。
+生成方式全体はFULL PASSではなく `PARTIAL PASS` を維持する。
 
 ## 物語由来の研究分岐
 
-### EVT-001 → EXP-003
+- EVT-001 → Q-003 / H-003 / EXP-003 / F-003
+- EVT-002 → Q-004 / H-004 / EXP-004 / F-004
+- EVT-006 → Q-005 / H-005 / EXP-005 / F-005
 
-- 判定: PASS
-- 3-pattern majority mixture exact match: 1件
-- F-003: PROVISIONAL
+EXP-005はFAIL、H-005はNOT_SUPPORTED。pairwise Hamming isolationがdynamics上のpair isolationを保証しないというF-005をPROVISIONALで保持する。
 
-### EVT-002 → EXP-004
-
-- 判定: PASS
-- N=100, P=5
-- balanced cue: 200
-- update-order runs: 4000
-- BIDIRECTIONAL cue: 122 / 200
-- F-004: PROVISIONAL
-
-### EVT-006 → EXP-005
-
-Q-005:
-
-> EXP-004のpairwise balanced cueで、selected A/B以外のstored patternがA/BとHamming同距離以下にいる例は存在するか。
-
-EXP-005は結果前に事前登録してEXP-004の200 cuesを再解析した。
-
-結果:
-
-- `PAIR_ISOLATED`: 200 / 200
-- `THIRD_TIED`: 0
-- `THIRD_CLOSER`: 0
-- margin `d_other_min - d_pair`: min 11 / max 30
-- 判定: **FAIL**
-
-H-005は `NOT_SUPPORTED`。
-
-F-005:
-
-> **Hamming距離上のpair isolationは、dynamics / basin上のpair isolationを保証しない。**
-
-PROVISIONAL。
-
-### EVT-007からの研究候補
-
-EVT-007では、Dが `-C` だったため、既存EXP-002 / EXP-003の `NONSTORED_CONVERGED` にもstored patternのexact negationが含まれているかという検証可能な問いが生じた。
-
-ただし、これだけを理由にEXP-006を自動生成しない。判定対象と独立研究価値を確認してから必要なら切り出す。
-
-## 最新研究ID
-
-- Q-001: ANSWERED / H-001: SUPPORTED / EXP-001: PASS / F-001: PROVISIONAL
-- Q-002: ANSWERED / H-002: SUPPORTED / EXP-002: PASS / F-002: PROVISIONAL
-- Q-003: ANSWERED / H-003: SUPPORTED / EXP-003: PASS / F-003: PROVISIONAL
-- Q-004: ANSWERED / H-004: SUPPORTED / EXP-004: PASS / F-004: PROVISIONAL
-- Q-005: ANSWERED / H-005: NOT_SUPPORTED / EXP-005: FAIL / F-005: PROVISIONAL
-
-研究レポート:
-
-- `research/reports/EXP-001.md`
-- `research/reports/EXP-002.md`
-- `research/reports/EXP-003.md`
-- `research/reports/EXP-004.md`
-- `research/reports/EXP-005.md`
-
-## 運用上の修正
-
-Test-003中、current work branch上の既存EVT-005を確認せず一時的に別EVT-005を作る重複が発生した。重複ファイルは検出後に削除し、正しい先行EVT-005を保持した。
-
-再発防止として、stable ID採番前に**`main`だけでなく現在のwork branch上の同種IDも確認する**規則を `AGENTS.md` と `POLICY.md` の双方へ同期済み。
+EVT-007からは、既存のNONSTORED_CONVERGEDにstored patternのexact negationが含まれるかという研究候補があるが、自動的にEXP-006へ進めない。
 
 ## 次に物語側で行うこと
 
-研究レポートの「次候補」だけを理由にEXP-006を自動生成しない。
+第1話の人物密度をさらに上げる場合、次に固定すべきは名前ではなく、**所属研究環境と二人の制度上の関係**。
 
-EVT-007後のPER-005 / PER-006を現在状態から動かす。
+ただし章の都合だけで機関名を決めず、1984〜85年の実在研究文化・計算環境と照合する。
 
-現在の局所問題:
+EVT-007後の局所問題:
 
 - `x`と`-x`のfixed-point対称性をweight/update ruleからどう説明するか
 - `nonstored stable`を符号反転・mixture・その他へどう分けるか
 - modelの構造上の対称性とmemoryとしての意味をどう分離するか
 - toy modelから計算機実装・より大きな条件へ進む必要が実際に生じるか
 
-outcome-sensitiveな次eventではACTION_LOCKEDを維持する。
-
-生成方式の次の厳密なテストは、action selector自体を作者側研究結果から隔離した別context、または事前に固定したstory-visibleな一般ruleで選ぶこと。
-
 ## 未確定
 
-- PER-005 / PER-006の氏名・年齢・性別
-- 国・都市・所属機関
+- 高橋修一 / 佐伯玲子の具体年齢
+- 国は日本で固定したが、都市・所属機関は未確定
 - 具体年月日
 - 具体的な計算機・言語
 - 二人の正式な所属関係・上下関係
