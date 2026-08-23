@@ -8,10 +8,12 @@
 
 - 主目的: 小説
 - 物語段階: `起 / 承 / 転`
-- 本文: 第1話ドラフト `novel/chapters/001.md` 成立。採用範囲はEVT-001〜004
+- 本文: 第1話 `novel/chapters/001.md` を階層World State反映版へ改稿。採用範囲はEVT-001〜004
+- 第1話最小因果骨格: `novel/chapters/001-outline.md`
 - 学習段階: CATCH_UP
 - 研究段階: Hopfield系EXP-001〜005まで実施
 - 生成方式検証: `PARTIAL PASS`
+- World model: persona中心モデルからtyped hierarchical entity/state graphへ拡張
 - 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフト / EXP-003以降は未公開
 
 ## branch
@@ -39,51 +41,76 @@ current event head:
 
 - ORG-001 — **光陵化学生命科学研究所**。1970〜80年代日本の企業基礎研究所文化をモデルにした架空の企業系生命科学研究所
 
-高橋・佐伯の所属先としてORG-001をPROVISIONALに固定した。具体所在地、職位、部門名、機種、親会社の詳細は未確定。
+高橋・佐伯の所属先としてORG-001をPROVISIONALに固定。具体所在地、職位、部門名、機種、親会社の詳細は未確定。
 
 親会社「光陵化学株式会社」は現在、独立した制度判断をevent上で必要としていないためORG化せずworld entityのまま。
 
-## 組織主体モデル
+## 階層World Entity / State Model
 
-個人personaだけでは扱えない制度的因果を管理するため、`ORG-xxx` を導入した。
+人物だけを状態主体とせず、物語因果へ必要な対象をtyped entityとして扱う。
 
-ORG化するのは、独立した
+概念階層:
 
-- Mission
-- Resources
-- Governance / Policies
-- Membership
-- Institutional memory
-- External relations
+```text
+Universe / physical regime
+└─ world / global environment
+   ├─ nation / jurisdiction / economy / culture
+   │  └─ organization / institution
+   │     └─ group / laboratory / household
+   │        ├─ person / AI
+   │        ├─ animal / pet
+   │        └─ object / device / document
+   ├─ location / infrastructure
+   └─ natural / information environment
+```
 
-が後続因果へ効く組織だけ。
+実装は木ではなくtyped hierarchical graph。
 
-会社・大学・学会・部署を背景に出ただけでは機械的にORG化しない。
+定義:
 
-管理先:
+- `PER`: person / AI agent
+- `ANI`: animal / pet
+- `OBJ`: object / device / document / sample
+- `ORG`: organization / institution
+- `GRP`: laboratory / household / team
+- `LOC`: location
+- `POL`: nation / jurisdiction
+- `ENV`: natural / economic / information environment
+- `SYS`: infrastructure / communication / computation system
+- `PHY`: physical constraints
 
-- 定義: `novel/organizations/`
-- 時系列state: `novel/state/organizations/`
-- 初期化手順: `novel/organizations/INITIALIZATION.md`
-- world/persona/organization resolver: `novel/environment.md`
+詳細: `novel/entities/README.md`
 
-BOOT-002はworld + persona + organizationを同じ同期キーへ投影する形へ更新済み。
+State管理: `novel/state/README.md`
 
-重要な境界:
+### 重要原則
 
-- 組織を巨大personaとして擬人化しない
-- 個人のBeliefと組織の公式Missionを同一視しない
-- 私的ノートを自動的にInstitutional memoryへ入れない
-- 組織内部の未公表判断を所属personaへ自動共有しない
-- 将来の合併・再編・閉鎖を1980年代の初期stateへ未来知識として入れない
+- すべてをID化しない。後続因果に独立state履歴が必要になった対象だけ展開する
+- 上位contextから下位entityへconstraintは伝播するが、knowledgeは自動伝播しない
+- 因果はdownward / upward双方へ流れる
+- 人物の行動がなくても歴史・経済・法・天候・設備故障等のexogenous eventでworldは進む
+- 全宇宙を毎step解決せず、現在eventへ因果的に届く`resolution scope`だけ高解像度化する
+- 解決されたfactはlocal / institutional / public / canonを区別する
+- 小説本文はWorldStateのNarrativeProjectionであり、本文自体をworld-state正本にしない
 
-## 歴史的モデル
+## Bootstrap
 
-ORG-001は特定の実在研究所の別名ではない。
+`novel/bootstrap/README.md` を階層entity discoveryへ一般化済み。
 
-史実上の制約として、1971年設立・2010年解散の三菱化成／三菱化学生命科学研究所など、企業が長期基礎研究へ投資した実例を参照する。
+今後の初期化:
 
-1980年代は日本企業が基礎研究へ進出した時期であり、1990年代以降には企業研究所の名称・mission・組織構造が変化した実例がある。ただしORG-001が将来どうなるかはfuture eventとしてのみ解決する。
+```text
+story time / parent head
+→ global context
+→ entity discovery
+→ relation discovery
+→ entity-specific projection
+→ hierarchical constraint resolution
+→ leakage check
+→ synchronized WorldState
+```
+
+BOOT-002では現在、world + ORG-001 + PER-005を初期同期し、PER-006はEVT-002で独立persona stateとして成立する。
 
 ## EVT-001〜004
 
@@ -102,15 +129,30 @@ EVT-004は数理的一貫性は確認済みだが、resolver provenanceは `UNBL
 
 これらは第1話へ遡及追加しない。
 
-## 第1話ドラフト
+## 第1話
+
+本文:
 
 `novel/chapters/001.md`
 
-採用event範囲: `EVT-001`〜`EVT-004`
+最小因果あらすじ:
 
-高橋修一・佐伯玲子の名前とpersona差は反映済み。
+`novel/chapters/001-outline.md`
 
-次の文学的改稿では、ORG-001という所属環境を本文に入れることが可能になった。ただし研究所の設備・所在地・制度を本文都合だけで捏造せず、必要な細部は歴史調査後に追加する。
+採用event範囲:
+
+`EVT-001`〜`EVT-004`
+
+2026-08-23改稿で階層World Stateの影響をNarrativeProjectionへ反映した。
+
+- 舞台としてORG-001を明示
+- 高橋と佐伯が異分野の企業基礎研究者として同じ制度環境で議論できる理由を本文へ組み込んだ
+- 文献環境・共用計算資源を説明用設定ではなく、研究行動の可能性と制約として描写
+- paper modelを手計算することを、共用計算資源以前に完全に追跡できる最小検査として位置づけた
+- 高橋の私的ノートとORG-001のinstitutional memoryを分離し、第1話末で「まだ公式記録ではない」と明示
+- ORG-001の将来の再編・閉鎖は未来知識として本文へ入れていない
+
+本文からOBJ/LOCの恒常設定を増殖させない。ノート、紙上計算、研究室等は現時点ではscene realizationとし、来歴・保存・物理状態が後続因果へ効く時点で独立entity化する。
 
 ## 研究分岐
 
@@ -122,16 +164,17 @@ EXP-005はFAIL、H-005はNOT_SUPPORTED。
 
 ## 次に物語側で行うこと
 
-ORG-001を導入したことで、次から個人だけでなく制度的制約もevent因果へ入れられる。
+第1話のNarrativeProjectionは階層World Stateへ接続した。
 
-候補はプロットではなく、現在stateから生じ得るもの:
+次のworld advancementでは、EVT-007後の状態からresolution scopeを決め、人物だけでなく必要ならORG / OBJ / SYS / 上位contextを含めて次eventを解決する。
 
-- 共用計算資源を本当に使う段階で設備・利用手続きが必要になる
-- 研究テーマを正式化すると研究所内の承認・記録が発生する
-- 高橋の私的ノートと研究所の公式記録が分岐する
-- 将来の経営・研究政策変化が人物に観測された時点でorganization stateが動く
+現在の局所問題:
 
-EVT-007後の局所問題は引き続き、符号反転fixed point、nonstored分類、model対称性とmemory解釈。
+- `x`と`-x`のfixed-point対称性をweight/update ruleからどう説明するか
+- `nonstored stable`を符号反転・mixture・その他へどう分けるか
+- model対称性とmemoryとしての意味をどう分離するか
+- toy modelから計算機実装・より大きな条件へ進む必要が人物側で成立するか
+- その際、共用計算資源を独立`SYS` / `OBJ` stateへ展開する必要があるか
 
 ## 未確定
 
