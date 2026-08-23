@@ -1,121 +1,118 @@
 # 物語Bootstrap
 
-このディレクトリは、あるstory timeで**世界とペルソナ群を同じ背景から同期初期化・再初期化するためのBootstrap Frame**を管理します。
+このディレクトリは、あるstory timeで**階層的World Stateを同じ背景から同期初期化・再初期化するBootstrap Frame**を管理する。
 
-Bootstrapは未来の筋書きではありません。物語開始時や大きな時代・環境の切替時に、その時点までに成立している背景を一つの初期化源へまとめ、世界状態と各ペルソナ状態へ異なる情報境界で射影するための制作上の同期点です。
-
-Bootstrapの中心には、必要に応じて**物語として読める導入原型（Opening frame）**を置けます。これは読者向け公開本文そのものとは限らず、歴史・思想・技術背景を一つの文脈へ圧縮して、その時点の世界と人物を同時に立ち上げるための入力として使います。
-
-## IDと物語順
-
-`BOOT-001`, `BOOT-002` ... は安定識別子であり、**story timeやnarrative orderを表しません。**
-
-後から作成した `BOOT-002` が、物語上は `BOOT-001` より前の時代を初期化しても構いません。
+Bootstrapは未来の筋書きではない。対象時点までに成立している背景を一つの初期化源へまとめ、world、人物、組織、物、動物、場所、制度、環境等の必要なentity stateへ、それぞれ異なる情報境界で射影する制作上の同期点である。
 
 ## 基本モデル
 
-Bootstrap Frameを `B_k`、対象story timeを `t` とします。
-
 ```text
 B_k
- ├─ opening/background frame
- ├─ world projection          -> W(t)
- ├─ persona discovery        -> PER-xxx definitions as needed
- ├─ PER-001 projection       -> P_001(t)
- ├─ PER-002 projection       -> P_002(t)
- └─ ...
+ ├─ background/opening frame
+ ├─ global context projection
+ ├─ entity discovery
+ │   ├─ PER / ANI / OBJ
+ │   ├─ ORG / GRP
+ │   ├─ LOC / POL
+ │   └─ ENV / SYS / ...
+ ├─ relation discovery
+ └─ entity-specific projections -> S_i(t)
 ```
 
-概念的には、
+同じBootstrapから初期化しても、各entityが同じ情報を保持するわけではない。
 
-```text
-W(t)     = InitWorld(B_k)
-P_i(t)   = InitPersona_i(Project_i(B_k))
-```
+人物のknowledge、組織のinstitutional memory、物のphysical state、国家のpolicy state等は別々にprojectionする。
 
-同じBootstrapを使っても、各ペルソナが同じ情報を知るわけではありません。`Project_i` は、その人物の時代、立場、権限、観測可能性、既存記憶に応じて情報を制限します。
+## IDと物語順
+
+`BOOT-001`, `BOOT-002` ... は安定識別子であり、story timeやnarrative orderを表さない。
 
 ## Bootstrapが保持するもの
 
-各 `BOOT-xxx` は最低限、次を持ちます。
+各`BOOT-xxx`は最低限、次を持つ。
 
-- `Target story time`: 初期化対象の物語時刻
-- `Parent event head`: その時点までに成立済みの最後のevent。物語開始時は `none`
-- `Authority inputs`: Canon、既存world/persona state、timeline、必要な研究根拠
-- `Opening / Background frame`: その時点までに成立している背景を圧縮した導入
-- `World projection`: 世界状態へ反映する客観情報
-- `Persona discovery`: 独立状態を持つ主体として必要なペルソナ
-- `Persona projections`: 各ペルソナへ渡せる情報
-- `Forbidden leakage`: 各ペルソナへ渡してはいけない情報
-- `Outputs`: 初期化・再初期化したstateファイル
-- `Unresolved slots`: まだ決めなくてよい事項
+- Target story time
+- Parent event head
+- Authority inputs
+- Opening / Background frame
+- Global/world projection
+- Entity discovery
+- Relation discovery
+- Entity-specific projections
+- Forbidden leakage / forbidden inheritance
+- Outputs
+- Unresolved slots
 
-Opening frameは歴史的・哲学的背景を含められますが、**作品上の共鳴と現実の直接的な学説系譜を混同しません。** 技術史として重要な主張は `research/` と `references/` へ戻って確認します。
+## Entity discovery
 
-## Bootstrapに入れないもの
+背景に存在する全対象をID化しない。
 
-- まだ成立していない未来event
-- 第1話や長期プロットの予定された結末
-- 「この人物は後でこう考える」のような未来の信念状態
-- 読者を驚かせるためだけの演出指示
-- ペルソナ自身が知り得ない作者側の探索仮説を、そのペルソナ向けprojectionへ混ぜたもの
+独立state履歴が後続因果へ必要な場合だけentity化する。
 
-Canonに将来扱うことが記録されていても、それを現在世界で既に成立済みの事実へ変換しません。
+例:
+
+- 独立した認知・目的・観測が必要 → `PER`
+- ペットの生理・学習・関係が継続因果へ効く → `ANI`
+- 装置・文書・試料の状態や来歴が効く → `OBJ`
+- 組織の資源・規則・制度記憶が効く → `ORG`
+- 国家・法域の政策状態を独立追跡する必要がある → `POL`
+
+class定義は`../entities/README.md`を参照する。
 
 ## 初期化手順
 
-1. 対象story timeと`Parent event head`を確定する。
-2. `canon.md`、`timeline.md`、対象時点までのevent/state、必要な研究根拠と矛盾しないOpening / Background frameを作る。
-3. 背景から世界状態へ反映すべき客観情報を抽出する。
-4. 独立した目的・認知・観測境界・状態履歴が必要な主体を抽出し、必要なら新しい`PER-xxx`を作る。
-5. 各ペルソナについて、その人物が対象時点で知り得る情報だけをprojectionする。
-6. `state/world.md` と `state/personas/PER-xxx.md` を同じ同期キーで初期化する。
-7. 未来知識、他者の秘密、異なるstory timeの状態が漏れていないか検査する。
+1. target story timeとParent event headを確定する。
+2. Canon、timeline、対象時点までのevent/state、研究根拠からbackground frameを作る。
+3. その時点のglobal physical / historical / technological / institutional constraintsを抽出する。
+4. `entity discovery`を行い、因果上必要な対象だけを独立entity化する。
+5. entity間の包含・所属・所有・場所・権限等のrelationを確定する。
+6. 各entityへ、そのclassと境界に応じたstateをprojectionする。
+7. 上位contextから下位entityへのconstraintを解決する。
+8. knowledge / memory / private stateが階層を越えて自動漏洩していないか検査する。
+9. 同じ同期キーでstate群を保存する。
 
-同期キーは概念的に次で扱います。
+同期キー:
 
 ```text
 BOOT-xxx @ <story time> @ <parent event head>
 ```
 
-## ペルソナの増加
-
-Bootstrapから新しい人物・モデルinstance・組織的主体の必要性が見つかった場合、既存キャストへ無理に役割を押し込まず、新しい`PER-xxx`を追加できます。
-
-ただし、背景に名前が出るだけの人物や組織をすべてペルソナ化しません。独立した局所知識、目的、観測、判断、状態履歴を追跡する必要がある主体だけをペルソナにします。
-
-## 増殖・fork
-
-同じモデルinstance、checkpoint、人物状態等が物語上で複数へ分岐する場合、同時に独立した経験を持ち始める時点から別の`PER-xxx`として扱います。
+## 階層初期化の例
 
 ```text
-P_A(t)
-  ├─ PER-A at t+
-  └─ PER-B at t+
+BOOT-002 @ T0-1980S @ none
+  ↓
+world: 1984-85前後の技術史・社会背景
+  ↓
+POL: 日本の制度的context（必要になれば独立state化）
+  ↓
+ORG-001: 研究所のmission/resources/governance
+  ↓
+PER-005: 高橋が実際に利用可能・観測可能な範囲
+  ↓
+OBJ: 計算機・ノート等（因果上必要になった時点で独立化）
 ```
 
-分岐した二つへ同じIDを使い続けません。各子ペルソナは、どの親状態・story time・event headから分岐したかを記録します。
+ここで上位stateを下位へ丸ごとコピーしない。
 
 ## 再初期化
 
-長い中断、別AIセッション、モデル交換等でペルソナを再生成するときは、現在の設定を寄せ集めて作り直しません。
+長い中断、別AI session、model交換等では、設定を寄せ集めて現在世界を推測し直さない。
 
-必ず、
+対象Bootstrap、story time、parent event head、その時点までのentity states / relationsから再構成する。
 
-- 対象Bootstrap
-- 対象story time
-- parent event head
-- その時点までのpersona state
-- world state
+再初期化は制作上の操作であり、それ自体を物語eventにはしない。
 
-を揃えて再構成します。
+## Lazy expansion
 
-再初期化は物語世界で起きた出来事ではないため、それ自体を`EVT-xxx`にはしません。再初期化によって過去のstate履歴を書き換えることも禁止します。
+Bootstrap時点で宇宙全体を詳細化しない。
 
-## 時代をまたぐ場合
+上位scaleはconstraintとして粗く保持し、現在の物語因果へ必要になった部分だけ独立entityへ展開する。
 
-一つのBootstrapには原則として**一つのtarget story time**を置きます。
+これにより、宇宙・国家・企業・人物・物を同じ概念体系へ置きながら、不要なstate explosionを防ぐ。
 
-現代の開始状態を作る`BOOT-001`の背景に1980年代の事実が含まれていても、1980年代のPER-005の状態を現代時点へ初期化するわけではありません。1980年代側は `BOOT-002` のように、その時代をtarget story timeにした別Bootstrapから初期化します。
+## Narrativeとの関係
 
-これにより、背景知識として過去を参照することと、過去時点の人物状態を現在へ混ぜることを分離します。
+Bootstrap/state graphは本文ではない。
+
+本文はWorldStateからscene/viewpointに必要な部分だけをNarrativeProjectionする。未来の結末をBootstrapへ入れず、world advancementによって成立したfactを後から本文へ投影する。
