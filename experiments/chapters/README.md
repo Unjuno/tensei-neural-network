@@ -4,6 +4,8 @@
 
 研究実験 `EXP-xxx` と話数は一致させない。1話から複数EXPが派生してもよく、EXPが一つもない話もあり得る。
 
+上位の固定工程はroot `WORKFLOW.md` に従う。
+
 ## 目的
 
 各話の本文を、公開前に次の要素と相互照合する。
@@ -52,7 +54,9 @@ chapter draft
         ↓
 誤り・不自然な語・時代不整合を本文側で修正
         ↓
-PREPUBLICATION VERIFIED
+固定workflowの静的検査
+        ↓
+PREPUBLICATION_VERIFIED
 ```
 
 ## 用語
@@ -66,7 +70,7 @@ PREPUBLICATION VERIFIED
 - 本文の現在表記
 - 原語 / 概念
 - 読者向け候補表記
-- 1980年代等、そのstory timeで人物が使用可能か
+- story timeで人物が使用可能か
 - 地の文と人物発話で表記を分ける必要があるか
 - 根拠となる一次資料・当時資料
 - 検証状態
@@ -97,6 +101,24 @@ PREPUBLICATION VERIFIED
 
 公開都合で検証結果を曲げない。
 
+## 静的workflow検査
+
+話別の意味レビューに加え、固定工程の抜けを `tools/validate_workflow.py` で検査する。
+
+通常確認:
+
+```bash
+python tools/validate_workflow.py
+```
+
+`PREPUBLICATION_VERIFIED`へ変更する直前、およびmain比較前:
+
+```bash
+python tools/validate_workflow.py --strict
+```
+
+validatorは構造・traceabilityを検査する。歴史的妥当性、数理的妥当性、persona knowledge boundary、小説品質はこのscriptだけでは証明しない。
+
 ## 公開判定
 
 各話は少なくとも次を確認してから公開候補とする。
@@ -109,5 +131,6 @@ PREPUBLICATION VERIFIED
 - [ ] 数値・手順・実験条件が参照EXP/eventと一致している
 - [ ] 史実・制度・設備の重要描写に根拠がある
 - [ ] unresolved事項を本文都合だけでCanon固定していない
+- [ ] `python tools/validate_workflow.py --strict` がPASSしている
 
 このチェックを通過しても、話の内容が科学的事実として全て確定したことを意味しない。あくまで**その話を公開するための整合性・再現性・時代適合性のゲート**である。
