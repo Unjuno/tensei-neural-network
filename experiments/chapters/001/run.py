@@ -27,46 +27,42 @@ def outer_sum(patterns: list[list[int]]) -> list[list[int]]:
     return w
 
 
-def sweep(state: list[int], order: list[int], weights: list[list[int]]) -> tuple[list[int], list[dict]]:
+def sweep(state: list[int], order: list[int], weights: list[list[int]]) -> list[int]:
     s = state[:]
-    trace: list[dict] = []
     for one_based in order:
         i = one_based - 1
         h = sum(weights[i][j] * s[j] for j in range(len(s)))
-        old = s[i]
         if h > 0:
             s[i] = 1
         elif h < 0:
             s[i] = -1
-        trace.append({"unit": one_based, "input_sum": h, "old": old, "new": s[i], "state": s[:]})
-    return s, trace
+        # h == 0: 現在値を保持
+    return s
 
 
-def run_order(name: str, order: list[int], weights: list[list[int]]) -> dict:
+def run_order(order: list[int], weights: list[list[int]]) -> dict:
     state = CUE[:]
-    sweeps: list[list[dict]] = []
     converged = False
+    sweeps = 0
     for _ in range(16):
-        new_state, trace = sweep(state, order, weights)
-        sweeps.append(trace)
+        sweeps += 1
+        new_state = sweep(state, order, weights)
         if new_state == state:
             converged = True
             state = new_state
             break
         state = new_state
     return {
-        "order_name": name,
         "order": order,
         "final_state": state,
         "converged": converged,
-        "sweeps_until_no_change": len(sweeps),
-        "trace": sweeps,
+        "sweeps_until_no_change": sweeps,
     }
 
 
 def execute() -> dict:
     weights = outer_sum([A, B, C])
-    runs = {name: run_order(name, order, weights) for name, order in ORDERS.items()}
+    runs = {name: run_order(order, weights) for name, order in ORDERS.items()}
     passed = all(
         runs[name]["converged"] and runs[name]["final_state"] == EXPECTED[name]
         for name in EXPECTED
