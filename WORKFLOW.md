@@ -39,18 +39,21 @@ E. Narrative Projection
    state/eventを章本文へ投影する
         ↓
 F. Chapter Verification Package
-   experiments/chapters/NNN/ で技術・史実・用語・knowledge boundaryを検証
+   experiments/chapters/NNN/ を作る
         ↓
-G. Feedback
+G. Mandatory Chapter Experiment
+   各話最低1回、章が依存する内容を実際に再現・検証する
+        ↓
+H. Feedback
    検証結果と本文を相互照合し、誤りは本文側を修正
         ↓
-H. Style Pass
+I. Style Pass
    読みやすさを改善。ただし事実・stateを変更しない
         ↓
-I. Prepublication Gate
+J. Prepublication Gate
    必須検査を通した場合だけ公開候補化
         ↓
-J. Human Review
+K. Human Review
    Canon昇格・main反映・公開は人間の受理を必要とする
 ```
 
@@ -61,6 +64,8 @@ J. Human Review
 - 完成プロットを先に作り、persona/worldをそこへ誘導する
 - 章の結末から過去EVT/stateを書き換える
 - 章本文だけを書いて話別検証を省略し、公開候補にする
+- **話別実験を一度も実行せず章を公開候補にする**
+- 既存EXPを参照しただけで「実験済み」とみなす
 - 用語を作品全体Glossaryで先回り固定する
 - 研究結果をstory time上で未観測の人物へ逆流させる
 - 文体上の都合でevent/state/experiment evidenceを変更する
@@ -123,31 +128,44 @@ J. Human Review
 
 本文は新しい客観factの発生源ではない。
 
-### F-G. Chapter Verification
+### F-G-H. Chapter Verification / Mandatory Experiment / Feedback
 
 入力:
 - chapter draft
 - EVT/state
 - EXP/research/reference
 
-出力:
+必須出力:
 - `experiments/chapters/NNN/README.md`
+- `experiments/chapters/NNN/experiment.md`
 - 必要な話別検証ファイル
-- 本文修正
+- コード化可能なら `run.py` と機械可読な結果
+- 検証結果に応じた本文修正
+
+各話は最低1回、章本文が依存する内容を実際に再現・検証する。
+
+```text
+1 chapter != 1 research EXP
+1 chapter >= 1 chapter-level experiment
+```
+
+研究上の新規性がなくてもよい。既存EVTやEXPの中心結果を、その章の公開前integration testとして再実行してよい。
 
 用語はその話で使う語だけを話別package内で検証する。
 
-### H. Style Pass
+### I. Style Pass
 
 読みやすさ、段落、会話、専門語の提示順を調整する。
 
 この工程で技術条件やhistorical factを変更しない。
 
-### I. Prepublication Gate
+### J. Prepublication Gate
 
 最低条件:
 
 - 採用EVT/stateと本文が矛盾しない
+- `experiment.md` が存在し、話別実験がPASSしている
+- コード化された話別実験は再実行してPASSする
 - 重要な技術主張が検証済み、または不確実性が本文へ反映済み
 - 未来知識漏洩がない
 - 話別用語検証と本文が一致する
@@ -161,17 +179,12 @@ J. Human Review
 
 ## 4. 検証システム
 
-固定ワークフローは `tools/validate_workflow.py` で静的検査する。
+固定ワークフローは二種類の機械検証を使う。
 
-標準:
+### 静的workflow検査
 
 ```bash
 python tools/validate_workflow.py
-```
-
-厳格モード:
-
-```bash
 python tools/validate_workflow.py --strict
 ```
 
@@ -179,10 +192,21 @@ python tools/validate_workflow.py --strict
 - `WARN`: 人間/AIの意味レビューが必要。通常modeではexit code 0、`--strict`では1
 - `PASS`: 静的検査上問題なし
 
+### コード化された話別実験の再実行
+
+```bash
+python tools/run_chapter_experiments.py
+```
+
+`experiments/chapters/NNN/run.py` が存在する章を発見し、`--check`で再実行する。
+
 ### 自動検査するもの
 
 - 必須policy/workflowファイルの存在
 - chapterと話別verification packageの対応
+- **各chapterに `experiment.md` が存在すること**
+- `PREPUBLICATION_VERIFIED`章の話別実験がPASSであること
+- コード実験がある場合の`results.json`とPASS状態
 - chapter outlineが参照するEVTの存在
 - `PREPUBLICATION_VERIFIED`章に未検証用語が残っていないか
 - 主要ID定義ファイル/ディレクトリの重複番号
@@ -195,7 +219,7 @@ python tools/validate_workflow.py --strict
 
 - personaが本当にその情報を知り得たか
 - 歴史資料の品質
-- 数理実験の妥当性
+- 数理モデルそのものの科学的妥当性
 - 小説として自然か
 - plot誘導が本当に無かったか
 - Canonへ昇格すべきか
@@ -204,13 +228,26 @@ python tools/validate_workflow.py --strict
 
 ---
 
-## 5. 実行タイミング
+## 5. GitHub Actions
 
-最低限、次の時点でvalidatorを実行する。
+`.github/workflows/story-workflow-validation.yml` で、`main`と`work/**`へのpush時に次を自動実行する。
+
+1. workflow validatorのunit tests
+2. コード化された話別実験の再実行
+3. `python tools/validate_workflow.py --strict`
+
+GitHub Actionsの追加は人間指示を受けて導入済みである。
+
+---
+
+## 6. 実行タイミング
+
+最低限、次の時点で検証する。
 
 1. 新しいEVT/state群をまとめた後
 2. 章本文を作成・大幅改稿した後
-3. `PREPUBLICATION_VERIFIED`へ変更する前
-4. `main...work branch`を人間へ提示する前
+3. 話別実験を追加・変更した後
+4. `PREPUBLICATION_VERIFIED`へ変更する前
+5. `main...work branch`を人間へ提示する前
 
-CI/GitHub Actionsへの自動組込みは別判断とする。現在はrepo policyに従い、明示的な必要性と人間承認なしにworkflowを追加しない。
+章を公開候補へ進める際は、**話別実験の実行とCI PASSの両方**を確認する。
