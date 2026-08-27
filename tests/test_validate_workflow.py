@@ -34,6 +34,7 @@ class WorkflowValidatorTest(unittest.TestCase):
             "novel/chapters/001-outline.md": "採用event: EVT-001\n",
             "novel/chapters/001.md": "# chapter 001\n",
             "experiments/chapters/001/README.md": "状態: PREPUBLICATION_VERIFIED\n",
+            "experiments/chapters/001/experiment.md": "状態: `PASS`\n",
             "experiments/chapters/001/terminology.md": (
                 "- `UNVERIFIED`: 候補表記。\n"
                 "| 原概念 | 表記 | 人物発話 | 状態 | 根拠 |\n"
@@ -64,6 +65,17 @@ class WorkflowValidatorTest(unittest.TestCase):
         package.unlink()
         self.assertIn("WF010", self.codes(root))
         self.assertEqual(validator.run(root, strict=False), 1)
+
+    def test_missing_required_chapter_experiment_fails(self) -> None:
+        root = self.make_fixture()
+        (root / "experiments/chapters/001/experiment.md").unlink()
+        self.assertIn("WF013", self.codes(root))
+
+    def test_verified_chapter_requires_pass_experiment(self) -> None:
+        root = self.make_fixture()
+        exp = root / "experiments/chapters/001/experiment.md"
+        exp.write_text("状態: `FAIL`\n", encoding="utf-8")
+        self.assertIn("WF014", self.codes(root))
 
     def test_verified_chapter_with_unverified_table_row_fails(self) -> None:
         root = self.make_fixture()
