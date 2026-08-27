@@ -1,16 +1,10 @@
 from __future__ import annotations
 
-import importlib.util
 import tempfile
 import unittest
 from pathlib import Path
 
-
-MODULE_PATH = Path(__file__).resolve().parents[1] / "tools" / "validate_workflow.py"
-spec = importlib.util.spec_from_file_location("validate_workflow", MODULE_PATH)
-validator = importlib.util.module_from_spec(spec)
-assert spec.loader is not None
-spec.loader.exec_module(validator)
+from tools import validate_workflow as validator
 
 
 class WorkflowValidatorTest(unittest.TestCase):
