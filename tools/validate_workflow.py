@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 
 
 @dataclass
@@ -31,9 +31,9 @@ def read_text(path: Path) -> str:
         return ""
 
 
-def rel(path: Path) -> str:
+def rel(root: Path, path: Path) -> str:
     try:
-        return str(path.relative_to(ROOT))
+        return str(path.relative_to(root))
     except ValueError:
         return str(path)
 
@@ -42,7 +42,7 @@ def add(findings: list[Finding], level: str, code: str, message: str) -> None:
     findings.append(Finding(level, code, message))
 
 
-def require_files(findings: list[Finding]) -> None:
+def require_files(root: Path, findings: list[Finding]) -> None:
     required = [
         "POLICY.md",
         "WORKFLOW.md",
@@ -56,13 +56,13 @@ def require_files(findings: list[Finding]) -> None:
         "experiments/chapters/README.md",
     ]
     for name in required:
-        p = ROOT / name
+        p = root / name
         if not p.exists():
             add(findings, "ERROR", "WF001", f"必須ファイルがありません: {name}")
 
 
-def chapter_numbers() -> list[str]:
-    chapter_dir = ROOT / "novel" / "chapters"
+def chapter_numbers(root: Path) -> list[str]:
+    chapter_dir = root / "novel" / "chapters"
     if not chapter_dir.exists():
         return []
     out: list[str] = []
@@ -71,16 +71,16 @@ def chapter_numbers() -> list[str]:
     return sorted(set(out))
 
 
-def check_chapter_packages(findings: list[Finding]) -> None:
-    for num in chapter_numbers():
-        package = ROOT / "experiments" / "chapters" / num
+def check_chapter_packages(root: Path, findings: list[Finding]) -> None:
+    for num in chapter_numbers(root):
+        package = root / "experiments" / "chapters" / num
         readme = package / "README.md"
         if not readme.exists():
             add(
                 findings,
                 "ERROR",
                 "WF010",
-                f"第{num}話に話別検証packageがありません: {rel(readme)}",
+                f"第{num}話に話別検証packageがありません: {rel(root, readme)}",
             )
             continue
 
@@ -105,8 +105,8 @@ def check_chapter_packages(findings: list[Finding]) -> None:
                 )
 
 
-def existing_event_ids() -> set[str]:
-    events = ROOT / "novel" / "events"
+def existing_event_ids(root: Path) -> set[str]:
+    events = root / "novel" / "events"
     ids: set[str] = set()
     if not events.exists():
         return ids
@@ -117,9 +117,12 @@ def existing_event_ids() -> set[str]:
     return ids
 
 
-def check_outline_event_refs(findings: list[Finding]) -> None:
-    known = existing_event_ids()
-    for outline in (ROOT / "novel" / "chapters").glob("[0-9][0-9][0-9]-outline.md"):
+def check_outline_event_refs(root: Path, findings: list[Finding]) -> None:
+    known = existing_event_ids(root)
+    chapter_dir = root / "novel" / "chapters"
+    if not chapter_dir.exists():
+        return
+    for outline in chapter_dir.glob("[0-9][0-9][0-9]-outline.md"):
         text = read_text(outline)
         refs = set(re.findall(r"EVT-\d{3}", text))
         missing = sorted(refs - known)
@@ -128,14 +131,14 @@ def check_outline_event_refs(findings: list[Finding]) -> None:
                 findings,
                 "ERROR",
                 "WF020",
-                f"{rel(outline)} が存在しないeventを参照しています: {event_id}",
+                f"{rel(root, outline)} が存在しないeventを参照しています: {event_id}",
             )
         if not refs:
             add(
                 findings,
                 "WARN",
                 "WF021",
-                f"{rel(outline)} に採用EVT参照がありません",
+                f"{rel(root, outline)} に採用EVT参照がありません",
             )
 
 
@@ -148,13 +151,13 @@ def duplicate_numbers(paths: Iterable[Path], pattern: re.Pattern[str]) -> dict[s
     return {k: v for k, v in by_id.items() if len(v) > 1}
 
 
-def check_definition_id_duplicates(findings: list[Finding]) -> None:
+def check_definition_id_duplicates(root: Path, findings: list[Finding]) -> None:
     checks: list[tuple[str, Path, str, bool]] = [
-        ("EVT", ROOT / "novel" / "events", r"(EVT-\d{3})-.*\.md$", False),
-        ("PER", ROOT / "novel" / "personas", r"(PER-\d{3})-.*\.md$", False),
-        ("ORG", ROOT / "novel" / "organizations", r"(ORG-\d{3})-.*\.md$", False),
-        ("BOOT", ROOT / "novel" / "bootstrap", r"(BOOT-\d{3})-.*\.md$", False),
-        ("EXP", ROOT / "experiments", r"(EXP-\d{3})-.*$", True),
+        ("EVT", root / "novel" / "events", r"(EVT-\d{3})-.*\.md$", False),
+        ("PER", root / "novel" / "personas", r"(PER-\d{3})-.*\.md$", False),
+        ("ORG", root / "novel" / "organizations", r"(ORG-\d{3})-.*\.md$", False),
+        ("BOOT", root / "novel" / "bootstrap", r"(BOOT-\d{3})-.*\.md$", False),
+        ("EXP", root / "experiments", r"(EXP-\d{3})-.*$", True),
     ]
     for label, directory, regex, dirs_only in checks:
         if not directory.exists():
@@ -166,12 +169,12 @@ def check_definition_id_duplicates(findings: list[Finding]) -> None:
                 findings,
                 "ERROR",
                 "WF030",
-                f"{label}定義番号が重複しています {stable_id}: " + ", ".join(rel(p) for p in files),
+                f"{label}定義番号が重複しています {stable_id}: " + ", ".join(rel(root, p) for p in files),
             )
 
 
-def check_policy_links(findings: list[Finding]) -> None:
-    workflow = read_text(ROOT / "WORKFLOW.md")
+def check_policy_links(root: Path, findings: list[Finding]) -> None:
+    workflow = read_text(root / "WORKFLOW.md")
     required_refs = [
         "POLICY.md",
         "novel/WORLD_POLICY.md",
@@ -182,19 +185,18 @@ def check_policy_links(findings: list[Finding]) -> None:
         if ref_name not in workflow:
             add(findings, "ERROR", "WF040", f"WORKFLOW.mdにpolicy参照がありません: {ref_name}")
 
-    world_policy = read_text(ROOT / "novel" / "WORLD_POLICY.md")
+    world_policy = read_text(root / "novel" / "WORLD_POLICY.md")
     if "POLICY.md" not in world_policy:
         add(findings, "ERROR", "WF041", "WORLD_POLICY.mdがroot POLICY.mdの優先を明示していません")
 
 
-def check_obsolete_chapter_terms(findings: list[Finding]) -> None:
-    # Terms intentionally removed from chapter 001 after historical terminology verification.
+def check_obsolete_chapter_terms(root: Path, findings: list[Finding]) -> None:
     banned = {
         "《ローカル・フィールド》": "局所場の英語ルビ",
         "《フィクスト・ポイント》": "固定点の英語ルビ",
         "《アシンクロナス・アップデート》": "非同期更新の英語ルビ",
     }
-    chapter = ROOT / "novel" / "chapters" / "001.md"
+    chapter = root / "novel" / "chapters" / "001.md"
     text = read_text(chapter)
     for token, label in banned.items():
         if token in text:
@@ -206,9 +208,9 @@ def check_obsolete_chapter_terms(findings: list[Finding]) -> None:
             )
 
 
-def check_chapter_verification_status(findings: list[Finding]) -> None:
-    for num in chapter_numbers():
-        readme = ROOT / "experiments" / "chapters" / num / "README.md"
+def check_chapter_verification_status(root: Path, findings: list[Finding]) -> None:
+    for num in chapter_numbers(root):
+        readme = root / "experiments" / "chapters" / num / "README.md"
         text = read_text(readme)
         if not text:
             continue
@@ -221,10 +223,9 @@ def check_chapter_verification_status(findings: list[Finding]) -> None:
             )
 
 
-def check_global_glossary(findings: list[Finding]) -> None:
-    # Current policy intentionally keeps terminology in chapter verification packages.
+def check_global_glossary(root: Path, findings: list[Finding]) -> None:
     for name in ("GLOSSARY.md", "novel/GLOSSARY.md"):
-        if (ROOT / name).exists():
+        if (root / name).exists():
             add(
                 findings,
                 "WARN",
@@ -233,19 +234,23 @@ def check_global_glossary(findings: list[Finding]) -> None:
             )
 
 
-def run(strict: bool) -> int:
+def collect_findings(root: Path) -> list[Finding]:
     findings: list[Finding] = []
-    require_files(findings)
-    check_chapter_packages(findings)
-    check_outline_event_refs(findings)
-    check_definition_id_duplicates(findings)
-    check_policy_links(findings)
-    check_obsolete_chapter_terms(findings)
-    check_chapter_verification_status(findings)
-    check_global_glossary(findings)
-
+    require_files(root, findings)
+    check_chapter_packages(root, findings)
+    check_outline_event_refs(root, findings)
+    check_definition_id_duplicates(root, findings)
+    check_policy_links(root, findings)
+    check_obsolete_chapter_terms(root, findings)
+    check_chapter_verification_status(root, findings)
+    check_global_glossary(root, findings)
     order = {"ERROR": 0, "WARN": 1}
     findings.sort(key=lambda x: (order.get(x.level, 9), x.code, x.message))
+    return findings
+
+
+def run(root: Path, strict: bool) -> int:
+    findings = collect_findings(root)
 
     for f in findings:
         print(f"[{f.level}] {f.code} {f.message}")
@@ -272,8 +277,14 @@ def main() -> int:
         action="store_true",
         help="treat warnings as failures",
     )
+    parser.add_argument(
+        "--root",
+        type=Path,
+        default=DEFAULT_ROOT,
+        help="repository root to validate; defaults to this script's repository",
+    )
     args = parser.parse_args()
-    return run(strict=args.strict)
+    return run(root=args.root.resolve(), strict=args.strict)
 
 
 if __name__ == "__main__":
