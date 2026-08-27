@@ -7,6 +7,7 @@ correctness still require semantic review.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -60,10 +61,7 @@ def require_files(root: Path, out: list[Finding]) -> None:
 
 
 def has_unverified_table_row(body: str) -> bool:
-    """Detect UNVERIFIED only when used as a Markdown table cell.
-
-    The word may legitimately appear in the legend explaining possible states.
-    """
+    """Detect UNVERIFIED only when used as a Markdown table cell."""
     return bool(re.search(r"^\|[^\n]*\|\s*UNVERIFIED\s*\|[^\n]*$", body, re.MULTILINE))
 
 
@@ -71,9 +69,13 @@ def check_chapter_packages(root: Path, out: list[Finding]) -> None:
     for num in chapters(root):
         package = root / "experiments" / "chapters" / num
         readme = package / "README.md"
+        experiment = package / "experiment.md"
         if not readme.exists():
             add(out, "ERROR", "WF010", f"第{num}話に話別検証packageがありません: {rel(root, readme)}")
             continue
+        if not experiment.exists():
+            add(out, "ERROR", "WF013", f"第{num}話に必須の話別実験experiment.mdがありません")
+
         body = text(readme)
         if "PREPUBLICATION_VERIFIED" in body:
             term = package / "terminology.md"
@@ -82,6 +84,24 @@ def check_chapter_packages(root: Path, out: list[Finding]) -> None:
                     add(out, "ERROR", "WF011", f"第{num}話はPREPUBLICATION_VERIFIEDだが未検証用語が残っています")
             else:
                 add(out, "WARN", "WF012", f"第{num}話はPREPUBLICATION_VERIFIEDだがterminology.mdがありません。用語が無い話なら許容")
+
+            exp_body = text(experiment)
+            if experiment.exists() and not re.search(r"^状態:\s*`?PASS`?\s*$", exp_body, re.MULTILINE):
+                add(out, "ERROR", "WF014", f"第{num}話はPREPUBLICATION_VERIFIEDだが話別実験がPASSではありません")
+
+            run_py = package / "run.py"
+            if run_py.exists():
+                result_path = package / "results.json"
+                if not result_path.exists():
+                    add(out, "ERROR", "WF015", f"第{num}話はrun.pyを持つがresults.jsonがありません")
+                else:
+                    try:
+                        result = json.loads(text(result_path))
+                    except json.JSONDecodeError:
+                        add(out, "ERROR", "WF016", f"第{num}話のresults.jsonが有効なJSONではありません")
+                    else:
+                        if result.get("result") != "PASS":
+                            add(out, "ERROR", "WF017", f"第{num}話の保存済み実験結果がPASSではありません")
 
 
 def event_ids(root: Path) -> set[str]:
