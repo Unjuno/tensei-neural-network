@@ -27,5 +27,8 @@ jobs:
       - name: Test workflow validator
         run: python -m unittest discover -s tests -p 'test_*.py' -v
 
+      - name: Re-run executable chapter experiments
+        run: python tools/run_chapter_experiments.py
+
       - name: Validate repository workflow
         run: python tools/validate_workflow.py --strict
