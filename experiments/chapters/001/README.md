@@ -1,6 +1,6 @@
 # 第1話「戻る先」公開前検証
 
-状態: `PREPUBLICATION_VERIFIED`
+状態: `PREPUBLICATION_GATE_PASSED`
 
 対象本文:
 
@@ -14,39 +14,36 @@
 
 ## 目的
 
-第1話を公開する前に、本文の技術・歴史・用語・人物knowledge boundaryを、成立済みevent/stateと研究実験へ照合する。
+第1話を公開する前に、本文の技術・歴史・用語・人物knowledge boundaryを、成立済みevent/stateと研究・検証証拠へ照合する。
 
-加えて、現行workflowの規則に従い、**第1話専用の話別実験を最低1回実行する。**
+必須なのは「毎話で新しい科学実験を作ること」ではなく、**その話が依存する最も壊れやすい主張を最低1回、再現可能な形で検証すること**である。
 
-これは「第1話 = 一研究実験」という意味ではない。研究用 `EXP-xxx` とは別に、章本文が依存する中心結果を公開前integration testとして再確認する。
+第1話では中心主張が数理的なので、実行可能な再現実験を採用した。
 
-## 参照した研究・実験
+## 必須検証
+
+- `verification.md` — 第1話のMandatory Verification正本
+- `experiment.md` — EVT-004最小再現の条件・判定
+- `run.py` — 再実行可能コード
+- `results.json` — 保存済み結果
+- `semantic-review.md` — 機械validatorでは判定できない意味レビュー
+- `terminology.md` — 話別用語検証
+
+## 参照した研究・event
 
 - `EXP-003-hopfield-mixture-structure`
 - `EXP-004-hopfield-ambiguous-cue`
 - `research/1980s-research-environment.md`
 - `research/pre-hopfield-background.md`
-- `terminology.md` に記録した1984–89年の日本語研究資料
-- `novel/events/EVT-001-stopping-is-not-returning.md`
-- `novel/events/EVT-002-who-defines-correct-recall.md`
-- `novel/events/EVT-003-a-fair-cue-is-not-neutral.md`
-- `novel/events/EVT-004-same-cue-two-returns.md`
+- `EVT-001`〜`EVT-004`
 
 作者側EXP結果を1980年代人物へ未来知識として渡さない。
 
-## 1. 必須話別実験
+## 1. Mandatory Verification
 
-詳細: `experiment.md`
+判定: `PASS`
 
-実行コード:
-
-```bash
-python experiments/chapters/001/run.py --check
-```
-
-保存結果: `results.json`
-
-検証対象はEVT-004の最小6要素例。
+検証対象はEVT-004の6要素例。
 
 固定条件:
 
@@ -67,121 +64,65 @@ beta  -> B
 
 両方とも到達後の次の一巡で変化なし。
 
+このPASSは数理的再現性を確認するもので、EVT-004生成時の`UNBLINDED` provenanceやselection biasを解消しない。
+
+## 2. 用語・歴史・技術
+
+詳細は `terminology.md` と関連researchを参照する。
+
+主要結果:
+
+- `連想記憶 / 想起 / 手掛かり`は1984年資料へ照合
+- `local field`等の史料根拠が弱い専門ラベルは操作説明へ置換
+- 具体機種、OS、所在地、詳細職位は未検証のまま固定していない
+- `ハミング距離`と`素子`にはより強い同時代用例を追加する余地があるが、章の核心事実として年代依存させていない
+
+## 3. Semantic Review
+
+詳細: `semantic-review.md`
+
 判定: `PASS`
 
-この実験により、本文の中心描写は再現できた。
-
-ただし、これはEVT-004の数理的再現性を確認するものであり、EVT-004生成時の`UNBLINDED` provenanceやselection biasを解消するものではない。
-
-## 2. 数理・実験検証
-
-本文の中心計算はEVT-004の正本と、上記話別実験の双方へ照合した。
-
 確認済み:
 
-- 6要素相当のbinary toy network
-- 記憶パターンA/B/C
-- 自己結合なし
-- 三つのパターンから結合を作る
-- A/Bから2箇所ずつ異なる同一手掛かり
-- 要素を一つずつ更新
-- 入力総和0では現在値を保持
-- 同じ手掛かり、同じ結合、同じ更新規則で更新順序だけを変更
-- order alpha相当でA、order beta相当でBへ到達
-- その後の同じ順序で変化しない
-- 二本の順序を観測した以上へ本文で一般化していない
-- 人間の記憶一般へ一般化していない
+- knowledge leakageなし
+- unresolved factの本文都合固定なし
+- EVT-005以降の知識逆流なし
+- 私的記録とinstitutional memoryの混同なし
+- NarrativeProjectionがEVT-001〜004を超えて新factを生成していない
+- EVT-004の`UNBLINDED` provenanceを隠していない
 
-EVT-004自体のresolution provenanceは`UNBLINDED`であるため、この章を「selection biasのないworld resolver検証」の証拠には使わない。ただし数理的一貫性と物語eventとしての利用可能性は別に確認済みである。
+## 4. ALLOWED_UNRESOLVED
 
-## 3. 用語検証
+具体story dateは、現在の因果に不要なので固定しない。
 
-詳細は `terminology.md`。
+- 正確な年月日
+- 具体計算機
+- 所在地
+- 詳細職位
 
-主要な適用結果:
+は今後必要になった時点でworld/event側から解決する。
 
-- `連想記憶`: 1984年資料で確認
-- `手掛かり`: 1984年資料の「手掛かりパタン」を根拠に採用
-- `想起`: 1984年資料の「想起過程（再構成過程）」を根拠に採用
-- `configuration`: `記憶パターン / 状態`へ置換
-- `local field`: 専門ラベルを前面に出さず「その要素に入る結合入力の総和」相当の説明を使用
-- `asynchronous update`: 「一つずつ更新する」と操作を直接記述
-- `fixed point`: カタカナ併記をやめ、安定状態・安定平衡点として扱う
-- `update order`: 「更新する順番 / 更新順序」
-
-英語語彙を理解しなければ内容が追えない構造にはしていない。
-
-`ハミング距離`と`素子`については同時代資料の完全な直接一致を確定していないが、本文では意味が先に理解できる形にしており、章の技術的理解・歴史的成立条件を左右する核心語ではない。これらを理由に具体story dateを作者都合で固定しない。
-
-## 4. 歴史・制度検証
-
-本文が固定しているのは、1980年代半ばの日本に、境界領域の基礎研究を許容する企業系研究所が存在し得るというレベルまでである。
-
-確認事項:
-
-- 1980年代日本で神経回路・連想記憶研究の基礎が存在する
-- 企業基礎研究所という制度的モデルに実在例がある
-- 数理・神経科学の境界研究が成立し得る
-- 本文は具体機種、所在地、職位、OS、言語等を未検証のまま固定していない
-
-`光陵化学生命科学研究所`は史実に制約された架空組織であり、特定の実在研究所に高橋・佐伯が実在したと主張しない。
-
-## 5. Knowledge boundary / NarrativeProjection検証
-
-確認済み:
-
-- 高橋・佐伯はEVT-001〜004までに観測可能な情報だけで会話・判断している
-- EVT-005以降の全状態空間探索や符号反転対称性の結果を第1話へ逆流させていない
-- 作者側EXP-004の統計結果を二人へ与えていない
-- ORG-001の将来の再編・閉鎖を予告事実として人物へ漏らしていない
-- 高橋の私的ノートとORG-001のinstitutional memoryを混同していない
-- 本文のために具体年月日、機種、所在地、職位を新Canonとして補完していない
-
-## 6. 具体story dateを未固定のまま通す理由
-
-EVT-004のStory time正本は、`T0-1980S + first paper calculation after EVT-003`であり、具体年月日は意図的に未固定である。
-
-第1話本文も、具体年月日でしか成立しない論文公開、装置、制度、事件を使用していない。
-
-したがって、公開検証のためだけに1984年または1985年へ固定することは、未確定stateを本文都合でCanon化することになる。
-
-判定:
-
-`ALLOWED_UNRESOLVED`
-
-今後、具体年月日が因果へ必要になった時点でworld/event側から固定し、第1話との矛盾が生じる場合は本文を修正する。
-
-## 7. 文学・文体チェック
-
-- 冒頭で問題を先に提示している
-- 高橋と佐伯のpersona差が会話で見える
-- 技術説明を一度に長く展開せず、紙上計算へ埋め込んでいる
-- EXP番号やPASS/FAILを本文構造にしていない
-- 一話の終端は「驚異的発見」ではなく認識上の問いの変化
-- 転生・本人性を科学的事実として示していない
-- Web小説向けの短段落を使うが、人物を軽薄化していない
-
-## 8. 公開前workflow判定
+## 5. 公開前gate
 
 - [x] 採用EVT/stateと本文が矛盾しない
-- [x] 最低1つの話別実験を実行し、結果を保存した
-- [x] 話別実験がPASSしている
-- [x] 重要な技術主張が検証済み、または限界が適切に表現されている
-- [x] story time上で不可能な未来知識が人物へ漏れていない
-- [x] 専門語が過剰な英語依存になっていない
-- [x] 用語表記が話別検証結果と整合している
-- [x] 数値・手順・実験条件がEVT-004と整合している
-- [x] 歴史・制度描写を未検証の具体値まで広げていない
-- [x] unresolved事項を本文都合だけでCanon固定していない
-- [x] EVT-004の`UNBLINDED` provenanceを隠していない
+- [x] `verification.md` がPASS
+- [x] コード化された検証が再実行時もPASS
+- [x] `semantic-review.md` がPASS
+- [x] 重要な技術主張が検証済み、または限界が本文へ反映されている
+- [x] 未来知識漏洩がない
+- [x] 話別用語検証と本文が一致する
+- [x] 数値・手順がEVT-004と一致する
+- [x] 重要な歴史・制度描写を未検証の具体値まで広げていない
+- [x] unresolved事項を本文だけでCanon固定していない
 
 ## 最終判定
 
-`PREPUBLICATION_VERIFIED`
+`PREPUBLICATION_GATE_PASSED`
 
 意味:
 
-- 第1話は現在の正本・話別実験・研究実験・史料・用語検証との整合性について公開候補になれる
-- これはEVT-004の生成方式がclean resolver validationに成功したという意味ではない
-- これは作品内容をCanonへ自動昇格させるものでもない
-- 実際の公開・main受理は人間レビューを別途必要とする
+- 現在のevidenceとworkflowに対して公開前gateを通過した
+- 「科学的・歴史的に完全に正しい」という保証ではない
+- Canon昇格ではない
+- 公開・main受理には人間レビューを別途必要とする
