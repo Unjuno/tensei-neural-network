@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Iterable
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
+GATE_STATE = "PREPUBLICATION_GATE_PASSED"
 
 
 @dataclass
@@ -51,9 +52,10 @@ def require_files(root: Path, out: list[Finding]) -> None:
     required = [
         "POLICY.md", "POLICY_INDEX.md", "WORKFLOW.md", "AGENTS.md",
         "novel/WORLD_POLICY.md", "novel/bootstrap/README.md",
-        "novel/state/README.md", "novel/entities/README.md",
-        "novel/STYLE_WEBNOVEL.md", "experiments/README.md",
-        "experiments/chapters/README.md",
+        "novel/state/README.md", "novel/state/LIFECYCLE.md",
+        "novel/entities/README.md", "novel/STYLE_WEBNOVEL.md",
+        "experiments/README.md", "experiments/chapters/README.md",
+        "experiments/chapters/SEMANTIC_REVIEW_TEMPLATE.md",
     ]
     for name in required:
         if not (root / name).exists():
@@ -61,33 +63,42 @@ def require_files(root: Path, out: list[Finding]) -> None:
 
 
 def has_unverified_table_row(body: str) -> bool:
-    """Detect UNVERIFIED only when used as a Markdown table cell."""
     return bool(re.search(r"^\|[^\n]*\|\s*UNVERIFIED\s*\|[^\n]*$", body, re.MULTILINE))
+
+
+def status_is_pass(body: str) -> bool:
+    return bool(re.search(r"^状態:\s*`?PASS`?\s*$", body, re.MULTILINE))
 
 
 def check_chapter_packages(root: Path, out: list[Finding]) -> None:
     for num in chapters(root):
         package = root / "experiments" / "chapters" / num
         readme = package / "README.md"
-        experiment = package / "experiment.md"
+        verification = package / "verification.md"
+        semantic = package / "semantic-review.md"
+
         if not readme.exists():
             add(out, "ERROR", "WF010", f"第{num}話に話別検証packageがありません: {rel(root, readme)}")
             continue
-        if not experiment.exists():
-            add(out, "ERROR", "WF013", f"第{num}話に必須の話別実験experiment.mdがありません")
+        if not verification.exists():
+            add(out, "ERROR", "WF013", f"第{num}話に必須のverification.mdがありません")
 
         body = text(readme)
-        if "PREPUBLICATION_VERIFIED" in body:
+        if GATE_STATE in body:
+            if not verification.exists() or not status_is_pass(text(verification)):
+                add(out, "ERROR", "WF014", f"第{num}話は{GATE_STATE}だがMandatory VerificationがPASSではありません")
+
+            if not semantic.exists():
+                add(out, "ERROR", "WF018", f"第{num}話は{GATE_STATE}だがsemantic-review.mdがありません")
+            elif not status_is_pass(text(semantic)):
+                add(out, "ERROR", "WF019", f"第{num}話は{GATE_STATE}だがsemantic reviewがPASSではありません")
+
             term = package / "terminology.md"
             if term.exists():
                 if has_unverified_table_row(text(term)):
-                    add(out, "ERROR", "WF011", f"第{num}話はPREPUBLICATION_VERIFIEDだが未検証用語が残っています")
+                    add(out, "ERROR", "WF011", f"第{num}話は{GATE_STATE}だが未検証用語が残っています")
             else:
-                add(out, "WARN", "WF012", f"第{num}話はPREPUBLICATION_VERIFIEDだがterminology.mdがありません。用語が無い話なら許容")
-
-            exp_body = text(experiment)
-            if experiment.exists() and not re.search(r"^状態:\s*`?PASS`?\s*$", exp_body, re.MULTILINE):
-                add(out, "ERROR", "WF014", f"第{num}話はPREPUBLICATION_VERIFIEDだが話別実験がPASSではありません")
+                add(out, "WARN", "WF012", f"第{num}話は{GATE_STATE}だがterminology.mdがありません。用語が無い話なら許容")
 
             run_py = package / "run.py"
             if run_py.exists():
@@ -101,7 +112,7 @@ def check_chapter_packages(root: Path, out: list[Finding]) -> None:
                         add(out, "ERROR", "WF016", f"第{num}話のresults.jsonが有効なJSONではありません")
                     else:
                         if result.get("result") != "PASS":
-                            add(out, "ERROR", "WF017", f"第{num}話の保存済み実験結果がPASSではありません")
+                            add(out, "ERROR", "WF017", f"第{num}話の保存済み実行結果がPASSではありません")
 
 
 def event_ids(root: Path) -> set[str]:
@@ -155,7 +166,10 @@ def check_duplicate_ids(root: Path, out: list[Finding]) -> None:
 
 def check_policy_links(root: Path, out: list[Finding]) -> None:
     workflow = text(root / "WORKFLOW.md")
-    for name in ["POLICY.md", "novel/WORLD_POLICY.md", "experiments/chapters/README.md", "novel/STYLE_WEBNOVEL.md"]:
+    for name in [
+        "POLICY.md", "novel/WORLD_POLICY.md", "novel/state/LIFECYCLE.md",
+        "experiments/chapters/README.md", "novel/STYLE_WEBNOVEL.md",
+    ]:
         if name not in workflow:
             add(out, "ERROR", "WF040", f"WORKFLOW.mdにpolicy参照がありません: {name}")
     if "POLICY.md" not in text(root / "novel/WORLD_POLICY.md"):
@@ -178,7 +192,9 @@ def check_verification_status(root: Path, out: list[Finding]) -> None:
     for num in chapters(root):
         body = text(root / "experiments/chapters" / num / "README.md")
         if "NOT READY FOR PUBLICATION" in body or "IN_PROGRESS" in body:
-            add(out, "WARN", "WF060", f"第{num}話はまだ公開前検証未完了です")
+            add(out, "WARN", "WF060", f"第{num}話はまだ公開前gate未完了です")
+        if "PREPUBLICATION_VERIFIED" in body:
+            add(out, "WARN", "WF061", f"第{num}話に旧状態名PREPUBLICATION_VERIFIEDが残っています")
 
 
 def check_global_glossary(root: Path, out: list[Finding]) -> None:
