@@ -2,252 +2,246 @@
 
 状態: `ACTIVE / PROVISIONAL`
 
-この文書は、このrepoで物語を生成し、研究・実験で検証し、章を公開候補へ進めるまでの**固定的な工程順序**を定義する。
+この文書は、物語を生成し、検証し、公開候補へ進めるまでの固定工程を定義する。
 
-上位規則は `POLICY.md`。世界進行の詳細は `novel/WORLD_POLICY.md`。実験一般は `experiments/README.md`。話別公開前検証は `experiments/chapters/README.md`。文体投影は `novel/STYLE_WEBNOVEL.md` に従う。
+上位規則は `POLICY.md`。世界進行は `novel/WORLD_POLICY.md`、state lifecycleは `novel/state/LIFECYCLE.md`、研究実験は `experiments/README.md`、話別検証は `experiments/chapters/README.md`、文体投影は `novel/STYLE_WEBNOVEL.md` に従う。
 
-矛盾時の優先順位:
+優先順位:
 
 ```text
 POLICY.md
   > domain policy / workflow
-  > event / state / experiment evidence
-  > narrative style rule
+  > event / state / experiment / research evidence
+  > style rule
   > chapter draft
 ```
 
-ただし、歴史・科学・数理上の事実判定では、文体規則や本文がevent/state/experiment/research evidenceを上書きしない。
-
----
+本文や文体規則は、event/state/evidenceを上書きしない。
 
 ## 1. 制作の一本道
 
 ```text
 A. Restore
-   repo正本からstory time / event head / entity statesを復元
+   story time / event head / relevant statesを復元
         ↓
 B. Advance World
-   resolution scope → observation → action → resolve → EVT → state delta
+   scope → observation → action → resolve → EVT → state delta
         ↓
 C. Detect Reading Unit
-   成立済みEVT群に自然な読書単位があるか判定
+   成立済みEVT群から自然な読書単位を発見
         ↓
 D. Minimum Causal Outline
-   採用EVTだけから最小因果骨格を作る
+   採用EVTだけで最小因果骨格を作る
         ↓
 E. Narrative Projection
-   state/eventを章本文へ投影する
+   EVT/stateを章本文へ投影
         ↓
-F. Chapter Verification Package
-   experiments/chapters/NNN/ を作る
+F. Mandatory Verification
+   章の最も壊れやすい依存点を最低1回検証
         ↓
-G. Mandatory Chapter Experiment
-   各話最低1回、章が依存する内容を実際に再現・検証する
+G. Feedback
+   evidenceと本文が衝突すれば本文を修正
         ↓
-H. Feedback
-   検証結果と本文を相互照合し、誤りは本文側を修正
+H. Semantic Review
+   knowledge / history / provenance / projectionを意味レビュー
         ↓
 I. Style Pass
-   読みやすさを改善。ただし事実・stateを変更しない
+   読みやすさを改善。事実は変更しない
         ↓
 J. Prepublication Gate
-   必須検査を通した場合だけ公開候補化
+   static + executable + semantic checks
         ↓
 K. Human Review
-   Canon昇格・main反映・公開は人間の受理を必要とする
+   Canon昇格・main反映・公開は人間が受理
 ```
 
 この順序は原則固定する。
 
-## 2. 禁止されるショートカット
+## 2. 最重要原則
 
-- 完成プロットを先に作り、persona/worldをそこへ誘導する
+### 物語を検証へ従属させない
+
+必須なのは「毎話に科学実験を登場させること」ではない。
+
+```text
+1 chapter != 1 research EXP
+1 chapter >= 1 mandatory verification
+```
+
+先にEVT/stateから章が成立する。その後で、その章が依存する最も壊れやすい主張を選んで検証する。
+
+検証方式は章に応じて変えてよい。
+
+- 数理・コード → executable reproduction
+- 歴史 → historical source check
+- 文書・物 → provenance trace
+- 会話・秘密 → knowledge-boundary trace
+- 組織・制度 → institutional constraint check
+
+「検証するものが必要だから」という理由でeventを発生させない。
+
+### 追跡可能性を主目的にする
+
+このsystemが保証する中心は「作品が絶対に正しいこと」ではなく、
+
+- どのEVT/stateから本文が作られたか
+- どのevidenceで何を確認したか
+- 何が未確定か
+- どの判断・限界が残っているか
+
+を後から辿れることである。
+
+正しさは新しい史料・研究で更新され得る。provenanceと再現可能性は残す。
+
+## 3. 禁止されるショートカット
+
+- 完成プロットへpersona/worldを誘導する
 - 章の結末から過去EVT/stateを書き換える
-- 章本文だけを書いて話別検証を省略し、公開候補にする
-- **話別実験を一度も実行せず章を公開候補にする**
-- 既存EXPを参照しただけで「実験済み」とみなす
-- 用語を作品全体Glossaryで先回り固定する
-- 研究結果をstory time上で未観測の人物へ逆流させる
-- 文体上の都合でevent/state/experiment evidenceを変更する
+- 章本文だけを書いて検証を省略する
+- Mandatory Verificationのために物語へ実験現象を追加する
+- 既存EXPを参照しただけで話別検証済みとする
+- 研究結果を未観測人物へ逆流させる
+- 文体都合でevidenceを変更する
 - `起承転結`、話数、EXP番号をevent発生原因にする
-- `PREPUBLICATION_VERIFIED` を人間確認なしの最終公開承認とみなす
+- CI greenを内容の真理保証とみなす
+- `PREPUBLICATION_GATE_PASSED`をCanon/公開承認とみなす
 
-## 3. 各工程の入力と出力
+## 4. 各工程
 
 ### A. Restore
 
 入力:
-- `POLICY.md`
 - `STATUS.md`
 - `notes/working-context.md`
-- 対象 `BOOT-*`
-- `novel/state/`
-- `novel/events/`
-- `novel/timeline.md`
+- 対象BOOT
+- relevant state / event
 
 出力:
 - current story time
-- current event head
-- active entity states
+- event head
+- active states
+- dormant statesのうち再展開が必要なもの
 - unresolved items
-- local questions
+
+DORMANT/REACTIVATED/checkpointは `novel/state/LIFECYCLE.md` に従う。
 
 ### B. Advance World
 
-入力:
-- current states
-- entity relations
-- physical / historical / institutional constraints
+`novel/WORLD_POLICY.md` に従い、現在因果へ届くresolution scopeだけを解決する。
 
-出力:
-- 必要なら `ACTION_LOCKED`
-- `EVT-xxx`
-- affected state deltas
-- index sync
+必要なら`ACTION_LOCKED`を行い、EVTとaffected state deltaを保存する。
 
 ### C-D. Reading Unit / Outline
 
-入力:
-- 成立済みEVTのみ
-
-出力:
-- `novel/chapters/NNN-outline.md`
-
-未来eventをoutlineへ混ぜない。
+成立済みEVTのみから `novel/chapters/NNN-outline.md` を作る。未来eventを混ぜない。
 
 ### E. Narrative Projection
 
-入力:
-- 採用EVT
-- 対応state
-- persona / organization definitions
-- style policy
+`novel/chapters/NNN.md` はEVT/stateのprojectionであり、新しい客観factの発生源ではない。
 
-出力:
-- `novel/chapters/NNN.md`
+### F. Mandatory Verification
 
-本文は新しい客観factの発生源ではない。
+各話に `experiments/chapters/NNN/verification.md` を置く。
 
-### F-G-H. Chapter Verification / Mandatory Experiment / Feedback
+最低限:
+- target
+- selection rationale
+- verification type
+- evidence
+- pass/fail criteria
+- result
+- limitations
+- chapter feedback
 
-入力:
-- chapter draft
-- EVT/state
-- EXP/research/reference
+コード化可能なら `run.py` と機械可読結果を保存する。コード化不能でも第三者が追跡できる資料・手順・判定を残す。
 
-必須出力:
-- `experiments/chapters/NNN/README.md`
-- `experiments/chapters/NNN/experiment.md`
-- 必要な話別検証ファイル
-- コード化可能なら `run.py` と機械可読な結果
-- 検証結果に応じた本文修正
+### G. Feedback
 
-各話は最低1回、章本文が依存する内容を実際に再現・検証する。
+検証結果と本文が衝突した場合は、原則として本文を修正する。必要ならevent/state/researchへ戻るが、本文都合でevidenceを曲げない。
 
-```text
-1 chapter != 1 research EXP
-1 chapter >= 1 chapter-level experiment
-```
+### H. Semantic Review
 
-研究上の新規性がなくてもよい。既存EVTやEXPの中心結果を、その章の公開前integration testとして再実行してよい。
+各公開候補話に `semantic-review.md` を置き、少なくとも次を確認する。
 
-用語はその話で使う語だけを話別package内で検証する。
+- knowledge boundary
+- unresolved fact invention
+- historical / technical anachronism
+- NarrativeProjection fidelity
+- plot conditioning / provenance
+
+テンプレート: `experiments/chapters/SEMANTIC_REVIEW_TEMPLATE.md`
+
+semantic reviewは自動真理判定ではない。review inputs・判断・uncertaintyを固定し、後から再検討可能にするための記録である。
 
 ### I. Style Pass
 
-読みやすさ、段落、会話、専門語の提示順を調整する。
-
-この工程で技術条件やhistorical factを変更しない。
+読みやすさ、段落、会話、専門語提示順を改善する。この工程で技術条件・historical fact・stateを変更しない。
 
 ### J. Prepublication Gate
 
 最低条件:
 
-- 採用EVT/stateと本文が矛盾しない
-- `experiment.md` が存在し、話別実験がPASSしている
-- コード化された話別実験は再実行してPASSする
-- 重要な技術主張が検証済み、または不確実性が本文へ反映済み
-- 未来知識漏洩がない
-- 話別用語検証と本文が一致する
-- 数値・手順が参照EXP/eventと一致する
-- 重要な歴史・制度・設備描写に根拠がある
+- adopted EVT/stateと本文が整合
+- `verification.md`: PASS
+- executable verificationがある場合は再実行PASS
+- `semantic-review.md`: PASS
+- blockingな未検証用語なし
+- 未来知識漏洩なし
+- 数値・手順・条件がevidenceと一致
+- 重要な歴史・制度描写に根拠あり
 - unresolved事項を本文だけでCanon固定していない
+- strict validator PASS
 
-`PREPUBLICATION_VERIFIED` はこのgate通過を意味するだけで、Canon昇格や公開承認ではない。
+通過状態:
 
----
+`PREPUBLICATION_GATE_PASSED`
 
-## 4. 検証システム
+これは工程gate通過を意味するだけで、科学的完全性、歴史的完全性、文学的完成、Canon昇格、公開承認を意味しない。
 
-固定ワークフローは二種類の機械検証を使う。
+## 5. 検証システム
 
-### 静的workflow検査
+静的検査:
 
 ```bash
 python tools/validate_workflow.py
 python tools/validate_workflow.py --strict
 ```
 
-- `ERROR`: ワークフローの構造違反。exit code 1
-- `WARN`: 人間/AIの意味レビューが必要。通常modeではexit code 0、`--strict`では1
-- `PASS`: 静的検査上問題なし
-
-### コード化された話別実験の再実行
+コード化された話別検証:
 
 ```bash
 python tools/run_chapter_experiments.py
 ```
 
-`experiments/chapters/NNN/run.py` が存在する章を発見し、`--check`で再実行する。
+GitHub Actionsはpush時に、
 
-### 自動検査するもの
+1. validator unit tests
+2. executable chapter verifications
+3. strict workflow validator
 
-- 必須policy/workflowファイルの存在
-- chapterと話別verification packageの対応
-- **各chapterに `experiment.md` が存在すること**
-- `PREPUBLICATION_VERIFIED`章の話別実験がPASSであること
-- コード実験がある場合の`results.json`とPASS状態
-- chapter outlineが参照するEVTの存在
-- `PREPUBLICATION_VERIFIED`章に未検証用語が残っていないか
-- 主要ID定義ファイル/ディレクトリの重複番号
-- 第1話で検証により廃止した古い英語ルビ表現の再混入
-- root policy / domain policy参照の最低限の整合
+を実行する。
 
-### 自動検査しないもの
+CIが証明するのは**機械化した工程条件が通ったこと**であり、作品内容そのものの真理ではない。
 
-次は意味論なので静的scriptだけでPASS判定しない。
+## 6. State lifecycle
 
-- personaが本当にその情報を知り得たか
-- 歴史資料の品質
-- 数理モデルそのものの科学的妥当性
-- 小説として自然か
-- plot誘導が本当に無かったか
-- Canonへ昇格すべきか
+一度詳細化したentityを永続的にactiveへ固定しない。
 
-これらは話別検証とhuman reviewで扱う。
+- 現在因果へ必要 → ACTIVE
+- 現在scope外で復元可能 → DORMANT
+- 再び因果へ届く → trusted snapshot + relevant deltasからREACTIVATE
 
----
+過去EVT/stateを削除せず、checkpointは圧縮キャッシュとして使う。
 
-## 5. GitHub Actions
+詳細: `novel/state/LIFECYCLE.md`
 
-`.github/workflows/story-workflow-validation.yml` で、`main`と`work/**`へのpush時に次を自動実行する。
+## 7. 実行タイミング
 
-1. workflow validatorのunit tests
-2. コード化された話別実験の再実行
-3. `python tools/validate_workflow.py --strict`
-
-GitHub Actionsの追加は人間指示を受けて導入済みである。
-
----
-
-## 6. 実行タイミング
-
-最低限、次の時点で検証する。
+最低限、次で検証する。
 
 1. 新しいEVT/state群をまとめた後
 2. 章本文を作成・大幅改稿した後
-3. 話別実験を追加・変更した後
-4. `PREPUBLICATION_VERIFIED`へ変更する前
-5. `main...work branch`を人間へ提示する前
-
-章を公開候補へ進める際は、**話別実験の実行とCI PASSの両方**を確認する。
+3. Mandatory Verificationを追加・変更した後
+4. semantic review後
+5. `PREPUBLICATION_GATE_PASSED`へ変更する前
+6. `main...work branch`を人間へ提示する前
