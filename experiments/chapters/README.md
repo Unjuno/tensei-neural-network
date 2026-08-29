@@ -2,9 +2,7 @@
 
 このディレクトリは、小説の**各話ごとの公開前検証**を管理する。
 
-研究実験 `EXP-xxx` と話数は一致させない。1話から複数EXPが派生してもよいが、**各話には最低1つの話別実験を必ず実行する。**
-
-話別実験は研究上の新規仮説を必須としない。章本文が依存する数理・手順・史実・技術条件・表記等のうち、最低1つを再現可能な形で検証するためのintegration testである。
+研究実験 `EXP-xxx` と話数は一致させない。各話で必須なのは新しい科学実験ではなく、**その話が依存する最も壊れやすい主張を最低1回、再現可能な形で検証すること**である。
 
 上位の固定工程はroot `WORKFLOW.md` に従う。
 
@@ -18,51 +16,82 @@
 - その話で実際に使う専門用語
 - 時代・人物のknowledge boundary
 - 数値・実装条件・装置・制度描写
-- その話専用の最低1つの再現実験
-
-この検証によって、本文中の仮表記・仮説明を公開前に修正する。
+- 話ごとのMandatory Verification
+- semantic review
 
 ## 基本構造
 
 ```text
 experiments/chapters/
 ├─ README.md
+├─ SEMANTIC_REVIEW_TEMPLATE.md
 ├─ 001/
 │  ├─ README.md
-│  ├─ experiment.md
+│  ├─ verification.md        # 必須。検証の入口・判定正本
+│  ├─ semantic-review.md     # 公開前gateでは必須
+│  ├─ experiment.md          # 数理/コード実験を選んだ場合
 │  ├─ run.py                 # コード化できる場合
-│  ├─ results.json           # または同等の実行結果
+│  ├─ results.json           # コード結果
 │  └─ terminology.md
-├─ 002/
-│  └─ ...
+└─ 002/
 ```
 
-## 各話に必須の実験
+## Mandatory Verification
 
 各章は公開前に最低1回、章本文が依存する内容を実際に検証する。
 
-原則:
+`verification.md` に最低限、
 
-1. `experiment.md` に、検証対象、入力、手順、事前の合否条件、実行結果、本文への影響を書く。
-2. コードで再現可能なら `run.py` 等と機械可読な結果を保存する。
-3. コード化できない歴史・資料実験でも、検索範囲、資料、判定方法、結果を第三者が追える形にする。
-4. 既存 `EXP-xxx` を再利用してよいが、章側で何を再確認したかを `experiment.md` に残す。
-5. 「既存EXPを参照した」だけで実行を省略しない。最低1回はその章の公開前条件として再確認する。
-6. 実験結果が本文と衝突した場合は本文を修正する。公開都合で結果を変更しない。
+- 検証対象
+- なぜその対象を選んだか
+- verification type
+- evidence
+- 事前または明示的な判定条件
+- 結果
+- 限界
+- 本文への影響
+
+を残す。
+
+### verification typeの例
+
+- `EXECUTABLE_REPRODUCTION`: 数理・コード・計算の再実行
+- `HISTORICAL_SOURCE_CHECK`: 一次資料・同時代資料の照合
+- `PROVENANCE_TRACE`: 文書・物・所有・場所の来歴検証
+- `KNOWLEDGE_BOUNDARY_TRACE`: 誰がいつ何を知り得たかの検証
+- `INSTITUTIONAL_CONSTRAINT_CHECK`: 制度・組織・設備条件の照合
+- `MIXED`: 複数方式
 
 したがって、
 
 ```text
 1 chapter != 1 research EXP
+1 chapter >= 1 mandatory verification
 ```
 
-だが、
+である。
 
-```text
-1 chapter >= 1 chapter-level experiment
-```
+**話別検証のために物語へ実験現象を追加してはいけない。** 先にEVT/stateから章が成立し、その後で章の壊れやすい依存点を選んで検証する。
 
-は必須とする。
+既存 `experiment.md` / `run.py` / EXPを利用してよいが、参照だけで済ませず、その章の公開前条件として何を再確認したかを `verification.md` に残す。
+
+## Semantic Review
+
+機械validatorだけでは、歴史的自然さ、knowledge leakage、plot conditioning、NarrativeProjectionの忠実性を証明できない。
+
+公開前gateでは `semantic-review.md` を作り、`SEMANTIC_REVIEW_TEMPLATE.md` の項目を最低限確認する。
+
+最低対象:
+
+- knowledge boundary
+- unresolved fact invention
+- historical / technical anachronism
+- NarrativeProjection fidelity
+- plot conditioning / provenance
+
+判定は `PASS / FAIL / UNCERTAIN`。
+
+`PASS`は真理保証ではなく、使用したevidenceとreview時点で公開を妨げる意味論上の矛盾が見つからないことを意味する。
 
 ## 話別検証ループ
 
@@ -71,103 +100,80 @@ experiments/chapters/
         ↓
 chapter draft
         ↓
-話別検証パッケージへ問題抽出
-        ├─ 用語
-        ├─ 数理・コード
-        ├─ 史実・制度
-        └─ 技術環境
+壊れやすい依存点を選定
         ↓
-最低1つの話別実験を実行
+Mandatory Verification
         ↓
 必要ならQ / H / EXP / researchへ分岐
         ↓
 結果・一次資料・Findingを回収
         ↓
-本文と相互照合
+本文へfeedback
         ↓
-誤り・不自然な語・時代不整合を本文側で修正
+semantic review
         ↓
-固定workflowの静的検査
+style pass
         ↓
-PREPUBLICATION_VERIFIED
+static / executable checks
+        ↓
+PREPUBLICATION_GATE_PASSED
 ```
 
 ## 用語
 
 全作品共通Glossaryを先に作らない。
 
-各話で実際に登場した語だけを、その話の `terminology.md` に置く。
-
-各語について最低限、
-
-- 本文の現在表記
-- 原語 / 概念
-- 読者向け候補表記
-- story timeで人物が使用可能か
-- 地の文と人物発話で表記を分ける必要があるか
-- 根拠となる一次資料・当時資料
-- 検証状態
-- 本文への反映状態
-
-を管理する。
-
-`terminology.md` 自体を正解集にしない。未検証語は `UNVERIFIED` のまま残す。
+各話で実際に登場した語だけを、その話の `terminology.md` に置く。未検証語は `UNVERIFIED` のまま残し、gate通過時にはblockingな未検証語を残さない。
 
 ## 公開前相互作用
 
-公開前に本文と検証パッケージを双方向に照合する。
-
-### 検証結果が本文と衝突した場合
-
-原則として本文を修正する。
-
-例:
+検証結果が本文と衝突した場合、原則として本文を修正する。
 
 - 当時使われていない訳語 → 時代に合う表現へ変更
-- 数式・計算条件が実験正本と違う → 本文を実験正本へ合わせる
-- 人物が知り得ない語 → 発話を変更するか地の文だけに置く
-- 英語表記が読解障壁 → 日本語主表記へ変更し必要なら初出ルビを付ける
-
-### 本文から新しい問題が出た場合
-
-検証パッケージ側へ追加し、必要なら新しい研究・実験へ分岐する。
+- 数式・条件が証拠と違う → 本文を証拠へ合わせる
+- 人物が知り得ない語・情報 → 発話/描写を変更
+- 史実不確実性 → 断定を弱めるかUNRESOLVEDへ戻す
 
 公開都合で検証結果を曲げない。
 
-## 静的workflow検査
+## 機械検査
 
-話別の意味レビューに加え、固定工程の抜けを `tools/validate_workflow.py` で検査する。
-
-通常確認:
+通常:
 
 ```bash
 python tools/validate_workflow.py
 ```
 
-`PREPUBLICATION_VERIFIED`へ変更する直前、およびmain比較前:
+公開前・main比較前:
 
 ```bash
 python tools/validate_workflow.py --strict
 ```
 
-validatorは構造・traceabilityを検査する。歴史的妥当性、数理的妥当性、persona knowledge boundary、小説品質はこのscriptだけでは証明しない。
+コード化された話別検証:
 
-コード化された話別実験は、CIで再実行して結果が再現することを確認する。
+```bash
+python tools/run_chapter_experiments.py
+```
+
+validatorは構造・traceabilityを検査する。semantic reviewを置いたこと自体は確認できるが、その内容の真偽を自動証明しない。
 
 ## 公開判定
 
 各話は少なくとも次を確認してから公開候補とする。
 
 - [ ] 採用EVT/stateと本文が矛盾しない
-- [ ] 最低1つの話別実験を実行し、`experiment.md` に結果を保存した
+- [ ] `verification.md` が存在しPASS
+- [ ] コード化された検証は再実行してPASS
+- [ ] `semantic-review.md` が存在しPASS
 - [ ] 重要な技術主張が検証済み、または不確実性が適切に表現されている
 - [ ] story time上で不可能な未来用語・未来知識が人物へ漏れていない
-- [ ] 本文の専門語が読者向けに過剰な英語依存になっていない
 - [ ] 用語表記がその話の検証結果と一致している
-- [ ] 数値・手順・実験条件が参照EXP/eventと一致している
+- [ ] 数値・手順・条件が参照EVT/EXP/evidenceと一致している
 - [ ] 史実・制度・設備の重要描写に根拠がある
 - [ ] unresolved事項を本文都合だけでCanon固定していない
-- [ ] コード化された話別実験が再実行時もPASSする
-- [ ] `python tools/validate_workflow.py --strict` がPASSしている
+- [ ] `python tools/validate_workflow.py --strict` がPASS
 
-このチェックを通過しても、話の内容が科学的事実として全て確定したことを意味しない。あくまで**その話を公開するための整合性・再現性・時代適合性のゲート**である。
+通過状態は `PREPUBLICATION_GATE_PASSED` とする。
+
+この状態は**工程gate通過**を意味する。科学的・歴史的完全性、文学的完成、Canon昇格、公開承認を意味しない。
