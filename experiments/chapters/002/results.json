@@ -1,0 +1,26 @@
+{
+  "chapter": "002",
+  "verification": "EVT-005 through EVT-008 independent reproduction",
+  "checks": {
+    "evt005_order_results": true,
+    "evt005_aggregate": true,
+    "evt006_six_balanced_cues": true,
+    "evt006_36_trials": true,
+    "evt006_table": true,
+    "evt007_64_states": true,
+    "evt007_384_trials": true,
+    "evt007_six_fixed_points": true,
+    "evt007_D_equals_minus_C": true,
+    "evt007_final_set": true,
+    "evt007_final_counts": true,
+    "evt007_invariant_18": true,
+    "evt007_dependent_46": true,
+    "evt007_all_converged_by_2": true,
+    "evt008_sign_inversion_commutes": true
+  },
+  "evt005": {"labels": ["A", "D", "B", "B", "D", "D"], "aggregate": {"A": 1, "D": 3, "B": 2}},
+  "evt006": {"aggregate": {"A": 11, "B": 11, "C": 2, "D": 12}},
+  "evt007": {"final_counts": {"A": 62, "B": 66, "C": 64, "-A": 62, "-B": 66, "-C": 64}, "order_invariant_states": 18, "order_dependent_states": 46, "max_sweeps": 2, "nonconverged": 0},
+  "evt008": {"one_unit_sign_inversion_commutation": true},
+  "result": "PASS"
+}
