@@ -12,10 +12,7 @@ B = (1, -1, 1, -1, -1, 1)
 C = (-1, -1, -1, -1, 1, -1)
 D = (1, 1, 1, 1, -1, 1)
 Q46 = (1, -1, 1, 1, -1, -1)
-ORDERS = {
-    f"r{k+1}": tuple(list(range(1, 7))[k:] + list(range(1, 7))[:k])
-    for k in range(6)
-}
+ORDERS = {f"r{k+1}": tuple(list(range(1, 7))[k:] + list(range(1, 7))[:k]) for k in range(6)}
 EXPECTED_EVT005 = ["A", "D", "B", "B", "D", "D"]
 EXPECTED_EVT006 = {
     "q12": ["B", "B", "A", "A", "A", "A"],
@@ -54,11 +51,19 @@ def run(state, order, w, max_sweeps=20):
     return s, max_sweeps, False
 
 
-def label(state):
-    labels = {A: "A", B: "B", C: "C", tuple(-x for x in A): "-A", tuple(-x for x in B): "-B", tuple(-x for x in C): "-C"}
-    if state == D:
-        return "D"
+def canonical_label(state):
+    labels = {
+        A: "A", B: "B", C: "C",
+        tuple(-x for x in A): "-A",
+        tuple(-x for x in B): "-B",
+        tuple(-x for x in C): "-C",
+    }
     return labels.get(state, "OTHER")
+
+
+def evt005_006_label(state):
+    # EVT-005/006 used the provisional name D before EVT-007 reclassified D as -C.
+    return "D" if state == D else canonical_label(state)
 
 
 def balanced_cues():
@@ -66,11 +71,10 @@ def balanced_cues():
     out = {}
     for choose_a in itertools.combinations(differing, 2):
         s = list(A)
-        choose_a = set(choose_a)
+        chosen = set(choose_a)
         for i in differing:
-            s[i] = A[i] if i in choose_a else B[i]
-        name = "q" + "".join(str(i + 1) for i in sorted(choose_a))
-        out[name] = tuple(s)
+            s[i] = A[i] if i in chosen else B[i]
+        out["q" + "".join(str(i + 1) for i in sorted(chosen))] = tuple(s)
     return out
 
 
@@ -84,7 +88,7 @@ def execute():
     evt005 = []
     for order in ORDERS.values():
         final, sweeps, converged = run(Q46, order, w)
-        evt005.append({"label": label(final), "final": final, "sweeps": sweeps, "converged": converged})
+        evt005.append({"label": evt005_006_label(final), "final": final, "sweeps": sweeps, "converged": converged})
 
     cues = balanced_cues()
     evt006 = {}
@@ -92,21 +96,18 @@ def execute():
         evt006[qname] = []
         for order in ORDERS.values():
             final, sweeps, converged = run(cue, order, w)
-            evt006[qname].append({"label": label(final), "final": final, "sweeps": sweeps, "converged": converged})
+            evt006[qname].append({"label": evt005_006_label(final), "final": final, "sweeps": sweeps, "converged": converged})
 
     states = list(itertools.product((-1, 1), repeat=6))
     fixed = [s for s in states if is_fixed(s, w)]
     final_counter = Counter()
-    invariant = 0
-    dependent = 0
-    max_sweeps = 0
-    nonconverged = 0
+    invariant = dependent = max_sweeps = nonconverged = 0
     for s in states:
         finals = []
         for order in ORDERS.values():
             final, sweeps, converged = run(s, order, w)
             finals.append(final)
-            final_counter[label(final)] += 1
+            final_counter[canonical_label(final)] += 1
             max_sweeps = max(max_sweeps, sweeps)
             nonconverged += 0 if converged else 1
         if len(set(finals)) == 1:
@@ -114,14 +115,10 @@ def execute():
         else:
             dependent += 1
 
-    commutation_ok = True
-    for s in states:
-        neg = tuple(-x for x in s)
-        for i in range(1, 7):
-            left = update_one(neg, i, w)
-            right = tuple(-x for x in update_one(s, i, w))
-            if left != right:
-                commutation_ok = False
+    commutation_ok = all(
+        update_one(tuple(-x for x in s), i, w) == tuple(-x for x in update_one(s, i, w))
+        for s in states for i in range(1, 7)
+    )
 
     evt005_labels = [x["label"] for x in evt005]
     evt006_labels = {k: [x["label"] for x in v] for k, v in evt006.items()}
@@ -138,6 +135,7 @@ def execute():
         "evt007_six_fixed_points": set(fixed) == expected_fixed,
         "evt007_D_equals_minus_C": D == tuple(-x for x in C),
         "evt007_final_set": set(final_counter) == {"A", "B", "C", "-A", "-B", "-C"},
+        "evt007_final_counts": final_counter == Counter({"A": 62, "B": 66, "C": 64, "-A": 62, "-B": 66, "-C": 64}),
         "evt007_invariant_18": invariant == 18,
         "evt007_dependent_46": dependent == 46,
         "evt007_all_converged_by_2": nonconverged == 0 and max_sweeps <= 2,
