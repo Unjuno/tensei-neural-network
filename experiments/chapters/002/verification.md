@@ -1,47 +1,54 @@
 # 第2話 Mandatory Verification
 
-状態: `IN_PROGRESS`
+状態: `PASS`
 
 Verification type: `EXECUTABLE_REPRODUCTION`
 
 ## Fragile claim
 
-第2話が依存する最も壊れやすい主張は、同一の6-unit / 3-pattern networkについて、EVT-005〜008で成立した次の結果が相互に整合していることである。
+第2話が依存する最も壊れやすい主張は、同一の6-unit / 3-pattern networkについて、EVT-005〜008で成立した結果が相互に整合していることである。
 
-1. 6 cyclic ordersを同一cueへ適用すると A:1 / B:2 / D:3
-2. A/B-balanced cueは6種類あり、6 ordersとの組合せは36 trials
-3. 全binary initial stateは64、6 ordersとの組合せは384 trials
-4. fixed pointsは A/B/C/-A/-B/-C の6状態
-5. EVT-005でDと呼んだ状態は -C
-6. zero-bias linear local field + zero-field hold ruleでは、同一update orderについて `U(-s) = -U(s)` が成立する
+## Procedure
 
-## Planned procedure
-
-第1話の検証コードを流用せず、第2話package内で入力条件を明示した再現コードを作る。
+`run.py` で第1話コードをimportせず独立再構成した。
 
 - A/B/CからHebbian weight matrixを再構成
 - EVT-005の6 cyclic ordersを生成
-- EVT-004/005 cueについて6 runsを再現
-- A/B balanced cuesを規則から全列挙して36 runsを再現
-- `{-1,+1}^6` 全64 states × 6 ordersを再現
-- fixed pointsとfinal-state集合を集計
+- q46について6 runsを再現
+- A/B balanced cuesを規則から全6件生成し36 runsを再現
+- `{-1,+1}^6` 全64 states × 6 orders = 384 trialsを再現
+- fixed points / basin counts / order dependenceを集計
 - D=-Cをassert
-- 任意64 statesについて各one-unit updateのsign inversion commutationをassert
+- 全64 states × 全6 one-unit updatesについて符号反転可換性をassert
 
-## PASS condition
+## Result
 
-上記6項目がすべてEVT-005〜008正本と一致する。
+GitHub Actions上の独立再実行で全checkがPASSした。
 
-## FAIL condition
+- EVT-005: `A / D / B / B / D / D`、aggregate A:1 / B:2 / D:3
+- EVT-006: 6 balanced cues × 6 orders = 36、aggregate A:11 / B:11 / C:2 / D:12
+- EVT-007: 64 states × 6 orders = 384、全trialが2 sweeps以内に収束
+- fixed points: `A/B/C/-A/-B/-C`
+- basin total: A 62 / B 66 / C 64 / -A 62 / -B 66 / -C 64
+- order-invariant initial states: 18
+- order-dependent initial states: 46
+- D = -C
+- EVT-008: one-unit updateについて全64 statesで `U_i(-s) = -U_i(s)`
 
-一つでも不一致がある。
+## Important verification incident
 
-## UNCERTAIN condition
+初回の検証コードは、EVT-005/006の暫定ラベル `D` をEVT-007集計にも流用したため、canonical final-set checkだけFAILした。数理結果の不一致ではなく、**同じstate `D=-C` に時点別の二つの名称があることを検証コードが区別していなかった**。
 
-EVT正本間で条件定義が一致せず、同一実験として再構成できない。
+修正後は、EVT-005/006のhistorical labelとして `D` を保持し、EVT-007以降のcanonical classificationでは `-C` を使用する。これは第2話本文の認識転換そのものでもある。
 
-## Current result
+## Evidence
 
-未実行。
+- executable: `run.py`
+- saved result: `results.json`
+- CI reproduction: Story Workflow Validation run after canonical-label fix
 
-本文はこのverificationがPASSするまで `PREPUBLICATION_GATE_PASSED` にしない。
+## Verdict boundary
+
+PASSが意味するのは、EVT-005〜008の有限toy networkの数理結果と第2話が依存する数値が再現したことだけである。
+
+Hopfield network一般、生物学的記憶、1980年代の研究文化一般についての真理を保証しない。
