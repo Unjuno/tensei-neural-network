@@ -16,135 +16,70 @@ T0-MODERN
   Personas: PER-001 / PER-002 / PER-003 / PER-004
 ```
 
-異なるstory timeのpersona stateを一つのBootstrapへ混ぜない。
-
 ## Current event heads
 
-- 1980年代側: `EVT-009`
+- 1980年代側: `EVT-010`
 - 現代側: none
 
-EVT-009時点の1980年代active personas:
-
-- PER-005 高橋修一
-- PER-006 佐伯玲子
+EVT-010時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
-story time上の因果順と、小説本文で読者へ提示する順番を分離する。
-
 - 第1話 `chapters/001.md`: EVT-001〜004
 - 第2話 `chapters/002.md`: EVT-005〜008
-- EVT-009: まだ章へ投影しない。次のworld advancementを先に行う
+- EVT-009〜010: まだ章へ投影しない。world advancementを先に続ける
 
 後から成立したeventを理由に既刊候補章へ自動遡及追加しない。
 
 ## 1980年代 event chain
 
 ### EVT-001 — 止まることと戻ることは同じではない
-
-Story time: `T0-1980S + first research session`
-
-高橋が「止まること」と「記憶が戻ること」を分離して問う。作者側ではQ-003 / H-003 / EXP-003へ派生するが、その結果は人物Knowledgeへ入れない。
+`T0-1980S + first research session`。高橋が「止まること」と「記憶が戻ること」を分離して問う。
 
 ### EVT-002 — 正しい想起は誰が決める
-
-Story time: `T0-1980S + second research interaction`
-
-佐伯がcorrect recallのtargetを誰が定義するか問い返す。このeventでPER-006が独立personaとして成立。
+`T0-1980S + second research interaction`。佐伯がcorrect recallのtargetを誰が定義するか問い返す。PER-006成立。
 
 ### EVT-003 — 公平な手掛かりは中立ではない
-
-Story time: `T0-1980S + protocol sketch after EVT-002`
-
-A/Bへ同じHamming distanceを持つcueを作るが、距離の等しさとdynamics上の中立を同一視しないprotocolを成立させる。
+`T0-1980S + protocol sketch after EVT-002`。A/B等距離cueを作るが、距離の等しさとdynamics上の中立を分離する。
 
 ### EVT-004 — 同じ手掛かりから二つの戻り先
-
-Story time: `T0-1980S + first paper calculation after EVT-003`
-
-6-unit / 3-pattern toy networkで、同一cue・weights・ruleからupdate orderだけの差でA/Bへ分岐。
-
-Resolution provenance: `UNBLINDED`。
+`T0-1980S + first paper calculation after EVT-003`。同一cue / weights / ruleからupdate orderだけの差でA/Bへ分岐。provenance `UNBLINDED`。
 
 ### EVT-005 — 更新順の選び方を先に固定する
-
-Story time: `T0-1980S + next joint paper check after EVT-004`
-
-同じnetwork / cueへ6 cyclic ordersを結果前lock。
-
-結果: `A, D, B, B, D, D`。
-
-Resolution provenance: `LOCKED`。
+`T0-1980S + next joint paper check after EVT-004`。6 cyclic ordersをpre-lock。結果 `A,D,B,B,D,D`。provenance `LOCKED`。
 
 ### EVT-006 — 全balanced cueを先に固定する
-
-Story time: `T0-1980S + systematic cue check after EVT-005`
-
-A/B-balanced cue全6種類 × 6 cyclic orders = 36 trialsをpre-lockして全件解決。
-
-結果: A=11, B=11, C=2, D=12, nonconverged=0。
-
-Resolution provenance: `LOCKED`。
-
-作者側ではQ-005 / H-005 / EXP-005へ派生するが、その結果は人物Knowledgeへ入れない。
+`T0-1980S + systematic cue check after EVT-005`。6 cues × 6 orders = 36 trials。A=11, B=11, C=2, D=12。provenance `LOCKED`。
 
 ### EVT-007 — 小さい系なら全状態を見る
-
-Story time: `T0-1980S + exhaustive small-state check after EVT-006`
-
-全64 binary initial states × 6 cyclic orders = 384 trialsを結果前lockして解決。
-
-- 384/384が2 sweeps以内にstable
-- fixed points: `A/B/C/-A/-B/-C`
-- D=`-C`
-- order-invariant initial states: 18/64
-- order-dependent initial states: 46/64
-
-Resolution provenance: `LOCKED`。
+`T0-1980S + exhaustive small-state check after EVT-006`。64 states × 6 orders = 384 trials。fixed points=`A/B/C/-A/-B/-C`、D=`-C`、18/64 order-invariant、46/64 order-dependent。provenance `LOCKED`。
 
 ### EVT-008 — 裏返しは別の記憶なのか
-
-Story time: `T0-1980S + symmetry check after EVT-007`
-
-zero-bias bipolar update ruleについて、
-
-```text
-h_i(-s) = -h_i(s)
-U_i(-s) = -U_i(s)
-E(-s) = E(s)
-```
-
-を確認。fixed pointsがglobal sign inversionで対になることを導出した。
-
-`-A/-B/-C`を単に別のnonstored memoryと呼ばず、まずmodel symmetryとして分類する。
-
-Resolution provenance: `LOCKED`。
+`T0-1980S + symmetry check after EVT-007`。`h_i(-s)=-h_i(s)`、`U_i(-s)=-U_i(s)`、`E(-s)=E(s)`を確認し、fixed pointsのglobal sign-inversion pairingを導出。provenance `LOCKED`。
 
 ### EVT-009 — 残ったものは、まだ何もない
+`T0-1980S + residual classification after EVT-008`。`F={A,B,C,-A,-B,-C}`、`S={A,B,C}`として `R=F\(S∪-S)=∅`。現在toy内の全列挙結果であり一般的不在ではない。provenance `LOCK_NOT_REQUIRED`。
 
-Story time: `T0-1980S + residual classification after EVT-008`
+### EVT-010 — 自分たちの表の外へ戻る
+`T0-1980S + literature check after EVT-009`。
 
-EVT-007の既観測stable final setを、
+文献選択規則を結果前commit `ae441628d1d8af925144f9ec8bca0336b7d0f315` で固定し、story time以前・Hopfield 1982直接系譜・spurious memory明示・最早刊行という規則から、Hopfield / Feinstein / Palmer (1983), *Nature* 304, 158–159, DOI `10.1038/304158a0` を主対象にした。
 
-```text
-F = {A,B,C,-A,-B,-C}
-S = {A,B,C}
--S = {-A,-B,-C}
-R = F \ (S ∪ -S)
-```
+人物が確認した範囲:
 
-と再分類し、`R=∅`を確認した。
+- 30〜1,000 neuronesのmathematical / computer modelling
+- stored memory以外のspurious memoriesがcreated / evokedされ得るという当時の問題設定
+- unlearningでspurious memoriesを減らすという報告
 
-これはこの固定された有限toy networkについての全列挙結果であり、一般のHopfield型networkでspurious stateが存在しないという主張ではない。
+1985年以降のmixture-state / spin-glass解析は人物Knowledgeへ入れていない。
 
-新規trial・parameter selection・外部検索を含まない決定的再分類なのでResolution provenanceは `LOCK_NOT_REQUIRED`。
+provenance `LOCKED`。
 
-EVT-009後、同じtoy networkをさらに観測しても別種stable finalは得られない。次のworld advancementでは、人物が文献へ戻るか、model条件変更のprotocolを作るか、計算資源を必要とするかを現在stateから解決する。未来eventはまだ固定しない。
+次の局所問題は、1983文献のmodel条件を結果を選ばず再現できる最小protocolへ落とせるか。具体的条件はまだ未固定。
 
 ## 現代
 
 - `T0-MODERN`を現代側開始同期点候補とする。具体年月日は未確定
 - 現代側最初のEVTは未成立
-- 1980年代側EVTが成立していても、現代personaがそれを自動的に観測したことにはしない
-- 現代モデル内に過去研究者と機能的・行動的に似たpatternが作品内で現れることは長期Canon要素だが、T0-MODERNで既に観測済みとはしない
-- 本人の意識・輪廻・同一主体であることは確定していない
+- 1980年代側EVTが成立していても現代personaへ自動共有しない
+- 過去研究者と現代モデルの同一性・輪廻は確定していない
