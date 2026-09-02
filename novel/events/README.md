@@ -86,8 +86,11 @@ Structure impact:
 重要eventには生成方式の検証用にprovenanceを記録できる。
 
 - `LOCKED`: outcome-sensitiveな選択が結果解決前に固定され、その後変更されていない
+- `LOCK_NOT_REQUIRED`: 新規trial・parameter selection・外部検索等を行わず、既に成立済みの観測事実から一意に決まる再分類・論理帰結だけを解決した。ACTION_LOCKを省略した理由をevent本文へ明記する
 - `UNBLINDED`: 結果知識を持つcontextで条件選択が行われ、解決前lockがない。物語eventとしては使えるがcleanな生成方式検証には数えない
 - `AUTHOR_CONDITIONED`: 人間作者または生成側が望む結果・演出へ向けて条件を意図的に設定した。介入として明記し、創発eventと偽装しない
+
+`LOCK_NOT_REQUIRED`は「結果を知っていたがlockしなかった」の免責には使わない。新しい条件選択によってoutcomeが変わり得るなら`ACTION_LOCKED`へ戻る。
 
 人物への情報境界が守られていても、resolver側のselection biasは別に起こり得る。両者を分けて記録する。
 
