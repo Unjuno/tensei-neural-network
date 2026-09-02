@@ -1,26 +1,21 @@
 # 現在の状態
 
-このファイルは詳細な正本ではなく、現在位置を示す索引です。
+このファイルは詳細な正本ではなく、現在位置を示す索引です。矛盾時は直接のevent / state / verification正本を優先します。
 
-更新: 2026-08-23
+更新: 2026-09-03
 
 ## フェーズ
 
 - 主目的: 小説
-- 物語段階: `起 / 承 / 転`
-- 本文: 第1話 `novel/chapters/001.md` を階層World State反映版へ改稿。採用範囲はEVT-001〜004
-- 第1話最小因果骨格: `novel/chapters/001-outline.md`
-- 学習段階: CATCH_UP
-- 研究段階: Hopfield系EXP-001〜005まで実施
-- 生成方式検証: `PARTIAL PASS`
-- World model: persona中心モデルからtyped hierarchical entity/state graphへ拡張
-- 公開段階: GitHub Pagesは `main /docs`。今回のBootstrap / EVT / 第1話ドラフト / EXP-003以降は未公開
-
-## branch
-
-`work/story-bootstrap`
-
-`main` には反映していない。PRも作成しない。
+- active work branch: `work/story-bootstrap`
+- `main`: human-accepted canonicalのみ。work branchは未反映、PR未作成
+- 1980年代側current event head: `EVT-009`
+- 第1話: EVT-001〜004をNarrativeProjection済み
+- 第2話: EVT-005〜008をNarrativeProjection済み
+- 第1話 / 第2話: chapter verification packageとsemantic reviewを通過
+- fixed workflow: GitHub Actionsでvalidator tests / executable chapter experiments / strict workflow validationを実行
+- World model: typed hierarchical entity/state graph
+- 現代側最初のstory event: 未成立
 
 ## 1980年代側
 
@@ -30,161 +25,94 @@
 
 current event head:
 
-`EVT-007`
+`EVT-009`
 
 ### Active personas
 
-- PER-005 — **高橋修一**。日本人、30代後半、数理工学・理論物理寄りから神経回路・連想記憶へ越境
-- PER-006 — **佐伯玲子**。日本人、30代半ば〜後半、神経生理学・biophysics寄り
+- PER-005 — **高橋修一**。数理工学・理論物理寄りから神経回路・連想記憶へ越境
+- PER-006 — **佐伯玲子**。神経生理学・biophysics寄り
 
 ### Active organization
 
-- ORG-001 — **光陵化学生命科学研究所**。1970〜80年代日本の企業基礎研究所文化をモデルにした架空の企業系生命科学研究所
+- ORG-001 — **光陵化学生命科学研究所**。1970〜80年代日本の企業基礎研究所文化をモデルにした架空研究所
 
-高橋・佐伯の所属先としてORG-001をPROVISIONALに固定。具体所在地、職位、部門名、機種、親会社の詳細は未確定。
+具体所在地、職位、部門名、機種、親会社詳細は必要になるまで固定しない。
 
-親会社「光陵化学株式会社」は現在、独立した制度判断をevent上で必要としていないためORG化せずworld entityのまま。
+## Event chain
 
-## 階層World Entity / State Model
-
-人物だけを状態主体とせず、物語因果へ必要な対象をtyped entityとして扱う。
-
-概念階層:
-
-```text
-Universe / physical regime
-└─ world / global environment
-   ├─ nation / jurisdiction / economy / culture
-   │  └─ organization / institution
-   │     └─ group / laboratory / household
-   │        ├─ person / AI
-   │        ├─ animal / pet
-   │        └─ object / device / document
-   ├─ location / infrastructure
-   └─ natural / information environment
-```
-
-実装は木ではなくtyped hierarchical graph。
-
-定義:
-
-- `PER`: person / AI agent
-- `ANI`: animal / pet
-- `OBJ`: object / device / document / sample
-- `ORG`: organization / institution
-- `GRP`: laboratory / household / team
-- `LOC`: location
-- `POL`: nation / jurisdiction
-- `ENV`: natural / economic / information environment
-- `SYS`: infrastructure / communication / computation system
-- `PHY`: physical constraints
-
-詳細: `novel/entities/README.md`
-
-State管理: `novel/state/README.md`
-
-### 重要原則
-
-- すべてをID化しない。後続因果に独立state履歴が必要になった対象だけ展開する
-- 上位contextから下位entityへconstraintは伝播するが、knowledgeは自動伝播しない
-- 因果はdownward / upward双方へ流れる
-- 人物の行動がなくても歴史・経済・法・天候・設備故障等のexogenous eventでworldは進む
-- 全宇宙を毎step解決せず、現在eventへ因果的に届く`resolution scope`だけ高解像度化する
-- 解決されたfactはlocal / institutional / public / canonを区別する
-- 小説本文はWorldStateのNarrativeProjectionであり、本文自体をworld-state正本にしない
-
-## Bootstrap
-
-`novel/bootstrap/README.md` を階層entity discoveryへ一般化済み。
-
-今後の初期化:
-
-```text
-story time / parent head
-→ global context
-→ entity discovery
-→ relation discovery
-→ entity-specific projection
-→ hierarchical constraint resolution
-→ leakage check
-→ synchronized WorldState
-```
-
-BOOT-002では現在、world + ORG-001 + PER-005を初期同期し、PER-006はEVT-002で独立persona stateとして成立する。
-
-## EVT-001〜004
-
-- EVT-001: 高橋が「止まることと、戻ることは同じか」を記録
-- EVT-002: 佐伯が`correct recall`のtargetを誰が定義するか問い返す
-- EVT-003: A/B等距離cueと観測protocolを作成
-- EVT-004: 6-unit toy networkで同一cue・weightsからupdate orderだけの差でA/Bへ分岐する例を観測
-
-EVT-004は数理的一貫性は確認済みだが、resolver provenanceは `UNBLINDED`。
-
-## EVT-005〜007
-
+- EVT-001: 「止まる」と「戻る」を分離
+- EVT-002: correct recallのtargetを誰が定義するか
+- EVT-003: A/B等距離cueと観測protocol
+- EVT-004: 同一cue / weights / ruleでもupdate orderだけでA/Bへ分岐。provenance `UNBLINDED`
 - EVT-005: 6 cyclic update ordersを結果前lock。A/B/Dへ分岐
 - EVT-006: balanced cue全6種類 × 6 orders = 36 trialsをpre-lock
-- EVT-007: 全64 initial states × 6 orders = 384 trialsを列挙。Dは `-C` と再分類。fixed pointsは `A/B/C/-A/-B/-C`
+- EVT-007: 全64 initial states × 6 orders = 384 trialsを列挙。fixed pointsは `A/B/C/-A/-B/-C`、D=`-C`
+- EVT-008: global sign inversion symmetryを導出。`U_i(-s)=-U_i(s)`、fixed pointsは符号反転対
+- EVT-009: 既観測final setをstored / stored-negation / residualへ再分類。現在toyでは `R = F \ (S ∪ -S) = ∅`
 
-これらは第1話へ遡及追加しない。
+EVT-009は新規trialやparameter selectionを含まない決定的再分類なのでprovenance `LOCK_NOT_REQUIRED`。一般のHopfield型networkにspurious stateが存在しないという主張ではない。
 
-## 第1話
+## 現在の局所問題
 
-本文:
+EVT-009により、現在の6-unit toy networkをさらに観測しても、stored patternとその符号反転以外のstable finalは出ないことが有限全列挙から確定した。
 
-`novel/chapters/001.md`
+次のworld advancementで解決すべきなのは、**別種のnonstored stable structureを調べるために、人物が次に何をするか**である。
 
-最小因果あらすじ:
+候補を未来plotとして固定しない。EVT-009後のpersona stateと1980年代環境から選択する。
 
-`novel/chapters/001-outline.md`
+現在の制約:
 
-採用event範囲:
+- 高橋はmodel条件を変える前に、当時利用可能な理論・文献を確認したい
+- 佐伯は問い・変更変数・停止条件・観測量の事前明示を要求する
+- 見たい結果から逆算したmodel選択を避ける
+- 紙上追跡を超える計算量が因果上必要になった場合のみ、ORG-001の共用計算資源をSYS/OBJとして具体化する
+- 現代側EXP-003〜005や後世の研究結果を人物Knowledgeへ漏らさない
 
-`EVT-001`〜`EVT-004`
+## Chapters / verification
 
-2026-08-23改稿で階層World Stateの影響をNarrativeProjectionへ反映した。
+### 第1話
 
-- 舞台としてORG-001を明示
-- 高橋と佐伯が異分野の企業基礎研究者として同じ制度環境で議論できる理由を本文へ組み込んだ
-- 文献環境・共用計算資源を説明用設定ではなく、研究行動の可能性と制約として描写
-- paper modelを手計算することを、共用計算資源以前に完全に追跡できる最小検査として位置づけた
-- 高橋の私的ノートとORG-001のinstitutional memoryを分離し、第1話末で「まだ公式記録ではない」と明示
-- ORG-001の将来の再編・閉鎖は未来知識として本文へ入れていない
+- 本文: `novel/chapters/001.md`
+- outline: `novel/chapters/001-outline.md`
+- adopted events: EVT-001〜004
+- verification: `experiments/chapters/001/`
 
-本文からOBJ/LOCの恒常設定を増殖させない。ノート、紙上計算、研究室等は現時点ではscene realizationとし、来歴・保存・物理状態が後続因果へ効く時点で独立entity化する。
+### 第2話
 
-## 研究分岐
+- 本文: `novel/chapters/002.md`
+- outline: `novel/chapters/002-outline.md`
+- adopted events: EVT-005〜008
+- verification: `experiments/chapters/002/`
+- executable reproduction: EVT-005〜008を独立再現
+- gate: `PREPUBLICATION_GATE_PASSED`
 
+第3話はまだ作らない。まずEVT-009後のworld advancementを続け、自然なreading unitが成立してからNarrativeProjectionする。
+
+## Research boundary
+
+作者側:
+
+- Hopfield系EXP-001〜005まで実施
 - EVT-001 → Q-003 / H-003 / EXP-003 / F-003
 - EVT-002 → Q-004 / H-004 / EXP-004 / F-004
 - EVT-006 → Q-005 / H-005 / EXP-005 / F-005
 
-EXP-005はFAIL、H-005はNOT_SUPPORTED。
+人物側:
 
-## 次に物語側で行うこと
-
-第1話のNarrativeProjectionは階層World Stateへ接続した。
-
-次のworld advancementでは、EVT-007後の状態からresolution scopeを決め、人物だけでなく必要ならORG / OBJ / SYS / 上位contextを含めて次eventを解決する。
-
-現在の局所問題:
-
-- `x`と`-x`のfixed-point対称性をweight/update ruleからどう説明するか
-- `nonstored stable`を符号反転・mixture・その他へどう分けるか
-- model対称性とmemoryとしての意味をどう分離するか
-- toy modelから計算機実装・より大きな条件へ進む必要が人物側で成立するか
-- その際、共用計算資源を独立`SYS` / `OBJ` stateへ展開する必要があるか
+- 現代側EXPの数値集計・seed・仮説判定は未観測
+- 後世の研究結果も未観測
+- 次の文献行動ではstory time時点で利用可能な資料だけを候補にする
 
 ## 未確定
 
 - ORG-001の具体所在地・設立年・所長・研究グループ構成
-- 高橋・佐伯の具体職位・年齢
+- 高橋・佐伯の具体職位・正確な年齢
 - 具体年月日
 - 計算機・OS・programming language
 - 二人の正式な上下関係
 - ORG-001の将来の再編・閉鎖過程
 - 現代側最初のevent
-- 第2話以降の切れ目
+- EVT-010以降
+- 第3話の切れ目
 
 必要になるまで一括固定しない。
