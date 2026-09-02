@@ -9,7 +9,7 @@
 - 主目的: 小説
 - active work branch: `work/story-bootstrap`
 - `main`: human-accepted canonicalのみ。work branchは未反映、PR未作成
-- 1980年代側current event head: `EVT-009`
+- 1980年代側current event head: `EVT-010`
 - 第1話: EVT-001〜004をNarrativeProjection済み
 - 第2話: EVT-005〜008をNarrativeProjection済み
 - 第1話 / 第2話: chapter verification packageとsemantic reviewを通過
@@ -19,13 +19,9 @@
 
 ## 1980年代側
 
-開始同期点:
+開始同期点: `BOOT-002 @ T0-1980S @ none`
 
-`BOOT-002 @ T0-1980S @ none`
-
-current event head:
-
-`EVT-009`
+current event head: `EVT-010`
 
 ### Active personas
 
@@ -48,60 +44,57 @@ current event head:
 - EVT-006: balanced cue全6種類 × 6 orders = 36 trialsをpre-lock
 - EVT-007: 全64 initial states × 6 orders = 384 trialsを列挙。fixed pointsは `A/B/C/-A/-B/-C`、D=`-C`
 - EVT-008: global sign inversion symmetryを導出。`U_i(-s)=-U_i(s)`、fixed pointsは符号反転対
-- EVT-009: 既観測final setをstored / stored-negation / residualへ再分類。現在toyでは `R = F \ (S ∪ -S) = ∅`
-
-EVT-009は新規trialやparameter selectionを含まない決定的再分類なのでprovenance `LOCK_NOT_REQUIRED`。一般のHopfield型networkにspurious stateが存在しないという主張ではない。
+- EVT-009: stable-final residualを再分類。現在toyでは `R = F \ (S ∪ -S) = ∅`。provenance `LOCK_NOT_REQUIRED`
+- EVT-010: 文献選択規則をpre-lockし、Hopfield / Feinstein / Palmer 1983を主対象として共同検討。spurious memoriesが当時すでに明示的研究対象だったことを確認。provenance `LOCKED`
 
 ## 現在の局所問題
 
-EVT-009により、現在の6-unit toy networkをさらに観測しても、stored patternとその符号反転以外のstable finalは出ないことが有限全列挙から確定した。
+EVT-010により、現在toyで残差が空でも、story time以前の一次文献ではより大きなHopfield型networkにspurious memoriesが報告されていることを人物が確認した。
 
-次のworld advancementで解決すべきなのは、**別種のnonstored stable structureを調べるために、人物が次に何をするか**である。
+次のworld advancementで自然に成立している問いは、
 
-候補を未来plotとして固定しない。EVT-009後のpersona stateと1980年代環境から選択する。
+**1983文献のmodel条件を、結果を選ばず再現できる最小protocolへ落とせるか。**
+
+まだ具体的なN / pattern数 / pattern生成法 / update schedule / initial-state selectionを固定していない。
 
 現在の制約:
 
-- 高橋はmodel条件を変える前に、当時利用可能な理論・文献を確認したい
-- 佐伯は問い・変更変数・停止条件・観測量の事前明示を要求する
-- 見たい結果から逆算したmodel選択を避ける
+- story time後の1985年以降のmixture-state理論を人物へ漏らさない
+- 文献にspurious memoryがあることと、二人の次modelで観測できることを分離する
+- model条件と観測量・停止条件を結果前に固定する
 - 紙上追跡を超える計算量が因果上必要になった場合のみ、ORG-001の共用計算資源をSYS/OBJとして具体化する
-- 現代側EXP-003〜005や後世の研究結果を人物Knowledgeへ漏らさない
+- 現代側EXP-003〜005を人物Knowledgeへ漏らさない
 
 ## Chapters / verification
 
 ### 第1話
 
-- 本文: `novel/chapters/001.md`
-- outline: `novel/chapters/001-outline.md`
+- `novel/chapters/001.md`
 - adopted events: EVT-001〜004
 - verification: `experiments/chapters/001/`
 
 ### 第2話
 
-- 本文: `novel/chapters/002.md`
-- outline: `novel/chapters/002-outline.md`
+- `novel/chapters/002.md`
 - adopted events: EVT-005〜008
 - verification: `experiments/chapters/002/`
-- executable reproduction: EVT-005〜008を独立再現
 - gate: `PREPUBLICATION_GATE_PASSED`
 
-第3話はまだ作らない。まずEVT-009後のworld advancementを続け、自然なreading unitが成立してからNarrativeProjectionする。
+第3話はまだ作らない。EVT-009 / EVT-010だけではreading unitを固定せず、world advancementを継続する。
 
 ## Research boundary
 
 作者側:
 
 - Hopfield系EXP-001〜005まで実施
-- EVT-001 → Q-003 / H-003 / EXP-003 / F-003
-- EVT-002 → Q-004 / H-004 / EXP-004 / F-004
-- EVT-006 → Q-005 / H-005 / EXP-005 / F-005
+- `research/pre-hopfield-background.md` に1983 spurious-memory / unlearning文献を記録済み
+- EVT-010の外部再確認: Hopfield, Feinstein & Palmer, *Nature* 304, 158–159 (1983), DOI `10.1038/304158a0`, published 1983-07-14
 
 人物側:
 
+- EVT-010で上記1983文献を共同検討したことがstory factとして成立
+- 1985年以降のAmit–Gutfreund–Sompolinsky等は未観測
 - 現代側EXPの数値集計・seed・仮説判定は未観測
-- 後世の研究結果も未観測
-- 次の文献行動ではstory time時点で利用可能な資料だけを候補にする
 
 ## 未確定
 
@@ -112,7 +105,7 @@ EVT-009により、現在の6-unit toy networkをさらに観測しても、stor
 - 二人の正式な上下関係
 - ORG-001の将来の再編・閉鎖過程
 - 現代側最初のevent
-- EVT-010以降
+- EVT-011以降
 - 第3話の切れ目
 
 必要になるまで一括固定しない。
