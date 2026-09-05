@@ -1,0 +1,32 @@
+{
+  "chapter": "003",
+  "verification": "EVT-009 residual classification and EVT-011 published 16-neurone reproduction",
+  "checks": {
+    "evt009_exactly_64_states": true,
+    "evt009_fixed_points_match": true,
+    "evt009_residual_empty": true,
+    "evt011_local_inputs_match": true,
+    "evt011_no_zero_local_input": true,
+    "evt011_all_signs_stable": true,
+    "evt011_not_stored_or_negation": true
+  },
+  "evt009": {
+    "fixed_points": [
+      [-1, -1, -1, -1, 1, -1],
+      [-1, 1, -1, 1, 1, -1],
+      [-1, 1, 1, 1, -1, -1],
+      [1, -1, -1, -1, 1, 1],
+      [1, -1, 1, -1, -1, 1],
+      [1, 1, 1, 1, -1, 1]
+    ],
+    "residual_count": 0
+  },
+  "evt011": {
+    "local_inputs": [21, 21, 5, 5, -5, -5, -21, -21, 5, -5, -5, 5, 5, -5, -5, 5],
+    "signed_margins": [21, 21, 5, 5, 5, 5, 21, 21, 5, 5, 5, 5, 5, 5, 5, 5],
+    "minimum_signed_margin": 5,
+    "zero_local_inputs": 0,
+    "stored_or_negation_match": false
+  },
+  "result": "PASS"
+}
