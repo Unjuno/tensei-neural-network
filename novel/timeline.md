@@ -18,16 +18,16 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-010`
+- 1980年代側: `EVT-011`
 - 現代側: none
 
-EVT-010時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-011時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
 - 第1話 `chapters/001.md`: EVT-001〜004
 - 第2話 `chapters/002.md`: EVT-005〜008
-- EVT-009〜010: まだ章へ投影しない。world advancementを先に続ける
+- 第3話 `chapters/003.md`: EVT-009〜011
 
 後から成立したeventを理由に既刊候補章へ自動遡及追加しない。
 
@@ -75,7 +75,44 @@ EVT-010時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯
 
 provenance `LOCKED`。
 
-次の局所問題は、1983文献のmodel条件を結果を選ばず再現できる最小protocolへ落とせるか。具体的条件はまだ未固定。
+### EVT-011 — 論文の16素子例をそのまま試す
+`T0-1980S + published-example check after EVT-010`。
+
+Hopfield / Feinstein / Palmer (1983)本文に掲載された16-neurone / 3-memory / spurious-memory candidateをそのまま使うことをcommit `28cc5684955a3dae3ccf73af28c1433328ab15a4` でpre-lockした。
+
+同論文のconnection rule
+
+```text
+T_ij = Σ_s μ_i^s μ_j^s
+T_ii = 0
+```
+
+でcandidate Qのlocal inputsをexactに再計算。
+
+```text
+h(Q)=
+(+21,+21,+5,+5,-5,-5,-21,-21,
+ +5,-5,-5,+5,+5,-5,-5,+5)
+```
+
+- 16/16でnonzero
+- 16/16でQと同符号
+- QはM1/M2/M3のどれでもない
+- Qは-M1/-M2/-M3のどれでもない
+
+よってzero-field conventionに依存せず、Qはstored / stored-negation外のstable stateとして再現された。
+
+これは掲載例のmodel-level reproductionであり、生物学的偽記憶や後世のmixture-state理論を証明しない。
+
+provenance `LOCKED`。
+
+EVT-009〜011は第3話 `chapters/003.md` のreading unitとしてNarrativeProjection済み。
+
+現在の次の局所問題:
+
+> QはM1/M2/M3からどのような成分関係・相関構造としてできているのか。
+
+1985年以降の理論を先取りせず、1983論文の`triples`記述と掲載patternだけから次のworld advancementを解決する。
 
 ## 現代
 
