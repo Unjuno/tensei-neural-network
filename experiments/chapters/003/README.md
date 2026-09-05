@@ -1,6 +1,6 @@
 # 第3話「表の外」公開前検証
 
-状態: `IN_PROGRESS`
+状態: `GATE_CANDIDATE`
 
 対象本文:
 
@@ -15,13 +15,15 @@
 
 第3話本文を成立済みeventからNarrativeProjection済み。
 
-Mandatory Verificationは実行済みで`PASS`。terminology review / semantic review / CI strict gateを確認してから公開候補化する。
+Mandatory Verification、terminology review、semantic reviewは完了し、公開前本番相当のstrict CIを通すcandidate状態へ進めた。
+
+`GATE_CANDIDATE`は公開候補化済みを意味しない。strict CI PASS後のみ`PREPUBLICATION_GATE_PASSED`へ昇格する。
 
 ## Mandatory Verification
 
-- `verification.md`
+- `verification.md`: `PASS`
 - `run.py`
-- `results.json`
+- `results.json`: `PASS`
 
 中心check:
 
@@ -46,10 +48,24 @@ Hopfield, Feinstein & Palmer (1983), “‘Unlearning’ has a stabilizing effec
 
 1983-07-14公刊。第3話の候補story time（1984〜1985年前後）より前。
 
-## Remaining gate work
+## Terminology
 
-- `terminology.md` のblocking項目確認
-- `semantic-review.md` の固定format review
-- CIでchapter experiments / strict validator再実行
+`terminology.md`: `PASS`
 
-現時点では `PREPUBLICATION_GATE_PASSED` としない。
+blocking uncertaintyなし。`spurious memory`を心理学的な「偽記憶」と固定せず、1983論文上のmodel-level呼称として扱う。
+
+## Semantic Review
+
+`semantic-review.md`: `PASS`
+
+knowledge boundary / historical anachronism / NarrativeProjection fidelity / plot conditioning / interpretation boundaryを確認済み。
+
+## Candidate gate
+
+次をCIで確認する。
+
+1. validator unit tests
+2. executable chapter verifications
+3. strict workflow validator
+
+candidate CIがPASSするまでは`PREPUBLICATION_GATE_PASSED`へ変更しない。
