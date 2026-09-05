@@ -49,7 +49,7 @@ I. Style Pass
    読みやすさを改善。事実は変更しない
         ↓
 J. Prepublication Gate
-   static + executable + semantic checks
+   GATE_CANDIDATE → strict CI PASS → PREPUBLICATION_GATE_PASSED
         ↓
 K. Human Review
    Canon昇格・main反映・公開は人間が受理
@@ -192,6 +192,20 @@ semantic reviewは自動真理判定ではない。review inputs・判断・unce
 - unresolved事項を本文だけでCanon固定していない
 - strict validator PASS
 
+gateは二段階で行う。
+
+```text
+IN_PROGRESS
+   ↓ 必須package・verification・semantic reviewが揃う
+GATE_CANDIDATE
+   ↓ executable verification + strict validator + CI PASS
+PREPUBLICATION_GATE_PASSED
+```
+
+`GATE_CANDIDATE`には`PREPUBLICATION_GATE_PASSED`と同じ静的gate条件を適用する。これにより、**gate通過と宣言する前に本番相当のstrict validationを実行できる。**
+
+`GATE_CANDIDATE`のCIが失敗した場合は`PREPUBLICATION_GATE_PASSED`へ上げず、原因を修正して再度candidate CIを通す。
+
 通過状態:
 
 `PREPUBLICATION_GATE_PASSED`
@@ -243,5 +257,6 @@ CIが証明するのは**機械化した工程条件が通ったこと**であ�
 2. 章本文を作成・大幅改稿した後
 3. Mandatory Verificationを追加・変更した後
 4. semantic review後
-5. `PREPUBLICATION_GATE_PASSED`へ変更する前
-6. `main...work branch`を人間へ提示する前
+5. `GATE_CANDIDATE`へ変更してstrict CIを実行
+6. candidate CI PASS後に`PREPUBLICATION_GATE_PASSED`へ変更
+7. `main...work branch`を人間へ提示する前
