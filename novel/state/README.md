@@ -15,11 +15,45 @@ WorldState(t)
 
 現在の保存先:
 
-- `world.md`: global/world-level stateと、まだ独立entity化していない背景
+- `world.md`: global/world-level stateと、まだ独立entity化していない背景のmaterialized snapshot/checkpoint
 - `personas/`: `PER-xxx` state
+- `personas/deltas/`: personaへ届いたevent差分
 - `organizations/`: `ORG-xxx` state
+- `organizations/deltas/`: organizationへ届いたevent差分
 
 今後 `ANI/OBJ/GRP/LOC/POL/ENV/SYS` の独立履歴が必要になった場合だけ対応directoryを追加する。
+
+## Restore authority / snapshot semantics
+
+`world.md`を「常に最新event headを含む巨大正本」とは扱わない。
+
+本repoはevent sourcingを基本とするため、materialized snapshotと、それ以後のevent/entity deltaを組み合わせてcurrent stateを復元する。
+
+概念的には、
+
+```text
+current state
+= last trusted snapshot/checkpoint
++ all relevant resolved EVT after checkpoint
++ affected entity deltas after checkpoint
+```
+
+となる。
+
+Restore時の優先:
+
+1. `novel/events/EVT-*` の直接正本とparent chain
+2. 対象entityのbaseline / latest trusted snapshot
+3. snapshot以後の `state/**/deltas/EVT-*.md`
+4. `STATUS.md`, `timeline.md`, `working-context.md` 等の索引
+
+したがって、`world.md`の内部表示がcurrent event headより古くても、その後のdirect event/deltaが成立している場合は**古いsnapshotへ巻き戻さない**。
+
+現在の1980年代側では、`world.md`にmaterializeされたglobal snapshotより後にもEVT-008以降が成立している。EVT-008以降の主な変化はPER-005/PER-006のlocal knowledge/goalsとORG-001の局所状態であり、対応するeventおよび`personas/deltas/`, `organizations/deltas/`をoverlayして復元する。
+
+新しいglobal constraint / relation / environment factが成立し、`world.md`へmaterializeしないと復元が不安定になる場合はcheckpointを更新する。
+
+checkpointは履歴を置換しない。詳細は `LIFECYCLE.md`。
 
 ## 定義と状態を分ける
 
@@ -85,16 +119,17 @@ S_i(t+1)   = Apply(E_k, S_i(t))
 
 一回のworld advancementは原則として次の順序で行う。
 
-1. current event head / story timeを確定する
-2. 因果的に関係するentity stateを読み込む
-3. 上位context、物理、歴史、制度constraintを解決する
-4. active agentごとに観測可能情報だけを射影する
-5. agent actionまたは外生変化を決定する
-6. environment resolverでeventを解決する
-7. 影響を受けたentity stateだけ更新する
-8. relation変化を更新する
-9. timeline / STATUS等の索引を同期する
-10. 長期的に重要なfactはhuman review後にCanonへ昇格する
+1. direct event chainからcurrent event head / story timeを確定する
+2. last trusted snapshotとsnapshot以後のrelevant deltasを復元する
+3. 因果的に関係するentity stateを読み込む
+4. 上位context、物理、歴史、制度constraintを解決する
+5. active agentごとに観測可能情報だけを射影する
+6. agent actionまたは外生変化を決定する
+7. environment resolverでeventを解決する
+8. 影響を受けたentity stateだけ更新する
+9. relation変化を更新する
+10. timeline / STATUS等の索引を同期する
+11. 長期的に重要なfactはhuman review後にCanonへ昇格する
 
 ## Upward / downward causation
 
