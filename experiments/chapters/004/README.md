@@ -1,6 +1,6 @@
 # 第4話「五と二十一」公開前検証
 
-状態: `GATE_CANDIDATE`
+状態: `PREPUBLICATION_GATE_PASSED`
 
 対象本文:
 
@@ -15,7 +15,9 @@
 
 第4話本文を成立済みeventからNarrativeProjection済み。
 
-Mandatory Verification、terminology review、semantic reviewは完了し、公開前本番相当のstrict CIを通すcandidate状態へ進めた。
+Mandatory Verification、terminology review、semantic reviewを完了し、`GATE_CANDIDATE`状態で本番相当のstrict CIを通過したため`PREPUBLICATION_GATE_PASSED`へ昇格した。
+
+これはCanon昇格・main反映・実公開の承認ではない。Human Reviewを別途必要とする。
 
 ## Mandatory Verification
 
@@ -55,12 +57,22 @@ python experiments/chapters/004/run.py --check
 
 knowledge boundary / unresolved fact / anachronism / projection fidelity / provenance / narrative-meta leakageを確認済み。
 
-## Candidate gate
+## Candidate CI
 
-次をCIで確認する。
+`GATE_CANDIDATE` commit `72cbd3b1f7fcd7a55c8d760606261af4d374f783` に対するGitHub Actions run `33996369324` はsuccess。
+
+成功step:
 
 1. validator unit tests
 2. executable chapter verifications
 3. strict workflow validator
 
-candidate CIがPASSするまでは`PREPUBLICATION_GATE_PASSED`へ変更しない。
+## Gate meaning
+
+`PREPUBLICATION_GATE_PASSED`は、現在のevent/state/evidenceに対して公開前工程を通過したことだけを意味する。
+
+- 科学的完全性の最終保証ではない
+- 歴史的完全性の最終保証ではない
+- 文学的完成の最終保証ではない
+- Canon昇格ではない
+- main反映・公開承認ではない
