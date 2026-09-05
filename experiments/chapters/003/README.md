@@ -1,6 +1,6 @@
 # 第3話「表の外」公開前検証
 
-状態: `GATE_CANDIDATE`
+状態: `PREPUBLICATION_GATE_PASSED`
 
 対象本文:
 
@@ -15,9 +15,9 @@
 
 第3話本文を成立済みeventからNarrativeProjection済み。
 
-Mandatory Verification、terminology review、semantic reviewは完了し、公開前本番相当のstrict CIを通すcandidate状態へ進めた。
+Mandatory Verification、terminology review、semantic reviewを完了し、`GATE_CANDIDATE`状態で本番相当のstrict CIを通過したため`PREPUBLICATION_GATE_PASSED`へ昇格した。
 
-`GATE_CANDIDATE`は公開候補化済みを意味しない。strict CI PASS後のみ`PREPUBLICATION_GATE_PASSED`へ昇格する。
+これはCanon昇格・main反映・実公開の承認ではない。Human Reviewを別途必要とする。
 
 ## Mandatory Verification
 
@@ -60,12 +60,22 @@ blocking uncertaintyなし。`spurious memory`を心理学的な「偽記憶」�
 
 knowledge boundary / historical anachronism / NarrativeProjection fidelity / plot conditioning / interpretation boundaryを確認済み。
 
-## Candidate gate
+## Candidate CI
 
-次をCIで確認する。
+`GATE_CANDIDATE` commit `249c18677be725f0bfc1e8e96cf2db93fc49d7a4` に対するGitHub Actions run `33995822802` はsuccess。
+
+成功したstep:
 
 1. validator unit tests
 2. executable chapter verifications
 3. strict workflow validator
 
-candidate CIがPASSするまでは`PREPUBLICATION_GATE_PASSED`へ変更しない。
+## Gate meaning
+
+`PREPUBLICATION_GATE_PASSED`は、現在のevent/state/evidenceに対して公開前工程を通過したことだけを意味する。
+
+- 科学的完全性の最終保証ではない
+- 歴史的完全性の最終保証ではない
+- 文学的完成の最終保証ではない
+- Canon昇格ではない
+- main反映・公開承認ではない
