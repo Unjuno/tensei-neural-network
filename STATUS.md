@@ -2,18 +2,20 @@
 
 このファイルは詳細な正本ではなく、現在位置を示す索引です。矛盾時は直接のevent / state / verification正本を優先します。
 
-更新: 2026-09-03
+更新: 2026-09-06
 
 ## フェーズ
 
 - 主目的: 小説
 - active work branch: `work/story-bootstrap`
 - `main`: human-accepted canonicalのみ。work branchは未反映、PR未作成
-- 1980年代側current event head: `EVT-010`
+- 1980年代側current event head: `EVT-011`
 - 第1話: EVT-001〜004をNarrativeProjection済み
 - 第2話: EVT-005〜008をNarrativeProjection済み
-- 第1話 / 第2話: chapter verification packageとsemantic reviewを通過
-- fixed workflow: GitHub Actionsでvalidator tests / executable chapter experiments / strict workflow validationを実行
+- 第3話: EVT-009〜011をNarrativeProjection済み
+- 第1〜3話: chapter verification / terminology / semantic reviewを実施
+- 第3話: `GATE_CANDIDATE` strict CIを通過し `PREPUBLICATION_GATE_PASSED`
+- fixed workflow: `GATE_CANDIDATE -> strict CI PASS -> PREPUBLICATION_GATE_PASSED`
 - World model: typed hierarchical entity/state graph
 - 現代側最初のstory event: 未成立
 
@@ -21,7 +23,7 @@
 
 開始同期点: `BOOT-002 @ T0-1980S @ none`
 
-current event head: `EVT-010`
+current event head: `EVT-011`
 
 ### Active personas
 
@@ -46,41 +48,70 @@ current event head: `EVT-010`
 - EVT-008: global sign inversion symmetryを導出。`U_i(-s)=-U_i(s)`、fixed pointsは符号反転対
 - EVT-009: stable-final residualを再分類。現在toyでは `R = F \ (S ∪ -S) = ∅`。provenance `LOCK_NOT_REQUIRED`
 - EVT-010: 文献選択規則をpre-lockし、Hopfield / Feinstein / Palmer 1983を主対象として共同検討。spurious memoriesが当時すでに明示的研究対象だったことを確認。provenance `LOCKED`
+- EVT-011: 1983論文掲載16-neurone / 3-memory例をそのままpre-lock再計算。Qの16 local inputsは全てnonzeroかつQと同符号、Qはstored / stored-negation外。provenance `LOCKED`
 
 ## 現在の局所問題
 
-EVT-010により、現在toyで残差が空でも、story time以前の一次文献ではより大きなHopfield型networkにspurious memoriesが報告されていることを人物が確認した。
+EVT-011により、
+
+- 現在6-unit toyではstored / negation外のstable stateは存在しない
+- 1983論文掲載の別modelではstored / negation外のstable state Qを自分たちの計算でも確認できる
+
+という差がstory-visible factとして成立した。
 
 次のworld advancementで自然に成立している問いは、
 
-**1983文献のmodel条件を、結果を選ばず再現できる最小protocolへ落とせるか。**
-
-まだ具体的なN / pattern数 / pattern生成法 / update schedule / initial-state selectionを固定していない。
+**QはM1/M2/M3からどのような成分関係・相関構造としてできているのか。**
 
 現在の制約:
 
-- story time後の1985年以降のmixture-state理論を人物へ漏らさない
-- 文献にspurious memoryがあることと、二人の次modelで観測できることを分離する
-- model条件と観測量・停止条件を結果前に固定する
-- 紙上追跡を超える計算量が因果上必要になった場合のみ、ORG-001の共用計算資源をSYS/OBJとして具体化する
+- 1985年以降のmixture-state / spin-glass理論を人物へ漏らさない
+- 1983論文の「triplesにoriginを持つ」という記述を、掲載例と当時の数理だけで追う
+- `spurious memory`を生物学的・心理学的な偽記憶へ直結させない
+- basin / random-start / unlearningへ進む場合はtrial集合・randomness・停止条件を事前固定する
+- 紙上追跡を超える場合のみORG-001の共用計算資源をSYS/OBJへ解像する
 - 現代側EXP-003〜005を人物Knowledgeへ漏らさない
 
 ## Chapters / verification
 
-### 第1話
+### 第1話「戻る先」
 
 - `novel/chapters/001.md`
 - adopted events: EVT-001〜004
 - verification: `experiments/chapters/001/`
 
-### 第2話
+### 第2話「選ばなかった答え」
 
 - `novel/chapters/002.md`
 - adopted events: EVT-005〜008
 - verification: `experiments/chapters/002/`
 - gate: `PREPUBLICATION_GATE_PASSED`
 
-第3話はまだ作らない。EVT-009 / EVT-010だけではreading unitを固定せず、world advancementを継続する。
+### 第3話「表の外」
+
+- `novel/chapters/003.md`
+- adopted events: EVT-009〜011
+- verification: `experiments/chapters/003/`
+- executable integration check: EVT-009 residual=0 + EVT-011 published 16-neurone stability
+- terminology: `PASS`
+- semantic review: `PASS`
+- candidate CI run: `33995822802` success
+- gate: `PREPUBLICATION_GATE_PASSED`
+
+## Workflow validation
+
+第3話で、従来の「IN_PROGRESSのままstrictを通してからgate昇格」という循環矛盾を発見した。
+
+現在は、
+
+```text
+IN_PROGRESS
+-> GATE_CANDIDATE
+-> strict CI PASS
+-> PREPUBLICATION_GATE_PASSED
+```
+
+とし、`GATE_CANDIDATE`にも本番gateと同じvalidator条件を適用する。
 
 ## Research boundary
 
@@ -88,11 +119,12 @@ EVT-010により、現在toyで残差が空でも、story time以前の一次文
 
 - Hopfield系EXP-001〜005まで実施
 - `research/pre-hopfield-background.md` に1983 spurious-memory / unlearning文献を記録済み
-- EVT-010の外部再確認: Hopfield, Feinstein & Palmer, *Nature* 304, 158–159 (1983), DOI `10.1038/304158a0`, published 1983-07-14
+- EVT-010/011の一次資料: Hopfield, Feinstein & Palmer, *Nature* 304, 158–159 (1983), DOI `10.1038/304158a0`, published 1983-07-14
 
 人物側:
 
-- EVT-010で上記1983文献を共同検討したことがstory factとして成立
+- EVT-010で上記1983文献を共同検討
+- EVT-011で同論文掲載16-neurone例を共同再計算
 - 1985年以降のAmit–Gutfreund–Sompolinsky等は未観測
 - 現代側EXPの数値集計・seed・仮説判定は未観測
 
@@ -105,7 +137,7 @@ EVT-010により、現在toyで残差が空でも、story time以前の一次文
 - 二人の正式な上下関係
 - ORG-001の将来の再編・閉鎖過程
 - 現代側最初のevent
-- EVT-011以降
-- 第3話の切れ目
+- EVT-012以降
+- 第4話以降の切れ目
 
 必要になるまで一括固定しない。
