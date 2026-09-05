@@ -18,16 +18,17 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-011`
+- 1980年代側: `EVT-013`
 - 現代側: none
 
-EVT-011時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-013時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
 - 第1話 `chapters/001.md`: EVT-001〜004
 - 第2話 `chapters/002.md`: EVT-005〜008
 - 第3話 `chapters/003.md`: EVT-009〜011
+- 第4話 `chapters/004.md`: EVT-012〜013
 
 後から成立したeventを理由に既刊候補章へ自動遡及追加しない。
 
@@ -63,7 +64,7 @@ EVT-011時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯
 ### EVT-010 — 自分たちの表の外へ戻る
 `T0-1980S + literature check after EVT-009`。
 
-文献選択規則を結果前commit `ae441628d1d8af925144f9ec8bca0336b7d0f315` で固定し、story time以前・Hopfield 1982直接系譜・spurious memory明示・最早刊行という規則から、Hopfield / Feinstein / Palmer (1983), *Nature* 304, 158–159, DOI `10.1038/304158a0` を主対象にした。
+文献選択規則を結果前lockし、Hopfield / Feinstein / Palmer (1983), *Nature* 304, 158–159, DOI `10.1038/304158a0` を主対象にした。
 
 人物が確認した範囲:
 
@@ -71,23 +72,12 @@ EVT-011時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯
 - stored memory以外のspurious memoriesがcreated / evokedされ得るという当時の問題設定
 - unlearningでspurious memoriesを減らすという報告
 
-1985年以降のmixture-state / spin-glass解析は人物Knowledgeへ入れていない。
-
-provenance `LOCKED`。
+1985年以降のmixture-state / spin-glass解析は人物Knowledgeへ入れていない。provenance `LOCKED`。
 
 ### EVT-011 — 論文の16素子例をそのまま試す
 `T0-1980S + published-example check after EVT-010`。
 
-Hopfield / Feinstein / Palmer (1983)本文に掲載された16-neurone / 3-memory / spurious-memory candidateをそのまま使うことをcommit `28cc5684955a3dae3ccf73af28c1433328ab15a4` でpre-lockした。
-
-同論文のconnection rule
-
-```text
-T_ij = Σ_s μ_i^s μ_j^s
-T_ii = 0
-```
-
-でcandidate Qのlocal inputsをexactに再計算。
+1983論文本文に掲載された16-neurone / 3-memory / spurious candidateをpre-lockして再計算。
 
 ```text
 h(Q)=
@@ -95,24 +85,52 @@ h(Q)=
  +5,-5,-5,+5,+5,-5,-5,+5)
 ```
 
-- 16/16でnonzero
+- 16/16 nonzero
 - 16/16でQと同符号
-- QはM1/M2/M3のどれでもない
-- Qは-M1/-M2/-M3のどれでもない
+- QはM1/M2/M3でも、そのglobal negationでもない
 
-よってzero-field conventionに依存せず、Qはstored / stored-negation外のstable stateとして再現された。
+Qはstored / stored-negation外のstable stateとして再現された。provenance `LOCKED`。
 
-これは掲載例のmodel-level reproductionであり、生物学的偽記憶や後世のmixture-state理論を証明しない。
+### EVT-012 — 三つの記憶を一成分ずつ比べる
+`T0-1980S + componentwise structure check after EVT-011`。
 
-provenance `LOCKED`。
+M1/M2/M3/Qの全16位置分類と6 Hamming distancesをpre-lockして全件確認。
 
-EVT-009〜011は第3話 `chapters/003.md` のreading unitとしてNarrativeProjection済み。
+- Qは16/16位置で三patternのcomponentwise majorityと一致
+- unanimity 4 / split 12
+- split minority: M1=4, M2=4, M3=4
+- `d(Q,M1)=d(Q,M2)=d(Q,M3)=4`
+- stored patterns相互distanceは8/8/8
 
-現在の次の局所問題:
+outcome category `MAJORITY_ALL`。この掲載例の具体的構造であり一般式へ自動一般化しない。provenance `LOCKED`。
 
-> QはM1/M2/M3からどのような成分関係・相関構造としてできているのか。
+### EVT-013 — なぜ多数側の形が自分を支えるのか
+`T0-1980S + stability derivation after EVT-012`。
 
-1985年以降の理論を先取りせず、1983論文の`triples`記述と掲載patternだけから次のworld advancementを解決する。
+Hamming/inner-product identityと既存Hebbian ruleだけを使うderivation routeをpre-lock。
+
+```text
+M1·Q=M2·Q=M3·Q=8
+h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i
+```
+
+- unanimity位置: `h_i=21Q_i`
+- 2:1 split位置: `h_i=5Q_i`
+- EVT-011 local-input vectorと16/16 exact一致
+
+この具体例について、componentwise majority構造とdynamical stabilityがHebbian connectionを介して接続された。provenance `LOCKED`。
+
+EVT-012〜013は第4話 `chapters/004.md` へNarrativeProjection済み。
+
+## Current next question
+
+EVT-013後:
+
+> **Qがstableであることと、初期状態からQへ到達可能であることは同じか。**
+
+次のeventでaccessibilityを調べる場合、starting states / update schedule / trial count / stopping ruleを結果前に固定する。
+
+1983論文Figure 1の32-neurone / 5-memory具体patternsは本文に掲載されていないため、16-neurone exampleを使った新規検査をFigure 1のexact reproductionと呼ばない。
 
 ## 現代
 
