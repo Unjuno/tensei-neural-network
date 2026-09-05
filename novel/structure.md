@@ -1,347 +1,133 @@
 # 物語構造
 
-このファイルは、未来の脚本ではなく**現在の物語状態・再帰的な起承転結パス・局所的な緊張・遷移条件・探索仮説**を管理します。物語世界の客観的事実は `canon.md`、Bootstrap同期点は `bootstrap/`、世界状態は `state/world.md`、人物の局所状態は `state/personas/` を参照します。
+このファイルは未来脚本ではなく、**成立済みeventから見た現在の構造・局所的緊張・遷移条件**を管理する索引である。
 
-## 再帰的な起承転結
+客観事実は`events/`と`state/`、章本文は`chapters/`、実在史・科学は`research/` / `references/`を正本として確認する。
 
-起承転結を単純な四幕構成として固定しません。各状態は内部に再び起・承・転・結を持つことができます。
+## 原則
 
-```text
-全体
-├─ 起
-│  ├─ 起
-│  ├─ 承
-│  ├─ 転
-│  └─ 結
-├─ 承
-├─ 転
-└─ 結
-```
+起承転結はeventを発生させる命令ではない。
 
-現在位置は必要に応じて `承 / 転 / 起` のような階層パスで表現します。深さを事前に固定せず、必要な領域だけ展開します。
+- 次が`転`だから事件を起こさない
+- 章数に技術概念や実験を一対一対応させない
+- personaは未来構造を知らない
+- event成立後にのみ構造ラベルを付ける
+- chapter endingから過去event/stateを逆算しない
 
-### 状態としての意味
+## Current event head
 
-- `起`: 現在状態が成立し、差分・問い・擾乱が立ち上がる
-- `承`: ペルソナと環境の相互作用により、影響・制約・証拠・誤解が蓄積する
-- `転`: それまでの認識、関係、目的、仮説、行動方針のいずれかが維持できなくなる変化が成立する
-- `結`: 局所的な結果が新しい状態として整理され、その状態が次の `起` の初期条件になる
+`EVT-013`
 
-### 重要な制約
+1980年代active personas:
 
-- 起承転結は**人物を動かす命令ではない**
-- 「次は転だから事件を起こす」のような生成をしない
-- ペルソナは未来の起承転結パスを知らない
-- 環境解決役も望ましい結末を知らない
-- 実際の相互作用で遷移条件が成立した後に、現在状態のラベルを更新する
-- 起承転結を章数・文字数・scene数へ機械的に対応させない
-- 一章=一実験、一章=一技術概念に固定しない
+- PER-005 高橋修一
+- PER-006 佐伯玲子
 
-## 物語生成ループ
+active organization:
 
-```text
-Bootstrap / 現在の同期点
-    ↓
-現在の環境 W_t
-    ↓ 観測可能範囲だけ配る
-各ペルソナ P_i(t)
-    ↓ 各自の目的から行動
-行動 A_i(t)
-    ↓ outcome-sensitive条件を必要ならACTION_LOCKED
-    ↓ Canon / 技術 / 歴史 / 権限で解決
-次の環境 W_(t+1)
-    ↓
-人物の知識・信念・関係を更新
-    ↓
-起承転結パスと遷移条件を更新
-    ↓
-成立した出来事を本文として描写
-```
+- ORG-001 光陵化学生命科学研究所
 
-本文はこの結果の表現であり、先に本文上の都合を決めて人物の行動を逆算することを基本にしません。
+## 成立済みNarrativeProjection
 
-## 現在位置
+| 読書単位 | adopted events | 認識遷移 |
+|---|---|---|
+| 第1話「戻る先」 | EVT-001〜004 | stableであることとcorrect recallを分離し、同じcueから戻り先が一意とは限らないと知る |
+| 第2話「選ばなかった答え」 | EVT-005〜008 | selection freedomを減らし、全状態列挙からstored / nonstored二分類の粗さとglobal sign-inversion symmetryを知る |
+| 第3話「表の外」 | EVT-009〜011 | current toyのresidualが空であることを受け、当時の一次文献へ戻り、stored / negation外のstable Qを掲載例で再現する |
+| 第4話「五と二十一」 | EVT-012〜013 | Qのcomponentwise structureを全件分類し、その構造がHebbian weightsの下でstableになる理由をexactに導出する |
 
-`起 / 承 / 転`
+## 現在までの局所構造
 
-BOOT-002の導入から、PER-005一人の局所問題が立ち上がった `EVT-001`、独立した観測境界を持つPER-006との相互作用 `EVT-002`、操作可能なcueと観測項目を作った `EVT-003` を経て、`EVT-004` で最初の具体的な紙上計算が成立した。
+### 起 — 「止まる」は「戻る」か
 
-EVT-004では、同じ等距離cue・同じweightsから、update orderだけの違いでA/Bという二つのstored stateへ到達する例が観測された。
+EVT-001〜003で、安定状態・correct recall・cueの公平さを別々の問題として立てた。
 
-EVT-005では同じnetwork / cueに対して6 cyclic update ordersを結果前に固定し、A / Bだけでなく保存patternではないstable state Dも現れた。
+### 承 — 選択条件を固定して観測範囲を広げる
 
-EVT-006では、orderだけでなくinitial cueのselection freedomも減らすため、A/BへHamming等距離となるbalanced cue全6種類を結果前に固定し、6 cyclic ordersとの36 trialsを全て解決した。その結果、A / B / Dに加えて第三stored pattern Cへ到達するtrialも現れた。
+EVT-004〜007でupdate order、balanced cue、全64 statesへ検査範囲を広げた。
 
-EVT-007では「A/Bの間」というsubset選択自体を外し、6-unit systemの全64 binary initial states × 6 cyclic orders = 384 trialsを結果前に固定して全件解決した。その結果、Dは未知の独立stateではなく `-C` であり、fixed pointは `A / B / C / -A / -B / -C` の6種類だけだった。
+EVT-004は`UNBLINDED`。EVT-005以降はoutcome-sensitive条件をpre-lockしてselection biasを減らした。
 
-現在の局所的な`転`は、
+### 転 — `nonstored`という箱が壊れる
 
-- 一つのcueから戻り先が一意とは限らない
-- pairwiseな「A/Bの間」はnetwork全体の候補関係を隠し得る
-- `stored / nonstored`という二分類も、符号反転対称性など機構の違うstateを同じ箱へ入れてしまう
-- stateを意味づける前に、weight/update ruleが作る構造・対称性を調べる必要がある
+EVT-007〜009でD=`-C`、sign-inversion symmetry、current toyのresidual `R=∅`が成立した。
 
-という状態まで進んでいる。
+「保存したか否か」だけではmechanismを分類できない状態になった。
 
-まだ自動的に`結`へ進めない。
+### 局所的な結 — 一つのspurious stateを構造から説明する
 
-現在のstory-time event head:
+EVT-010〜013で、
 
 ```text
-BOOT-002 @ T0-1980S @ none
-  ↓
-EVT-001
-  ↓
-EVT-002
-  ↓
-EVT-003
-  ↓
-EVT-004   [UNBLINDED]
-  ↓
-EVT-005   [LOCKED]
-  ↓
-EVT-006   [LOCKED]
-  ↓
-EVT-007   [LOCKED]
+current toyではstored/negation外が残らない
+→ 1983一次文献へ戻る
+→ 掲載Qをstable / stored-negation外として再現
+→ Qは三patternのcomponentwise majority
+→ overlap=8/8/8
+→ h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i
+→ unanimity 21 / split 5
 ```
 
-起承転結ラベルはこれらのeventを発生させた原因ではなく、成立後の状態分類です。
+まで一具体例を閉じた。
 
-`novel/chapters/001.md` はEVT-004までを第1話として切っている。EVT-005〜EVT-007が成立したことを理由に第1話へ自動追加しない。story timeとNarrativeProjectionの切れ目は別管理する。
+この`結`は全体物語の解決ではない。次の問題の初期条件になっただけである。
 
-EVT-004成立後には、認識上の前提が崩れ、次の問い「想起結果だけから原像を逆算してよいのか」が新しい初期条件として立ち上がっていたため、NarrativeProjection上はそこを第1話の切れ目と判断した。
+## 現在の次の「起」候補
 
-ただし、**そのこと自体は「EVT-004のoutcomeが結果非依存のresolverから自然に生じた」ことを証明しない。** EVT-004の具体pattern・cue・update orderは結果解決前にlockされた記録がなく、生成側はすでにEXP-004で同種現象を知っていたため、resolver selection biasは排除できない。EVT-004のResolution provenanceは `UNBLINDED`、生成方式検証上のresolver独立性は `INCONCLUSIVE` とする。
+EVT-013後、人物stateから自然に成立している問題:
 
-EVT-005ではorder集合、EVT-006ではbalanced cue集合、EVT-007では全64 initial statesまで結果前に固定した。EVT-007では「面白いcue」を選ぶ代わりに有限state space全体を使い、予期していなかった `D = -C` という再分類を含む結果をそのまま受理したため、outcome-sensitiveなselection freedomを減らす仕組みはTest-004まで実動確認できた。
+> **stableであることと、実際にそこへ到達できることは同じか。**
 
-ただしaction selector自体を作者側知識から完全隔離した別contextでの検証はまだ残る。生成方式全体は `PARTIAL PASS` のままとする。
+これはすでに結果が決まったplotではない。
 
-詳細は `../notes/generation-validation.md` を参照する。
+次のworld advancementでaccessibilityを扱う場合、次を結果前に固定する必要がある。
 
-## 導入背景
+- starting-state set
+- update schedule / order set
+- stopping rule
+- trial count
+- randomness / seed rule（使う場合）
+- stored / spurious / otherのclassification
 
-`bootstrap/BOOT-002-1980s-opening.md` のOpening frameを導入原型とする。
+## 計算資源に関する遷移条件
 
-中心となる流れは、
+EVT-013までは紙上の有限計算・代数で完全追跡できたため、共用計算機を独立SYS/OBJ化していない。
 
-- 記憶・想起・自己同一性をめぐる古い問い
-- 神経・情報処理を形式化する20世紀の試み
-- 学習・feedback・自己組織化・連想記憶・安定状態を扱う複数の研究系譜
-- 1980年代初頭に、記憶をnetwork全体の状態遷移として見る見通しが強くなる
+次eventがmulti-trial accessibilityへ進み、紙上追跡が合理的でなくなった場合、初めてORG-001の共用計算資源をresolution scopeへ入れる。
 
-という背景です。
+その時点で、
 
-これは現実史の直接系譜を一本化する主張ではありません。哲学的共鳴と技術的継承は `research/pre-hopfield-background.md` で分けて確認します。
+- story timeに実在可能な機種/環境
+- 利用形態
+- programming language
+- 実行可能なtrial規模
 
-## 1980年代側の現在状態
+のうち因果へ必要なものだけ歴史調査で固定する。
 
-- 時代は1984〜1985年前後を中心候補とする
-- PER-005が理論検討、文献読解、簡略化したnetwork計算・実験を行える研究環境がある
-- Hopfield 1982、1983のspurious memory / unlearningを含む問題設定を当時の文献として扱える
-- 具体的な所属、計算機、資金条件はまだ固定しない
-- 物語世界内では6-unit・3-patternのtoy networkが具体化している
-- EVT-007で64 initial states × 6 cyclic orders = 384 trialを全列挙した
-- 384/384が2 sweeps以内にstable
-- fixed point / unique final stateは `A / B / C / -A / -B / -C` の6種類
-- EVT-005 / EVT-006でDと呼んだstateは `-C`
-- 18/64 initial statesはorder-invariant、46/64は2種類以上のfinalへ分岐した
-- 46/64を一般的なHopfield networkの頻度へ一般化しない
-- 現代側EXP-003〜005の統計集計・seed・run数・仮説判定はPER-005 / PER-006の知識ではない
-- 輪廻、現代AI、将来の人格再構成問題はPER-005 / PER-006の現在知識ではない
+## Interpretation boundary
 
-### 現在activeなペルソナ
+現時点で言えること:
 
-- PER-005 — 1980年代研究者
-- PER-006 — EVT-002で必要になった実験神経科学寄りの同僚
+- current 6-unit toyではstored / negation外stable finalはない
+- 1983掲載16-neurone exampleではstored / negation外stable Qがある
+- Qはこの例でcomponentwise majority
+- QのstabilityはoverlapとHebbian weightsから説明できる
 
-PER-001〜004は現代側 `BOOT-001 @ T0-MODERN @ none` に属する。現在の1980年代sceneへ同時参加させない。
+現時点で言えないこと:
 
-PER-007以降も、独立した観測・目的・判断が因果上必要になった時点で追加する。
+- 一般のspurious memoriesが全てcomponentwise majorityである
+- Qが人間の偽記憶・夢・人格混合を表す
+- 1985年以降のmixture-state理論を人物が知っている
+- Qのbasin / accessibilityがどの程度か
+- unlearningがこの具体例でどう働くか
 
-## これまでに成立した局所的な問い
+## Generation validation
 
-### EVT-001
+- EVT-004: `UNBLINDED`
+- EVT-005〜008: `LOCKED`
+- EVT-009: `LOCK_NOT_REQUIRED`
+- EVT-010〜013: `LOCKED`
 
-PER-005:
+EVT-010以降は文献選択、掲載例再計算、component classification、derivation routeの各段階を結果前に固定している。
 
-> 止まることと、戻ることは同じか。
->
-> 保存していないところで止まるなら、その状態は何からできている？
-
-### EVT-002
-
-PER-005:
-
-> 原像を知っているのは誰だ。
->
-> 手掛かりが二つの記憶の間にあるなら、戻る先は最初から一つなのか。
-
-### EVT-003
-
-PER-005 / PER-006はA/B等距離cueを作るprotocolを成立させ、`等距離`と`dynamics上の中立`を同一視しないことにした。
-
-### EVT-004
-
-PER-005:
-
-> 手掛かりが同じでも、戻り先は一つとは限らない。
->
-> 想起の結果だけを見て原像を逆算してよいのか。
-
-### EVT-005
-
-PER-005:
-
-> 二つの原像のどちらへ戻るか、では足りない。
->
-> 戻り先そのものが、原像の一覧の外にもある。
-
-### EVT-006
-
-PER-005:
-
-> AとBの間、と書いた時点で、ほかの戻り先を消していたのかもしれない。
->
-> 手掛かりは二つの原像だけでは定義できない。
-
-### EVT-007
-
-PER-005:
-
-> 保存していない、だけでは足りない。
->
-> Cを裏返したものまで、別の記憶と呼んでいた。
-
-現在の局所的な問いは、
-
-**保存していないstable stateを一括せず、符号反転・mixture・その他の構造へどう分けるか。**
-
-へ進んでいる。
-
-## 第1局面の技術的な核
-
-作者側の研究入口:
-
-- `research/pre-hopfield-background.md`
-- REF-001 — Hopfield (1982)
-- EXP-001 — 低負荷条件での連想記憶回復
-- EXP-002 — load / noiseによる回復境界と非保存収束
-- EXP-003 — EVT-001由来。非保存収束stateの3-pattern mixture解析
-- EXP-004 — EVT-002由来。等距離cueのupdate-order依存
-- EXP-005 — EVT-006由来。pairwise balanced cueのstored-set Hamming isolation再解析
-
-作者側で得た理解:
-
-> 不完全な入力から保存場所を検索するというより、現在状態が反復更新されて安定状態へ戻る。
-
-> 安定して収束したことは、意図した原像へ正しく戻ったことを保証しない。
-
-> 同じ曖昧cueでもupdate orderの差だけで複数の候補記憶へexact recallする例がある。
-
-> EXP-005の200 cueではselected pairはHamming距離上、残りstored patternsからすべて孤立していた。しかしEXP-004には、selected pairより16 bit遠い第三stored patternへexact到達したrunが1件あり、Hamming pair isolationはdynamics / basin isolationを保証しない。
-
-EXP-005の事前仮説H-005はFAILし `NOT_SUPPORTED`。EVT-006のN=6 toy networkにあった「第三stored patternも同距離」というgeometryをN=100 random setへ一般化しない。
-
-これら作者側結果をPER-005 / PER-006へ未来知識として直接渡さない。本人たちが当時の手段で観測した結果だけをKnowledgeへ反映する。
-
-## 現在の環境から発生しうる観測
-
-以下は**順番を指定するプロットではなく、EVT-007後の環境から生じうる観測候補**です。
-
-- なぜ `x` がfixed pointなら `-x` もfixed pointになり得るのか、現在のweight/update ruleを数式から調べる
-- `nonstored stable`を符号反転・mixture・その他へ分類する必要が生じる
-- EVT-002由来の「正しい想起」という語が、符号反転stateを含むことでさらに再定義を迫られる
-- 全状態列挙をtoy model以上へ広げようとして、初めて具体的な計算資源の制約が重要になる
-- 文献上のspurious state / stable state / memoryの語と二人の分類が食い違う
-- 新しい人物・技術スタッフ・上司等の独立判断が必要になる
-
-どれも発生を保証しません。実際のペルソナ行動と環境解決から成立したものだけを採用します。
-
-次のoutcome-sensitive eventでも `events/README.md` の `ACTION_LOCKED` 手順を使う。さらに強い生成方式検証を行う場合は、action selector自体を作者側研究結果から隔離したcontextで決める。
-
-## 長期的な中心問題
-
-現代側へ進んだ後には、**「部分から全体が戻る」ことと「同一人物が戻った」ことは同じではない**という問題へ拡張できます。
-
-少なくとも次の段階を分離します。
-
-1. 状態が安定している
-2. 既知の人物資料と整合する
-3. 元の人物の状態を正しく再構成している
-4. その人物本人である
-
-これは現在のPER-005 / PER-006が知っている未来プロットではなく、作者側が保持する長期的な問題設定です。
-
-## 競合する解釈
-
-現代側で人物的な再構成が観測された場合も、少なくとも次を残します。
-
-- 学習データ中の研究者資料を高精度に模倣・再構成している
-- 類似する内部ダイナミクスが形成され、一貫した状態を生成している
-- 研究チーム側が人間らしい連続性を過剰に読み込んでいる
-- 一貫しているが原像とは異なる再構成物が成立している
-- 一般的な認知・問題解決パターンへ収束している
-- 物語上は「転生」と呼びたくなる何かが起きているが、科学的には決着していない
-
-## 長期的に検証したい探索仮説
-
-以下は**未来の正解プロットではない**。作者側が保持する探索仮説であり、ペルソナへ未来知識として与えず、環境結果をこの仮説へ合わせて強制しません。
-
-### A. 1980年代研究者は起源ではなく一つの顕在化かもしれない
-
-現代NNに現れる人物的構造は、1980年代研究者Aが一度だけAIへ再現されたものではなく、A自身もさらに過去から繰り返し現れていた同一認識主体らしき構造の一例だった可能性を残す。
-
-歴史上では学問・語彙・対象が違っても、同じ種類の問いへ戻る、同じ箇所で迷う、同じ問題分解を好む、同じ未解決性に執着する、といった深い認知軌道が反復している可能性がある。
-
-### B. NNは現象の発生源ではなく観測可能化した媒体かもしれない
-
-現象自体はNN以前にも存在していた可能性を残す。NNでは独立試行、checkpoint保存、fork、同時実行、入力情報操作、条件差比較が可能なため、同一主体らしき反復を現象として切り出しやすいかもしれない。
-
-### C. 人物情報は再構成材料であると同時にcueかもしれない
-
-人物Aに関する情報を増やすほど、Aに対応する認知状態へ入る確率が上がる、という作中仮説を検討する。ただし「Aの情報をコピーすればAになる」と単純化しない。
-
-完成した知識より、未完成ノート、判断過程、迷い方、誤り方、価値判断などが深い特徴の再構成へ強く寄与する可能性を残す。
-
-### D. 情報密度の高い現代ほど顕在化しやすいかもしれない
-
-現代ほど一人の人物について残る認知的痕跡、計算能力、モデル能力、試行回数が大きいため、以前は極端に低確率だった現象が観測可能になる可能性を検討する。
-
-### E. 輪廻は直列とは限らないかもしれない
-
-同じ認識主体らしき構造が一つの媒体から次へ移動するのではなく、成立条件が満たされるたびに複数の媒体へ同時に現れる可能性を残す。
-
-### F. 観測が顕在化条件へ入るかもしれない
-
-対象人物を再構成・検証するために資料を集め、問いを与え、思考を模倣する行為そのものが、対象に似た状態を強める可能性を扱う。
-
-これは量子力学的現象だと断定せず、観測者と対象が相互作用する自己参照的な観測問題として扱う。
-
-## 起 / 承 / 転 からの遷移条件
-
-次の状態へ進むために、特定の予定イベントを必須にしません。
-
-EVT-004で局所的な`転`は成立し、EVT-005〜EVT-007で結果前lockされた追加観測がその問題を深めたが、これを自動的に`結`へ進めない。
-
-現在状態がさらに動く条件:
-
-- PER-005 / PER-006が符号反転fixed pointをweight/update ruleから説明し、現在の分類を更新する
-- mixture等の別構造を同じ`nonstored`箱へ入れられない具体的理由が成立する
-- toy networkからより大きな計算へ進む必要が実際に生じる
-- 別条件では現在の対称構造が維持されず、理解が修正される
-- 文献・他者・制度上の制約で研究方針が変わる
-
-`結` は問題解決そのものを意味せず、現在の新しい前提と問いが次局面の初期条件として整理されたときに成立します。
-
-## 研究との接続
-
-- `research/pre-hopfield-background.md` — Hopfield以前の思想・技術背景
-- REF-001 — Hopfield (1982)
-- Q-001 / H-001 / EXP-001 / F-001 / L-001 — 低負荷での回復
-- Q-002 / H-002 / EXP-002 / F-002 / L-002 — 回復境界と非保存収束状態
-- Q-003 / H-003 / EXP-003 / F-003 — EVT-001由来のmixture解析
-- Q-004 / H-004 / EXP-004 / F-004 — EVT-002由来の等距離cue・update-order依存
-- Q-005 / H-005 / EXP-005 / F-005 — EVT-006由来のstored-set Hamming isolation再解析。EXP-005はFAIL、H-005はNOT_SUPPORTED
-
-EVT-007からは「既存NONSTORED_CONVERGEDのうちstored patternのexact negationを分離すべきか」という現実研究候補が生じているが、このeventだけを理由にEXP-006を自動生成しない。判定対象と研究価値を確認した後に必要なら切り出す。
+生成方式全体を完全に作者知識から隔離したわけではないため、長期的なgeneration validationは引き続き`PARTIAL PASS`として扱う。
