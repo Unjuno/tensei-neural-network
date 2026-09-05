@@ -1,6 +1,10 @@
 # EVT-011 論文の16素子例をそのまま試す
 
-状態: `ACTION_LOCKED / PROVISIONAL`
+状態: `RESOLVED / PROVISIONAL`
+
+Resolution provenance: `LOCKED`
+
+Action-lock commit: `28cc5684955a3dae3ccf73af28c1433328ab15a4`
 
 ## Story time
 
@@ -45,7 +49,7 @@ EVT-010で、1983年の一次文献にはstored memory以外のspurious stable s
 
 # ACTION LOCK
 
-以下を結果計算前に固定する。
+以下を結果計算前にcommit `28cc5684955a3dae3ccf73af28c1433328ab15a4` で固定した。
 
 ## Source
 
@@ -132,20 +136,152 @@ M1, M2, M3, -M1, -M2, -M3
 - 上記PASS / FAIL / UNCERTAINが決まった時点でこのeventを停止する
 - 今回はbasin size、random starting states、unlearningの効果までは調べない
 
-## Resolver may use
+---
 
-- 上記locked patterns
-- 上記Hebbian connection rule
-- exact integer arithmetic
-- EVT-010までの人物knowledge
+# RESOLUTION
 
-## Resolver must not use for condition selection
+locked patternsとconnection ruleだけから、16 unitすべてのlocal inputをexact integer arithmeticで計算した。
 
-- 1985年以降のmixture-state理論
-- 現代側EXP-003〜005
-- 第3話で望む結末
-- 結果を見て別pattern / N / tie ruleへ差し替えること
+## Local inputs
 
-## Resolution provenance target
+```text
+h(Q) =
+(+21,+21,+5,+5,-5,-5,-21,-21,
+  +5, -5,-5,+5,+5,-5,-5,+5)
+```
 
-`LOCKED`
+各unitについて `Q_i * h_i` は、
+
+```text
+(21,21,5,5,5,5,21,21,5,5,5,5,5,5,5,5)
+```
+
+となった。
+
+したがって、
+
+- 16 / 16 unitで `h_i != 0`
+- 16 / 16 unitで `sign(h_i) = Q_i`
+- 最小marginは `|h_i| = 5`
+
+である。
+
+zero-inputは一つもないため、zero-field tie conventionを追加せずQのstabilityを判定できる。
+
+## Residual check
+
+Qは、
+
+```text
+M1, M2, M3, -M1, -M2, -M3
+```
+
+のどれとも一致しなかった。
+
+したがってQは、今回のstored setとそのglobal sign inversionだけでは説明できないstable stateである。
+
+## Outcome
+
+`PASS`
+
+## Resolved consequence
+
+- 1983論文掲載の16-neurone / 3-memory例を同論文のHebbian connection ruleで再計算すると、掲載されたQは確かにstableだった
+- Qはstored patternでもその全符号反転でもない
+- EVT-009で現在6-unit toyのresidualが空だったことと矛盾しない。model条件が異なる
+- 二人は、少なくとも一つの当時公刊済み具体例について「stored / stored-negation以外のstable state」がmodel-levelで成立することを自分たちの計算でも確認した
+- ただしQがどの一般的構造classに属するか、どれほど典型的か、basinがどれほど大きいか、unlearningでどう変わるかは今回まだ未解決
+- 1985年以降のmixture-state理論はこのeventの説明に使用しない
+
+## Persona deltas
+
+### PER-005 高橋修一
+
+Beliefs:
+
+- 6-unit toyでresidualが空だったのは、spurious stable structure一般の不存在ではなく、そのtoyの有限構造による結果だった
+- 文献掲載の16-unit例では、stored patternとその符号反転を除いてもstable stateが残る
+- 次に問うべきなのは、Qへ意味を与えることではなく、Qが三つのstored patternsからどのような構造として作られているかを、当時の文献記述と自分たちの計算の範囲で分解すること
+
+Goals:
+
+- QとM1/M2/M3の成分関係を記述し、論文がいう「triplesにoriginを持つ」という記述を自分たちの例で追えるか確認する
+- basin sizeやunlearningへ進む前に、まず一つのspurious stateの構造を完全に説明できるか確かめる
+
+Memory:
+
+- 16個のlocal input値
+- 全unitでnonzeroかつQと同符号
+- Qがstored / negationのいずれでもないこと
+
+### PER-006 佐伯玲子
+
+Beliefs:
+
+- 文献に「spurious」と書かれているだけでなく、二人自身のstability checkでもQはstableだった
+- ただし「stableでnonstored」であることと、生物学的に偽記憶・混同・創作等を意味することは別
+- Qの由来を説明する前に、pattern間の相関と成分関係を操作的に分けて記録する必要がある
+
+Goals:
+
+- Qを心理学的ラベルへ飛躍させず、M1/M2/M3との関係を数理的に記述させる
+- 「論文がそう呼ぶ」「二人が再計算した」「生物学的に解釈する」の三層を引き続き分離する
+
+Memory:
+
+- Qのstabilityはzero-field conventionに依存しなかったこと
+- Qはstored / global-negation classの外にあること
+
+## Organization / world delta
+
+ORG-001のmission / governanceに変更なし。
+
+今回も紙上で完全追跡可能だったため、共用計算資源を独立SYS/OBJへ展開しない。
+
+共同検討記録としては、1983論文掲載例の再計算結果がPER-005 / PER-006間で共有された。研究所のinstitutional memoryへ正式提出されたとはまだ扱わない。
+
+Fact level:
+
+- real-world evidence: 1983論文が16-neuroneのspurious-memory candidateを掲載している
+- local story fact: 二人が同じ掲載patternを同じconnection ruleで再計算し、stableかつstored/negation外と確認した
+- institutional fact: 未成立
+- public story fact: 未成立
+- canon fact: 未昇格
+
+## Who observed what
+
+- PER-005 / PER-006: patterns、local-input計算、PASS判定を共有
+- ORG-001: 内容を組織として承認したとは扱わない
+- 他persona: 未観測
+- 現代側persona: 未観測
+
+## Research branch after resolution
+
+新しい作者側EXPはまだ必須ではない。
+
+今回のQは一次文献に明示された有限例をexactに再計算したため、次のstory-side問いはまずpattern structureの説明である。
+
+将来、random-start accessibility、より大きいnetwork、unlearning効果まで人物が進む場合は、その時点で計算資源・randomness・trial数を事前固定し、必要なら新しいauthor-side EXPと分離する。
+
+## Structure impact
+
+EVT-009〜011で一つの認識遷移が成立した。
+
+```text
+自分たちのtoyでは残差が空
+→ 当時の一次文献へ戻る
+→ 掲載例をそのまま再計算
+→ stored / negation以外のstable stateを確認
+```
+
+この範囲は自然なreading unit候補になり得る。
+
+ただしchapter化する場合も、このEVT-011より先の構造説明や将来の実験結果を先取りしない。
+
+## Generation validation
+
+- 16-neurone例は結果後に作者側で探索したpatternではなく、EVT-010で選択済みの1983一次文献に明示された例をそのまま採用した
+- patterns / weights /判定規則をcommitしてからlocal inputsを計算した
+- zero inputが出た場合はUNCERTAINとする規則を先に固定し、結果後にtie ruleを足していない
+- 1985年以降のmixture-state理論を条件選択・解釈へ使わなかった
+- 第3話の結末を理由にQやmodelを差し替えなかった
