@@ -1,262 +1,117 @@
-# 固定制作ワークフロー
+# 制作・検証ワークフロー
 
 状態: `ACTIVE / PROVISIONAL`
 
-この文書は、物語を生成し、検証し、公開候補へ進めるまでの固定工程を定義する。
+上位運用規則は `POLICY.md`。世界進行は `novel/WORLD_POLICY.md`、状態復元は `novel/state/README.md` と `novel/state/LIFECYCLE.md`、研究は `experiments/README.md`、話別検証は `experiments/chapters/README.md`、文体は `novel/STYLE_WEBNOVEL.md` に従う。
 
-上位規則は `POLICY.md`。世界進行は `novel/WORLD_POLICY.md`、state lifecycleは `novel/state/LIFECYCLE.md`、研究実験は `experiments/README.md`、話別検証は `experiments/chapters/README.md`、文体投影は `novel/STYLE_WEBNOVEL.md` に従う。
+## 1. 工程と証拠の権威を分ける
 
-優先順位:
+ポリシーは作業の許可・順序を定める。科学的事実を決める根拠ではない。
 
-```text
-POLICY.md
-  > domain policy / workflow
-  > event / state / experiment / research evidence
-  > style rule
-  > chapter draft
-```
+物語はCanonの制約下で成立したEVTと各時点のstateから復元する。現実の技術的主張は一次資料と実験記録へ戻る。文体・本文・索引が証拠を上書きしない。
 
-本文や文体規則は、event/state/evidenceを上書きしない。
+復元では、同じ状態変化をEVTと対応deltaから二回加算しない。EVTは因果・客観結果の記録、entity deltaはその出来事による投影である。checkpointには適用済みevent headを残し、それ以後の差分だけを取り込む。Markdownの意味整合を自動証明できたとは扱わない。
 
-## 1. 制作の一本道
+## 2. 標準経路
 
-```text
-A. Restore
-   story time / event head / relevant statesを復元
-        ↓
-B. Advance World
-   scope → observation → action → resolve → EVT → state delta
-        ↓
-C. Detect Reading Unit
-   成立済みEVT群から自然な読書単位を発見
-        ↓
-D. Minimum Causal Outline
-   採用EVTだけで最小因果骨格を作る
-        ↓
-E. Narrative Projection
-   EVT/stateを章本文へ投影
-        ↓
-F. Mandatory Verification
-   章の最も壊れやすい依存点を最低1回検証
-        ↓
-G. Feedback
-   evidenceと本文が衝突すれば本文を修正
-        ↓
-H. Semantic Review
-   knowledge / history / provenance / projectionを意味レビュー
-        ↓
-I. Style Pass
-   読みやすさを改善。事実は変更しない
-        ↓
-J. Prepublication Gate
-   GATE_CANDIDATE → strict CI PASS → PREPUBLICATION_GATE_PASSED
-        ↓
-K. Human Review
-   Canon昇格・main反映・公開は人間が受理
-```
+復元 → 世界進行 → 自然な読書単位の判定 → 成立済みEVTの最小あらすじ → 本文 → 話別検証 → 本文への修正 → 意味レビュー → 文体調整 → 再レビュー・対象版記録 → 候補CI → 人間レビュー。
 
-この順序は原則固定する。
+固定するのは前提条件と責任の境界であり、手戻りを禁止する一方向工程ではない。文体調整後も意味・観測・条件が変われば検証へ戻す。
 
-## 2. 最重要原則
+### 復元と世界進行
 
-### 物語を検証へ従属させない
+現在branch、story time、解決済みevent head、active entity、関連snapshot/delta、未確定事項を確認する。古い索引やsnapshotへ巻き戻さない。
 
-必須なのは「毎話に科学実験を登場させること」ではない。
+各主体は観測済みの局所状態から行動する。結果に影響する選択自由度は必要時にACTION_LOCKEDとしてcommitする。結果判明後に都合のよい条件へ差し替えない。
 
-```text
-1 chapter != 1 research EXP
-1 chapter >= 1 mandatory verification
-```
+LOCKEDは「選択規則を後で変えていない」という履歴であって、独立した盲検、選択規則自体の無偏性、創発の証明ではない。文献掲載例の追試は、予告された結果の再確認として記録する。
 
-先にEVT/stateから章が成立する。その後で、その章が依存する最も壊れやすい主張を選んで検証する。
+### 読書単位と本文
 
-検証方式は章に応じて変えてよい。
+EVT数、話数、実験番号、起承転結を出来事の原因にしない。成立した状態変化を見てから章を切る。
 
-- 数理・コード → executable reproduction
-- 歴史 → historical source check
-- 文書・物 → provenance trace
-- 会話・秘密 → knowledge-boundary trace
-- 組織・制度 → institutional constraint check
+人物の会話をポリシーの読み上げにしない。科学的限定は必要だが、同じ注意を毎回往復させる義務はない。専門語の意味を変えず、行動・比較・観測で読める文章へ投影する。
 
-「検証するものが必要だから」という理由でeventを発生させない。
+### 話別検証
 
-### 追跡可能性を主目的にする
+各話に最低一回、依存する主張を検証する。新しい研究EXPや実験場面を毎話強制しない。
 
-このsystemが保証する中心は「作品が絶対に正しいこと」ではなく、
+コード再現、史料照合、情報境界追跡、物の来歴追跡、制度制約検査等から、その話に適した方式を選ぶ。
 
-- どのEVT/stateから本文が作られたか
-- どのevidenceで何を確認したか
-- 何が未確定か
-- どの判断・限界が残っているか
+`verification.md`には対象、方式、選択理由、証拠、合否基準、実施結果、限界、本文への修正を残す。失敗・非再現も保存する。コードがある場合は`run.py`と`results.json`を保持する。
 
-を後から辿れることである。
+### 意味レビュー
 
-正しさは新しい史料・研究で更新され得る。provenanceと再現可能性は残す。
+`semantic-review.md`は、知識漏洩、未確定事実の創作、時代不整合、EVTと本文の対応、結果誘導、解釈の射程を記録する。旧レビューの見逃しは修正履歴へ明示する。
 
-## 3. 禁止されるショートカット
+意味レビューのPASSは、記録した入力・対象に対してblockingな矛盾を検出しなかったという限定判断。読者評価、独立評価、科学的真理、文学的完成の代わりにしない。
 
-- 完成プロットへpersona/worldを誘導する
-- 章の結末から過去EVT/stateを書き換える
-- 章本文だけを書いて検証を省略する
-- Mandatory Verificationのために物語へ実験現象を追加する
-- 既存EXPを参照しただけで話別検証済みとする
-- 研究結果を未観測人物へ逆流させる
-- 文体都合でevidenceを変更する
-- `起承転結`、話数、EXP番号をevent発生原因にする
-- CI greenを内容の真理保証とみなす
-- `PREPUBLICATION_GATE_PASSED`をCanon/公開承認とみなす
+## 3. レビューの対象版
 
-## 4. 各工程
+候補・通過済み章には `experiments/chapters/NNN/review-lock.json` を置く。
 
-### A. Restore
+最低限、章本文、outline、verification、semantic review、terminology、採用EVT、主要ポリシー、存在する実験コード・保存結果のGit blob IDを記録する。先行EVT・persona/state・史料等の追加依存もレビュー担当者が列挙する。
 
-入力:
-- `STATUS.md`
-- `notes/working-context.md`
-- 対象BOOT
-- relevant state / event
+形式は`schema_version: 1`、`algorithm: git-blob-sha1`、`chapter`、`files`。これはGitの内容識別子を利用した鮮度検査であり、電子署名や改ざん耐性の保証ではない。未申告の依存を機械がすべて発見する仕組みでもない。
 
-出力:
-- current story time
-- event head
-- active states
-- dormant statesのうち再展開が必要なもの
-- unresolved items
+ファイルが変更されたらWF081で再レビューを要求する。内容を読まずにhashだけ再生成してはならない。
 
-DORMANT/REACTIVATED/checkpointは `novel/state/LIFECYCLE.md` に従う。
-
-### B. Advance World
-
-`novel/WORLD_POLICY.md` に従い、現在因果へ届くresolution scopeだけを解決する。
-
-必要なら`ACTION_LOCKED`を行い、EVTとaffected state deltaを保存する。
-
-### C-D. Reading Unit / Outline
-
-成立済みEVTのみから `novel/chapters/NNN-outline.md` を作る。未来eventを混ぜない。
-
-### E. Narrative Projection
-
-`novel/chapters/NNN.md` はEVT/stateのprojectionであり、新しい客観factの発生源ではない。
-
-### F. Mandatory Verification
-
-各話に `experiments/chapters/NNN/verification.md` を置く。
-
-最低限:
-- target
-- selection rationale
-- verification type
-- evidence
-- pass/fail criteria
-- result
-- limitations
-- chapter feedback
-
-コード化可能なら `run.py` と機械可読結果を保存する。コード化不能でも第三者が追跡できる資料・手順・判定を残す。
-
-### G. Feedback
-
-検証結果と本文が衝突した場合は、原則として本文を修正する。必要ならevent/state/researchへ戻るが、本文都合でevidenceを曲げない。
-
-### H. Semantic Review
-
-各公開候補話に `semantic-review.md` を置き、少なくとも次を確認する。
-
-- knowledge boundary
-- unresolved fact invention
-- historical / technical anachronism
-- NarrativeProjection fidelity
-- plot conditioning / provenance
-
-テンプレート: `experiments/chapters/SEMANTIC_REVIEW_TEMPLATE.md`
-
-semantic reviewは自動真理判定ではない。review inputs・判断・uncertaintyを固定し、後から再検討可能にするための記録である。
-
-### I. Style Pass
-
-読みやすさ、段落、会話、専門語提示順を改善する。この工程で技術条件・historical fact・stateを変更しない。
-
-### J. Prepublication Gate
-
-最低条件:
-
-- adopted EVT/stateと本文が整合
-- `verification.md`: PASS
-- executable verificationがある場合は再実行PASS
-- `semantic-review.md`: PASS
-- blockingな未検証用語なし
-- 未来知識漏洩なし
-- 数値・手順・条件がevidenceと一致
-- 重要な歴史・制度描写に根拠あり
-- unresolved事項を本文だけでCanon固定していない
-- strict validator PASS
-
-gateは二段階で行う。
-
-```text
-IN_PROGRESS
-   ↓ 必須package・verification・semantic reviewが揃う
-GATE_CANDIDATE
-   ↓ executable verification + strict validator + CI PASS
-PREPUBLICATION_GATE_PASSED
-```
-
-`GATE_CANDIDATE`には`PREPUBLICATION_GATE_PASSED`と同じ静的gate条件を適用する。これにより、**gate通過と宣言する前に本番相当のstrict validationを実行できる。**
-
-`GATE_CANDIDATE`のCIが失敗した場合は`PREPUBLICATION_GATE_PASSED`へ上げず、原因を修正して再度candidate CIを通す。
-
-通過状態:
-
-`PREPUBLICATION_GATE_PASSED`
-
-これは工程gate通過を意味するだけで、科学的完全性、歴史的完全性、文学的完成、Canon昇格、公開承認を意味しない。
-
-## 5. 検証システム
-
-静的検査:
+明示的レビュー後の記録例:
 
 ```bash
-python tools/validate_workflow.py
+python tools/validate_workflow.py --record-review 001 --evidence novel/canon.md
+```
+
+この操作は章の状態を昇格しない。CIは対象版も保存結果も自動更新しない。packageのREADMEは状態昇格時に変化する索引なので、この最低限の対象版記録からは除く。
+
+## 4. Gateの状態遷移
+
+`IN_PROGRESS` → `GATE_CANDIDATE` → 対象版に対するCI成功 → `PREPUBLICATION_GATE_PASSED` → 別途Human Review。
+
+候補にも通過済み章と同じ内容前提を課す。候補時点のcommitとCI runをpackage READMEへ記録する。
+
+必要条件は、EVT/stateとの整合、話別検証PASS、意味レビューPASS、blockingな未検証・未置換用語なし、有効なreview-lock、コード再実行と保存結果の一致、厳格検査通過。
+
+未知・欠落・重複した状態、未解決ACTION_LOCKEDの採用、outline欠落は成功扱いにしない。単に`result: PASS`と書かれたJSONも、個別checksや章IDが不正なら受理しない。
+
+数理検証、意味レビュー、読者評価、人間の公開承認は別々に記録する。未確定の所在地・年月日等を、gateのために捏造しない。
+
+## 5. 開発CIと公開前検査
+
+```bash
+python -m unittest discover -s tests -p 'test_*.py' -v
+python tools/run_chapter_experiments.py
+python tools/validate_workflow.py --strict --allow-drafts
+```
+
+作業branchのCIは未完成章の存在だけを失敗理由にしない。`--allow-drafts`が免除するのはWF060のみ。候補・通過済み章の必須条件や、未完成章の構造欠落を免除しない。
+
+公開前およびmainでは免除しない:
+
+```bash
 python tools/validate_workflow.py --strict
 ```
 
-コード化された話別検証:
+コード再実行は標準出力のJSONを読み、章ID、総合結果、空でない個別checks、保存済みJSONとの全項目一致を確認する。終了コード0だけでは成功にしない。timeout、非JSON、保存結果の書換えも不合格とする。
 
-```bash
-python tools/run_chapter_experiments.py
-```
+現在の章別コードはCPythonの整数演算、標準ライブラリ、固定入力で動作する。確率的実験や浮動小数点backendを導入する場合、同じ全項目一致規則を黙って緩めず、測定条件・許容差・保存する結果を先に定義する。
 
-GitHub Actionsはpush時に、
+### 実装変数表
 
-1. validator unit tests
-2. executable chapter verifications
-3. strict workflow validator
+| 記号・識別子 | 意味 | SI単位 | 定義 | 範囲・前提 | 型 |
+|---|---|---|---|---|---|
+| root | 検査対象repoの根 | 非該当 | 明示指定またはscriptの親 | ローカルの既存directory | Path |
+| num / chapter | 話識別子 | 1・無次元 | 3桁の文字列 | 対応する本文が存在 | 文字列 |
+| files | 検証入力の内容識別子表 | 非該当 | repo相対pathからGit blob IDへの対応 | 必須依存を含む。repo外pathは禁止 | 辞書 |
+| checks | 個別判定 | 1・無次元 | 名前からboolへの対応 | 空でなく、成功には全項目がtrue | 辞書 |
+| timeout | 1コードの実行上限 | s | runnerの引数。既定30秒 | 正数。速度benchmarkではない | 実数 |
 
-を実行する。
+単位確認: 内容識別子・件数・boolは物理量ではない。実行上限だけが時間量。モデル内の結合入力を電圧や発火頻度へ読み替えない。
 
-CIが証明するのは**機械化した工程条件が通ったこと**であり、作品内容そのものの真理ではない。
+## 6. 変更・長期目標
 
-## 6. State lifecycle
+評価と改善目標は `notes/assessment-and-roadmap.md`。これは制作上の受入基準であり、人物へ渡す未来プロットではない。
 
-一度詳細化したentityを永続的にactiveへ固定しない。
+新機能は実際の失敗に対応するときだけ追加する。復元・本文修正・検証のコストを今後の制作単位で記録し、閾値は実測後に調整する。checkpointやDORMANT化で過去EVTを消さない。
 
-- 現在因果へ必要 → ACTIVE
-- 現在scope外で復元可能 → DORMANT
-- 再び因果へ届く → trusted snapshot + relevant deltasからREACTIVATE
-
-過去EVT/stateを削除せず、checkpointは圧縮キャッシュとして使う。
-
-詳細: `novel/state/LIFECYCLE.md`
-
-## 7. 実行タイミング
-
-最低限、次で検証する。
-
-1. 新しいEVT/state群をまとめた後
-2. 章本文を作成・大幅改稿した後
-3. Mandatory Verificationを追加・変更した後
-4. semantic review後
-5. `GATE_CANDIDATE`へ変更してstrict CIを実行
-6. candidate CI PASS後に`PREPUBLICATION_GATE_PASSED`へ変更
-7. `main...work branch`を人間へ提示する前
+関連変更は可能な範囲で一つの整合したcommitにまとめ、未完の中間ファイルごとに成功を報告しない。mainへのmerge/fast-forward、PR、docs同期、公開は明示的な人間承認を別途必要とする。

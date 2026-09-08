@@ -1,42 +1,23 @@
-# 第4話 Minimum Causal Outline
+# 第4話「五と二十一」最小因果あらすじ
 
-状態: `DRAFT / PROVISIONAL`
+状態: `INTERNAL / PROVISIONAL`
 
-対象event:
+採用event:
 
 `EVT-012 -> EVT-013`
 
-## 読書単位
+## 因果骨格・切れ目
 
-第3話でstableかつstored / stored-negation外と確認した16-neurone candidate Qについて、二人が意味づけを避け、まずM1/M2/M3とのcomponentwise関係を全件記録する。その結果Qは三patternの成分多数と全16位置で一致し、さらにその静的構造がなぜHebbian connectionの下でstableになるかをoverlapから導出する。
+Qと三つの保存パターンを十六位置で比較し、多数側との一致と等距離を確認する。次に結合から入力を内積で整理し、自己結合分を除くと二十一と五が直接計算と一致する。Qが安定する理由を説明できた一方、Q以外から到達するかは未観測と区別したところで切る。
 
-## 最小因果骨格
+## 2026-09-08の監査
 
-1. 高橋と佐伯はQとM1/M2/M3を16位置すべて横に並べる（EVT-012）。
-2. 各位置で三stored patternsが全一致か2対1かを記録し、結果後にruleを追加しない。
-3. Qは16/16位置で三patternのcomponentwise majorityと一致する。
-4. 12個の2対1位置ではM1/M2/M3が各4回ずつminorityになり、特定patternへ偏らない。
-5. Qから三stored patternsへのHamming distanceは4/4/4、stored patterns相互は8/8/8。
-6. 佐伯は「多数側に見える」という静的記述と「なぜstableか」という機構説明を分ける。
-7. 二人はbipolar vectorの `x·y=N-2d_H(x,y)` を使い、Qと各stored patternのoverlapが8であることを確認する（EVT-013）。
-8. Hebbian connectionとself-connection=0から、`h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i` を導く。
-9. 三pattern全一致位置では `h_i=21Q_i`、2対1位置では `h_i=5Q_i` となり、EVT-011のlocal-input vectorを16/16で再現する。
-10. 第4話は「多数決だから記憶になった」という意味づけではなく、少なくともこの掲載例ではstored memories同士の重なりがstored外stable stateを自己支持する仕組みまで追えた、という局所的説明で終える。
+Qを一つの記憶の少数箇所の破損として表せない、という過剰な断定を削除。三つから等距離で特定の元を選べない、と限定。数式の読み上げを減らし、自己結合を除く操作を残した。
 
-## 本文で新規に成立させてはいけないfact
+本文は採用EVTの投影。後続event、現代研究結果、新しい機種・職位・制度判断を追加しない。
 
-- EVT-014以降の結果
-- random-start accessibility / basin sizeの新しい結果
-- unlearningを実行した結果
-- 1985年以降のmixture-state formula / spin-glass理論
-- componentwise majorityが一般のspurious memory全てに成立するという一般化
-- 生物学的な多数決機構
-- 新しい計算機・OS・language・設備
-- ORG-001への正式報告
+## 限界
 
-## Narrative focus
+多数側という静的記述を、独立の投票機構や一般の安定定理としない。正の符号付き余裕はこの候補だけ。Q以外からの到達結果は本文にない。
 
-- 16位置の表を全文列挙せず、規則と代表位置、集計で読者が追えるようにする。
-- `4/4/4` と `8/8/8` の対称性を、Qが誰か一つの記憶へ近いわけではないことの説明に使う。
-- 数式は`overlap=8`と`h_i=8c_i-3Q_i`の二段階へ絞る。
-- 佐伯は「多数決」という比喩を機構や生物学へ拡張させない役割を維持する。
+検証・用語・意味レビューは `../../experiments/chapters/004/`。全体の制作目標は `../../notes/assessment-and-roadmap.md`。あらすじを未来の原因として人物へ配らない。

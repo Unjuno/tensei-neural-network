@@ -60,18 +60,38 @@ def run_order(order: list[int], weights: list[list[int]]) -> dict:
     }
 
 
+def first_sweep_trace(order: list[int], weights: list[list[int]]) -> list[dict]:
+    state = CUE[:]
+    trace = []
+    for one_based in order:
+        i = one_based - 1
+        h = sum(weights[i][j] * state[j] for j in range(len(state)))
+        before = state[i]
+        state[i] = 1 if h > 0 else -1 if h < 0 else before
+        trace.append({"unit": one_based, "input": h, "before": before,
+                      "after": state[i], "changed": before != state[i]})
+    return trace
+
+
 def execute() -> dict:
     weights = outer_sum([A, B, C])
     runs = {name: run_order(order, weights) for name, order in ORDERS.items()}
-    passed = all(
-        runs[name]["converged"] and runs[name]["final_state"] == EXPECTED[name]
-        for name in EXPECTED
-    )
+    traces = {name: first_sweep_trace(order, weights) for name, order in ORDERS.items()}
+    checks = {
+        "alpha_converged": runs["alpha"]["converged"],
+        "beta_converged": runs["beta"]["converged"],
+        "alpha_matches_A": runs["alpha"]["final_state"] == A,
+        "beta_matches_B": runs["beta"]["final_state"] == B,
+        "alpha_change_positions": [row["changed"] for row in traces["alpha"]] == [True, False, False, False, False, True],
+    }
+    passed = all(checks.values())
     return {
         "chapter": "001",
+        "checks": checks,
         "experiment": "EVT-004 minimal reproduction",
         "inputs": {"A": A, "B": B, "C": C, "cue": CUE},
         "weights": weights,
+        "first_sweep_traces": traces,
         "runs": runs,
         "expected": EXPECTED,
         "result": "PASS" if passed else "FAIL",

@@ -1,171 +1,38 @@
 # 作業コンテキスト
 
-更新: 2026-09-06
+更新: 2026-09-08
+公開可能な引継ぎ用索引。内部推論や秘密情報は保存しない。
 
-このファイルは別セッションへ探索状態を引き継ぐ公開可能な作業記憶。正本ではない。矛盾時はevent / state / verificationを優先する。
+## 現在位置
 
-## 主目的
+作業branchはwork/story-bootstrap。main/PR/docs/公開には触れない。
 
-小説が主役。
+1980年代側headはEVT-013。PER-005 高橋修一、PER-006 佐伯玲子、ORG-001がactive。現代側EVTは未成立。
 
-研究・再現は、小説内で実際に成立した疑問を現実史・数理・実験で検証し、NarrativeProjectionへfeedbackするために使う。
+第1〜4話はそれぞれEVT-001〜004、005〜008、009〜011、012〜013を採用。今回の評価で4話を改稿し、過去稿のgateを流用せずGATE_CANDIDATEとして再検証する。
 
-## Branch / workflow
+## 2026-09-08監査
 
-- work branch: `work/story-bootstrap`
-- `main`: human-accepted canonicalのみ
-- PR未作成
-- gate: `IN_PROGRESS -> GATE_CANDIDATE -> strict CI PASS -> PREPUBLICATION_GATE_PASSED`
-- Human Review前にCanon/mainへ昇格しない
+詳細: assessment-and-roadmap.md。
 
-## Current story state
+旧レビューのPASSには見逃しがあった。第1話冒頭の未成立の六素子実験、alphaの三つ目の更新誤り、第2話の未記録の結果選別告白、別模型の表の混同、第4話の原像に関する過剰断定を本文側で直した。
 
-1980年代側:
+新EVT、研究EXP、persona、組織は増やしていない。既存数学の結論・過去event/stateは変えていない。
 
-- Bootstrap: `BOOT-002 @ T0-1980S @ none`
-- event head: `EVT-013`
-- active personas: PER-005 高橋修一 / PER-006 佐伯玲子
-- active organization: ORG-001 光陵化学生命科学研究所
+4話のコードをGit blob照合後にローカル再実行。現モデルの結論はPASS。第1話に最初の一巡のtraceと個別checksを追加した。保存JSONを完全な実行出力へ更新し、以後は再実行結果全体と照合する。
 
-現代側:
+新validatorは不正・欠落状態、outline欠落、ACTION_LOCKED採用、レビューの対象版不一致、結果JSONの不整合を検出する。40件のローカルunit testsを実行した。全repoの実行結果はGitHub Actionsを別途確認する。
 
-- Bootstrap候補: `BOOT-001 @ T0-MODERN @ none`
-- event head: none
+## 再開時の注意
 
-## Chapters
+review-lock.jsonは本文と証拠の版対応で、真理証明・電子署名ではない。改稿後は再読・再検証し、hashだけ更新してはいけない。
 
-- 第1話「戻る先」: EVT-001〜004
-- 第2話「選ばなかった答え」: EVT-005〜008 / gate passed
-- 第3話「表の外」: EVT-009〜011 / gate passed
-- 第4話「五と二十一」: EVT-012〜013 / gate passed
+world/persona snapshotがEVT-007で終わっていても、EVT-008〜013とdeltaから復元する。EVTとdeltaは同じ変化の異なる記録であり二重加算しない。
 
-第3話candidate CI run: `33995822802` success。
+LOCKEDは独立盲検を意味しない。公刊例の再計算は新発見ではない。EVT-004のUNBLINDEDを人物の不正行為と混同しない。
 
-第4話candidate CI run: `33996369324` success。
+## 次の優先
 
-## EVT-009〜013
+長期目標は読者理解、人物を追う動機、資料来歴、再現性、独立復元。最初の小規模試読は5人以上を提案しているが未実施。現在の改稿も読者評価済みとは言わない。
 
-### EVT-009
-
-current 6-unit toyのfixed set:
-
-```text
-F={A,B,C,-A,-B,-C}
-S={A,B,C}
-R=F\(S∪-S)=∅
-```
-
-全64 states列挙済みなので、このtoyについてはstored / negation外stable finalが存在しない。
-
-一般のHopfield型networkへの不存在主張ではない。
-
-### EVT-010
-
-文献選択規則をpre-lockし、Hopfield / Feinstein / Palmer (1983), DOI `10.1038/304158a0` を主対象にした。
-
-人物が知った範囲:
-
-- spurious memoriesは1983時点で明示的研究対象
-- random initial statesからのaccessibilityを論文が定義
-- unlearningはnoise/random startから到達したfinal stateのconnectionを弱く逆更新する
-
-1985年以降のmixture-state理論は未観測。
-
-### EVT-011
-
-1983論文掲載16-neurone / 3-memory exampleをそのままpre-lock再計算。
-
-```text
-h(Q)=
-(+21,+21,+5,+5,-5,-5,-21,-21,
- +5,-5,-5,+5,+5,-5,-5,+5)
-```
-
-16/16 nonzero、16/16 Qと同符号。
-
-QはM1/M2/M3でも、そのglobal negationでもない。
-
-### EVT-012
-
-M1/M2/M3/Qの16位置を全件分類。
-
-- Qはcomponentwise majorityと16/16一致
-- unanimity 4
-- 2:1 split 12
-- minority count M1/M2/M3 = 4/4/4
-- Q-Ms distances = 4/4/4
-- Ms間distances = 8/8/8
-
-### EVT-013
-
-Hamming/inner-product identityとHebbian ruleだけでQのstabilityを導出。
-
-```text
-M1·Q=M2·Q=M3·Q=8
-h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i
-```
-
-- unanimity: `21Q_i`
-- split: `5Q_i`
-- EVT-011 direct local inputsと16/16一致
-
-一具体例のexact explanationであり、一般のspurious-state theoryではない。
-
-## Primary references
-
-- REF-001: Hopfield 1982, DOI `10.1073/pnas.79.8.2554`
-- REF-002: Hopfield / Feinstein / Palmer 1983, Nature 304, 158–159, DOI `10.1038/304158a0`, published 1983-07-14
-
-REF-002本文には16-neurone / 3-memory / spurious candidateが具体的に掲載される。
-
-## Current local question
-
-EVT-013後:
-
-> **Qはstableだが、実際の初期状態からQへ到達されるのか。**
-
-次に扱うのはstabilityではなくreachability / accessibility。
-
-## Next world-advancement constraints
-
-accessibilityへ進む場合、結果を見る前に最低限固定する。
-
-- starting-state set
-- update order / schedule
-- stopping rule
-- trial count
-- classification rule
-- randomness / seed（使用する場合）
-
-注意:
-
-- 1983論文Figure 1は32 neurones / 5 nominal memoriesだが、本文にその5 patternsの具体bit列は掲載されていない
-- したがって16-neurone掲載exampleを使うfollow-upをFigure 1のexact reproductionと呼ばない
-- 16-neurone Qのlocal accessibilityを調べるならstory-side follow-upとして明記する
-
-## Computing-resource boundary
-
-EVT-013までは紙上で完全追跡可能だったため共用計算機を独立SYS/OBJ化していない。
-
-multi-trial accessibilityで紙上追跡が合理的でなくなった時点で、初めてORG-001の共用計算資源をresolution scopeへ入れる。
-
-その際は実在1980年代日本の研究用計算環境を調べ、因果に必要な範囲だけ機種 / OS / language /利用形態を固定する。
-
-## Known workflow lessons
-
-- Mandatory Verificationは物語の後に選ぶ。verificationのためにeventを発生させない
-- `PREPUBLICATION_GATE_PASSED`を本文中の説明文substringで判定しない
-- outlineの禁止未来EVTをdependencyと誤認しない
-- provisional label Dとcanonical label -Cを同一時点の分類として扱わない
-- chapter本文へ「第3話」等の制作側metaを漏らさない
-
-## Unresolved
-
-- exact story date
-- ORG-001所在地・具体部門・所長
-- 高橋/佐伯の具体職位
-- shared computerの具体機種 / OS / language
-- EVT-014以降
-- modern-side first event
-
-必要になる前に固定しない。
+新話を進める場合の局所問題はQ以外からの到達。結果を先に作らず、必要な条件を先に固定する。計算機・組織・物は因果上必要になった時だけ具体化する。研究所の閉鎖や現代側展開を予定した結果として初期状態へ書かない。

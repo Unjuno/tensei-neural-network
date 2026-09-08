@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "chapter": "001",
+  "algorithm": "git-blob-sha1",
+  "files": {
+    "POLICY.md": "cb62c3d5554fe16ac6e8b54843a4fe168a053022",
+    "WORKFLOW.md": "749d4dc93ecefa5fa42973ee9594edf33a5de379",
+    "experiments/chapters/001/results.json": "b11906e3ceb52f156db73fb1d8404341524680fa",
+    "experiments/chapters/001/run.py": "1627c70ffd8ed9b94d55199cd97b195cdf2ad7f4",
+    "experiments/chapters/001/semantic-review.md": "e90032c8adfe6adedda6ab01f1dbd30126e664e0",
+    "experiments/chapters/001/terminology.md": "25b90651cc230d29314b1c8dbfca36f6d5388cac",
+    "experiments/chapters/001/verification.md": "43e254b8a7bec7844930bcb3a8508bdd4bc1b7f4",
+    "novel/STYLE_WEBNOVEL.md": "9d855720c12380a7e4df705d72473a3c2c9efff9",
+    "novel/WORLD_POLICY.md": "dddd9c891935f91e7bd5cdba8d11ae4dba4bf2f1",
+    "novel/canon.md": "733bec8c8583f46b7d7231aaee87bab2bc4427e2",
+    "novel/chapters/001-outline.md": "c29edc8a01306005ba2233bd8463f8ba8a87eea2",
+    "novel/chapters/001.md": "8553c91eddd734093efa90237c7b15a699f05f0b",
+    "novel/environment.md": "76f813246e7485498e47a1949056372f82089aca",
+    "novel/events/EVT-001-stopping-is-not-returning.md": "fb55f9ed79a8ca1a0ce558331ca1c90eae2fcc5e",
+    "novel/events/EVT-002-who-defines-correct-recall.md": "9149057e7637da8cff2d79e9261bf035c7cc501f",
+    "novel/events/EVT-003-a-fair-cue-is-not-neutral.md": "ff96cd7165b6cf17478412bb66c220fd2ad5350f",
+    "novel/events/EVT-004-same-cue-two-returns.md": "e0cfeb809bdfb0809c3e51fba973188ec95a121c",
+    "novel/organizations/ORG-001-koryo-chemical-life-science-institute.md": "74133e41af66a89a1325bb1fc1d624afe2a8642a",
+    "novel/personas/PER-005-1980s-researcher.md": "f64507bf85a86761dc64f7845beca85d654e4219",
+    "novel/personas/PER-006-experimental-neuroscience-colleague.md": "59e617978b720668ce6da74e542003e69f017237"
+  }
+}

@@ -1,58 +1,40 @@
-# 第1話 Semantic Review
+# 第1話 Semantic Review — 監査後再評価
 
 状態: `PASS`
 
+レビュー日: 2026-09-08
+対象本文・依存版: `review-lock.json`。
+レビュー種別: 本制作セッションでのAI再読。独立した別担当・盲検レビューではない。
+採用event: EVT-001 -> EVT-002 -> EVT-003 -> EVT-004。
+
 ## Evidence inputs
 
-- Chapter: `novel/chapters/001.md`
-- Adopted EVT range: `EVT-001 -> EVT-004`
-- Persona: `PER-005`, `PER-006`
-- Organization: `ORG-001`
-- Chapter verification: `verification.md`, `experiment.md`, `terminology.md`
-- Story time: `T0-1980S`。具体年月日は`ALLOWED_UNRESOLVED`
+本文、outline、採用EVTとそこまでの先行EVT、Canon、環境、persona定義、話別verification・terminology・再実行結果を照合した。追加の状態情報は各EVTのpersona/world deltaに戻る。
 
-## 1. Knowledge boundary
+## Knowledge boundary / unresolved facts
 
-判定: `PASS`
+本文の知識は各場面までに読解・観測した内容に限る。後続EVTの答え、現代EXPの数値、研究所の未公表判断は入れない。氏名・所属は既存persona定義を使用。具体年月日、機種、OS、職位、研究所の将来は固定していない。
 
-高橋・佐伯の会話はEVT-001〜004までに観測可能な情報へ収まり、EVT-005以降の全状態空間探索・符号反転対称性や作者側EXP-004の統計結果は流入していない。高橋の私的記録をORG-001のinstitutional memoryとも扱っていない。
+## Fidelity・修正記録
 
-## 2. Unresolved fact invention
+旧本文の「六素子を三度計算済み」を文献読解へ置換し、EVT-001以前の未成立実験を削除。「三つ目で変わる」も実際の経路へ修正。旧意味レビューのfidelity PASSには見逃しがあった。
 
-判定: `PASS`
+修正後の順序と結論を再読し、`verification.md`の結果へ照合した。過去EVTの結果を本文都合で変更していない。
 
-具体年月日、具体機種、OS、所在地、詳細職位を本文都合で固定していない。具体story dateは現在の因果に不要なので未解決のまま保持している。
+## History / terminology
 
-## 3. Historical / technical anachronism
+時代設定は1984〜85年前後の候補のまま。第3・4話の掲載例は1983年論文に基づく。未確認の同時代日本語用例は `terminology.md` で区別し、語の近年の定着を当時の読了事実にしない。
 
-判定: `PASS WITH ALLOWED UNCERTAINTY`
+## Provenance / interpretation
 
-主要な連想記憶・想起・手掛かりの語彙と1980年代企業基礎研究環境は話別資料へ照合済み。`ハミング距離`と`素子`の完全な同時代直接一致には不確実性が残るが、本文では意味を先に説明し、年代依存の核心事実として扱っていない。
+EVT-004はUNBLINDEDのまま。二つの存在例であり、頻度・一般的な想起性能・生物学的記憶を証明しない。
 
-## 4. NarrativeProjection fidelity
+LOCKEDは条件を結果後に差し替えないための記録で、行動選択自体が無偏である証明ではない。現実の人間の記憶、意識、輪廻、本人性へ結論を拡張しない。
 
-判定: `PASS`
+## 文学面
 
-本文の中心結果はEVT-001〜004と話別再現結果に一致する。本文から新しい重要world factを逆生成していない。
+同じ限定と返事の反復、計算値の読み上げを減らした。これは編集判断であり、読者の理解や継続読書意欲の測定結果ではない。研究者二人が説明役に偏る構造的な弱さは残る。改善のために未成立の私生活・組織事件を過去へ追加しない。
 
-## 5. Plot conditioning / provenance
+## Verdict / remaining items
 
-判定: `PASS WITH DISCLOSED LIMITATION`
-
-EVT-004は`UNBLINDED`であり、selection biasを排除したworld resolver検証ではない。この限界は話別検証で明記され、cleanな創発証拠として扱っていない。
-
-## Findings
-
-- Blocking: なし
-- Non-blocking: `ハミング距離`、`素子`のより強い同時代用例は将来追加可能
-- Allowed unresolved: 具体年月日、具体機種、所在地、詳細職位
-
-## Required fixes
-
-なし。
-
-## Verdict
-
-`PASS`
-
-このPASSは、現在利用しているevidenceとreview時点で公開前gateを妨げる意味論上の矛盾が見つからないことを表す。科学的・歴史的真理の最終保証ではない。
+現対象版でblockingな本文とEVTの矛盾を検出しなかったという限定PASS。旧PASSに見逃しがあったことを撤回せず履歴へ明示する。独立試読、独立復元、広い世界因果の検証、Human Reviewは未実施。公開承認ではない。

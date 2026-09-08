@@ -1,114 +1,40 @@
-# 第3話 Semantic Review
+# 第3話 Semantic Review — 監査後再評価
 
 状態: `PASS`
 
-対象:
+レビュー日: 2026-09-08
+対象本文・依存版: `review-lock.json`。
+レビュー種別: 本制作セッションでのAI再読。独立した別担当・盲検レビューではない。
+採用event: EVT-009 -> EVT-010 -> EVT-011。
 
-- `novel/chapters/003.md`
-- adopted events: `EVT-009 -> EVT-010 -> EVT-011`
+## Evidence inputs
 
-## Evidence
+本文、outline、採用EVTとそこまでの先行EVT、Canon、環境、persona定義、話別verification・terminology・再実行結果を照合した。追加の状態情報は各EVTのpersona/world deltaに戻る。
 
-- `novel/events/EVT-009-no-residual-fixed-point-in-this-toy.md`
-- `novel/events/EVT-010-return-to-the-literature.md`
-- `novel/events/EVT-011-reproduce-the-published-spurious-state.md`
-- `novel/state/personas/deltas/EVT-009.md`
-- `novel/state/personas/deltas/EVT-010.md`
-- `novel/state/personas/deltas/EVT-011.md`
-- `experiments/chapters/003/verification.md`
-- Hopfield / Feinstein / Palmer (1983), DOI `10.1038/304158a0`
+## Knowledge boundary / unresolved facts
 
-## 1. Knowledge boundary
+本文の知識は各場面までに読解・観測した内容に限る。後続EVTの答え、現代EXPの数値、研究所の未公表判断は入れない。氏名・所属は既存persona定義を使用。具体年月日、機種、OS、職位、研究所の将来は固定していない。
 
-判定: `PASS`
+## Fidelity・修正記録
 
-- 高橋・佐伯が使う1983論文はstory time候補より前に公刊済み
-- 1985年以降のAmit–Gutfreund–Sompolinsky等のmixture-state理論を人物へ与えていない
-- 現代側EXP-003〜005の数値・seed・仮説判定を人物へ漏らしていない
-- 第3話末でQの一般構造を既知としていない
+六素子の結果表へ十六素子のQを書き足すように読める箇所を、別模型の別表へ修正。「当時って、僕らの今」の制作側メタと英語依存を除去。世界中で最早の論文と断定せず、検討した範囲の選択として描く。
 
-## 2. Unresolved fact invention
+修正後の順序と結論を再読し、`verification.md`の結果へ照合した。過去EVTの結果を本文都合で変更していない。
 
-判定: `PASS`
+## History / terminology
 
-本文は次を新規固定していない。
+時代設定は1984〜85年前後の候補のまま。第3・4話の掲載例は1983年論文に基づく。未確認の同時代日本語用例は `terminology.md` で区別し、語の近年の定着を当時の読了事実にしない。
 
-- 具体年月日
-- ORG-001の所在地・職位・研究グループ名
-- 計算機機種・OS・programming language
-- 文献コピーの物理的provenance
-- ORG-001への正式報告・承認
+## Provenance / interpretation
 
-文献アクセスと紙上計算はORG-001の既存resource baselineの範囲で成立する。
+1983年論文の掲載例の再計算で、未知現象の発見でもFigure 1の全条件再現でもない。文献選択のLOCKEDは網羅的な優先権調査の証明ではない。1985年以降の一般理論は未観測。
 
-## 3. Historical / technical anachronism
+LOCKEDは条件を結果後に差し替えないための記録で、行動選択自体が無偏である証明ではない。現実の人間の記憶、意識、輪廻、本人性へ結論を拡張しない。
 
-判定: `PASS`
+## 文学面
 
-- 1983 Nature論文の公刊時期は現在story time候補より前
-- 連想記憶・spurious memory・unlearningは当該1983一次文献に直接存在
-- 1984日本語資料で連想記憶の近接時期語彙を確認済み
-- 本文は後世の`mixture state`等を使わない
+同じ限定と返事の反復、計算値の読み上げを減らした。これは編集判断であり、読者の理解や継続読書意欲の測定結果ではない。研究者二人が説明役に偏る構造的な弱さは残る。改善のために未成立の私生活・組織事件を過去へ追加しない。
 
-## 4. NarrativeProjection fidelity
+## Verdict / remaining items
 
-判定: `PASS`
-
-EVTから本文への対応:
-
-- EVT-009: 6-unit toyのresidualが空 → 冒頭の「残らなかった」および三分類
-- EVT-010: modelを都合よく大きくせず文献選択条件を先に固定 → 佐伯との文献選択会話
-- EVT-011: 16-neurone掲載例をそのまま再計算 → local-input calculation / Q stability / stored-negation外の確認
-
-本文はEVT-011以降の構造説明を新factとして成立させていない。
-
-## 5. Plot conditioning / provenance
-
-判定: `PASS`
-
-- EVT-009は既観測有限集合の決定的再分類で`LOCK_NOT_REQUIRED`
-- EVT-010は文献選択規則を結果前lock
-- EVT-011は掲載patterns / weights / PASS-FAIL-UNCERTAIN条件を計算前lock
-- 第3話本文の結末からEVT条件を遡及変更していない
-
-## 6. Interpretation boundary
-
-判定: `PASS`
-
-本文の`spurious memory`は1983論文上のmodel-level呼称として提示される。
-
-高橋・佐伯はQを、
-
-- 人間の偽記憶
-- 夢
-- 創作
-- 人格同一性
-
-へ直接一般化していない。
-
-章末の問いも「これは何の記憶か」から「これは三つの記憶パターンからどう作られている」に修正され、意味論より構造記述を優先している。
-
-## 7. Literary coherence
-
-判定: `PASS`
-
-- 冒頭に`R=∅`相当の違和感を置く
-- 高橋の「面白くない」「大きくするか」という反応からcondition-selection問題を自然に出す
-- 佐伯は観測・選択規則を先に固定するpersona差を維持
-- 文献説明を長い歴史講義にせず、次の行動理由として圧縮
-- 16個の計算は全て羅列せず、途中経過と最終vectorで再現可能性を保つ
-- 章末は結果の誇張でなく、問いの再定義で終える
-
-## Required fixes
-
-なし。
-
-## Verdict
-
-`PASS`
-
-意味:
-
-現在のevent/state/evidenceに対するsemantic contradiction、knowledge leakage、anachronism、plot-conditioning violationをblocking levelでは確認しなかった。
-
-これは科学的・歴史的完全性や文学的完成度の最終保証ではない。
+現対象版でblockingな本文とEVTの矛盾を検出しなかったという限定PASS。旧PASSに見逃しがあったことを撤回せず履歴へ明示する。独立試読、独立復元、広い世界因果の検証、Human Reviewは未実施。公開承認ではない。

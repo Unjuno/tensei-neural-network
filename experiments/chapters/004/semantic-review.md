@@ -1,114 +1,40 @@
-# 第4話 Semantic Review
+# 第4話 Semantic Review — 監査後再評価
 
 状態: `PASS`
 
-対象:
+レビュー日: 2026-09-08
+対象本文・依存版: `review-lock.json`。
+レビュー種別: 本制作セッションでのAI再読。独立した別担当・盲検レビューではない。
+採用event: EVT-012 -> EVT-013。
 
-- `novel/chapters/004.md`
-- adopted events: `EVT-012 -> EVT-013`
+## Evidence inputs
 
-## Evidence
+本文、outline、採用EVTとそこまでの先行EVT、Canon、環境、persona定義、話別verification・terminology・再実行結果を照合した。追加の状態情報は各EVTのpersona/world deltaに戻る。
 
-- `novel/events/EVT-012-classify-the-triple-componentwise.md`
-- `novel/events/EVT-013-derive-why-the-majority-is-stable.md`
-- `novel/state/personas/deltas/EVT-012.md`
-- `novel/state/personas/deltas/EVT-013.md`
-- `experiments/chapters/004/verification.md`
-- Hopfield / Feinstein / Palmer (1983), DOI `10.1038/304158a0`
+## Knowledge boundary / unresolved facts
 
-## 1. Knowledge boundary
+本文の知識は各場面までに読解・観測した内容に限る。後続EVTの答え、現代EXPの数値、研究所の未公表判断は入れない。氏名・所属は既存persona定義を使用。具体年月日、機種、OS、職位、研究所の将来は固定していない。
 
-判定: `PASS`
+## Fidelity・修正記録
 
-- 高橋・佐伯はEVT-011までに共有済みの1983論文掲載patternsと自分たちの計算だけを使う
-- `x·y=N-2d_H(x,y)`、有限和、Hebbian connectionの代数は当時利用可能な数学である
-- 1985年以降のmixture-state formula / spin-glass解析を人物へ与えていない
-- chapter末のaccessibilityは問いとしてのみ成立し、結果を先取りしていない
+Qを一つの記憶の少数箇所の破損として表せない、という過剰な断定を削除。三つから等距離で特定の元を選べない、と限定。数式の読み上げを減らし、自己結合を除く操作を残した。
 
-## 2. Unresolved fact invention
+修正後の順序と結論を再読し、`verification.md`の結果へ照合した。過去EVTの結果を本文都合で変更していない。
 
-判定: `PASS`
+## History / terminology
 
-本文は、
+時代設定は1984〜85年前後の候補のまま。第3・4話の掲載例は1983年論文に基づく。未確認の同時代日本語用例は `terminology.md` で区別し、語の近年の定着を当時の読了事実にしない。
 
-- 具体年月日
-- ORG-001の具体所在地・職位
-- 計算機機種・OS・language
-- institutional report
-- random-start trialの具体条件
+## Provenance / interpretation
 
-を新規固定していない。
+多数側という静的記述を、独立の投票機構や一般の安定定理としない。正の符号付き余裕はこの候補だけ。Q以外からの到達結果は本文にない。
 
-末尾で計算機利用の可能性を話すが「必要になった時点で決める」とし、具体機種をCanon化していない。
+LOCKEDは条件を結果後に差し替えないための記録で、行動選択自体が無偏である証明ではない。現実の人間の記憶、意識、輪廻、本人性へ結論を拡張しない。
 
-## 3. Historical / technical anachronism
+## 文学面
 
-判定: `PASS`
+同じ限定と返事の反復、計算値の読み上げを減らした。これは編集判断であり、読者の理解や継続読書意欲の測定結果ではない。研究者二人が説明役に偏る構造的な弱さは残る。改善のために未成立の私生活・組織事件を過去へ追加しない。
 
-- 本文で新規に使う主要技術操作は±1 vector、Hamming distance、内積、Hebbian connectionの有限和
-- 1985年以降のmixture terminologyを使用しない
-- Q / M1 / M2 / M3は1983一次文献掲載例から継承
+## Verdict / remaining items
 
-## 4. NarrativeProjection fidelity
-
-判定: `PASS`
-
-EVT-012から本文へ:
-
-- 16位置の全分類 → 代表位置 + 集計へ圧縮
-- majority 16/16
-- unanimity 4、split 12
-- minority 4/4/4
-- Q距離4/4/4、stored相互8/8/8
-
-EVT-013から本文へ:
-
-- overlap 8/8/8
-- `h_i=8(M1_i+M2_i+M3_i)-3Q_i`
-- unanimity 21 / split 5
-- EVT-011 local-input vectorとの16/16一致
-
-本文は新しい客観結果を追加していない。
-
-## 5. Plot conditioning / provenance
-
-判定: `PASS`
-
-- EVT-012はclassification procedureとoutcome categoriesを結果前lock
-- EVT-013はderivation route / PASS-FAIL-UNCERTAINを結果前lock
-- 第4話の結末から両eventの条件を遡及変更していない
-
-## 6. Interpretation boundary
-
-判定: `PASS`
-
-- `多数決`をnetwork mechanismとして固定しない
-- componentwise majorityはこの掲載例の静的pattern relationとしてのみ扱う
-- `記憶させたもの同士の重なりが別の安定状態を作る`という表現は、この具体例のHebbian connection / overlap derivationに限定される
-- biological memoryへの一般化なし
-
-## 7. Narrative meta leakage
-
-判定: `PASS`
-
-初稿に混入した「第3話」という制作側メタ参照2か所を検証前に削除し、world-internalな「そこまでの計算」「前にQの安定性を確かめた紙」へ修正した。
-
-## 8. Literary coherence
-
-判定: `PASS`
-
-- 第3話末の問いを直接受ける
-- component tableを全16行本文へ転載せず、代表例と集計に圧縮
-- 数式をdistance→overlap→local inputの二段階で提示
-- 高橋の構造志向と佐伯の操作的限定が会話で維持される
-- 章末は次の未解決問題`stability != reachability`へ自然に移る
-
-## Required fixes
-
-なし。
-
-## Verdict
-
-`PASS`
-
-現在のevent/state/evidenceに対するblocking semantic contradictionは確認しなかった。
+現対象版でblockingな本文とEVTの矛盾を検出しなかったという限定PASS。旧PASSに見逃しがあったことを撤回せず履歴へ明示する。独立試読、独立復元、広い世界因果の検証、Human Reviewは未実施。公開承認ではない。

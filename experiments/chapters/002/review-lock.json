@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "chapter": "002",
+  "algorithm": "git-blob-sha1",
+  "files": {
+    "POLICY.md": "cb62c3d5554fe16ac6e8b54843a4fe168a053022",
+    "WORKFLOW.md": "749d4dc93ecefa5fa42973ee9594edf33a5de379",
+    "experiments/chapters/002/results.json": "dcfe1a3f74deaa05d9227a1da8364e631def0d4d",
+    "experiments/chapters/002/run.py": "5556af9f728f93736eedee93187cca89e610fdd1",
+    "experiments/chapters/002/semantic-review.md": "7592b7004e2b5ee3193ef6cfe20228158c27ee62",
+    "experiments/chapters/002/terminology.md": "dfec8c2f2c6f107c36d029c30c854afc2a6d283e",
+    "experiments/chapters/002/verification.md": "b310145b8a82aa74ee4f9fb345819a06513dc048",
+    "novel/STYLE_WEBNOVEL.md": "9d855720c12380a7e4df705d72473a3c2c9efff9",
+    "novel/WORLD_POLICY.md": "dddd9c891935f91e7bd5cdba8d11ae4dba4bf2f1",
+    "novel/canon.md": "733bec8c8583f46b7d7231aaee87bab2bc4427e2",
+    "novel/chapters/002-outline.md": "b00077af3bed9339fffe5981f4c03a010c67e6a0",
+    "novel/chapters/002.md": "3a894c9a61de40b5d70e0ffce166e13839fc3702",
+    "novel/environment.md": "76f813246e7485498e47a1949056372f82089aca",
+    "novel/events/EVT-001-stopping-is-not-returning.md": "fb55f9ed79a8ca1a0ce558331ca1c90eae2fcc5e",
+    "novel/events/EVT-002-who-defines-correct-recall.md": "9149057e7637da8cff2d79e9261bf035c7cc501f",
+    "novel/events/EVT-003-a-fair-cue-is-not-neutral.md": "ff96cd7165b6cf17478412bb66c220fd2ad5350f",
+    "novel/events/EVT-004-same-cue-two-returns.md": "e0cfeb809bdfb0809c3e51fba973188ec95a121c",
+    "novel/events/EVT-005-lock-the-order-family.md": "a71693f26cb25054d292b76a994fd2b27613f3bc",
+    "novel/events/EVT-006-all-balanced-cues-locked.md": "1c7ec9aa0b931c25756c0e0eb03b5ad2d5fb4de6",
+    "novel/events/EVT-007-enumerate-the-whole-small-state-space.md": "87ca6503080db0bc5cedee2c9960c318eb6ce3ce",
+    "novel/events/EVT-008-sign-inversion-symmetry.md": "117c9de798d959645d10c23e9da43ce80ccd22c6",
+    "novel/organizations/ORG-001-koryo-chemical-life-science-institute.md": "74133e41af66a89a1325bb1fc1d624afe2a8642a",
+    "novel/personas/PER-005-1980s-researcher.md": "f64507bf85a86761dc64f7845beca85d654e4219",
+    "novel/personas/PER-006-experimental-neuroscience-colleague.md": "59e617978b720668ce6da74e542003e69f017237"
+  }
+}

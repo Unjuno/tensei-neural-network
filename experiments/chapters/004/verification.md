@@ -2,77 +2,53 @@
 
 状態: `PASS`
 
-Verification type: `EXECUTABLE_REPRODUCTION + ALGEBRAIC_CHECK`
+更新: 2026-09-08
+方式: `EXECUTABLE_REPRODUCTION` と本文の対応照合。
+対象版: `review-lock.json`。対象本文は `novel/chapters/004.md`。
+採用event: EVT-012 -> EVT-013。
 
-## Fragile claims
+## 対象と選択理由
 
-第4話が依存する最も壊れやすい主張は次。
+EVT-012の成分比較・距離と、EVT-013の内積経由の入力導出が直接計算に一致すること。
 
-1. 1983論文掲載QがM1/M2/M3のcomponentwise majorityと16/16位置で一致する。
-2. unanimity位置は4、2:1 split位置は12で、splitのminorityはM1/M2/M3が各4回。
-3. `d(Q,M1)=d(Q,M2)=d(Q,M3)=4`、stored patterns相互は全て8。
-4. bipolar identity `x·y=N-2d_H(x,y)` から `M1·Q=M2·Q=M3·Q=8`。
-5. Hebbian connectionと`T_ii=0`から
+この話の結論が依存する数理的部分を選んだ。検証のために物語の出来事を追加していない。
 
-```text
-h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i
-```
+## 条件・手順・合否
 
-を導ける。
-6. その式はEVT-011の16 local inputsを完全再現し、unanimity位置で`21Q_i`、2:1位置で`5Q_i`となる。
-
-## Procedure
-
-`run.py`でM1/M2/M3/Qを固定値として独立再計算する。
-
-- 16 component sumsを計算
-- componentwise majorityとQを全件比較
-- unanimity / 2:1 splitを集計
-- splitのminority patternを集計
-- 6 Hamming distancesを計算
-- Qと各stored patternの内積を直接計算
-- Hebbian weightsを再構成しQのlocal inputを直接計算
-- `8c_i-3Q_i`による導出値を別計算
-- direct / derived / EVT-011 expected vectorを全件比較
-
-実行:
+`run.py` の固定入力を、そのまま実行する。結合は対称・自己結合なし・バイアスなし。符号値と結合入力は整数で扱い、物理的な電圧等へ読み替えない。今回、別初期状態からの逐次更新は実行しない。十六素子Qの検査ではゼロ入力がないことを別途確かめる。
 
 ```bash
 python experiments/chapters/004/run.py --check
+python tools/run_chapter_experiments.py
 ```
 
-## PASS condition
+PASSは全個別checksが真で、保存済みJSONと再実行JSONの全項目が一致する場合。値不一致はFAIL、実行不能・資料未確認は未検証として扱いPASSを出さない。条件の変更は別の検証として明示する。
 
-上記6主張を全てexactに再現する。
+## 実行結果
 
-## Actual result
+16位置全て多数側と一致。全一致4位置、二対一12位置、少数側各4回。Qとの距離は各4、保存形同士は各8、内積は各8。直接入力と導出入力は16/16一致。10個のchecksが真。
 
-- majority match: 16 / 16
-- unanimity: 4
-- split: 12
-- minority counts: M1=4, M2=4, M3=4
-- Q distances: 4 / 4 / 4
-- pair distances: 8 / 8 / 8
-- overlaps: 8 / 8 / 8
-- direct local inputsとderived local inputs: 16 / 16一致
-- minimum signed margin: 5
+ローカル環境はCPython 3.13.5 / Linux x86_64 / 標準ライブラリ / exact integer arithmetic。乱数、NumPy、BLAS、GPUは使用しない。速度benchmarkではない。保存結果は実際の再実行出力から生成した。CIでの全repo再検証はpackage READMEに別記する。
 
-判定: `PASS`
+## 本文への修正
 
-## Chapter feedback
+Qを一つの記憶の少数箇所の破損として表せない、という過剰な断定を削除。三つから等距離で特定の元を選べない、と限定。数式の読み上げを減らし、自己結合を除く操作を残した。
 
-本文で使った数値・式・因果順はverificationと一致した。
+## 変数表・単位確認
 
-本文中に当初混入した「第3話」という制作側メタ表現2か所は、verification package作成前にworld-internal表現へ修正済み。
+| 記号・識別子 | 意味 | SI単位 | 定義 | 範囲・前提 | 型 |
+|---|---|---|---|---|---|
+| M1/M2/M3 | 保存する記憶パターン | 1・無次元 | 採用EVT掲載の符号列 | 16成分。各値は正負一 | 整数ベクトル |
+| Q | 調べる初期状態・候補 | 1・無次元 | 採用EVTとrun.pyの固定列 | 対応模型と同じ成分数 | 整数ベクトル |
+| weights / w | 結合 | 1・無次元 | 三保存列の外積和。対角はゼロ | 対称、閾値0・バイアスなし | 整数行列 |
+| input / h | 一素子への入力 | 1・無次元 | 結合行と現在状態の積和 | 電圧・周波数ではない | 整数スカラー／ベクトル |
+| order / sweeps | 更新の順と一巡数 | 1・無次元 | 指定番号を一つずつ更新 | 同時更新ではない | 整数列／整数 |
+| checks / result | 個別・総合判定 | 非該当 | run.pyの出力 | 非空のchecks全項目が真でPASS | bool辞書／文字列 |
 
-## Limitations
+単位確認: 全てのモデル数値は無次元の符号・件数・結合係数であり、加算・積和で異なる物理単位を混在させていない。整数演算なので丸め誤差はないが、実装・転記誤りは別の誤差源である。
 
-このPASSは、
+## 限界
 
-- componentwise-majority formulaが一般のspurious states全てに成り立つことを証明しない
-- random-start accessibilityを測らない
-- basin sizeを測らない
-- unlearning効果を再現しない
-- biological memoryのmechanismを証明しない
+多数側という静的記述を、独立の投票機構や一般の安定定理としない。正の符号付き余裕はこの候補だけ。Q以外からの到達結果は本文にない。
 
-EVT-012/013と第4話のintegration checkとしてのみ有効。
+研究者本人の原コード・計算機の再現ではない。数理再現は文章の面白さ、作者から独立した行動選択、歴史的な全語彙の自然さを保証しない。旧レビューと失敗の履歴はGit履歴に残す。

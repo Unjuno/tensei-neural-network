@@ -2,53 +2,53 @@
 
 状態: `PASS`
 
-Verification type: `EXECUTABLE_REPRODUCTION`
+更新: 2026-09-08
+方式: `EXECUTABLE_REPRODUCTION` と本文の対応照合。
+対象版: `review-lock.json`。対象本文は `novel/chapters/002.md`。
+採用event: EVT-005 -> EVT-006 -> EVT-007 -> EVT-008。
 
-## Fragile claim
+## 対象と選択理由
 
-第2話が依存する最も壊れやすい主張は、同一の6-unit / 3-pattern networkについて、EVT-005〜008で成立した結果が相互に整合していることである。
+EVT-005〜008の固定検査集合、時点別D/-C分類、六個の固定点、符号反転と一素子更新の可換性。
 
-## Procedure
+この話の結論が依存する数理的部分を選んだ。検証のために物語の出来事を追加していない。
 
-`run.py` で第1話コードをimportせず独立再構成した。
+## 条件・手順・合否
 
-- A/B/CからHebbian weight matrixを再構成
-- EVT-005の6 cyclic ordersを生成
-- q46について6 runsを再現
-- A/B balanced cuesを規則から全6件生成し36 runsを再現
-- `{-1,+1}^6` 全64 states × 6 orders = 384 trialsを再現
-- fixed points / basin counts / order dependenceを集計
-- D=-Cをassert
-- 全64 states × 全6 one-unit updatesについて符号反転可換性をassert
+`run.py` の固定入力を、そのまま実行する。結合は対称・自己結合なし・バイアスなし。符号値と結合入力は整数で扱い、物理的な電圧等へ読み替えない。六素子の逐次更新では入力ゼロ時に現在値を保持。今回、十六素子模型は検証対象に含めない。
 
-## Result
+```bash
+python experiments/chapters/002/run.py --check
+python tools/run_chapter_experiments.py
+```
 
-GitHub Actions上の独立再実行で全checkがPASSした。
+PASSは全個別checksが真で、保存済みJSONと再実行JSONの全項目が一致する場合。値不一致はFAIL、実行不能・資料未確認は未検証として扱いPASSを出さない。条件の変更は別の検証として明示する。
 
-- EVT-005: `A / D / B / B / D / D`、aggregate A:1 / B:2 / D:3
-- EVT-006: 6 balanced cues × 6 orders = 36、aggregate A:11 / B:11 / C:2 / D:12
-- EVT-007: 64 states × 6 orders = 384、全trialが2 sweeps以内に収束
-- fixed points: `A/B/C/-A/-B/-C`
-- basin total: A 62 / B 66 / C 64 / -A 62 / -B 66 / -C 64
-- order-invariant initial states: 18
-- order-dependent initial states: 46
-- D = -C
-- EVT-008: one-unit updateについて全64 statesで `U_i(-s) = -U_i(s)`
+## 実行結果
 
-## Important verification incident
+最初の六本はA,D,B,B,D,D。36件はA11/B11/C2/D12。64状態と6順序の384件は収束し、順序不変18状態・依存46状態。固定点はA/B/Cと各反転。15個のchecksが真。
 
-初回の検証コードは、EVT-005/006の暫定ラベル `D` をEVT-007集計にも流用したため、canonical final-set checkだけFAILした。数理結果の不一致ではなく、**同じstate `D=-C` に時点別の二つの名称があることを検証コードが区別していなかった**。
+ローカル環境はCPython 3.13.5 / Linux x86_64 / 標準ライブラリ / exact integer arithmetic。乱数、NumPy、BLAS、GPUは使用しない。速度benchmarkではない。保存結果は実際の再実行出力から生成した。CIでの全repo再検証はpackage READMEに別記する。
 
-修正後は、EVT-005/006のhistorical labelとして `D` を保持し、EVT-007以降のcanonical classificationでは `-C` を使用する。これは第2話本文の認識転換そのものでもある。
+## 本文への修正
 
-## Evidence
+高橋が結果を見て二本だけを残したという未記録の告白を削除。二本の存在例も回路網の性質だが頻度の証拠ではない、と分離。六巡回順は全ての並べ方ではない、と明記。旧レビューはこの区別を十分検出していなかった。
 
-- executable: `run.py`
-- saved result: `results.json`
-- CI reproduction: Story Workflow Validation run after canonical-label fix
+## 変数表・単位確認
 
-## Verdict boundary
+| 記号・識別子 | 意味 | SI単位 | 定義 | 範囲・前提 | 型 |
+|---|---|---|---|---|---|
+| A/B/C | 保存する記憶パターン | 1・無次元 | 採用EVT掲載の符号列 | 6成分。各値は正負一 | 整数ベクトル |
+| cue | 調べる初期状態・候補 | 1・無次元 | 採用EVTとrun.pyの固定列 | 対応模型と同じ成分数 | 整数ベクトル |
+| weights / w | 結合 | 1・無次元 | 三保存列の外積和。対角はゼロ | 対称、閾値0・バイアスなし | 整数行列 |
+| input / h | 一素子への入力 | 1・無次元 | 結合行と現在状態の積和 | 電圧・周波数ではない | 整数スカラー／ベクトル |
+| order / sweeps | 更新の順と一巡数 | 1・無次元 | 指定番号を一つずつ更新 | 同時更新ではない | 整数列／整数 |
+| checks / result | 個別・総合判定 | 非該当 | run.pyの出力 | 非空のchecks全項目が真でPASS | bool辞書／文字列 |
 
-PASSが意味するのは、EVT-005〜008の有限toy networkの数理結果と第2話が依存する数値が再現したことだけである。
+単位確認: 全てのモデル数値は無次元の符号・件数・結合係数であり、加算・積和で異なる物理単位を混在させていない。整数演算なので丸め誤差はないが、実装・転記誤りは別の誤差源である。
 
-Hopfield network一般、生物学的記憶、1980年代の研究文化一般についての真理を保証しない。
+## 限界
+
+Dという旧名称と-Cという後の分類は同じ状態の異なる時点のラベル。コードの再実行は生成時の盲検性を証明しない。46/64はこの六巡回順・この模型に限定。
+
+研究者本人の原コード・計算機の再現ではない。数理再現は文章の面白さ、作者から独立した行動選択、歴史的な全語彙の自然さを保証しない。旧レビューと失敗の履歴はGit履歴に残す。

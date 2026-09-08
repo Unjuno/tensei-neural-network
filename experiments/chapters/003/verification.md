@@ -2,104 +2,53 @@
 
 状態: `PASS`
 
-Verification type: `EXECUTABLE_REPRODUCTION + HISTORICAL_SOURCE_CHECK`
+更新: 2026-09-08
+方式: `EXECUTABLE_REPRODUCTION` と本文の対応照合。
+対象版: `review-lock.json`。対象本文は `novel/chapters/003.md`。
+採用event: EVT-009 -> EVT-010 -> EVT-011。
 
-## Fragile claims
+## 対象と選択理由
 
-第3話が依存する最も壊れやすい主張は次の二点。
+EVT-009の六素子固定点全列挙と、EVT-011の文献掲載十六素子候補Qの安定性・非保存分類。
 
-1. EVT-009の6-unit toyでは、全64 binary statesを確認するとfixed pointは `A/B/C/-A/-B/-C` だけで、stored / stored-negationを除くresidualは0である。
-2. Hopfield / Feinstein / Palmer (1983)が掲載した16-neurone / 3-memory例では、同論文のHebbian connection ruleから作ったweightsに対して、掲載candidate Qはstored patternでもそのglobal negationでもないstable stateである。
+この話の結論が依存する数理的部分を選んだ。検証のために物語の出来事を追加していない。
 
-## Historical source check
+## 条件・手順・合否
 
-主一次資料:
-
-J. J. Hopfield, D. I. Feinstein, R. G. Palmer, “‘Unlearning’ has a stabilizing effect in collective memories,” *Nature* 304, 158–159 (1983), DOI `10.1038/304158a0`。
-
-確認事項:
-
-- Natureの書誌記録でpublished 14 July 1983
-- abstractで30〜1,000 neuronesのmathematical / computer modellingを明示
-- stored memoriesの学習に伴いspurious memoriesもcreated / evokedされ得ると明示
-- 本文でbinary `μ_i = ±1`、asynchronous update、`T_ij = Σ_s μ_i^s μ_j^s`, `T_ii = 0`を記載
-- 本文で16 neuronesのMemory 1 / 2 / 3とSpurious memoryの具体的符号列を掲載
-- 本文はこのclassのspurious statesについて、elementary formがtriplesにoriginを持つと記述
-
-今回のstory timeは1984〜1985年前後の候補範囲であり、この1983論文は人物が利用可能な過去資料として扱える。
-
-## Executable procedure
-
-`run.py` はPython標準ライブラリだけで次を独立再計算する。
-
-### EVT-009 side
-
-- A/B/Cから6-unit Hebbian weightsを再構成
-- `{-1,+1}^6` 全64 statesを列挙
-- zero-field hold ruleでfixed pointを全件検査
-- fixed point集合が `A/B/C/-A/-B/-C` と一致することを確認
-- residual countが0であることを確認
-
-### EVT-011 side
-
-- 1983論文掲載のM1/M2/M3/Qを固定値として入力
-- `T_ij = Σ_s M_s,i M_s,j`, `T_ii=0`を再構成
-- Qの全16 local inputsを計算
-- expected vector
-
-```text
-(+21,+21,+5,+5,-5,-5,-21,-21,+5,-5,-5,+5,+5,-5,-5,+5)
-```
-
-と一致することを確認
-- zero local inputが0件であることを確認
-- 全16 unitで `Q_i * h_i > 0` を確認
-- QがM1/M2/M3および-M1/-M2/-M3のどれとも一致しないことを確認
-
-実行:
+`run.py` の固定入力を、そのまま実行する。結合は対称・自己結合なし・バイアスなし。符号値と結合入力は整数で扱い、物理的な電圧等へ読み替えない。六素子の逐次更新では入力ゼロ時に現在値を保持。十六素子Qの検査ではゼロ入力がないことを別途確かめる。
 
 ```bash
 python experiments/chapters/003/run.py --check
+python tools/run_chapter_experiments.py
 ```
 
-保存結果: `results.json`
+PASSは全個別checksが真で、保存済みJSONと再実行JSONの全項目が一致する場合。値不一致はFAIL、実行不能・資料未確認は未検証として扱いPASSを出さない。条件の変更は別の検証として明示する。
 
-## PASS condition
+## 実行結果
 
-上記checkが全て真。
+六素子の固定点は六つで残差なし。Qの16入力はゼロなし、全てQと同符号。最小の符号付き余裕は5。Qは三つの保存形・各反転のいずれとも一致しない。7個のchecksが真。
 
-## Actual result
+ローカル環境はCPython 3.13.5 / Linux x86_64 / 標準ライブラリ / exact integer arithmetic。乱数、NumPy、BLAS、GPUは使用しない。速度benchmarkではない。保存結果は実際の再実行出力から生成した。CIでの全repo再検証はpackage READMEに別記する。
 
-- EVT-009 fixed points: 6 states、residual count = 0
-- EVT-011 local inputs: expected vectorと完全一致
-- EVT-011 zero local inputs: 0
-- EVT-011 minimum signed margin: 5
-- EVT-011 stored / negation match: false
+## 本文への修正
 
-判定: `PASS`
+六素子の結果表へ十六素子のQを書き足すように読める箇所を、別模型の別表へ修正。「当時って、僕らの今」の制作側メタと英語依存を除去。世界中で最早の論文と断定せず、検討した範囲の選択として描く。
 
-## Chapter impact
+## 変数表・単位確認
 
-`novel/chapters/003.md` の中心描写、
+| 記号・識別子 | 意味 | SI単位 | 定義 | 範囲・前提 | 型 |
+|---|---|---|---|---|---|
+| A/B/C, M1/M2/M3 | 保存する記憶パターン | 1・無次元 | 採用EVT掲載の符号列 | 前者6成分、後者16成分。各値は正負一 | 整数ベクトル |
+| cue / Q | 調べる初期状態・候補 | 1・無次元 | 採用EVTとrun.pyの固定列 | 対応模型と同じ成分数 | 整数ベクトル |
+| weights / w | 結合 | 1・無次元 | 三保存列の外積和。対角はゼロ | 対称、閾値0・バイアスなし | 整数行列 |
+| input / h | 一素子への入力 | 1・無次元 | 結合行と現在状態の積和 | 電圧・周波数ではない | 整数スカラー／ベクトル |
+| order / sweeps | 更新の順と一巡数 | 1・無次元 | 指定番号を一つずつ更新 | 同時更新ではない | 整数列／整数 |
+| checks / result | 個別・総合判定 | 非該当 | run.pyの出力 | 非空のchecks全項目が真でPASS | bool辞書／文字列 |
 
-- 6-unit toyでは三分類目が空
-- 文献選択条件を先に固定して1983論文へ戻る
-- 16-neurone掲載例をそのまま再計算する
-- local inputが全てnonzeroでQと同符号
-- Qがstored pattern / global negationの外にある
+単位確認: 全てのモデル数値は無次元の符号・件数・結合係数であり、加算・積和で異なる物理単位を混在させていない。整数演算なので丸め誤差はないが、実装・転記誤りは別の誤差源である。
 
-は再現結果と一致する。
+## 限界
 
-本文はQを生物学的な「偽記憶」と断定せず、model-levelのspurious memoryという論文上の呼称と、二人が再計算したstable/nonstored classificationを分離しているため、このverificationからの修正は不要。
+1983年論文の掲載例の再計算で、未知現象の発見でもFigure 1の全条件再現でもない。文献選択のLOCKEDは網羅的な優先権調査の証明ではない。1985年以降の一般理論は未観測。
 
-## Boundary
-
-このPASSは、
-
-- Qの一般的なmixture-state理論を証明しない
-- basin sizeを測っていない
-- unlearning効果を再現していない
-- 大規模Hopfield network一般の頻度を主張しない
-- 生物学的memoryの現象を証明しない
-
-第3話の公開前integration checkとしてのみ有効。
+研究者本人の原コード・計算機の再現ではない。数理再現は文章の面白さ、作者から独立した行動選択、歴史的な全語彙の自然さを保証しない。旧レビューと失敗の履歴はGit履歴に残す。
