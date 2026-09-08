@@ -5,11 +5,13 @@
 
 ## 現在位置
 
-作業branchはwork/story-bootstrap。main/PR/docs/公開には触れない。
+作業branchはwork/story-bootstrap。main/PR/docs/公開には触れていない。
 
 1980年代側headはEVT-013。PER-005 高橋修一、PER-006 佐伯玲子、ORG-001がactive。現代側EVTは未成立。
 
-第1〜4話はそれぞれEVT-001〜004、005〜008、009〜011、012〜013を採用。今回の評価で4話を改稿し、過去稿のgateを流用せずGATE_CANDIDATEとして再検証する。
+第1〜4話はそれぞれEVT-001〜004、005〜008、009〜011、012〜013を採用。今回の評価で4話を改稿し、過去稿のgateを流用せずGATE_CANDIDATEとして再検証した。
+
+候補commit `8818e03ca04555c52baf65ac5fd3be00bc38596d` のCI run `34173177998` はsuccess。40 unit tests、4話の再実行と保存JSON照合、対象版検査が成功してから4話ともPREPUBLICATION_GATE_PASSEDへ昇格。読者評価・公開承認は未実施。
 
 ## 2026-09-08監査
 
@@ -21,7 +23,7 @@
 
 4話のコードをGit blob照合後にローカル再実行。現モデルの結論はPASS。第1話に最初の一巡のtraceと個別checksを追加した。保存JSONを完全な実行出力へ更新し、以後は再実行結果全体と照合する。
 
-新validatorは不正・欠落状態、outline欠落、ACTION_LOCKED採用、レビューの対象版不一致、結果JSONの不整合を検出する。40件のローカルunit testsを実行した。全repoの実行結果はGitHub Actionsを別途確認する。
+新validatorは不正・欠落状態、outline欠落、ACTION_LOCKED採用、レビューの対象版不一致、結果JSONの不整合を検出する。40件のunit testsはローカルとGitHub Actionsで成功。全repoの確認はGitHub Actions上で行った。
 
 ## 再開時の注意
 

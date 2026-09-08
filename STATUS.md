@@ -8,19 +8,19 @@
 - 作業branch: `work/story-bootstrap`
 - story head: `EVT-013`。今回の評価・改稿で新EVTは作成していない
 - 現代側event head: none
-- mainへの反映、PR作成、docs同期、公開は行わない
+- mainへの反映、PR作成、docs同期、公開は行っていない
 - 今回の主作業: 既存4話の再評価・修正と、検証対象版の追跡強化
 
 ## 第1〜4話
 
 | 話 | 本文 | 採用EVT | 今回の状態 |
 |---|---|---|---|
-| 1 戻る先 | novel/chapters/001.md | EVT-001〜004 | GATE_CANDIDATE |
-| 2 選ばなかった答え | novel/chapters/002.md | EVT-005〜008 | GATE_CANDIDATE |
-| 3 表の外 | novel/chapters/003.md | EVT-009〜011 | GATE_CANDIDATE |
-| 4 五と二十一 | novel/chapters/004.md | EVT-012〜013 | GATE_CANDIDATE |
+| 1 戻る先 | novel/chapters/001.md | EVT-001〜004 | PREPUBLICATION_GATE_PASSED |
+| 2 選ばなかった答え | novel/chapters/002.md | EVT-005〜008 | PREPUBLICATION_GATE_PASSED |
+| 3 表の外 | novel/chapters/003.md | EVT-009〜011 | PREPUBLICATION_GATE_PASSED |
+| 4 五と二十一 | novel/chapters/004.md | EVT-012〜013 | PREPUBLICATION_GATE_PASSED |
 
-旧稿へのgate成功を今回の改稿へ自動流用しない。話別packageのREADMEとreview-lockが対象版とCIを示す。
+旧稿へのgate成功を今回の改稿へ自動流用していない。候補commit `8818e03ca04555c52baf65ac5fd3be00bc38596d` に対するCI run `34173177998` が成功してから昇格した。40 unit tests、4話の再実行と保存JSON照合、対象版検査が成功。独立試読・Human Reviewは未実施。
 
 ## 現在世界の復元
 

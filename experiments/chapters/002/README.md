@@ -1,6 +1,6 @@
 # 第2話「選ばなかった答え」公開前検証
 
-状態: `GATE_CANDIDATE`
+状態: `PREPUBLICATION_GATE_PASSED`
 
 更新: 2026-09-08
 対象: `novel/chapters/002.md`
@@ -8,17 +8,24 @@
 
 ## 今回の再検証
 
-旧稿のgate通過を新稿へ流用しない。改稿後の本文・outline・検証・意味レビュー・用語・採用EVTを `review-lock.json` で版指定した。
+旧稿のgate通過を新稿へ流用せず、改稿後の本文・outline・検証・意味レビュー・用語・採用EVTを `review-lock.json` で版指定した。
 
-- Mandatory Verification: `verification.md` / `run.py` / `results.json`
-- Semantic Review: `semantic-review.md`
-- Terminology: `terminology.md`
-- 評価と長期目標: `../../../notes/assessment-and-roadmap.md`
+Mandatory Verificationは `verification.md` / `run.py` / `results.json`、意味レビューは `semantic-review.md`、用語検証は `terminology.md`。全体評価と長期目標は `../../../notes/assessment-and-roadmap.md`。
 
-ローカル再実行はPASS。独立試読・人間の受理は未実施。候補commitに対する全repo CIを確認してから、工程gateの通過状態へ進める。
+## Candidate CIの実測結果
 
-## Gate条件
+候補commit: `8818e03ca04555c52baf65ac5fd3be00bc38596d`
+GitHub Actions run: `34173177998`
+Job: `101897324083`、完了結果 `success`。
 
-テスト、全話コード再実行と保存JSON照合、review-lock鮮度、厳格workflow検査が全て成功すること。CIはreview-lockやresultsを自動更新しない。
+https://github.com/Unjuno/tensei-neural-network/actions/runs/34173177998
 
-`PREPUBLICATION_GATE_PASSED`は科学的真理や文学的完成の保証ではなく、現在対象版に対する工程判定。main反映・PR・docs同期・公開の承認ではない。
+CPython 3.12.14 / Ubuntu 24.04.4上で、40件のunit tests、4話すべてのコード再実行と保存JSON全項目照合、対象版の鮮度を含むworkflow検査が成功した。候補版には未完成状態の章はなく、4話とも本番相当のgate条件を適用した。
+
+作業branchの実行コマンドは `--strict --allow-drafts`。免除対象のWF060は今回のrepo検査で発生していない。unit test内で表示されるFAILは意図的に壊したfixtureの期待結果である。
+
+## Gateの意味
+
+今回の昇格は上記候補CI成功の後に行った。CIはreview-lockやresultsを自動更新しない。
+
+科学的真理、文学的完成、独立した読者評価、人間の受理を保証する状態ではない。独立試読・公開承認は未実施。main反映・PR・docs同期・公開は行っていない。
