@@ -1,28 +1,26 @@
 # 第3話「表の外」公開前検証
 
-状態: `IN_PROGRESS`
+状態: `GATE_CANDIDATE`
 
 更新: 2026-09-11
 対象: `novel/chapters/003.md`
 採用event: EVT-009 -> EVT-010 -> EVT-011。
 
-## 現在の再検証
+## 読者ロス改稿
 
-2026-09-11の読者視点監査で、六素子模型の空白から1983年文献へ移る因果は明瞭だが、文献選択説明と16素子候補の検算が続く中盤で、人物の発見感より手続き説明が前景化すると判断した。
+文献選択の説明と16素子Qの検算を圧縮し、六素子表の空白から別模型のQが残るまでを一本の読書導線にした。5/21の二種類だけが残ることを次話の謎として明示した。
 
-EVT・一次資料・Qの安定性・stored/negation外という結論は変えず、「この模型にはない」から「別条件ではある」へ移る落差と、Qが残った瞬間を前面に出す。
+EVT・一次資料・Qの安定性・stored/negation外という結論は変更していない。詳細は `../../../notes/reader-loss-audit-2026-09-11.md`。
 
-旧 `PREPUBLICATION_GATE_PASSED` は改稿版へ自動継承しない。改稿後に既存検証を再確認し、`review-lock.json` を更新してからcandidate gateへ進める。
+## 再レビュー
 
-## 既存検証資産
+- `verification.md`: 既存数理条件を再確認
+- `run.py` / `results.json`: 変更なし
+- `terminology.md`: 新規blocking語なし
+- `semantic-review.md`: knowledge / history / projection / provenanceを改稿版で再確認
+- `review-lock.json`: 改稿後本文blobへ更新済み
 
-- `verification.md`
-- `run.py`
-- `results.json`
-- `terminology.md`
-- `semantic-review.md`
-
-数理条件・歴史資料は今回変更しない。
+candidate CI成功後のみ `PREPUBLICATION_GATE_PASSED` へ戻す。
 
 ## Gateの意味
 
