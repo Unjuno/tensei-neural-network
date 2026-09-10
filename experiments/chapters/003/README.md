@@ -1,31 +1,29 @@
 # 第3話「表の外」公開前検証
 
-状態: `PREPUBLICATION_GATE_PASSED`
+状態: `IN_PROGRESS`
 
-更新: 2026-09-08
+更新: 2026-09-11
 対象: `novel/chapters/003.md`
 採用event: EVT-009 -> EVT-010 -> EVT-011。
 
-## 今回の再検証
+## 現在の再検証
 
-旧稿のgate通過を新稿へ流用せず、改稿後の本文・outline・検証・意味レビュー・用語・採用EVTを `review-lock.json` で版指定した。
+2026-09-11の読者視点監査で、六素子模型の空白から1983年文献へ移る因果は明瞭だが、文献選択説明と16素子候補の検算が続く中盤で、人物の発見感より手続き説明が前景化すると判断した。
 
-Mandatory Verificationは `verification.md` / `run.py` / `results.json`、意味レビューは `semantic-review.md`、用語検証は `terminology.md`。全体評価と長期目標は `../../../notes/assessment-and-roadmap.md`。
+EVT・一次資料・Qの安定性・stored/negation外という結論は変えず、「この模型にはない」から「別条件ではある」へ移る落差と、Qが残った瞬間を前面に出す。
 
-## Candidate CIの実測結果
+旧 `PREPUBLICATION_GATE_PASSED` は改稿版へ自動継承しない。改稿後に既存検証を再確認し、`review-lock.json` を更新してからcandidate gateへ進める。
 
-候補commit: `8818e03ca04555c52baf65ac5fd3be00bc38596d`
-GitHub Actions run: `34173177998`
-Job: `101897324083`、完了結果 `success`。
+## 既存検証資産
 
-https://github.com/Unjuno/tensei-neural-network/actions/runs/34173177998
+- `verification.md`
+- `run.py`
+- `results.json`
+- `terminology.md`
+- `semantic-review.md`
 
-CPython 3.12.14 / Ubuntu 24.04.4上で、40件のunit tests、4話すべてのコード再実行と保存JSON全項目照合、対象版の鮮度を含むworkflow検査が成功した。候補版には未完成状態の章はなく、4話とも本番相当のgate条件を適用した。
-
-作業branchの実行コマンドは `--strict --allow-drafts`。免除対象のWF060は今回のrepo検査で発生していない。unit test内で表示されるFAILは意図的に壊したfixtureの期待結果である。
+数理条件・歴史資料は今回変更しない。
 
 ## Gateの意味
 
-今回の昇格は上記候補CI成功の後に行った。CIはreview-lockやresultsを自動更新しない。
-
-科学的真理、文学的完成、独立した読者評価、人間の受理を保証する状態ではない。独立試読・公開承認は未実施。main反映・PR・docs同期・公開は行っていない。
+科学的真理、文学的完成、独立した読者評価、人間の受理を自動保証しない。main反映・PR・docs同期・公開は別工程。
