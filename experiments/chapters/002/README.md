@@ -1,31 +1,29 @@
 # 第2話「選ばなかった答え」公開前検証
 
-状態: `PREPUBLICATION_GATE_PASSED`
+状態: `IN_PROGRESS`
 
-更新: 2026-09-08
+更新: 2026-09-11
 対象: `novel/chapters/002.md`
 採用event: EVT-005 -> EVT-006 -> EVT-007 -> EVT-008。
 
-## 今回の再検証
+## 現在の再検証
 
-旧稿のgate通過を新稿へ流用せず、改稿後の本文・outline・検証・意味レビュー・用語・採用EVTを `review-lock.json` で版指定した。
+2026-09-11の読者視点監査で、数理的不整合ではなく、6件→36件→384件という検査手続きの反復が発見そのものより前景化し、読書速度を落とす箇所があると判断した。
 
-Mandatory Verificationは `verification.md` / `run.py` / `results.json`、意味レビューは `semantic-review.md`、用語検証は `terminology.md`。全体評価と長期目標は `../../../notes/assessment-and-roadmap.md`。
+EVT・数値・認識順序を変えず、Dの出現、Cへの到達、D=-Cの再分類という三つの転換を前面に出すNarrativeProjectionへ改稿する。
 
-## Candidate CIの実測結果
+旧 `PREPUBLICATION_GATE_PASSED` は改稿版へ自動継承しない。改稿後、既存Mandatory Verification / terminology / semantic reviewを再確認し、`review-lock.json` を新しい本文版へ更新してから `GATE_CANDIDATE` へ進める。
 
-候補commit: `8818e03ca04555c52baf65ac5fd3be00bc38596d`
-GitHub Actions run: `34173177998`
-Job: `101897324083`、完了結果 `success`。
+## 既存検証資産
 
-https://github.com/Unjuno/tensei-neural-network/actions/runs/34173177998
+- `verification.md`
+- `run.py`
+- `results.json`
+- `terminology.md`
+- `semantic-review.md`
 
-CPython 3.12.14 / Ubuntu 24.04.4上で、40件のunit tests、4話すべてのコード再実行と保存JSON全項目照合、対象版の鮮度を含むworkflow検査が成功した。候補版には未完成状態の章はなく、4話とも本番相当のgate条件を適用した。
-
-作業branchの実行コマンドは `--strict --allow-drafts`。免除対象のWF060は今回のrepo検査で発生していない。unit test内で表示されるFAILは意図的に壊したfixtureの期待結果である。
+数理条件は今回変更しない。
 
 ## Gateの意味
 
-今回の昇格は上記候補CI成功の後に行った。CIはreview-lockやresultsを自動更新しない。
-
-科学的真理、文学的完成、独立した読者評価、人間の受理を保証する状態ではない。独立試読・公開承認は未実施。main反映・PR・docs同期・公開は行っていない。
+科学的真理、文学的完成、独立した読者評価、人間の受理を自動保証しない。main反映・PR・docs同期・公開は別工程。
