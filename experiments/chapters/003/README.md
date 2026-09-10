@@ -1,6 +1,6 @@
 # 第3話「表の外」公開前検証
 
-状態: `GATE_CANDIDATE`
+状態: `PREPUBLICATION_GATE_PASSED`
 
 更新: 2026-09-11
 対象: `novel/chapters/003.md`
@@ -20,7 +20,14 @@ EVT・一次資料・Qの安定性・stored/negation外という結論は変更�
 - `semantic-review.md`: knowledge / history / projection / provenanceを改稿版で再確認
 - `review-lock.json`: 改稿後本文blobへ更新済み
 
-candidate CI成功後のみ `PREPUBLICATION_GATE_PASSED` へ戻す。
+## Candidate CI
+
+candidate commit: `bdc69e9f91ba08428c556e488fa66eccb9d97668`
+GitHub Actions run: `34503727557`
+job: `102960602443`
+result: `success`
+
+validator tests、4話の実行可能verification、保存結果照合、review-lockを含むworkflow検査が成功した後にgateへ戻した。
 
 ## Gateの意味
 
