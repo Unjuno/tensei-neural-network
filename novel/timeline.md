@@ -18,119 +18,90 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-013`
+- 1980年代側: `EVT-015`
 - 現代側: none
 
-EVT-013時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-015時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
-- 第1話 `chapters/001.md`: EVT-001〜004
-- 第2話 `chapters/002.md`: EVT-005〜008
-- 第3話 `chapters/003.md`: EVT-009〜011
-- 第4話 `chapters/004.md`: EVT-012〜013
-
-後から成立したeventを理由に既刊候補章へ自動遡及追加しない。
+- 第1話: EVT-001〜004
+- 第2話: EVT-005〜008
+- 第3話: EVT-009〜011
+- 第4話: EVT-012〜013
+- EVT-014〜015: 未投影。第5話を成立させるためにeventを追加しない
 
 ## 1980年代 event chain
 
-### EVT-001 — 止まることと戻ることは同じではない
-`T0-1980S + first research session`。高橋が「止まること」と「記憶が戻ること」を分離して問う。
-
-### EVT-002 — 正しい想起は誰が決める
-`T0-1980S + second research interaction`。佐伯がcorrect recallのtargetを誰が定義するか問い返す。PER-006成立。
-
-### EVT-003 — 公平な手掛かりは中立ではない
-`T0-1980S + protocol sketch after EVT-002`。A/B等距離cueを作るが、距離の等しさとdynamics上の中立を分離する。
-
-### EVT-004 — 同じ手掛かりから二つの戻り先
-`T0-1980S + first paper calculation after EVT-003`。同一cue / weights / ruleからupdate orderだけの差でA/Bへ分岐。provenance `UNBLINDED`。
-
-### EVT-005 — 更新順の選び方を先に固定する
-`T0-1980S + next joint paper check after EVT-004`。6 cyclic ordersをpre-lock。結果 `A,D,B,B,D,D`。provenance `LOCKED`。
-
-### EVT-006 — 全balanced cueを先に固定する
-`T0-1980S + systematic cue check after EVT-005`。6 cues × 6 orders = 36 trials。A=11, B=11, C=2, D=12。provenance `LOCKED`。
-
-### EVT-007 — 小さい系なら全状態を見る
-`T0-1980S + exhaustive small-state check after EVT-006`。64 states × 6 orders = 384 trials。fixed points=`A/B/C/-A/-B/-C`、D=`-C`、18/64 order-invariant、46/64 order-dependent。provenance `LOCKED`。
-
-### EVT-008 — 裏返しは別の記憶なのか
-`T0-1980S + symmetry check after EVT-007`。`h_i(-s)=-h_i(s)`、`U_i(-s)=-U_i(s)`、`E(-s)=E(s)`を確認し、fixed pointsのglobal sign-inversion pairingを導出。provenance `LOCKED`。
-
-### EVT-009 — 残ったものは、まだ何もない
-`T0-1980S + residual classification after EVT-008`。`F={A,B,C,-A,-B,-C}`、`S={A,B,C}`として `R=F\(S∪-S)=∅`。現在toy内の全列挙結果であり一般的不在ではない。provenance `LOCK_NOT_REQUIRED`。
-
-### EVT-010 — 自分たちの表の外へ戻る
-`T0-1980S + literature check after EVT-009`。
-
-文献選択規則を結果前lockし、Hopfield / Feinstein / Palmer (1983), *Nature* 304, 158–159, DOI `10.1038/304158a0` を主対象にした。
-
-人物が確認した範囲:
-
-- 30〜1,000 neuronesのmathematical / computer modelling
-- stored memory以外のspurious memoriesがcreated / evokedされ得るという当時の問題設定
-- unlearningでspurious memoriesを減らすという報告
-
-1985年以降のmixture-state / spin-glass解析は人物Knowledgeへ入れていない。provenance `LOCKED`。
-
-### EVT-011 — 論文の16素子例をそのまま試す
-`T0-1980S + published-example check after EVT-010`。
-
-1983論文本文に掲載された16-neurone / 3-memory / spurious candidateをpre-lockして再計算。
+EVT-001〜013の詳細は各event正本を参照。現在までの流れ:
 
 ```text
-h(Q)=
-(+21,+21,+5,+5,-5,-5,-21,-21,
- +5,-5,-5,+5,+5,-5,-5,+5)
+EVT-001 問い: stopping != recall
+→ EVT-002 correct recallの定義
+→ EVT-003 等距離 != dynamical neutrality
+→ EVT-004 same cue / two returns
+→ EVT-005 order family lock
+→ EVT-006 all balanced cues
+→ EVT-007 6-unit全状態
+→ EVT-008 sign inversion symmetry
+→ EVT-009 toy residual empty
+→ EVT-010 1983一次文献へ戻る
+→ EVT-011 published 16-unit spurious Qを再計算
+→ EVT-012 Q = componentwise majority (16/16)
+→ EVT-013 majority structureから5/21 local inputを導出
 ```
 
-- 16/16 nonzero
-- 16/16でQと同符号
-- QはM1/M2/M3でも、そのglobal negationでもない
+### EVT-014 — Qの一ビット近傍からの到達性
 
-Qはstored / stored-negation外のstable stateとして再現された。provenance `LOCKED`。
+`T0-1980S + immediate follow-up after EVT-013`。
 
-### EVT-012 — 三つの記憶を一成分ずつ比べる
-`T0-1980S + componentwise structure check after EVT-011`。
+結果前にQのHamming距離1近傍16状態と16 cyclic update ordersを固定。256 trial全件を計算。
 
-M1/M2/M3/Qの全16位置分類と6 Hamming distancesをpre-lockして全件確認。
+- Q final: 112
+- M1/M2/M3: 各48
+- nonconverged: 0
+- k=1,2,7,8（stored patterns全員一致位置）のflipは16/16 orderでQへ復帰
+- 2対1位置のflipはorder-dependent
+- Qへ戻らないtrialは、その位置の少数派stored patternへだけ到達
 
-- Qは16/16位置で三patternのcomponentwise majorityと一致
-- unanimity 4 / split 12
-- split minority: M1=4, M2=4, M3=4
-- `d(Q,M1)=d(Q,M2)=d(Q,M3)=4`
-- stored patterns相互distanceは8/8/8
+provenance `LOCKED`。
 
-outcome category `MAJORITY_ALL`。この掲載例の具体的構造であり一般式へ自動一般化しない。provenance `LOCKED`。
+### EVT-015 — 反転した一ビットが少数派memoryを近づける
 
-### EVT-013 — なぜ多数側の形が自分を支えるのか
-`T0-1980S + stability derivation after EVT-012`。
+EVT-014の固定済みinitial statesを追加trialなしで再分類。
 
-Hamming/inner-product identityと既存Hebbian ruleだけを使うderivation routeをpre-lock。
+2対1位置をflipすると、
 
-```text
-M1·Q=M2·Q=M3·Q=8
-h_i(Q)=8(M1_i+M2_i+M3_i)-3Q_i
-```
+- coordinate-minority stored pattern: distance 4→3 / overlap 8→10
+- 他二stored patterns: distance 4→5 / overlap 8→6
 
-- unanimity位置: `h_i=21Q_i`
-- 2:1 split位置: `h_i=5Q_i`
-- EVT-011 local-input vectorと16/16 exact一致
+全員一致位置をflipすると三stored patternsすべてdistance 4→5 / overlap 8→6。
 
-この具体例について、componentwise majority構造とdynamical stabilityがHebbian connectionを介して接続された。provenance `LOCKED`。
+これによりEVT-014のescape方向には明確な初期幾何があることを確認。ただしnearest stored patternが一般にfinalを決めるとはしない。
 
-EVT-012〜013は第4話 `chapters/004.md` へNarrativeProjection済み。
+provenance `LOCK_NOT_REQUIRED`。
+
+## 作者側研究（人物Knowledgeとは分離）
+
+EVT-014/015からEXP-006を分岐。N=16/P=3の256 eligible majority mixtures、65,536 trajectoriesを事前登録条件で検証。
+
+primary H-006は弱いSUPPORT。一方secondaryで、split one-bitからQへ戻らなかった17,488/17,488 trajectoriesがcoordinate-minority stored patternへ到達。
+
+これを受けEXP-007で反例探索を事前登録。N=8,12,16,20,24、640 eligible triples、362,704 trajectoriesを探索し、111,680 non-Q trajectoriesすべてで同じ規則が成立。counterexample 0。
+
+**これは作者側結果でありPER-005/PER-006へ自動共有しない。一般定理でもない。**
 
 ## Current next question
 
-EVT-013後:
+Story側、EVT-015後:
 
-> **Qがstableであることと、初期状態からQへ到達可能であることは同じか。**
+> 一ビット近傍で見えたorder dependenceを、二人が知るこの具体例の代数だけからどこまで説明できるか。
 
-次のeventでaccessibilityを調べる場合、starting states / update schedule / trial count / stopping ruleを結果前に固定する。
+Author research側:
 
-1983論文Figure 1の32-neurone / 5-memory具体patternsは本文に掲載されていないため、16-neurone exampleを使った新規検査をFigure 1のexact reproductionと呼ばない。
+> EXP-006/007で反例が見つからないcoordinate-minority escapeを、P=3 majority mixtureの代数から証明できるか。それとも固定探索外の反例を構成できるか。
+
+trial数を無目的に増やすより解析を優先する。
 
 ## 現代
 
