@@ -40,6 +40,7 @@ repo内のdirect EVT / state delta / STATUS / timeline / structureをEVT-015ま�
 
 - 数理event / chapter verification: 実運転済み
 - story observation → author research branch: EVT-014/015 → EXP-006/007で実運転
+- empirical finding → preregistered falsification → analytic proof: 今回初めて一周した
 - 組織・制度の独立判断: まだ弱い
 - 具体的machine / OS / language: 因果上必要になるまで未固定
 - 長期entity lifecycle: policyはあるが多数entity運転は未検証
@@ -52,25 +53,34 @@ story側でQの一ビット近傍を結果前lockして256 trial。Q=112、M1/M2
 
 ### EXP-006
 
-上記を作者側で事前登録一般化テスト。256 eligible N=16 triples / 65,536 trajectories。
+事前登録一般化テスト。256 eligible N=16 triples / 65,536 trajectories。
 
 primary Hは弱いSUPPORT。secondaryで17,488/17,488 split non-Q trajectoriesがcoordinate-minority stored patternへ到達。
 
 ### EXP-007
 
-secondary findingを支持する例集めではなく反例探索へ切り替えた。
+secondary findingの反例探索。N=8,12,16,20,24、640 eligible triples、362,704 trajectories。111,680 non-Q trajectoriesで反例0。
 
-N=8,12,16,20,24、640 eligible triples、362,704 trajectories。111,680 non-Q trajectoriesで反例0。
+実験単体の結論は`NO_COUNTEREXAMPLE_IN_SEARCH`。
 
-結論は`NO_COUNTEREXAMPLE_IN_SEARCH`でありproofではない。
+## 面白い発見と解析解決
 
-## 面白い発見
+EXP-007後、trial数を増やさず代数へ戻った。
 
-P=3 majority mixture Qについて、split coordinateを一つ反転すると、そのcoordinateのminority stored patternだけが距離4→3へ近づき、他二つは4→5へ遠ざかる。
+`research/reports/EXP-007.md`で、次の仮定下にcoordinate-minority escapeを証明した。
 
-story掲載例だけでなくEXP-006/007の固定探索でも、Qへ戻らないtrajectoryはすべてこのminority stored patternへ収束した。
+- P=3
+- Qはcomponentwise-majorityでstored patternsと異なる
+- Qはnonzero-margin stable
+- symmetric Hebbian weights / zero self coupling
+- asynchronous one-unit update
+- zero fieldは保持
 
-現時点の最も価値の高い次課題は、さらにtrial数を増やすことではなく、これを代数的に証明できる条件を探すこと。証明できなければ、どの仮定を崩すと反例が出るかを特定する。
+Qでgauge変換するとcoordinateはU/A/B/Cの4typeになる。A-typeを1bit反転したtrajectoryではQ stabilityからU/B/Cのfieldが常に正で、A-type以外は反転できない。A-typeに正負が混在するstateはpositive/negative unitのfieldが6だけずれるためfixed pointになれない。Hopfield energyは実flipごとにstrictly減少するので、finalはQまたはA-type全反転、すなわちcoordinate-minority stored patternだけになる。
+
+したがってEXP-006/007の経験的規則は、**記載した仮定内では解析的に解決した**。
+
+次は同じ現象のtrialを増やすのではなく、仮定を一つずつ外したときどこで破れるか、またはstory側人物が自分の具体例からどこまで独立に導けるかが候補。ただし作者側proofを人物へ注入しない。
 
 ## 外部依存blocker
 
