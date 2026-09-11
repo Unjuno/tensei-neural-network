@@ -25,6 +25,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Re-run executable chapter experiments
         run: python tools/run_chapter_experiments.py
+      - name: Re-run EXP-006
+        run: python experiments/EXP-006-majority-mixture-local-accessibility/run.py --check
       - name: Validate repository workflow
         shell: bash
         run: |
