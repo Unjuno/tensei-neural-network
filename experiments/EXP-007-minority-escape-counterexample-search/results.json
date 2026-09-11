@@ -1,0 +1,20 @@
+{
+  "experiment": "EXP-007",
+  "result": "NO_COUNTEREXAMPLE_IN_SEARCH",
+  "N_values": [8, 12, 16, 20, 24],
+  "eligible_per_N": 128,
+  "schedule_family": "all cyclic rotations plus 32 fixed random permutations",
+  "summary": {
+    "8": {"generated_candidates": 1568, "eligible": 128, "trajectories": 24240, "non_q": 8880},
+    "12": {"generated_candidates": 628, "eligible": 128, "trajectories": 45144, "non_q": 22088},
+    "16": {"generated_candidates": 323, "eligible": 128, "trajectories": 68976, "non_q": 24912},
+    "20": {"generated_candidates": 270, "eligible": 128, "trajectories": 96720, "non_q": 28080},
+    "24": {"generated_candidates": 206, "eligible": 128, "trajectories": 127624, "non_q": 27720}
+  },
+  "total_eligible": 640,
+  "total_trajectories": 362704,
+  "total_non_q": 111680,
+  "counterexamples": 0,
+  "claim": "Within the preregistered search, every split one-bit trajectory that did not return Q converged to the coordinate-minority stored pattern.",
+  "proof_status": "NOT_PROVEN"
+}
