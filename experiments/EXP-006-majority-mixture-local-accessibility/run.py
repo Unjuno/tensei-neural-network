@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, random, statistics
+import json, random, statistics, sys
 from collections import Counter
 from pathlib import Path
 
@@ -101,8 +101,12 @@ def execute():
 
 def main():
     result=execute(); print(json.dumps(result,ensure_ascii=False,indent=2))
-    import sys
+    path=Path(__file__).with_name("results.json")
     if "--write" in sys.argv:
-        Path(__file__).with_name("results.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        path.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    if "--check" in sys.argv:
+        saved=json.loads(path.read_text(encoding="utf-8"))
+        if saved!=result:
+            print("saved result mismatch",file=sys.stderr); return 1
     return 0
 if __name__=="__main__": raise SystemExit(main())
