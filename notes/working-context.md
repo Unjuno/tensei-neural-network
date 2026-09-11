@@ -1,62 +1,61 @@
 # 作業コンテキスト
 
-更新: 2026-09-11
+更新: 2026-09-12
 公開可能な引継ぎ用索引。内部推論や秘密情報は保存しない。
 
 ## 現在位置
 
 - branch: `work/story-bootstrap`
-- 1980年代側head: `EVT-013`
+- 1980年代側head: `EVT-015`
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001
 - 現代側event: none
 - main / PR / docs / 公開には触れていない
 
-第1〜4話の採用eventは従来どおり EVT-001〜004 / 005〜008 / 009〜011 / 012〜013。
+第1〜4話はEVT-001〜013をNarrativeProjection済みで `PREPUBLICATION_GATE_PASSED`。EVT-014〜015は未投影。
 
-## 2026-09-11 読者ロス監査
+## 読者ロス監査
 
-詳細: `reader-loss-audit-2026-09-11.md`。
+`reader-loss-audit-2026-09-11.md`。実読者データではなく編集simulation。
 
-研究資料を見ずに4話を連続読解する編集simulationを行った。実在読者の離脱率・理解率ではない。
+第1話は据え置き。第2〜4話は、手続き説明より発見を前景化する改稿を行い、candidate CI成功後にgateへ戻した。
 
-判断:
+## EVT-014 / EVT-015
 
-- 第1話は現在の4話中もっとも導線が良く、今回は本文変更なし
-- 第2話は6→36→384の検査工程が発見より前景化していたため、D→C→D=-Cを中心に再構成
-- 第3話は文献選択と検算の説明を圧縮し、六素子の空欄→十六素子Qという対比を中心に再構成
-- 第4話は数式説明の負荷が最大だったため、5/21を先に謎として置き、成分比較→一つの式→到達可能性の空欄へ進む構成に変更
+EVT-014は結果前lock済みのQ one-bit accessibility check。
 
-横断修正:
+- 16 one-bit initial states × 16 cyclic orders = 256
+- Q=112
+- M1=M2=M3=48
+- nonconverged=0
+- unanimous 4 positionsのflipは全orderでQへ復帰
+- split 12 positionsはorder-dependent
+- Qへ戻らないtrialはcoordinate-minority stored patternへだけ到達
 
-- 「高橋が広げ、佐伯が止める」反復を減らす
-- 限定条件を毎回台詞で繰り返さず、表・空欄・別紙・照合の行動で維持する
-- 数値を削除せず、数値が何を解くのかを先に提示する
+EVT-015で幾何を分類。
 
-新EVT・研究EXP・persona・organizationは追加していない。既存event/state/数学的結果は変更していない。
+- split flip: minority memory distance 4→3 / overlap 8→10、他二つ distance 4→5 / overlap 8→6
+- unanimous flip: 三つすべて distance 4→5 / overlap 8→6
 
-## 再検証
+人物はここまで知る。
 
-第2〜4話は一度 `IN_PROGRESS` へ戻し、改稿後に既存verification / terminology / semantic reviewを再確認。本文blobを各 `review-lock.json` へ更新して `GATE_CANDIDATE` に進めた。
+## 作者側研究 — 人物へ漏洩禁止
 
-candidate commit: `bdc69e9f91ba08428c556e488fa66eccb9d97668`
-GitHub Actions run: `34503727557`
-job: `102960602443`
-result: success
+EXP-006: N=16/P=3、256 eligible triples、65,536 trajectories。primary Hは弱いSUPPORT。secondaryでsplit non-Q 17,488/17,488がcoordinate-minority stored patternへ到達。
 
-4話の実行可能verification、保存結果照合、review-lockを含むworkflow検査が成功したため、第2〜4話を再び `PREPUBLICATION_GATE_PASSED` へ昇格した。
+EXP-007: 反例探索。N=8,12,16,20,24、640 eligible triples、362,704 trajectories。non-Q 111,680件、counterexample 0。`NO_COUNTEREXAMPLE_IN_SEARCH`。proofではない。
+
+この結果はPER-005/PER-006のKnowledgeへ入れない。
 
 ## 再開時の注意
 
-review-lockは対象版の対応を保証するだけで、文章の正しさを自動判定しない。今回の読者ロス監査も実読者評価ではない。
+world/persona snapshotがEVT-007で止まって見えても、EVT-008〜015とdeltaをoverlayする。同じ差分を二重加算しない。
 
-world/persona snapshotがEVT-007で止まって見えても、EVT-008〜013とdeltaをoverlayして復元する。同じ差分を二重加算しない。
+LOCKEDは盲検ではない。作者側EXP結果をstory人物へ自動共有しない。trial数を増やすこと自体を目的にしない。
 
-LOCKEDは盲検を意味しない。EVT-004のUNBLINDEDを人物の不正行為と混同しない。公刊例の再計算を独立発見と呼ばない。
+## ロードマップ
 
-## 次の優先
+自律的に実施可能だった既存4話の整合・検証、読者ロスsimulation、world advancement、story-derived research branchは進行済み。
 
-1. 実在読者の小規模試読で、今回のsimulationと実際のロス箇所を比較する
-2. 人物への関心と技術理解を別々に聞く
-3. 世界進行を再開するならEVT-013から。Qのaccessibilityについて初期状態集合・更新順・停止条件を結果前固定する
+外部主体が必要な5人以上の実読者試読、Human Review、完全独立な別主体restore/action-selectionは未実施。AI内simulationで代替済みとは扱わない。
 
-研究所の所在地・部門・職位、具体年月日、共用計算機、人物の生活史、現代側最初のevent、第5話以降は未確定。必要前に一括固定しない。
+次の作者側研究はEXP-007 findingの解析的証明/反例構成。story側はEVT-015現在stateからのみ進める。
