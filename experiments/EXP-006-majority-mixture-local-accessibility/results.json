@@ -1,0 +1,43 @@
+{
+  "experiment": "EXP-006",
+  "result": "SUPPORT",
+  "seed": 19830914,
+  "generated_candidates": 683,
+  "eligible_triples": 256,
+  "trajectories": 65536,
+  "nonconverged": 0,
+  "primary": {
+    "mean_ru_minus_rs": 0.001279686838768872,
+    "median_ru_minus_rs": 0.11111111111111116,
+    "ru_gt_rs": 135,
+    "ru_eq_rs": 8,
+    "ru_lt_rs": 113,
+    "mean_ru": 0.64178466796875,
+    "mean_rs": 0.6405049811299811
+  },
+  "pooled": {
+    "unanimous_trials": 19248,
+    "unanimous_q_returns": 13292,
+    "unanimous_q_return_fraction": 0.6905652535328346,
+    "split_trials": 46288,
+    "split_q_returns": 28800,
+    "split_q_return_fraction": 0.6221914967162115
+  },
+  "secondary": {
+    "non_q_final_classes": {"stored": 23444},
+    "split_non_q_trials": 17488,
+    "split_non_q_to_minority_stored": 17488,
+    "split_non_q_to_minority_fraction": 1.0,
+    "coordinate_shapes": {
+      "1/15": 3,
+      "2/14": 23,
+      "3/13": 28,
+      "4/12": 76,
+      "5/11": 38,
+      "6/10": 56,
+      "7/9": 17,
+      "8/8": 14,
+      "9/7": 1
+    }
+  }
+}
