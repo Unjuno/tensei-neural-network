@@ -5,102 +5,97 @@
 
 ## 作業と公開の境界
 
-- 作業branch: `work/story-bootstrap`
+- branch: `work/story-bootstrap`
 - story head: `EVT-015`
 - 現代側event head: none
-- mainへの反映、PR作成、docs同期、公開は行っていない
-- 第1〜4話は `PREPUBLICATION_GATE_PASSED`。独立実読者試読・Human Reviewは未実施
+- main / PR / docs / 公開には触れていない
+- 第1〜4話: `PREPUBLICATION_GATE_PASSED`
+- 独立実読者試読 / Human Review: 未実施
 
-## 第1〜4話
+## Story state
 
-| 話 | 採用EVT | 状態 |
-|---|---|---|
-| 1 戻る先 | EVT-001〜004 | PREPUBLICATION_GATE_PASSED |
-| 2 選ばなかった答え | EVT-005〜008 | PREPUBLICATION_GATE_PASSED |
-| 3 表の外 | EVT-009〜011 | PREPUBLICATION_GATE_PASSED |
-| 4 五と二十一 | EVT-012〜013 | PREPUBLICATION_GATE_PASSED |
+active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001。
 
-読者ロス監査: `notes/reader-loss-audit-2026-09-11.md`。これは編集simulationで、実読者データではない。
+`world.md`等の古いsnapshotへ戻らず、EVT-008〜015と対応deltaをoverlayする。
 
-## 現在世界の復元
+EVT-014:
 
-起点は `BOOT-002 @ T0-1980S @ none`。時代は1984〜85年前後を候補とし具体年月日は未確定。
+- Q one-bit neighbors 16 × cyclic orders 16 = 256 locked trials
+- Q=112, M1=M2=M3=48, nonconverged=0
+- unanimous positionsのflipは全orderでQへ復帰
+- split positionsはorder-dependent
+- Qへ戻らないtrialはcoordinate-minority stored patternへだけ到達
 
-active: PER-005 高橋修一、PER-006 佐伯玲子、ORG-001 光陵化学生命科学研究所。
+EVT-015:
 
-`world.md`と人物snapshotの一部はEVT-007まで。EVT-008〜015と対応deltaを適用して復元し、古いsnapshotへ巻き戻さない。同じ差分をEVTとdeltaから二重加算しない。
+- split flip: minority memory distance 4→3 / overlap 8→10、他二つdistance 4→5 / overlap 8→6
+- unanimous flip: 三つともdistance 4→5 / overlap 8→6
 
-## EVT-014〜015
+人物Knowledgeはここまで。第5話は未成立。
 
-EVT-014では結果前に、QのHamming距離1近傍16状態 × `1..16` cyclic rotation 16本 = 256 trialを固定した。
+## Author research — storyへ自動漏洩禁止
 
-結果:
+EXP-006:
 
-- Q: 112
-- M1/M2/M3: 各48
-- nonconverged: 0
-- 全員一致位置k=1,2,7,8のflipは16/16 orderでQへ復帰
-- 2対1位置のflipはorder-dependentで、Qへ戻らない場合はその位置の少数派stored patternへだけ到達
+- 256 eligible N=16/P=3 triples
+- 65,536 trajectories
+- primary Hは弱いSUPPORT
+- secondary: split non-Q 17,488/17,488がcoordinate-minority stored patternへ到達
 
-EVT-015では追加trialなしで距離を分類。2対1位置をflipすると少数派stored patternだけがQからの距離4→3、他二つは4→5。全員一致位置では三つとも4→5。
+EXP-007:
 
-この結果は第5話へまだ投影していない。
+- preregistered counterexample search
+- N=8,12,16,20,24
+- 640 eligible triples / 362,704 trajectories
+- non-Q 111,680 / counterexample 0
 
-## 作者側研究 EXP-006 / EXP-007
+その後、`research/reports/EXP-007.md`で解析した。
 
-物語から派生した作者側研究として、EVT-014の一例を一般化せず検証した。
+**記載した仮定内ではcoordinate-minority escapeを証明できた。**
 
-### EXP-006
+proof assumptions:
 
-N=16/P=3のstable nonstored majority mixtureを固定seedから256例採用し、65,536 trajectoriesを事前登録条件で実行。
+- P=3 componentwise-majority Q
+- Qはstored patternsと異なり、nonzero-margin stable
+- symmetric Hebbian weights / zero self coupling
+- asynchronous one-unit update
+- zero field保持
 
-primary H-006は事前規則上SUPPORTだが、mean(`r_u-r_s`)≈0.00128で効果はheterogeneous。
+Gauge後の4 coordinate types U/A/B/Cを使うと、split A-typeを1bit反転したtrajectoryではU/B/CはQ stabilityにより反転不能。A-typeのmixed stateもfixed pointになれず、Hopfield energy下降からfinalはQまたはstored pattern Aだけになる。
 
-重要なsecondary finding:
+これは作者側proofであり、PER-005/PER-006は知らない。
 
-- Q以外final 23,444件はすべてstored pattern
-- split one-bit trialでQへ戻らなかった17,488 / 17,488件がcoordinate-minority stored patternへ到達
+## Roadmap
 
-### EXP-007
+自律的に実施可能だった項目:
 
-上記secondary findingの反例探索を事前登録。N=8,12,16,20,24、640 eligible triples、362,704 trajectoriesを固定条件で探索。
+- 既存4話の整合・再現・workflow integrity
+- reader-loss編集simulationと改稿
+- EVT-015までのworld advancement
+- story observation → preregistered author experiment → falsification search → analytic proof
 
-- non-Q trajectories: 111,680
-- counterexample: 0
-- 結果: `NO_COUNTEREXAMPLE_IN_SEARCH`
+外部主体が必要でOPEN:
 
-これは一般定理の証明ではない。次に価値があるのはtrial数を増やすことではなく、P=3 majority mixtureの代数から証明または反例を構成すること。
+1. 5人以上の独立実読者試読
+2. Human Review / 公開受理
+3. 別主体によるfresh restore / action-selection評価
 
-作者側EXP-006/007の結果をPER-005/PER-006へ自動注入していない。人物が知るのはEVT-015まで。
+同一AI内simulationでこれらをPASS扱いしない。
 
-## ロードマップ進捗
-
-自律的に解決可能な項目:
-
-- 既存4話の対象版・数理再現・workflow integrity: 実施済み
-- 読者ロスの編集simulation: 実施済み
-- EVT-013後のworld advancement: EVT-015まで進行
-- story observationからの新研究分岐: EXP-006/007まで実施
-
-外部入力が必要で未解決:
-
-- 5人以上の独立実読者試読
-- 人間による公開受理
-- 別主体による完全独立restore / action-selection評価
-
-これらをAI内simulationで「解決済み」と偽装しない。
+詳細: `notes/roadmap-progress-2026-09-12.md`。
 
 ## 次の優先
 
-1. EXP-007の規則を解析的に証明または反例構成できるか検討する
-2. story側ではEVT-015現在stateから自然な次行動を選ぶ。作者側EXP-006/007を未来知識として使わない
-3. 256 trialを本文へ投影する必要が生じた場合、1984〜85年の共用計算機・OS・言語を一次/機関史料で具体化する
-4. 実読者試読が得られたら、reader-loss simulationと照合する
+Story側はEVT-015現在stateだけから進める。作者側proofを人物へ注入しない。
+
+人物が256 trialを実行した過程を章へ投影する必要が生じる場合は、1984〜85年の共用計算機・OS・言語を一次/機関史料で具体化する。
+
+Author research側は同じ定理のtrialを増やさず、P>3 / synchronous update / zero-field rule変更等、どの仮定で破れるかを必要に応じて調べる。
 
 ## 残る未確定
 
-研究所の所在地・部門・職位・設立細部、具体年月日、共用計算機・OS・言語、人物の生活史、研究所の将来、現代側最初のevent、第5話以降。必要前に一括固定しない。
+研究所の所在地・部門・職位・設立細部、具体年月日、共用計算機・OS・言語、人物の生活史、研究所の将来、現代側最初のevent、第5話以降。
 
 ## 検証系
 
-`WORKFLOW.md` を参照。chapter verificationに加え、EXP-006/007の保存結果をCIで再計算照合する。Human ReviewはCIとは別である。
+chapter verificationに加え、EXP-006/007の保存結果をCIで再計算照合する。Human ReviewはCIとは別。
