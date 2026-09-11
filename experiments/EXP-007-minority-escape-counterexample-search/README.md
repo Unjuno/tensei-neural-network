@@ -1,76 +1,66 @@
 # EXP-007 — split one-bit escapeの反例探索
 
-状態: `PREREGISTERED / NOT RUN`
+状態: `COMPLETED / NO COUNTEREXAMPLE IN PREREGISTERED SEARCH`
 
 由来: EXP-006 secondary finding。
+
+事前登録commit: `55cdc474161877efb25aab53d183ca53f4f90d1c`
 
 ## Q-007
 
 3-pattern componentwise-majority mixture Qがstored / negation外のnonzero-margin stable stateであるとき、split coordinateを一つ反転した初期状態から非同期更新し、Qへ戻らなかったtrajectoryは必ずそのcoordinateのminority stored patternへ行くのか。
 
-EXP-006では固定N=16 / cyclic ordersの17,488 non-Q trajectoriesすべてで成立した。今回はこれを支持する例を増やすより、**反例を探す**。
+## Locked falsification search
 
-## Falsifiable hypothesis H-007
+N=`8,12,16,20,24`、各Nで最初の128 eligible triples。
 
-固定探索範囲内で、split one-bit initial stateからQ以外へ収束したtrajectoryのfinalは、そのcoordinateのminority stored patternである。
+各split one-bit initial stateに、
 
-一件でも、
+- cyclic rotations N本
+- 固定seedからのrandom permutations 32本
 
-- 別のstored pattern
-- stored negation
-- other nonstored fixed point / cycle
-- nonconvergence
+を適用。最初の反例で停止するよう事前登録した。
 
-へ行けば反例として`COUNTEREXAMPLE_FOUND`。
+反例は、Q以外へ行ったtrajectoryがcoordinate-minority stored pattern以外へ到達すること、またはnonconvergence。
 
-## Locked search space
+## Result
 
-Nを `8, 12, 16, 20, 24` とする。P=3固定。
+全固定探索範囲を完走し、反例は0。
 
-各Nについて `random.Random(700000 + N)` でindependent uniform binary pattern tripleを生成する。
+| N | generated candidates | eligible | trajectories | non-Q trajectories |
+|---:|---:|---:|---:|---:|
+| 8 | 1568 | 128 | 24,240 | 8,880 |
+| 12 | 628 | 128 | 45,144 | 22,088 |
+| 16 | 323 | 128 | 68,976 | 24,912 |
+| 20 | 270 | 128 | 96,720 | 28,080 |
+| 24 | 206 | 128 | 127,624 | 27,720 |
+| total | — | 640 | **362,704** | **111,680** |
 
-eligible条件:
+111,680件のnon-Q trajectoryすべてが、その反転coordinateのminority stored patternへ収束した。
 
-1. 3 patternsが互いに異なる
-2. majority Qが3 stored / 3 global negationのいずれでもない
-3. Qの全local inputがnonzeroかつQと同符号
-4. split coordinateが1個以上存在
-
-各Nで最初の128 eligible triplesまで採用。100,000 candidatesで不足ならそのNを`INSUFFICIENT_ELIGIBLE`。
-
-## Schedules
-
-各eligible tripleについて、split coordinateを一つ反転したinitial stateをすべて使う。
-
-各initial stateに対し、
-
-- `1..N` のcyclic rotations N本
-- `random.Random(710000 + N)` から生成する32 random permutations
-
-を使う。
-
-random permutationsはcandidate結果に依存せず、Nごとに固定系列から順に生成する。重複しても結果後に差し替えない。
-
-## Update
-
-Hebbian `T_ij=Σ ξ_i^s ξ_j^s`, `T_ii=0`。
-
-非同期one-unit update。zero local inputはcurrent value保持。
-
-sweep前後が同一なら停止。最大100 sweeps。
-
-## Stopping
-
-探索順はN昇順、eligible生成順、coordinate昇順、schedule列順。
-
-**最初の反例を発見した時点で停止し、その反例を保存する。**
-
-全固定探索範囲を完走して反例がなければ`NO_COUNTEREXAMPLE_IN_SEARCH`。
+結果: `NO_COUNTEREXAMPLE_IN_SEARCH`。
 
 ## Interpretation
 
-- `COUNTEREXAMPLE_FOUND`: H-007をこの形では棄却
-- `NO_COUNTEREXAMPLE_IN_SEARCH`: 固定探索で反例なし。定理の証明ではない
-- `UNCERTAIN`: eligible不足等で固定探索を実施できない
+EXP-006の17,488件に続き、Nとschedule familyを広げた事前登録反例探索でも同じ規則が破れなかった。
 
-EXP-006を見た後の反例探索であり、1980年代人物へ結果を自動注入しない。
+これは一般定理の証明ではない。しかし、単なるN=16掲載例固有の偶然という説明はかなり弱くなった。
+
+次の合理的な作業はtrial数をさらに増やすことではなく、**P=3 majority mixture + Hebbian weights + one-bit split perturbationの代数から、このescape先制約を証明または反証すること**。
+
+作者側finding候補:
+
+`F-007-candidate: no counterexample to coordinate-minority escape in 362,704 preregistered trajectories across N=8..24.`
+
+## Limits
+
+- P=3固定
+- stable nonstored majority Qへconditionしている
+- schedulesは全順列ではない
+- zero-input保持rule
+- finite deterministic search
+- proofではない
+- 1980年代人物へこの結果を自動注入しない
+
+実装: `run.py`
+保存結果: `results.json`
