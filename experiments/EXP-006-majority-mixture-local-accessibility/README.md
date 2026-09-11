@@ -1,8 +1,10 @@
 # EXP-006 — 3-pattern majority mixtureの局所到達性
 
-状態: `PREREGISTERED / NOT RUN`
+状態: `COMPLETED / SUPPORT WITH IMPORTANT SECONDARY FINDING`
 
 由来: EVT-014 / EVT-015。
+
+事前登録commit: `1ca63fe5779bd0c5474394442c182137d9f23218`
 
 ## Q-006
 
@@ -12,86 +14,95 @@
 
 対象例の平均で、全員一致coordinateを反転したinitial stateのQ-return fractionは、2対1coordinateを反転した場合より高い。
 
-これはEVT-014の一例を見た後に立てた**作者側の新仮説**であり、1980年代人物の事前知識ではない。
+これはEVT-014の一例を見た後に立てた作者側仮説であり、1980年代人物の事前知識ではない。
 
-## Model
+## Locked protocol
 
-- N = 16
-- P = 3
-- patterns: independent uniform `{-1,+1}`
-- weights: `T_ij = Σ_s ξ_i^s ξ_j^s`, `T_ii = 0`
-- Q: coordinatewise majority of the three patterns
-- update: asynchronous, one unit at a time
-- zero local input: current value retained
+事前登録commitで以下を固定した。
 
-## Sampling lock
+- N=16, P=3
+- independent uniform binary patterns
+- componentwise-majority Q
+- Qがstored / negation外かつnonzero-margin stableで、unanimous/split coordinateの両方を持つ最初の256 eligible triples
+- RNG `random.Random(19830914)`
+- 各Qの16 one-bit neighbors
+- 各initial stateに16 cyclic update orders
+- 1 tripleあたり256 trajectories
+- 最大100 sweeps
+- primary decision: `median(r_u-r_s)>0` かつ `count(r_u>r_s)>count(r_u<r_s)`
 
-Python標準ライブラリ `random.Random(19830914)` を使う。
+## Result
 
-各candidate tripleを順に生成し、次をすべて満たすものだけeligibleとする。
+683 candidate triplesを生成した時点で256 eligible triplesに到達した。
 
-1. M1/M2/M3が互いに異なる
-2. QがM1/M2/M3およびそのglobal negationのいずれでもない
-3. Qの16 local inputsがすべてnonzeroでQと同符号（tie conventionに依存せずstable）
-4. unanimous coordinateと2対1 coordinateが少なくとも1個ずつ存在
+総trajectory数: `256 × 256 = 65,536`。
 
-最初の256 eligible triplesを採用して停止する。結果を見てcandidateを飛ばさない。
+nonconverged: 0。
 
-最大100,000 candidate triplesまでに256 eligibleが得られなければ`INSUFFICIENT_ELIGIBLE`として停止する。
+### Primary
 
-## Local-accessibility protocol
+- mean(`r_u-r_s`) = `0.0012796868`
+- median(`r_u-r_s`) = `0.1111111111`
+- `r_u > r_s`: 135 triples
+- `r_u = r_s`: 8 triples
+- `r_u < r_s`: 113 triples
 
-各eligible tripleについて、Qの16 coordinatesを一つずつ反転した16 initial statesをすべて使う。
+事前判定規則では `SUPPORT`。
 
-各initial stateについて `1..16` のcyclic rotation 16本をすべて使う。
+ただし**平均差はほぼ0**で、135対113も圧倒的ではない。したがって「unanimous flipは一般に大幅にrobust」という強い解釈は支持しない。
 
-1 eligible tripleあたり256 trajectories。
+pooled trialでは、
 
-各trajectoryはsweep前後が同一なら停止、最大100 sweeps。100 sweepsで止まらなければnonconverged。
+- unanimous: 13,292 / 19,248 = 0.690565
+- split: 28,800 / 46,288 = 0.622191
 
-## Primary measure
+だったが、coordinate数の違うtripleをpoolした値なのでprimary measureより強く扱わない。
 
-各eligible triple内で、
+## Important secondary finding
 
-- unanimous-flip trialsのQ-return fraction `r_u`
-- split-flip trialsのQ-return fraction `r_s`
+Q以外へ収束した23,444 trajectoriesは**すべてstored pattern**だった。stored-negation / other-nonstored finalは0。
 
-を計算する。
+さらにsplit-coordinateを反転したtrialでQへ戻らなかった17,488 trajectoriesは、**17,488 / 17,488すべて、そのcoordinateでQと反対側にいたminority stored patternへ収束した**。
 
-主要集計:
+これは事前のprimary hypothesisではなくsecondary descriptive outputである。
 
-- `mean(r_u - r_s)`
-- `median(r_u - r_s)`
-- `count(r_u > r_s)`, `count(r_u = r_s)`, `count(r_u < r_s)`
+EVT-015の一例で見えた、
 
-## Secondary descriptive outputs
+```text
+split coordinateをflip
+→ minority stored patternだけがQから見た距離4→3
+→ majority側二patternは4→5
+→ Qへ戻らない場合はminority stored patternへescape
+```
 
-- eligible / generated candidate数
-- unanimous / split coordinate数の分布
-- Q以外finalのstored / nonstored分類
-- nonconverged数
-- EVT-014と同じ「split coordinateを反転したとき、そのcoordinateのminority stored patternへ逃げる」現象の出現割合
+という対応が、今回の256 eligible triples / 17,488 split non-Q trajectoriesでは例外なく再現した。
+
+これは強い経験的規則だが、**一般定理とはまだ扱わない**。次に進める価値があるのはprimary H-006よりこちらである。
 
 ## Decision
 
-`SUPPORT`:
+`SUPPORT`, ただしeffectはheterogeneousでprimary mean差はほぼ0。
 
-- 256 eligible triplesが得られ、`median(r_u-r_s) > 0` かつ `count(r_u>r_s) > count(r_u<r_s)`
+より重要な新規finding:
 
-`NOT_SUPPORT`:
+`F-006-candidate: split one-bit escape -> coordinate-minority stored pattern (17,488/17,488 in fixed experiment)`
 
-- 256 eligible triplesが得られるが上記を満たさない
+## Limits
 
-`UNCERTAIN`:
-
-- eligible不足またはnonconvergence等でprimary measureを定義できない
-
-この判定はN=16/P=3/固定sampling/update familyに限定する。一般定理や自然確率とはしない。
+- N=16/P=3のみ
+- Qがstable nonstored majority mixtureになる条件へselectionしている
+- cyclic rotation 16本のみで、16! update permutationsではない
+- RNG/sampleは固定された一系列
+- 17,488/17,488でも数学的必然性を証明しない
+- 自然な確率、人間の記憶、一般のニューラルネットワークへ一般化しない
 
 ## Implementation assumptions
 
-- CPython標準ライブラリのみ
+- CPython標準ライブラリ
 - exact integer arithmetic
 - RNG: Python `random.Random`, seed固定
 - NumPy / BLAS / GPUなし
-- performance benchmarkは目的外
+- performance benchmarkなし
+
+実装: `run.py`
+保存結果: `results.json`
