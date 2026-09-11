@@ -1,55 +1,101 @@
 # 現在の状態
 
-更新: 2026-09-11
+更新: 2026-09-12
 このファイルは索引。直接のEVT・state・検証結果を優先する。
 
 ## 作業と公開の境界
 
 - 作業branch: `work/story-bootstrap`
-- story head: `EVT-013`
+- story head: `EVT-015`
 - 現代側event head: none
 - mainへの反映、PR作成、docs同期、公開は行っていない
-- 今回の主作業: 第1〜4話を読者として連続読解し、読書速度を失う箇所を抽出してNarrativeProjectionを改稿
+- 第1〜4話は `PREPUBLICATION_GATE_PASSED`。独立実読者試読・Human Reviewは未実施
 
 ## 第1〜4話
 
-| 話 | 採用EVT | 状態 | 2026-09-11読者ロス対応 |
-|---|---|---|---|
-| 1 戻る先 | EVT-001〜004 | PREPUBLICATION_GATE_PASSED | ロス低〜中。現在の導線を維持し本文変更なし |
-| 2 選ばなかった答え | EVT-005〜008 | PREPUBLICATION_GATE_PASSED | 6→36→384の手続き反復を圧縮し、D→C→D=-Cを前景化 |
-| 3 表の外 | EVT-009〜011 | PREPUBLICATION_GATE_PASSED | 文献説明を圧縮し、六素子の空白→十六素子Qを一本化 |
-| 4 五と二十一 | EVT-012〜013 | PREPUBLICATION_GATE_PASSED | 5/21を先に謎として置き、成分関係と一つの式で解く構成へ変更 |
+| 話 | 採用EVT | 状態 |
+|---|---|---|
+| 1 戻る先 | EVT-001〜004 | PREPUBLICATION_GATE_PASSED |
+| 2 選ばなかった答え | EVT-005〜008 | PREPUBLICATION_GATE_PASSED |
+| 3 表の外 | EVT-009〜011 | PREPUBLICATION_GATE_PASSED |
+| 4 五と二十一 | EVT-012〜013 | PREPUBLICATION_GATE_PASSED |
 
-読者ロス監査: `notes/reader-loss-audit-2026-09-11.md`。
-
-これは実在読者の離脱率測定ではなく、研究資料を見ずに本文を読む編集simulation。独立試読は未実施。
-
-第2〜4話は旧gateを一度 `IN_PROGRESS` へ戻し、改稿後の本文blobを `review-lock.json` へ固定して `GATE_CANDIDATE` へ進めた。candidate commit `bdc69e9f91ba08428c556e488fa66eccb9d97668`、GitHub Actions run `34503727557` / job `102960602443` はsuccess。既存4話の実行可能verification、保存結果照合、workflow検査が成功した後にgateへ戻した。
+読者ロス監査: `notes/reader-loss-audit-2026-09-11.md`。これは編集simulationで、実読者データではない。
 
 ## 現在世界の復元
 
-起点は `BOOT-002 @ T0-1980S @ none`。時代は1984〜85年前後を候補とし、具体年月日は未確定。
+起点は `BOOT-002 @ T0-1980S @ none`。時代は1984〜85年前後を候補とし具体年月日は未確定。
 
 active: PER-005 高橋修一、PER-006 佐伯玲子、ORG-001 光陵化学生命科学研究所。
 
-`world.md`と人物snapshotの一部はEVT-007まで。EVT-008〜013と対応deltaを適用して復元し、古いsnapshotへ巻き戻さない。同じ差分をEVTとdeltaから二重加算しない。
+`world.md`と人物snapshotの一部はEVT-007まで。EVT-008〜015と対応deltaを適用して復元し、古いsnapshotへ巻き戻さない。同じ差分をEVTとdeltaから二重加算しない。
 
-現在の局所問題は、Q以外の初期状態からQへ到達するか。EVT-013までで説明できたのは掲載例Qの安定性であり、到達頻度ではない。
+## EVT-014〜015
 
-## 読者として見えた主要ロス
+EVT-014では結果前に、QのHamming距離1近傍16状態 × `1..16` cyclic rotation 16本 = 256 trialを固定した。
 
-- 専門性そのものより、検証手続きが発見より前景化すると読書速度を失う
-- 高橋が広げ、佐伯が止める会話を反復すると、人物が二つの検査機能に見える
-- 数字は削るより「何を解く数字か」を先に置いた方が追いやすい
-- 正確さの限定を毎行発話せず、表・空欄・別紙・照合等の行動で維持する
+結果:
 
-今回、新しいEVT・研究EXP・persona・organizationは追加していない。既存event/stateの数学的結果も変更していない。
+- Q: 112
+- M1/M2/M3: 各48
+- nonconverged: 0
+- 全員一致位置k=1,2,7,8のflipは16/16 orderでQへ復帰
+- 2対1位置のflipはorder-dependentで、Qへ戻らない場合はその位置の少数派stored patternへだけ到達
+
+EVT-015では追加trialなしで距離を分類。2対1位置をflipすると少数派stored patternだけがQからの距離4→3、他二つは4→5。全員一致位置では三つとも4→5。
+
+この結果は第5話へまだ投影していない。
+
+## 作者側研究 EXP-006 / EXP-007
+
+物語から派生した作者側研究として、EVT-014の一例を一般化せず検証した。
+
+### EXP-006
+
+N=16/P=3のstable nonstored majority mixtureを固定seedから256例採用し、65,536 trajectoriesを事前登録条件で実行。
+
+primary H-006は事前規則上SUPPORTだが、mean(`r_u-r_s`)≈0.00128で効果はheterogeneous。
+
+重要なsecondary finding:
+
+- Q以外final 23,444件はすべてstored pattern
+- split one-bit trialでQへ戻らなかった17,488 / 17,488件がcoordinate-minority stored patternへ到達
+
+### EXP-007
+
+上記secondary findingの反例探索を事前登録。N=8,12,16,20,24、640 eligible triples、362,704 trajectoriesを固定条件で探索。
+
+- non-Q trajectories: 111,680
+- counterexample: 0
+- 結果: `NO_COUNTEREXAMPLE_IN_SEARCH`
+
+これは一般定理の証明ではない。次に価値があるのはtrial数を増やすことではなく、P=3 majority mixtureの代数から証明または反例を構成すること。
+
+作者側EXP-006/007の結果をPER-005/PER-006へ自動注入していない。人物が知るのはEVT-015まで。
+
+## ロードマップ進捗
+
+自律的に解決可能な項目:
+
+- 既存4話の対象版・数理再現・workflow integrity: 実施済み
+- 読者ロスの編集simulation: 実施済み
+- EVT-013後のworld advancement: EVT-015まで進行
+- story observationからの新研究分岐: EXP-006/007まで実施
+
+外部入力が必要で未解決:
+
+- 5人以上の独立実読者試読
+- 人間による公開受理
+- 別主体による完全独立restore / action-selection評価
+
+これらをAI内simulationで「解決済み」と偽装しない。
 
 ## 次の優先
 
-1. 実在読者の小規模試読で、各話の読書速度低下箇所を記録する
-2. 今回のsimulationと実読者のロスが衝突した場合、具体的な実読者反応を優先して再評価する
-3. 世界進行を再開する場合はEVT-013から行動を選び、Qのaccessibilityについて初期状態集合・更新順・停止条件を結果前固定する
+1. EXP-007の規則を解析的に証明または反例構成できるか検討する
+2. story側ではEVT-015現在stateから自然な次行動を選ぶ。作者側EXP-006/007を未来知識として使わない
+3. 256 trialを本文へ投影する必要が生じた場合、1984〜85年の共用計算機・OS・言語を一次/機関史料で具体化する
+4. 実読者試読が得られたら、reader-loss simulationと照合する
 
 ## 残る未確定
 
@@ -57,4 +103,4 @@ active: PER-005 高橋修一、PER-006 佐伯玲子、ORG-001 光陵化学生命
 
 ## 検証系
 
-`WORKFLOW.md` を参照。review-lockの鮮度、個別checks、保存JSONとの一致を検査する。Human ReviewはCIとは別である。
+`WORKFLOW.md` を参照。chapter verificationに加え、EXP-006/007の保存結果をCIで再計算照合する。Human ReviewはCIとは別である。
