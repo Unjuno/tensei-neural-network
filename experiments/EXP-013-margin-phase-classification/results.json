@@ -1,0 +1,22 @@
+{
+  "experiment": "EXP-013",
+  "result": "PHASE_RULE_MATCHED_SEARCH",
+  "summary": [
+    {"N":7,"generated_candidates":473,"eligible":64,"trajectories":6831},
+    {"N":8,"generated_candidates":809,"eligible":64,"trajectories":7320},
+    {"N":9,"generated_candidates":241,"eligible":64,"trajectories":9400},
+    {"N":10,"generated_candidates":364,"eligible":64,"trajectories":11128},
+    {"N":11,"generated_candidates":171,"eligible":64,"trajectories":12447},
+    {"N":12,"generated_candidates":263,"eligible":64,"trajectories":14028},
+    {"N":13,"generated_candidates":205,"eligible":64,"trajectories":16849},
+    {"N":14,"generated_candidates":208,"eligible":64,"trajectories":18450},
+    {"N":15,"generated_candidates":148,"eligible":64,"trajectories":20491},
+    {"N":16,"generated_candidates":144,"eligible":64,"trajectories":22496}
+  ],
+  "eligible_total": 640,
+  "checked_trajectories": 139440,
+  "regime_states": {"ZERO":624,"MIDDLE":2904,"HIGH":1400},
+  "regime_trials": {"ZERO":16234,"MIDDLE":81257,"HIGH":41949},
+  "finals": {"ZERO_MINORITY":16234,"MIDDLE_Q":32853,"MIDDLE_MINORITY":48404,"HIGH_Q":41949},
+  "margin_state_counts": {"0":624,"1":877,"2":416,"3":301,"4":595,"5":715,"6":237,"7":175,"8":255,"9":330,"10":96,"11":42,"12":106,"13":93,"14":15,"15":19,"16":27,"18":5}
+}
