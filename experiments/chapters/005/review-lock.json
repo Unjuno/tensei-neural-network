@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "chapter": "005",
+  "algorithm": "git-blob-sha1",
+  "files": {
+    "POLICY.md": "cb62c3d5554fe16ac6e8b54843a4fe168a053022",
+    "WORKFLOW.md": "749d4dc93ecefa5fa42973ee9594edf33a5de379",
+    "experiments/chapters/005/results.json": "f99b60fff9a81236d0ee62a46f7d1856235fd7af",
+    "experiments/chapters/005/run.py": "048326f4e17cdee3b2c27f130c97a04d10a58ba0",
+    "experiments/chapters/005/semantic-review.md": "efe0388de747a9dfcfa2a11150303f804da2b819",
+    "experiments/chapters/005/terminology.md": "0c2301a21acf343c0ea143be93616549709d1e12",
+    "experiments/chapters/005/verification.md": "044c1c10e0c18a6e5ad6fff870fe03f4f1e455e8",
+    "novel/STYLE_WEBNOVEL.md": "9d855720c12380a7e4df705d72473a3c2c9efff9",
+    "novel/WORLD_POLICY.md": "dddd9c891935f91e7bd5cdba8d11ae4dba4bf2f1",
+    "novel/chapters/005-outline.md": "dc932b4807150a5c20a2ed0588d4e350eba7d89f",
+    "novel/chapters/005.md": "4b656b5ed8a86b3e7313e1dd19c943075401a87d",
+    "novel/events/EVT-014-lock-one-bit-accessibility-around-Q.md": "75715495e9262cd548b8260ee3449c17b5855b43",
+    "novel/events/EVT-015-the-flipped-bit-picks-a-minority-memory.md": "b142adc56a8d9a0692cb2bcfa2d9dcee228c3b02",
+    "novel/events/EVT-016-lock-first-divergence-classification.md": "3e82e0de917b8a4fbcb3f14ebae41beb2f03d23e",
+    "novel/events/EVT-017-lock-initial-instability-map.md": "0e2169d02cb3702ef7ed7e83237a46d122e616a2",
+    "novel/events/EVT-018-cyclic-counts-collapse-to-gaps.md": "e88000ce603ad158861f4bd642b24f0d0e93d267"
+  }
+}
