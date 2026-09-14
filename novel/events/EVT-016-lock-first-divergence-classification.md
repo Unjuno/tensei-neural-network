@@ -1,8 +1,10 @@
-# EVT-016 更新順のどこで分岐が始まるかを固定して調べる
+# EVT-016 最初の実bit flipが分岐を分ける
 
-状態: `ACTION_LOCKED`
+状態: `RESOLVED / PROVISIONAL`
 
 Resolution provenance: `LOCKED`
+
+Action-lock commit: `a1677e110a7be35fcb5068484a4de4b395770230`
 
 ## Story time
 
@@ -27,78 +29,150 @@ Resolution provenance: `LOCKED`
 
 EVT-014ではsplit coordinateを1 bit反転した192 trialについて、更新順によりQまたはそのcoordinateのminority stored patternへ分岐した。
 
-EVT-015では、初期状態のgeometryとしてminority memoryだけがQからdistance 4→3へ近づくことを確認した。しかし「更新順のどこで分岐が決まるか」は未説明。
+EVT-015では、initial geometryとしてminority memoryだけがQからdistance 4→3へ近づくことを確認した。しかし「更新順のどこで分岐が決まるか」は未説明だった。
 
-高橋の局所目標は、距離ではなく実際の一素子更新列を比較してbranching mechanismを見つけること。
+## Locked classification
 
-佐伯の局所目標は、都合のよい2本だけでなく192本全部を同じ分類規則で見ること。
+commit `a1677e110a7be35fcb5068484a4de4b395770230` で、192 trial全件について最初の実bit flipを次のcategoryへ固定分類した。
 
----
+- `REPAIR_K_FIRST`: 最初の実flipが壊したcoordinate kをQへ戻す
+- `OTHER_FLIP_FIRST`: k以外のunitが最初にQから離れる方向へflip
+- `NO_FLIP_FIRST_SWEEP`
+- `OTHER`
 
-# ACTION LOCK
+同時にfirst-flip unit / update位置 / final / 総実flip数を記録する規則を結果前固定した。
 
-## Included trials
+## Resolution
 
-EVT-014の12 split initial states × 16 cyclic orders = 192 trialを全件再計算する。
+192 trial全件を同一規則で再計算した。
 
-unanimity 4 initial statesは今回の主分類から外す。EVT-014で全64 trialがQへ戻ることが既に分かっており、今回の問いはorder-dependentだったsplit statesのbranchingだからである。この除外は結果計算前に固定する。
+### First-flip category × final
 
-## Fixed dynamics
+| first actual flip | final Q | final minority memory | other | total |
+|---|---:|---:|---:|---:|
+| `REPAIR_K_FIRST` | 48 | 0 | 0 | 48 |
+| `OTHER_FLIP_FIRST` | 0 | 144 | 0 | 144 |
+| other categories | 0 | 0 | 0 | 0 |
 
-EVT-014と同一:
+**192 / 192で完全分離**した。
 
-- same M1/M2/M3/Q
-- same Hebbian weights
-- asynchronous one-unit update
-- positive→+1 / negative→-1 / zero→current保持
-- same 16 cyclic orders
-- sweep前後同一で停止
+Predeclared outcome: `FIRST_FLIP_SEPARATES`。
 
-## Recorded trace
+### Total actual flips
 
-各trialについてunit updateを一つずつ追い、各**実bit flip**を時系列で記録する。
+- `REPAIR_K_FIRST → Q`: 48 / 48 trialで実flipは**1回だけ**
+- `OTHER_FLIP_FIRST → minority memory`: 144 / 144 trialで実flipは**3回**
 
-initial stateでは反転coordinateを`k`とする。
+後者ではinitial stateですでにminority memoryとの差の4 bitのうち1 bitが揃っている。さらに3 bitがflipし、stored patternへ一致する。
 
-最初の実bit flipを次の排他的categoryへ分類する。
+### By coordinate
 
-- `REPAIR_K_FIRST`: 最初の実flipがkをQの値へ戻す
-- `OTHER_FLIP_FIRST`: k以外のunitが最初にQから離れる方向へ実flipする
-- `NO_FLIP_FIRST_SWEEP`: 最初の一巡で実flipなし
-- `OTHER`: 上記に入らない
+EVT-014のfinal集計と同じ比率がfirst-flip分類として再現された。
 
-さらに、
+例:
 
-- first flipのunit
-- first flip時点のupdate index
-- kが最初に更新された時点のlocal input符号
-- 最終状態 Q / minority stored pattern / other
-- 総実flip数
+- k=3: repair first 13 / other first 3
+- k=4,5,6: repair first 1 / other first 15
+- k=9,10: repair first 10 / other first 6
+- k=14: repair first 1 / other first 15
 
-を記録する。
+全12 coordinateで、repair-first件数がそのままQ final件数に一致した。
 
-## Predeclared comparisons
+## Resolved consequence
 
-1. `REPAIR_K_FIRST` / `OTHER_FLIP_FIRST`ごとのfinal集計
-2. first-flip categoryがfinalを一意に決めるか
-3. coordinateごとのcategory分布
-4. 192 trialに`OTHER` / unexpected final / nonconvergenceがあるか
+この具体的16-unit exampleの固定192 trialでは、order dependenceは最終結果を直接見なくても、**最初に実際にどのbitが動くか**まで縮約できた。
 
-## Outcome labels
+```text
+壊したbit k が最初に修復
+→ その後に実flipなし
+→ Q
 
-- `FIRST_FLIP_SEPARATES`: first-flip categoryだけでQ vs minority finalが完全分離する
-- `PARTIAL_ASSOCIATION`: categoryとfinalに対応はあるが完全分離しない
-- `NO_SIMPLE_ASSOCIATION`: 明瞭な対応なし
-- `UNEXPECTED_DYNAMICS`: other final / nonconvergence等
+別unitが先にQから離れる
+→ 合計3回の実flip
+→ kでminorityだったstored memory
+```
 
-どの結果でも後からcategory定義を変更しない。
+したがって「更新順そのもの」が魔法のようにfinalを決めるのではなく、更新順が**最初の有効な状態変化の競争**を決め、その最初の変化がこの例ではbranchを完全分離している。
 
-## Stopping rule
+ただし今回確認したのは、
 
-192 trial全件を同じ規則で処理した時点で停止する。結果後に別schedule familyを追加しない。
+- 1983掲載16-unit example
+- split one-bit initial states
+- 16 cyclic orders
+
+だけである。一般のnetwork / order family / perturbation sizeへ自動一般化しない。
+
+## Persona deltas
+
+### PER-005 高橋修一
+
+Beliefs:
+
+- 今回のorder dependenceは、192 trialでは「最初の実flip」の競争へ縮められる
+- damaged bitが先に戻ればQで終わり、別bitが先に動けばstored memory側へcascadeする
+- 5/21 margin、distance 3/5、first-flip competitionが一つの局所構造として接続し始めた
+
+Goals:
+
+- なぜ別unitが先にflipすると残り2 bitまで同じstored pattern側へ続くのか、固定例の局所入力から説明できるか調べる
+- 192件の経験則を一般法則とは呼ばない
+
+Memory:
+
+- 48 repair-first→Q
+- 144 other-first→minority
+- flip count 1 vs 3
+
+### PER-006 佐伯玲子
+
+Beliefs:
+
+- finalだけでなく最初の実変化を記録すると、order dependenceの記述が大幅に単純化した
+- 「順番が違うから違う結果」より「最初にどの変化が許されたか」の方が操作的に明確
+
+Goals:
+
+- first-flip分類を結果後の都合よい説明へ変えないため、今回の192件全件一致をそのまま限定して保存する
+- 次に解析する場合も、具体例のどこまでが証明可能かと一般化を分離する
+
+## Organization / world delta
+
+ORG-001 governance変更なし。
+
+192 trajectoryのunit-level traceは紙上で不可能ではないが反復量が大きい。本文でこの作業sceneを具体化する場合、共用計算資源の利用をresolution scopeへ入れる合理性が高まった。
+
+まだ具体machine / OS / languageはCanon固定しない。
+
+## Fact level
+
+- local story fact: first-flip classificationと192/192完全分離をPER-005 / PER-006が共有
+- institutional fact: 未成立
+- public story fact: 未成立
+- canon fact: 未昇格
+
+## Research branch
+
+このeventだけから新しい作者側EXPを人物へ返さない。
+
+作者側では既に別系列の一般研究が存在するが、人物Knowledgeへ流入させない。
+
+## Structure impact
+
+EVT-014〜016で、
+
+```text
+Qは近傍から到達可能だがorder-dependent
+→ どのbitを壊したかで競合memoryが変わる
+→ order dependenceはfirst actual flipの競争へ縮約
+```
+
+という一つの局所的認識遷移が成立した。
+
+自然なreading unit候補になり得るが、chapter化は成立済みeventだけから別途判定する。
 
 ## Generation validation
 
-- 問いはEVT-015のpersona goalsから直接生じている
-- 作者側EXP-006/007の一般則・proofを人物へ使っていない
-- EVT-014で既に成立したtrial familyを全件再分類するため、結果を出すための新pattern / schedule選択をしない
+- classification ruleは結果計算前commit済み
+- 192 trial全件使用
+- 作者側EXP-006〜011 / proofを人物へ使用していない
+- complete separationを一般定理へ昇格していない
