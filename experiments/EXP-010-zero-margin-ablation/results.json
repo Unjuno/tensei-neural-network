@@ -1,0 +1,8 @@
+{
+  "experiment": "EXP-010",
+  "result": "UNCERTAIN",
+  "reason": "INSUFFICIENT_ELIGIBLE",
+  "N": 8,
+  "generated_candidates": 200000,
+  "eligible": 0
+}
