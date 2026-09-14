@@ -1,0 +1,13 @@
+{
+  "experiment": "EXP-011",
+  "result": "NO_COUNTEREXAMPLE_IN_SEARCH",
+  "summary": [
+    {"N": 7, "generated_candidates": 1136, "eligible": 128, "trajectories": 23478},
+    {"N": 9, "generated_candidates": 805, "eligible": 128, "trajectories": 32472},
+    {"N": 11, "generated_candidates": 624, "eligible": 128, "trajectories": 43946},
+    {"N": 13, "generated_candidates": 639, "eligible": 128, "trajectories": 55800},
+    {"N": 15, "generated_candidates": 685, "eligible": 128, "trajectories": 67492},
+    {"N": 17, "generated_candidates": 648, "eligible": 128, "trajectories": 80850}
+  ],
+  "checked_trajectories": 304038
+}
