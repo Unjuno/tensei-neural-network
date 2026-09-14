@@ -1,0 +1,35 @@
+{
+  "chapter": "005",
+  "checks": {
+    "aggregate_112_48_48_48": true,
+    "unanimous_four_all_return_Q": true,
+    "split_first_flip_complete_separation": true,
+    "repair_trials_have_one_flip": true,
+    "minority_trials_have_three_flips": true,
+    "initial_unstable_set_equals_difference_set": true,
+    "cyclic_gap_counts_match_Q_counts": true,
+    "no_unexpected_final_or_nonconvergence": true
+  },
+  "aggregate": {"Q": 112, "M1": 48, "M2": 48, "M3": 48, "OTHER": 0},
+  "by_flipped_position": {
+    "1": {"Q": 16, "M1": 0, "M2": 0, "M3": 0},
+    "2": {"Q": 16, "M1": 0, "M2": 0, "M3": 0},
+    "3": {"Q": 13, "M1": 0, "M2": 0, "M3": 3},
+    "4": {"Q": 1, "M1": 0, "M2": 0, "M3": 15},
+    "5": {"Q": 1, "M1": 0, "M2": 0, "M3": 15},
+    "6": {"Q": 1, "M1": 0, "M2": 0, "M3": 15},
+    "7": {"Q": 16, "M1": 0, "M2": 0, "M3": 0},
+    "8": {"Q": 16, "M1": 0, "M2": 0, "M3": 0},
+    "9": {"Q": 10, "M1": 0, "M2": 6, "M3": 0},
+    "10": {"Q": 10, "M1": 6, "M2": 0, "M3": 0},
+    "11": {"Q": 2, "M1": 0, "M2": 14, "M3": 0},
+    "12": {"Q": 1, "M1": 0, "M2": 15, "M3": 0},
+    "13": {"Q": 3, "M1": 13, "M2": 0, "M3": 0},
+    "14": {"Q": 1, "M1": 15, "M2": 0, "M3": 0},
+    "15": {"Q": 3, "M1": 0, "M2": 13, "M3": 0},
+    "16": {"Q": 2, "M1": 14, "M2": 0, "M3": 0}
+  },
+  "first_flip": {"repair_to_Q": 48, "other_to_minority": 144},
+  "flip_counts": {"repair_branch_total_flips_1": 48, "minority_branch_total_flips_3": 144},
+  "result": "PASS"
+}
