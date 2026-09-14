@@ -29,6 +29,10 @@ jobs:
         run: |
           python experiments/EXP-006-majority-mixture-local-accessibility/run.py --check
           python experiments/EXP-007-minority-escape-counterexample-search/run.py --check
+          python experiments/EXP-008-synchronous-update-ablation/run.py --check
+          python experiments/EXP-009-p5-majority-escape-counterexample-search/run.py --check
+          python experiments/EXP-010-zero-margin-ablation/run.py --check
+          python experiments/EXP-011-zero-margin-odd-N/run.py --check
       - name: Validate repository workflow
         shell: bash
         run: |
