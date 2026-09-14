@@ -1,0 +1,26 @@
+{
+  "experiment": "EXP-009",
+  "result": "COUNTEREXAMPLE_FOUND",
+  "N": 12,
+  "generated_candidates": 4,
+  "eligible_index": 1,
+  "checked_trajectories": 59,
+  "patterns": [
+    [-1,-1,-1,1,-1,-1,-1,1,-1,1,1,-1],
+    [-1,1,1,-1,1,-1,1,1,-1,-1,-1,1],
+    [1,1,1,1,-1,-1,-1,-1,-1,-1,1,-1],
+    [-1,1,1,1,1,-1,-1,-1,-1,1,-1,-1],
+    [-1,1,1,-1,-1,1,1,-1,-1,1,-1,-1]
+  ],
+  "Q": [-1,1,1,1,-1,-1,-1,-1,-1,1,-1,-1],
+  "coordinate": 2,
+  "minority_indices": [1],
+  "initial": [-1,-1,1,1,-1,-1,-1,-1,-1,1,-1,-1],
+  "schedule_kind": "random",
+  "schedule_index": 15,
+  "order": [7,10,11,6,3,9,1,5,12,8,4,2],
+  "final": [1,-1,-1,1,-1,-1,-1,-1,-1,1,1,-1],
+  "classification": "OTHER_NONSTORED",
+  "sweeps": 2,
+  "converged": true
+}
