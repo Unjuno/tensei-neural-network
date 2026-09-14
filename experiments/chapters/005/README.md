@@ -1,6 +1,6 @@
 # 第5話「最初に動いたもの」公開前検証
 
-状態: `IN_PROGRESS`
+状態: `GATE_CANDIDATE`
 
 対象: `novel/chapters/005.md`
 採用event: EVT-014 -> EVT-018。
@@ -11,12 +11,19 @@
 - `run.py` / `results.json`: EVT-014〜018の中心数値を再現
 - `terminology.md`: PASS
 - `semantic-review.md`: PASS
+- `review-lock.json`: 対象本文・採用EVT・検証入力を固定済み
 
-## 現在位置
+## Candidate gate
 
-本文・outline・verification・terminology・semantic reviewは作成済み。
+この状態でGitHub Actionsを実行し、
 
-次に`review-lock.json`で対象版を固定し、`GATE_CANDIDATE`へ上げてCIを通す。
+- validator tests
+- 第1〜5話の実行可能verification
+- EXP-006〜011再実行
+- review-lock鮮度
+- strict workflow validation
+
+が成功した場合のみ`PREPUBLICATION_GATE_PASSED`へ進める。
 
 ## Gateの意味
 
