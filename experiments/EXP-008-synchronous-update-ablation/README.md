@@ -1,6 +1,8 @@
 # EXP-008 — 非同期更新仮定を外す反例探索
 
-状態: `PREREGISTERED / NOT RUN`
+状態: `COMPLETED / COUNTEREXAMPLE FOUND`
+
+事前登録commit: `3be803411f1f74b8daf218f68ef2305885fa75f5`
 
 由来: EXP-007で証明したcoordinate-minority escape定理の仮定アブレーション。
 
@@ -8,74 +10,55 @@
 
 P=3のstable nonstored componentwise-majority mixture Qについて、更新を非同期one-unit updateから**同期一括更新**へ変えた場合にも、split coordinateを1 bit反転した初期状態は、Qまたはそのcoordinateのminority stored pattern以外へ行かないか。
 
-## H-008
+## Locked hypothesis
 
 EXP-007の結論は同期更新では一般に維持されない。固定探索範囲内に、少なくとも1件、Q / coordinate-minority stored pattern以外のfixed point、周期軌道、または100 step非収束が存在する。
 
-これはEXP-007の解析証明が使う「実bit flipごとのHopfield energy strict descent」を外す検査である。
+探索条件は事前登録版から変更していない。
 
-## Locked search space
+## Result
 
-- N = `8, 12, 16, 20, 24`
-- P = 3
-- NごとのRNG: `random.Random(800000 + N)`
-- 各Nで最初の128 eligible tripleを採用
-- 最大100,000 candidate / N
+最初のN=8 blockで、24 candidate中2番目のeligible tripleまでに反例が出た。事前登録順で確認したsplit initial stateの8件目。
 
-eligible条件:
+stored patterns:
 
-1. 3 stored patternsは互いに異なる
-2. Qは3 stored patternsおよびglobal negationのいずれでもない
-3. Qの各local inputはnonzeroでQと同符号
-4. split coordinateを1個以上持つ
+```text
+M1 = (+,+,+,+,-,+,-,+)
+M2 = (-,+,+,+,+,+,-,+)
+M3 = (-,+,-,+,-,+,+,+)
+Q  = (-,+,+,+,-,+,-,+)
+```
 
-## Initial states
+split coordinate 3を反転する。この位置のminority stored patternはM3。
 
-各eligible tripleの全split coordinateについて、Qのその1 bitだけを反転した状態を全件含める。
+initial:
 
-## Update
+```text
+(-,+,-,+,-,+,-,+)
+```
 
-Hebbian symmetric weights:
+同期一括更新では、
 
-`T_ij = Σ_s ξ_i^s ξ_j^s`, `T_ii = 0`。
+```text
+(-,+,-,+,-,+,-,+)
+→ (-,+,+,+,-,+,+,+)
+→ (-,+,-,+,-,+,-,+)
+```
 
-1 stepで**全unitを同じ旧状態から同時更新**する。
+となり、**period-2 cycle**を形成した。
 
-- `h_i > 0` → `+1`
-- `h_i < 0` → `-1`
-- `h_i = 0` → 現在値を保持
-
-同じstateが再出現したらcycleとして停止する。最大100 synchronous steps。
-
-## Counterexample definition
-
-各split coordinateには、その位置でQと異なるstored patternが一つだけ存在し、それをminority stored patternとする。
-
-initial stateからのtrajectoryが、
-
-- Q fixed point
-- coordinate-minority stored pattern fixed point
-
-のいずれかで終われば`CONSISTENT_WITH_ASYNC_RULE`。
-
-次のいずれかなら**反例**:
-
-- 上記以外のfixed point
-- 周期2以上のcycle
-- 100 stepで未停止
-
-## Stopping rule
-
-探索順はN昇順、eligible生成順、split coordinate昇順。
-
-最初の反例を発見した時点で停止し、そのtriple / coordinate / trajectoryを保存する。
-
-全固定範囲を完走して反例がなければ`NO_COUNTEREXAMPLE_IN_SEARCH`。
+QにもM3にも収束しないため、事前定義どおり`COUNTEREXAMPLE_FOUND`。
 
 ## Interpretation
 
-- `COUNTEREXAMPLE_FOUND`: asynchronous one-unit update仮定がEXP-007定理に実質的であることを有限反例で示す
-- `NO_COUNTEREXAMPLE_IN_SEARCH`: 同期更新でも固定探索では破れなかった。証明ではない
-- `UNCERTAIN`: eligible不足など
+EXP-007で得た非同期更新下の定理は、更新を同期一括へ替えるとそのまま維持されない。
 
-P=3、binary Hebbian、zero-input保持という他の仮定は維持する。作者側研究であり、1980年代人物へ自動注入しない。
+特に解析証明で使った「実bit flipごとにHopfield energyがstrictに低下し、有限state spaceなのでfixed pointへ到達する」という部分は同期更新では使えない。今回のperiod-2 orbitは、その仮定差が結果を実際に変える具体例になった。
+
+したがって**asynchronous one-unit updateは単なる実装細部ではなく、定理の実質的仮定**である。
+
+これは同期Hopfield dynamics一般の分類ではない。P=3 / binary Hebbian / zero-input保持 / 固定探索の一反例で十分に旧結論の一般化を棄却しただけである。
+
+実装: `run.py`
+保存結果: `results.json`
+作者側研究でありPER-005/PER-006へ自動注入しない。
