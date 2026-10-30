@@ -18,10 +18,10 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-015`
+- 1980年代側: `EVT-018`
 - 現代側: none
 
-EVT-015時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-018時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
@@ -29,7 +29,7 @@ EVT-015時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯
 - 第2話: EVT-005〜008
 - 第3話: EVT-009〜011
 - 第4話: EVT-012〜013
-- EVT-014〜015: 未投影。第5話を成立させるためにeventを追加しない
+- 第5話: EVT-014〜018
 
 ## 1980年代 event chain
 
@@ -81,27 +81,37 @@ EVT-014の固定済みinitial statesを追加trialなしで再分類。
 
 provenance `LOCK_NOT_REQUIRED`。
 
+### EVT-016 — 最初に動いた素子で分岐が決まる
+
+EVT-014のsplit一bit初期状態12×16 cyclic orders=192 trajectoryを、結果前lockしたfirst actual flip分類で再計算。damaged bitが最初に修復されれば48/48でQ、別unitが先なら144/144でそのcoordinateのminority stored patternへ。provenance `LOCKED`。
+
+### EVT-017 — 初期状態には4つの不安定候補
+
+12初期状態×16 local inputsを事前条件に従って全件分類。各split one-bit initial stateで、`FLIP_IF_UPDATED`集合はminority memoryとQの4-bit difference set `D(k)` に12/12で一致。HOLD_TIEなし。provenance `LOCKED`。
+
+### EVT-018 — 巡回順の件数は円周上の隙間
+
+既知の4点集合 `D(k)` を円周上に置き、cyclic startからdamaged kが最初のunstable unitとなる開始点数をgapとして再分類。M3: 13/1/1/1、M2: 10/2/1/3、M1: 10/3/1/2。各組16件、split Q-return 48件、unanimous Q-return 64件、計112件をsimulationとは独立に説明。追加trialなし、provenance `LOCK_NOT_REQUIRED`。
+
+EVT-014〜018を第5話「最初に動いたもの」へNarrativeProjection済み。第5話公開前gateはPASS、Human Reviewは未実施。
+
 ## 作者側研究（人物Knowledgeとは分離）
 
-EVT-014/015からEXP-006を分岐。N=16/P=3の256 eligible majority mixtures、65,536 trajectoriesを事前登録条件で検証。
+EVT-014/015由来のEXP-006/007ではfinite searchから少数派escapeを観測し、別途P=3・symmetric Hebbian・非同期fair one-unit update・zero-input保持の条件で解析的に説明した。EXP-011ではQのzero marginを許す条件へ拡張。
 
-primary H-006は弱いSUPPORT。一方secondaryで、split one-bitからQへ戻らなかった17,488/17,488 trajectoriesがcoordinate-minority stored patternへ到達。
+EXP-008で同期更新はperiod-2 cycleを作る反例が成立。EXP-010では偶数Nのzero-margin探索設計が構造上不適格だった。EXP-012でP=5への拡張に反例。EXP-013でN=7〜16、640 eligible triples、139,440 trajectoriesの事前登録margin三領域分類が全件一致。EXP-009は事前登録されているが、README上は未実行。
 
-これを受けEXP-007で反例探索を事前登録。N=8,12,16,20,24、640 eligible triples、362,704 trajectoriesを探索し、111,680 non-Q trajectoriesすべてで同じ規則が成立。counterexample 0。
-
-**これは作者側結果でありPER-005/PER-006へ自動共有しない。一般定理でもない。**
+**これらは作者側の知識であり、人物へ自動共有しない。** 有限探索成功と一般証明、同期/非同期、異なるPを混同しない。
 
 ## Current next question
 
-Story側、EVT-015後:
+Story側、EVT-018後:
 
-> 一ビット近傍で見えたorder dependenceを、二人が知るこの具体例の代数だけからどこまで説明できるか。
+> 初期の不安定集合と人工的な巡回順が結果の件数を決めると分かった後、高橋と佐伯は何を実際に次に確かめるか。
 
-Author research側:
+ここはまだ未解決。第6話を成立させるためにeventを発生させず、現在のpersona Goals/Knowledgeと組織制約からaction selectionを行う。
 
-> EXP-006/007で反例が見つからないcoordinate-minority escapeを、P=3 majority mixtureの代数から証明できるか。それとも固定探索外の反例を構成できるか。
-
-trial数を無目的に増やすより解析を優先する。
+Author research側は、EXP-009等の既に登録した検査を扱う場合、結果を見る前に固定した条件を変更しない。
 
 ## 現代
 
