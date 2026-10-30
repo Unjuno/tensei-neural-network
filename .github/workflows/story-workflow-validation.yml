@@ -33,6 +33,10 @@ jobs:
           python experiments/EXP-010-zero-margin-ablation/run.py --check
           python experiments/EXP-011-zero-margin-odd-N/run.py --check
           python experiments/EXP-012-p5-majority-escape-counterexample-search/run.py --check
+      - name: Re-run EXP-013 and compare saved results
+        run: |
+          python experiments/EXP-013-margin-phase-classification/run.py --check > /tmp/exp013-fresh.json
+          python -c 'import json; from pathlib import Path; a=json.loads(Path("/tmp/exp013-fresh.json").read_text(encoding="utf-8")); b=json.loads(Path("experiments/EXP-013-margin-phase-classification/results.json").read_text(encoding="utf-8")); assert a == b and a.get("result") == "PHASE_RULE_MATCHED_SEARCH", "EXP-013 fresh result differs from saved evidence"'
       - name: Validate repository workflow
         shell: bash
         run: |
