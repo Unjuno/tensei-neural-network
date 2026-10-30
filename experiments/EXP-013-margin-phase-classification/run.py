@@ -70,6 +70,6 @@ def execute():
 def main():
     r=execute();print(json.dumps(r,ensure_ascii=False,indent=2))
     if '--write' in sys.argv:Path(__file__).with_name('results.json').write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    if '--check' in sys.argv and r.get('result') not in {'PHASE_RULE_MATCHED_SEARCH','COUNTEREXAMPLE_FOUND'}:return 1
+    if '--check' in sys.argv and r.get('result') != 'PHASE_RULE_MATCHED_SEARCH':return 1
     return 0
 if __name__=='__main__':raise SystemExit(main())
