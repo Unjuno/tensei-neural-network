@@ -8,8 +8,11 @@
 | [002](002.md) | 選ばなかった答え | EVT-005〜008 |
 | [003](003.md) | 表の外 | EVT-009〜011 |
 | [004](004.md) | 五と二十一 | EVT-012〜013 |
+| [005](005.md) | 最初に動いたもの | EVT-014〜018 |
 
-2026-09-08に4話を監査・改稿。旧意味レビューの見逃しも `../../notes/assessment-and-roadmap.md` に残す。各話の現在gateはpackage READMEと対象版記録を確認する。
+2026-09-08に第1〜4話を監査・改稿。旧意味レビューの見逃しも `../../notes/assessment-and-roadmap.md` に残す。各話の現在gateはpackage READMEと対象版記録を確認する。
+
+2026-10-31の `../scene-probes/2026-10-31-circle-and-original-records.md` はEVT-018直後の**未採用場面試作**であり、成立済みEVTでも第6話でもない。本文・検証・review-lockの対象には含めない。
 
 `001-webnovel-draft.md` は以前の文体比較稿であり、現行001.mdと同期する第二の正本ではない。現行本文へ混ぜ戻さない。
 
