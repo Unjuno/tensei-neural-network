@@ -1,61 +1,46 @@
 # 作業コンテキスト
 
-更新: 2026-09-12
-公開可能な引継ぎ用索引。内部推論や秘密情報は保存しない。
+更新: 2026-10-30。高速引継ぎ用索引であり、正本は直接のEVT / state / evidence。内部指示・秘密情報は記録しない。
 
-## 現在位置
+## 復元先
 
-- branch: `work/story-bootstrap`
-- 1980年代側head: `EVT-015`
+- repo: `Unjuno/tensei-neural-network`
+- work branch: `work/story-bootstrap`。main、PR、公開、Canon昇格には人間承認が必要
+- 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001
-- 現代側event: none
-- main / PR / docs / 公開には触れていない
+- 第1〜5話は `PREPUBLICATION_GATE_PASSED`。第5話はEVT-014〜018を採用
+- 古いsnapshotを正史と取り違えず、EVT-008〜018および対応deltaを一度だけ適用する
 
-第1〜4話はEVT-001〜013をNarrativeProjection済みで `PREPUBLICATION_GATE_PASSED`。EVT-014〜015は未投影。
+## 現在の物語上の理解
 
-## 読者ロス監査
+Qは1983年掲載16-unit/3-stored pattern例のnonstored stable majority。EVT-014でQから1bit反転した16初期状態×16 cyclic order=256をlockして実行し、Q=112、M1=M2=M3=48。EVT-015でsplit位置の少数派storedとの距離が4→3と判明。EVT-016〜018では最初のflip、initial unstable集合4個、円環gapが256件のカウントを説明。第5話「最初に動いたもの」へ投影済み。
 
-`reader-loss-audit-2026-09-11.md`。実読者データではなく編集simulation。
+次のstory eventは未成立。第6話を作るための事件や研究結果を先に選ばず、EVT-018時点で人物が持つGoals/Beliefs/ObservationsとORGの制約から進める。
 
-第1話は据え置き。第2〜4話は、手続き説明より発見を前景化する改稿を行い、candidate CI成功後にgateへ戻した。
+## 作者側研究の境界
 
-## EVT-014 / EVT-015
+- EXP-007 P=3 nonnegative-stable majority Q / symmetric Hebbian / asynchronous fair one-unit / zero-holdに限る少数派escape定理（EXP-011でzero-margin拡張）
+- EXP-008 同期更新のperiod-2反例
+- EXP-010 偶数Nのzero-margin探索は事前設計の不適格で終了
+- EXP-011 奇数Nで304,038試行、反例なし
+- EXP-012 P=5は別のnonstored stable状態へのescapeが発生
+- EXP-013 margin三領域の固定予測、640 eligible models・139,440 trajectoriesが一致。2026-10-30に保存データを別実装でも照合し、CIへ追加
+- EXP-009はREADME上事前登録。実行前に同一repo内の実装/結果有無を確認
 
-EVT-014は結果前lock済みのQ one-bit accessibility check。
+これらの作者側一般化・証明は高橋と佐伯へ漏らさない。
 
-- 16 one-bit initial states × 16 cyclic orders = 256
-- Q=112
-- M1=M2=M3=48
-- nonconverged=0
-- unanimous 4 positionsのflipは全orderでQへ復帰
-- split 12 positionsはorder-dependent
-- Qへ戻らないtrialはcoordinate-minority stored patternへだけ到達
+## 自律実行手順
 
-EVT-015で幾何を分類。
+GitHubの最新HEADを必ず確認し、`STATUS.md`→関連event→個別実験条件/結果→CIを読む。最新状態と索引が食い違えばdirect EVTを優先して索引を直す。研究を進めるなら事前登録と結果を分離し、失敗・不都合な結果も残す。実装コードが既にある場合は先にその有無と実行状態を調査する。変更はwork branchのみ、保存JSON照合とCIを行う。本文・検証・review-lock変更時にはgateを再実施する。
 
-- split flip: minority memory distance 4→3 / overlap 8→10、他二つ distance 4→5 / overlap 8→6
-- unanimous flip: 三つすべて distance 4→5 / overlap 8→6
+読者評価と数理評価を混同しない。最低5名の外部試読・Human Review・独立した別主体の意味復元は未完。AI編集simulationを実読者と数えない。
 
-人物はここまで知る。
+## 作業優先
 
-## 作者側研究 — 人物へ漏洩禁止
+- EXP-013新CIの成功確認
+- 独立復元と最新story状態の整合
+- 人物/世界から生じる次の問いの探索（結果の先取り禁止）
+- EXP-009の既存事前登録に基づく検証（必要な計算予算・時間を確認）
+- 外部試読者の回答が来たときに集計し再改稿
 
-EXP-006: N=16/P=3、256 eligible triples、65,536 trajectories。primary Hは弱いSUPPORT。secondaryでsplit non-Q 17,488/17,488がcoordinate-minority stored patternへ到達。
-
-EXP-007: 反例探索。N=8,12,16,20,24、640 eligible triples、362,704 trajectories。non-Q 111,680件、counterexample 0。`NO_COUNTEREXAMPLE_IN_SEARCH`。proofではない。
-
-この結果はPER-005/PER-006のKnowledgeへ入れない。
-
-## 再開時の注意
-
-world/persona snapshotがEVT-007で止まって見えても、EVT-008〜015とdeltaをoverlayする。同じ差分を二重加算しない。
-
-LOCKEDは盲検ではない。作者側EXP結果をstory人物へ自動共有しない。trial数を増やすこと自体を目的にしない。
-
-## ロードマップ
-
-自律的に実施可能だった既存4話の整合・検証、読者ロスsimulation、world advancement、story-derived research branchは進行済み。
-
-外部主体が必要な5人以上の実読者試読、Human Review、完全独立な別主体restore/action-selectionは未実施。AI内simulationで代替済みとは扱わない。
-
-次の作者側研究はEXP-007 findingの解析的証明/反例構成。story側はEVT-015現在stateからのみ進める。
+未確定の具体年・場所・machine/OS/言語・組織職位・未来プロットは必要になるまで固定しない。
