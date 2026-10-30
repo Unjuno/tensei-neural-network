@@ -23,7 +23,7 @@
 
 第5話はEVT-014の256 locked trials（Q=112、M1/M2/M3各48）、EVT-015の距離分類、EVT-016の最初の実flip、EVT-017のinitial unstable集合、EVT-018のcyclic gap数え上げに基づく。112/256を自然確率・一般的basin確率へ読み替えない。
 
-第5話candidate CIは `34817720509` success。少なくとも2026-09-14のwork HEAD `6b52478a3c575e1a44f71b1c0bfc5e78c03ac20d` のworkflow successを確認。2026-10-30のEXP-013/CI修正後のHEADについては、そのcommitに対する新しいCI結果を確認すること。
+第5話candidate CIは `34817720509` success。2026-10-30の修正を含むHEAD `80c1fc57de3c2eb08200a5780d99613f78764a04` に対して、GitHub Actions run `41073506726` がsuccess。第1〜5話、既存研究実験、EXP-013再実行と保存JSON完全照合、workflow検査が全step成功。後続編集では新しいHEADのCIを改めて確認する。
 
 ## 状態復元
 
@@ -37,7 +37,7 @@
 - **EXP-010:** 偶数Nでzero marginを探索した設計は構造的に不適格でUNCERTAINとして終了
 - **EXP-011:** 奇数Nで304,038 trajectoriesに反例なし。解析ではP=3 majority Qにnonnegative stability（ゼロ入力保持）まで条件を緩めて証明
 - **EXP-012:** P=5では別のnonstored fixed pointへ逃げる反例を確認
-- **EXP-013:** N=7〜16、640 eligible triples、**139,440 trajectories**で事前登録のmargin三領域予測が全件一致。別実装で集計を再現。2026-10-30にREADMEを完了へ更新し、結果照合のCI stepを追加した
+- **EXP-013:** N=7〜16、640 eligible triples、**139,440 trajectories**で事前登録のmargin三領域予測が全件一致。別実装で集計を再現。2026-10-30にREADMEを完了へ更新し、結果照合のCI stepも成功した
 
 これらは作者側の検証・解析であり、PER-005/PER-006へ自動注入しない。研究上の定理、実験、物語内の観測、文学的評価を分ける。
 
@@ -45,7 +45,7 @@
 
 `notes/assessment-and-roadmap.md` を長期目標、`notes/roadmap-progress-2026-10-30.md` を最新の進捗として参照。先の`notes/roadmap-progress-2026-09-12.md`はその時点の履歴であり現在地ではない。
 
-直近の優先順は、(1)今回のEXP-013 CI結果と保存JSON照合、(2)独立restoreが古いheadを採用しないことの検証、(3)人物側EVT-018からの自然な行動・読書上の緊張の評価、(4)事前登録済みEXP-009の可否判定、(5)実読者データを得た際のpilot集計。
+直近の優先順は、(1)独立restoreが古いheadを採用しないことの検証、(2)人物側EVT-018からの自然な行動・読書上の緊張の評価、(3)事前登録済みEXP-009の可否判定、(4)実読者データを得た際のpilot集計。
 
 外部承認が必要なまま残す項目: 実読者最低5名、Human Review、公開、main反映、真に独立な別主体による意味復元。
 
