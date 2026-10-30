@@ -12,7 +12,7 @@
 
 ## Current event head
 
-`EVT-015`
+`EVT-018`
 
 active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所。
 
@@ -24,82 +24,43 @@ active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命
 | 第2話「選ばなかった答え」 | EVT-005〜008 | selection freedomを減らし、stored/nonstored二分類の粗さとsign-inversion symmetryを知る |
 | 第3話「表の外」 | EVT-009〜011 | toyの残差が空→一次文献へ戻る→stored/negation外stable Qを掲載例で再現 |
 | 第4話「五と二十一」 | EVT-012〜013 | Qのmajority structureと5/21 local inputを接続し、stableな理由を説明 |
+| 第5話「最初に動いたもの」 | EVT-014〜018 | 一bit摂動の到達先、最初のflip、4点の不安定集合、cyclic gapによる件数を結ぶ |
 
-EVT-014〜015は未投影。ここを第5話にするため追加eventを起こさない。
+EVT-014〜018は第5話へ投影済み。公開前gateとHuman Reviewは区別する。
 
-## EVT-014〜015で成立した新しい局所構造
+## EVT-014〜018で成立した新しい局所構造
 
-EVT-013の問い「stableであることと到達可能であることは同じか」から、結果前lockした一ビット近傍検査へ進んだ。
+EVT-013の問い「stableであることと、そこへ到達できることは同じか」から結果前lockした16 one-bit states×16 cyclic schedules=256 trajectoriesへ進行。
 
 ```text
 Qはstable
-→ Qの16 one-bit neighbors × 16 cyclic ordersを全件
-→ Q 112 / M1=M2=M3 48 / nonconverged 0
-→ unanimous positionsのflipは全orderでQへ戻る
-→ split positionsはorder-dependent
-→ escape先はcoordinate-minority stored patternだけ
+→ Q 112 / M1=M2=M3 各48（EVT-014）
+→ split位置のflipはminority storedだけが距離4→3（EVT-015）
+→ 192 split trajectoriesで最初の実flipが48/144に完全分離（EVT-016）
+→ 各初期状態で最初にflip可能な4点 = Q/minority間のdifference set（EVT-017）
+→ cyclic startと4点の円周gapから112/256を計数（EVT-018）
 ```
 
-EVT-015ではその初期幾何を追加trialなしで説明した。
-
-```text
-split flip
-→ minority memory: distance 4→3, overlap 8→10
-→ other two: distance 4→5, overlap 8→6
-
-unanimous flip
-→ all three: distance 4→5, overlap 8→6
-```
-
-これで「Hamming距離1の近傍」は内部的に同質ではないことが人物にとって明確になった。
+EVT-018の112/256は一様ランダムな状態・scheduleの自然確率ではない。選んだ16 cyclic rotationsと4点配置から得られた組合せ的な数値である。
 
 ## 現在の局所的な緊張
 
-高橋は、近さと力学を再び混同せず、order dependenceをこの具体例の代数から説明したい。
+高橋は数百trialの結果が4点間隔に還元されたことを理解した。次に何を試すべきかはまだ決まらない。佐伯は、固定schedule familyに依存する割合を記憶一般の確率として示さないというGoalを持つ。
 
-佐伯は、EVT-014で結果後に見えた規則を事前仮説へ偽装せず、距離の説明とactual trajectoryを分離したい。
-
-自然な次の問い:
-
-> **少数派stored patternへのescapeは、この具体例で更新途中のどの条件から決まるのか。**
-
-この問いに必要な新trialがなければ、まず解析を優先する。
+次に進めるなら、二人に見えているこの局所的な知識とORG-001の制度的制約だけからaction selectionする。作者側の定理、反例、実験計画は人物へ渡さない。章の都合で新EVTや将来事件を作らない。
 
 ## 作者側研究との境界
 
-EVT-014/015から作者側EXP-006/007が分岐し、より広い固定探索でcoordinate-minority escapeの反例を探したが見つからなかった。
+EXP-006〜013には、本例の外での多数側混合状態の局所到達性・反例探索・定理と条件緩和の研究がある。EXP-008の同期更新cycle、EXP-012のP=5反例、EXP-013のmargin三領域の有限検査は、**作者側の理解**であり人物の観測ではない。
 
-この作者側結果は人物Knowledgeではない。story eventをEXP-007の結果へ誘導しない。
+第5話の発見はEVT-014〜018の結果だけから記述している。研究の検証PASSも人物の認識や読者の好意を証明しない。
 
 ## 計算資源に関する遷移条件
 
-EVT-014は256反復を含むため、将来これを本文へ投影して実行場面を具体化するなら、1984〜85年のORG-001で利用可能な共用計算機・programming environmentを調査する必要がある。
+EVT-014〜018は256軌道の反復や192件のtrace分類を含む。人物が実際に何を使って計算したかが次の因果へ影響するなら、1984〜85年の日本企業研究所の共用計算環境を一次/機関史料で検証し、必要なSYS/OBJと利用権限を初めて具体化する。未確定のmachine/OS/languageを雰囲気だけで埋めない。
 
-ただしmachine / OS / languageを雰囲気だけで先にCanon固定しない。因果へ必要になった範囲だけ具体化する。
+## 解釈・来歴の境界
 
-## Interpretation boundary
+この固定例に限定して、Qはstableかつone-bit neighborhoodの一部から到達され、更新順・初期位置の関係でQまたはstoredへ分岐する。全状態のbasin、大規模ネット一般、人間の記憶・人格、実際の無作為schedule下での確率は未確認。
 
-現在人物が言える:
-
-- Qはstableで、固定した一ビット近傍の一部から実際に到達される
-- その局所到達性はpositionとupdate orderに依存する
-- split coordinateをflipするとminority stored patternが距離3まで近づく
-- 今回Qへ戻らないtrialはそのminority patternへ行った
-
-まだ言えない:
-
-- 43.75%が自然なbasin probability
-- 全state-space basin size
-- 一般のP=3 majority mixtureでも同じescape ruleが必ず成立
-- 人間の記憶への対応
-- 作者側EXP-006/007の結果
-
-## Generation validation
-
-- EVT-004: `UNBLINDED`
-- EVT-005〜008: `LOCKED`
-- EVT-009: `LOCK_NOT_REQUIRED`
-- EVT-010〜014: `LOCKED`
-- EVT-015: `LOCK_NOT_REQUIRED`
-
-生成方式全体の作者知識からの独立性は未実証。`PARTIAL PASS`を維持する。
+provenance: EVT-004 `UNBLINDED`、EVT-005〜008 `LOCKED`、EVT-009 `LOCK_NOT_REQUIRED`、EVT-010〜014 `LOCKED`、EVT-015 `LOCK_NOT_REQUIRED`、EVT-016〜017 `LOCKED`、EVT-018 `LOCK_NOT_REQUIRED`。生成方式全体の盲検性・独立性は未実証。
