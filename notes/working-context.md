@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-10-31。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-01。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2〜5話は未公開。現時点でpublication/reviewsは001だけ。次回002を実読してレビューし、必要なら本文→意味/用語/数理→lock→CIへ戻す。レビューを機械コピーしない。
+第2〜5話は未公開。`publication/reviews/002.json`を2026-11-01に本文とEVT-005〜008を通読して追加した。対象本文blob c3b4cbb1、review-lock blob 6e2691b5。レビューのsource CI run 41252392042はsuccessだが公開run 41252464100は `BLOCKED: unresolved event: EVT-005`。第3〜5話の編集レビューは未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -45,3 +45,10 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 最初にmainの停止スイッチ、最新source HEAD、直接EVT、CI、公開台帳と公開workflowの観測結果を確認。公開失敗はREADY/記録済みとDEPLOYEDを分ける。競合なら最新HEADから読み直しforce pushしない。結果に影響する実験は結果前commit、成果は失敗も保持。
 
 実読者5名、Human Review/Canon受理、独立した別主体の意味復元は未完。定期公開が始まっても完了扱いしない。未確定の具体年/所在地/職位/計算機/人物の生活史を章都合で埋めない。
+
+## 2026-11-01の原因・再開点
+
+- 第2話編集評価は `publication/reviews/002.json`、根拠はEVT-005〜008と話別packを直接参照。第2話本文の改稿なし、EVT headは018のまま。
+- 現行mainの `tools/serial_publish.py` の `event_resolved` は `RESOLVED / PROVISIONAL` を認めるが、EVT-005は `PROVISIONAL / RESOLVED`。順序だけが逆で、内容にはaction-lockとresolved consequenceがある。公開workflowはここでfail-closed。次話を公開したと偽らない。
+- **次回は、公開エンジン・許可条件に触れず**、EVT-005の歴史的状態表記を修正できるかと、その影響を受ける第2〜5話のreview-lock/意味レビューの再評価範囲を調べる。版整合の確認を省いた機械的hash更新は禁止。困難なら人間による信頼済みゲート修正の要否を報告し、無断でmainを変更しない。
+- 2026-11-01 run: `notes/runs/2026-11-01-chapter-002-editorial.md`。旧主張を上書きせず、公開保留を明示する。

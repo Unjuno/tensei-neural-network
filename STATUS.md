@@ -1,6 +1,6 @@
 # 現在の状態
 
-更新: 2026-10-31。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
+更新: 2026-11-01。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
 ## 現在位置と公開
 
@@ -8,7 +8,7 @@
 - 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
-- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2〜5話は未公開で、公開用の読者視点レビューが必要
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話は編集レビュー済みだが公開BLOCKED（EVT-005旧状態表記）。第3〜5話は公開用の読者視点レビュー待ち
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
 
@@ -42,7 +42,7 @@ mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全�
 | 話 | 採用EVT | 状態 |
 |---|---|---|
 | 1 戻る先 | EVT-001〜004 | 技術gate済み、編集レビュー済み、連載公開済み |
-| 2 選ばなかった答え | EVT-005〜008 | 技術gate済み、公開前の追加編集レビュー待ち |
+| 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み、公開はEVT-005表記不整合でBLOCKED |
 | 3 表の外 | EVT-009〜011 | 同上 |
 | 4 五と二十一 | EVT-012〜013 | 同上 |
 | 5 最初に動いたもの | EVT-014〜018 | 同上 |
@@ -59,6 +59,14 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 ## 次回の一手・残課題
 
-最も古い未公開の第2話を本文から読み、5観点の具体的なpublication/reviews/002.jsonを作る。問題があれば本文を直し話別検証へ戻す。その後も既存公開待ちを先に整え、自然な必要がある場合だけEVT-018以降を進める。章数ノルマ・公開日から未来eventを発生させない。
+第2話の編集レビューは `publication/reviews/002.json` へ保存済み。次はEVT-005の `PROVISIONAL / RESOLVED` と公開ゲートの `RESOLVED / PROVISIONAL` の表記不整合を、**ゲートを緩めず**作業側の記録修正・対象話の根拠再照合・review-lock全依存更新で解消する方策を検証する。関連する第2〜5話の鮮度を壊すだけのhash更新は禁止。解消前は第2話を公開済みと扱わない。後続は既存公開待ちの整備を優先する。章数ノルマ・公開日から未来eventを発生させない。
 
 実読者5名のpilot、真に独立した別主体の意味復元、人間によるCanon受理はOPEN。AI編集評価をこれらの代用として報告しない。研究所の具体所在地・職位・機種/OS/言語・私生活史・未来事件は因果に必要になるまで固定しない。
+
+## 2026-11-01 第2話の再編集評価と公開阻止
+
+- 起点work HEAD `1b20820e`。新章・新EVT・Canon変更はなし。第2話の原文とEVT-005〜008、話別verification、terminology、semantic-review、resultsとreview-lockを照合。
+- `publication/reviews/002.json`を本文blob `c3b4cbb1`、review-lock blob `6e2691b5`に固定して追加。編集レビューはAIによるもので、実読者の合格ではない。
+- レビュー保存commit `18e34614b1ec0e0ff15779e9cfa375e47788208d` のCI run `41252392042` は全step成功。Python標準ライブラリで6/36/384件・18/46分類・符号反転可換性を別実装でも照合。
+- 公開run `41252464100` は **BLOCKED: unresolved event: EVT-005** で停止。`EVT-005`の `状態: PROVISIONAL / RESOLVED` が現行ゲートの許容表記に一致しない。ゲートもmainも改変していない。連載版は第1話まで。
+- 実行記録: `notes/runs/2026-11-01-chapter-002-editorial.md`。本索引変更後のHEADにもCIが必要。
