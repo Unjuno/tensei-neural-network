@@ -1,60 +1,64 @@
 # 現在の状態
 
-更新: 2026-10-31。これは索引であり、直接のEVT・state・実験記録・CIを優先する。会話内の要約よりGitHub正本を参照する。
+更新: 2026-10-31。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
-## 作業と承認の境界
+## 現在位置と公開
 
-- 作業branch: `work/story-bootstrap`
-- 1980年代story側のresolved event head: **`EVT-018`**
-- 現代側event head: none
+- 制作branch: `work/story-bootstrap`
+- 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
-- `main`反映、PR作成、公開・Canon昇格は未承認。自律実行時にも行わない
-- 実読者試読・Human Review・別主体の完全独立restoreは未実施。AIの模擬を実測値にしない
+- 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2〜5話は未公開で、公開用の読者視点レビューが必要
+- 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
+- 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
 
-## 小説
+## 今回の継続委任の境界
 
-| 本文 | 採用EVT | 事前公開検証 |
+ユーザーは2026-10-31に、定期制作・検証・連載版公開のループを明示依頼した。この限定範囲の公開は毎回の承認待ちにしない。詳細と停止スイッチの正本は**mainのpublication/README.md / publication/policy.json**。
+
+mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全体のmerge/fast-forward、研究/本文原稿/Canonの一括受理、PR、他サイト投稿は行っていない。公開とCanon受理は別。既存docs/novel・docs/researchはそのまま保持した。
+
+## 定期ループ
+
+制作: 既存ChatGPTタスク「研究小説の制作・検証・連載」を更新して有効化。毎日午前8時ごろ（Asia/Tokyo）。最も古い未公開章を実読・改稿・検証し、publication/reviews/NNN.jsonへ対象版付き編集評価を記録する。未読の一括PASSは禁止。
+
+公開: mainのSerial Publication workflow。毎日UTC 02:17（日本時間11:17）とsource CI完了等で確認。最新work SHAのCI、話別gate、review-lock、用語・EVT・編集レビューを照合し、既刊直後の1話だけを最大1日1話で出力。配信未確認時は新話を足さず前回配信を再試行する。
+
+停止: main/publication/policy.jsonのenabled=false。機構の権限・ゲートを制作タスク自身で緩めない。
+
+## 初回の実測検証
+
+- work候補commit: `7820573205f29e6d626952f914d469f0f9982802`
+- Story Workflow Validation: run `41176570607` success。既存5話・研究実験・EXP-013結果照合・構造検査を通過
+- 追加公開エンジンのunit tests: 29件成功（ローカルCPython 3.13.5、Actions CPython 3.12.15）
+- Serial Publication: run `41176658296` / job `124465509267` success
+- 公開先manifestと最新HTMLのSHA-256一致を同jobで確認しDEPLOYEDとした。GitにHTMLが存在するだけでは公開成功としない
+- 失敗履歴: 初回run `41176298501` は旧EVTのPROVISIONAL表記を拒否して停止。成立済み旧EVT-001〜004だけを正確なblob hashで識別する互換修正と回帰テストを追加。過去EVTや本文の書換え、未確認PROVISIONALの一括容認はしていない
+
+今回の記録: `notes/runs/2026-10-31-publication-loop.md`。公開原稿と根拠の版はmainの`docs/serial/manifest.json`を参照。
+
+## 小説・未採用案
+
+| 話 | 採用EVT | 状態 |
 |---|---|---|
-| 第1話「戻る先」 | EVT-001〜004 | PREPUBLICATION_GATE_PASSED |
-| 第2話「選ばなかった答え」 | EVT-005〜008 | PREPUBLICATION_GATE_PASSED |
-| 第3話「表の外」 | EVT-009〜011 | PREPUBLICATION_GATE_PASSED |
-| 第4話「五と二十一」 | EVT-012〜013 | PREPUBLICATION_GATE_PASSED |
-| **第5話「最初に動いたもの」** | **EVT-014〜018** | **PREPUBLICATION_GATE_PASSED** |
+| 1 戻る先 | EVT-001〜004 | 技術gate済み、編集レビュー済み、連載公開済み |
+| 2 選ばなかった答え | EVT-005〜008 | 技術gate済み、公開前の追加編集レビュー待ち |
+| 3 表の外 | EVT-009〜011 | 同上 |
+| 4 五と二十一 | EVT-012〜013 | 同上 |
+| 5 最初に動いたもの | EVT-014〜018 | 同上 |
 
-第5話はEVT-014の256 locked trials（Q=112、M1/M2/M3各48）、EVT-015の距離分類、EVT-016の最初の実flip、EVT-017のinitial unstable集合、EVT-018のcyclic gap数え上げに基づく。112/256を自然確率・一般的basin確率へ読み替えない。
+`novel/scene-probes/2026-10-31-circle-and-original-records.md`は未採用。そこに書いた会話・保存・組織への提出は未成立のまま。今回新EVT・新personaは追加していない。
 
-第5話candidate CIは `34817720509` success。2026-10-30の修正を含むHEAD `80c1fc57de3c2eb08200a5780d99613f78764a04` に対して、GitHub Actions run `41073506726` がsuccess。第1〜5話、既存研究実験、EXP-013再実行と保存JSON完全照合、workflow検査が全step成功。後続編集では新しいHEADのCIを改めて確認する。
+## 状態復元・研究
 
-## 状態復元
+BOOT-002 / T0-1980S起点。具体年月日は未確定。古いworld/persona snapshotへ巻き戻さずEVT-008〜018と対応deltaを一度だけ適用する。人物は作者側の一般定理・EXP結果を自動的には知らない。
 
-起点 `BOOT-002 @ T0-1980S @ none`。1984〜85年前後の具体年月日はまだ固定しない。古い`novel/state/world.md`やpersona snapshotはmaterialized checkpointであり、EVT-008〜018の直接記録と存在するentity deltasで復元する。EVTとdeltaを二重加算しない。本人が観測したことだけをpersona Knowledgeへ投影する。現代側は未進行。
+EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256件がQ112・保存記憶各48となり、first-flip・4点の不安定集合・円環gapで説明できたこと。112/256を自然確率へ一般化しない。
 
-## 作者側研究（1980年代人物への知識漏洩禁止）
+作者側EXP-006〜013の研究状況は`notes/roadmap-progress-2026-10-30.md`と各実験正本へ。EXP-013は640適格模型・139440軌道が保存結果と一致、CI組込済み。EXP-009は事前登録された条件を確認して扱い、未実行と実行済みを混同しない。
 
-- **EXP-006 / 007:** P=3 majority Qの一bit摂動に対する少数派記憶へのescapeを有限探索し、後に記載条件下で証明。非同期の公平な更新が必要
-- **EXP-008:** 同期一括更新に替えるとN=8でperiod-2 cycleが出る反例を確認。収束保証と、固定点に至った際の分類を混同しない
-- **EXP-009:** 更新方式の厳密な境界について事前登録済み。READMEの実施状態を先に照合してから進める
-- **EXP-010:** 偶数Nでzero marginを探索した設計は構造的に不適格でUNCERTAINとして終了
-- **EXP-011:** 奇数Nで304,038 trajectoriesに反例なし。解析ではP=3 majority Qにnonnegative stability（ゼロ入力保持）まで条件を緩めて証明
-- **EXP-012:** P=5では別のnonstored fixed pointへ逃げる反例を確認
-- **EXP-013:** N=7〜16、640 eligible triples、**139,440 trajectories**で事前登録のmargin三領域予測が全件一致。別実装で集計を再現。2026-10-30にREADMEを完了へ更新し、結果照合のCI stepも成功した
+## 次回の一手・残課題
 
-これらは作者側の検証・解析であり、PER-005/PER-006へ自動注入しない。研究上の定理、実験、物語内の観測、文学的評価を分ける。
+最も古い未公開の第2話を本文から読み、5観点の具体的なpublication/reviews/002.jsonを作る。問題があれば本文を直し話別検証へ戻す。その後も既存公開待ちを先に整え、自然な必要がある場合だけEVT-018以降を進める。章数ノルマ・公開日から未来eventを発生させない。
 
-## ロードマップと次の作業
-
-`notes/assessment-and-roadmap.md` を長期目標、`notes/roadmap-progress-2026-10-30.md` を最新の進捗として参照。先の`notes/roadmap-progress-2026-09-12.md`はその時点の履歴であり現在地ではない。
-
-直近の優先順は、(1)独立restoreが古いheadを採用しないことの検証、(2)人物側EVT-018からの自然な行動・読書上の緊張の評価、(3)事前登録済みEXP-009の可否判定、(4)実読者データを得た際のpilot集計。
-
-外部承認が必要なまま残す項目: 実読者最低5名、Human Review、公開、main反映、真に独立な別主体による意味復元。
-
-未確定: 研究所の詳細所在地・職位・具体年月日・共用計算機/OS/言語・現代側最初のEVT・人物の未成立の私生活史。プロットの都合で先に固定しない。
-
-## 2026-10-31 小説優先の探索（未採用）
-
-確認起点: `d4fb65f7f0f3757f4e4b616303f5b4e60b016523`（work branch）。前回の自動実行履歴はまだ存在しないため、比較可能な直前commitは `d960d960773904dea1e1927c3615ad9380e4f35d`。その差分は `notes/roadmap-progress-2026-10-30.md` のEXP-013状態索引補正のみ。起点HEADのCI run `41073799005` は全step成功。
-
-EVT-018後の二人のGoalから、「組合せ的な説明と元の観測記録を、他者が検査できるようにどう残すか」を一つの次の問いとして選んだ。 `novel/scene-probes/2026-10-31-circle-and-original-records.md` に**未採用の場面試作**を保存。第5話本文と既存EVTは変更せず、EVT-019・第6話・新研究結果を成立させない。読者・Human Review・独立restoreも未実施のまま。
-
-直近の一手: 場面試作を人物の既知事項とORGのInstitutional memory境界に照合し、採用するなら新たな人物行動を先に解決する。既存第5話の章索引漏れは `novel/chapters/README.md` に補正。CIは今回の新HEADを別途確認する。
+実読者5名のpilot、真に独立した別主体の意味復元、人間によるCanon受理はOPEN。AI編集評価をこれらの代用として報告しない。研究所の具体所在地・職位・機種/OS/言語・私生活史・未来事件は因果に必要になるまで固定しない。
