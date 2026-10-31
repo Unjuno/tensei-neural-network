@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "enabled": true,
+  "repository": "Unjuno/tensei-neural-network",
+  "source_branch": "work/story-bootstrap",
+  "target_branch": "main",
+  "output": "docs/serial",
+  "max_chapters_per_day": 1,
+  "authorization": "user-request-2026-10-31"
+}

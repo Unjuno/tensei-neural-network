@@ -1,0 +1,150 @@
+name: Serial Publication
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/serial-publication.yml'
+      - 'publication/policy.json'
+      - 'tools/serial_publish.py'
+      - 'tests/test_serial_publish.py'
+  workflow_run:
+    workflows: ['Story Workflow Validation']
+    types: [completed]
+    branches: ['work/story-bootstrap']
+concurrency:
+  group: serial-publication
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://unjuno.github.io/tensei-neural-network/serial/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test trusted publication engine
+        run: python -m unittest discover -s tests -p test_serial_publish.py -v
+      - name: Check delegated authority and existing Pages source
+        id: authority
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          enabled=$(python -c 'import json; print(str(json.load(open("publication/policy.json"))["enabled"]).lower())')
+          echo "enabled=$enabled" >> "$GITHUB_OUTPUT"
+          if [ "$enabled" != true ]; then exit 0; fi
+          gh api "repos/$GITHUB_REPOSITORY/pages" > "$RUNNER_TEMP/pages.json"
+          python - <<'PY'
+          import json,os
+          p=json.load(open(os.environ['RUNNER_TEMP']+'/pages.json'))
+          mode=p.get('build_type')
+          assert p.get('html_url','').rstrip('/')=='https://unjuno.github.io/tensei-neural-network', 'Unapproved Pages URL'
+          assert mode in ('legacy','workflow'), 'Unknown Pages build type'
+          if mode=='legacy':
+              assert p.get('source',{}).get('branch')=='main' and p['source'].get('path')=='/docs', 'Pages source is not main/docs'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('mode='+mode+'\n')
+          PY
+      - name: Pin work HEAD and its latest CI run
+        if: steps.authority.outputs.enabled == 'true'
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git fetch origin refs/heads/work/story-bootstrap
+          source_sha=$(git rev-parse FETCH_HEAD)
+          git worktree add --detach "$RUNNER_TEMP/serial-source" "$source_sha"
+          echo "head=$source_sha" >> "$GITHUB_OUTPUT"
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/story-workflow-validation.yml/runs?branch=work%2Fstory-bootstrap&head_sha=$source_sha&per_page=100" > "$RUNNER_TEMP/runs.json"
+          SOURCE_SHA="$source_sha" python - <<'PY'
+          import json,os
+          runs=json.load(open(os.environ['RUNNER_TEMP']+'/runs.json'))['workflow_runs']
+          matching=[r for r in runs if r['head_sha']==os.environ['SOURCE_SHA']]
+          assert matching, 'No CI run for pinned source commit'
+          latest=sorted(matching,key=lambda r:(r['run_number'],r.get('run_attempt',1)),reverse=True)[0]
+          with open(os.environ['RUNNER_TEMP']+'/ci.json','w') as f:json.dump(latest,f)
+          PY
+      - name: Prepare one episode or retry the previous deployment
+        if: steps.authority.outputs.enabled == 'true'
+        id: prepare
+        run: |
+          set -euo pipefail
+          python tools/serial_publish.py --probe-live --report "$RUNNER_TEMP/delivered.json"
+          python tools/serial_publish.py --source "$RUNNER_TEMP/serial-source" --target . --policy publication/policy.json --ci "$RUNNER_TEMP/ci.json" --head '${{ steps.source.outputs.head }}' --delivered "$RUNNER_TEMP/delivered.json" --report "$RUNNER_TEMP/publication.json" --write
+          decision=$(python -c 'import json,os;print(json.load(open(os.environ["RUNNER_TEMP"]+"/publication.json"))["status"])')
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          if [ -f docs/serial/manifest.json ]; then echo 'has_release=true' >> "$GITHUB_OUTPUT"; fi
+      - name: Commit only generated serial snapshots
+        if: steps.prepare.outputs.decision == 'READY'
+        run: |
+          set -euo pipefail
+          current_source=$(git ls-remote origin refs/heads/work/story-bootstrap | cut -f1)
+          test "$current_source" = '${{ steps.source.outputs.head }}' || { echo 'Source moved; replan next run'; exit 1; }
+          git add -- docs/serial
+          python - <<'PY'
+          import subprocess
+          names=subprocess.check_output(['git','diff','--cached','--name-only','-z']).decode().split('\0')
+          assert all(not n or n.startswith('docs/serial/') for n in names), 'Write outside publication scope'
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m '連載版: 検証済みの次話を公開スナップショット化'
+          git push origin HEAD:main
+      - name: Detect whether delivery still needs work
+        if: steps.prepare.outputs.has_release == 'true'
+        id: delivery
+        run: |
+          if python tools/serial_publish.py --verify-live --target . --report "$RUNNER_TEMP/live.json"; then
+            echo 'needed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'needed=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Request existing branch-based Pages build
+        if: steps.delivery.outputs.needed == 'true' && steps.authority.outputs.mode == 'legacy'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.delivery.outputs.needed == 'true' && steps.authority.outputs.mode == 'workflow'
+        with:
+          path: docs
+      - uses: actions/deploy-pages@v4
+        if: steps.delivery.outputs.needed == 'true' && steps.authority.outputs.mode == 'workflow'
+      - name: Verify live manifest and exact latest HTML
+        if: steps.prepare.outputs.has_release == 'true'
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 18); do
+            if python tools/serial_publish.py --verify-live --target . --report "$RUNNER_TEMP/live.json"; then exit 0; fi
+            sleep 10
+          done
+          echo 'Publication snapshot exists, but delivery is UNCONFIRMED; retry without advancing next run.'
+          exit 1
+      - name: Record actual outcome
+        if: always()
+        run: |
+          {
+            echo '## Serial publication outcome'
+            for file in publication.json live.json; do
+              if [ -f "$RUNNER_TEMP/$file" ]; then cat "$RUNNER_TEMP/$file"; fi
+            done
+            echo 'CI/editing checks are not external reader approval or Canon acceptance.'
+          } >> "$GITHUB_STEP_SUMMARY"
