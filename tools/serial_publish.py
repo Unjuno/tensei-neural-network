@@ -83,6 +83,21 @@ def status(body: str) -> str | None:
     declarations = re.findall(r'^状態:[ \t]*(.+?)[ \t]*$', '\n'.join(lines), re.M)
     return declarations[0].strip().strip('`').strip() if len(declarations)==1 else None
 
+# Early records already contain resolved consequences but predate RESOLVED status.
+# Exact, reviewed historical objects only; no new PROVISIONAL record is admitted.
+LEGACY_RESOLVED_BLOBS = {
+    'fb55f9ed79a8ca1a0ce558331ca1c90eae2fcc5e': 'EVT-001',
+    '9149057e7637da8cff2d79e9261bf035c7cc501f': 'EVT-002',
+    'ff96cd7165b6cf17478412bb66c220fd2ad5350f': 'EVT-003',
+    'e0cfeb809bdfb0809c3e51fba973188ec95a121c': 'EVT-004',
+}
+
+def event_resolved(body: str) -> bool:
+    state = status(body)
+    if state in ('RESOLVED', 'RESOLVED / PROVISIONAL'):
+        return True
+    return state == 'PROVISIONAL' and blob(body.encode('utf8')) in LEGACY_RESOLVED_BLOBS
+
 def adopted(body: str) -> set[str]:
     m = re.search(r'^(?:#{1,6}\s+)?(?:採用event|対象event)\s*[:：]?\s*(.*)$',body,re.M)
     if not m: raise Blocked('missing adopted-event section')
@@ -123,7 +138,7 @@ def chapter_check(root: Path, num: str) -> tuple[str, dict, dict]:
         matches=list((root/'novel/events').glob(event+'-*.md'))
         if len(matches)!=1: raise Blocked('missing or duplicated event: '+event)
         name=matches[0].relative_to(root).as_posix(); required.add(name)
-        if not (status(text(root,name)) or '').startswith('RESOLVED'):
+        if not event_resolved(text(root,name)):
             raise Blocked('unresolved event: '+event)
     if safe(root,f'{package}/run.py').exists():
         required.update({f'{package}/run.py',f'{package}/results.json'})
