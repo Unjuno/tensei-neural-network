@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "releases": [
+    {
+      "chapter": "001",
+      "title": "第1話　戻る先",
+      "released_on": "2026-10-31",
+      "source_sha": "7820573205f29e6d626952f914d469f0f9982802",
+      "ci_run": 41176570607,
+      "md_sha256": "36cbbc4a978a044ae6b19933f9e956ebb595ee6c0a65c470dea32eca1d250ac2",
+      "html_sha256": "59f33403defa1ce1409af3d7e39f2d5533f48c7933d4eae644af92fdf89eb7b2",
+      "review_lock_blob": "a8e64559df11a231cf974e831e2c662e3860cff2",
+      "editorial_review_blob": "37a01b5214f692f0a42cde125b4160d016712518"
+    }
+  ]
+}
