@@ -11,6 +11,17 @@
       "html_sha256": "59f33403defa1ce1409af3d7e39f2d5533f48c7933d4eae644af92fdf89eb7b2",
       "review_lock_blob": "a8e64559df11a231cf974e831e2c662e3860cff2",
       "editorial_review_blob": "37a01b5214f692f0a42cde125b4160d016712518"
+    },
+    {
+      "chapter": "002",
+      "title": "第2話　選ばなかった答え",
+      "released_on": "2026-11-02",
+      "source_sha": "3e363989f25fccdfb3c4b75dd6a169f48f85da16",
+      "ci_run": 41360865674,
+      "md_sha256": "669e8becb76c0899a96a351ed5a9b8890b70fd4430dc061fbd801a5094e81989",
+      "html_sha256": "d661ae28255972fd623a0ff7e1e0e8fac3caf709826215ac6cf87000bdcb7f35",
+      "review_lock_blob": "9b84e480123f78df3456370a429d8ff895683650",
+      "editorial_review_blob": "a86cee5df827dacbe2f1ae628624cee68f8016fe"
     }
   ]
 }
