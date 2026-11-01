@@ -8,7 +8,7 @@
 - 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
-- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話は編集レビュー済み。EVT-005旧状態表記の原因修正をworkへ反映準備中で、新HEADのCI・公開検証は未完。第3〜5話は公開用の読者視点レビュー待ち
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3〜5話は公開用の読者視点レビュー待ち
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
 
@@ -42,7 +42,7 @@ mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全�
 | 話 | 採用EVT | 状態 |
 |---|---|---|
 | 1 戻る先 | EVT-001〜004 | 技術gate済み、編集レビュー済み、連載公開済み |
-| 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み。2026-11-01公開BLOCKED、2026-11-02に表記修正・再レビューを作業。公開未確認 |
+| 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み。2026-11-02に公開・live URL/hash照合成功。旧BLOCKED履歴は保持 |
 | 3 表の外 | EVT-009〜011 | 同上 |
 | 4 五と二十一 | EVT-012〜013 | 同上 |
 | 5 最初に動いたもの | EVT-014〜018 | 同上 |
@@ -59,7 +59,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 ## 次回の一手・残課題
 
-第2話の編集レビューは `publication/reviews/002.json` へ保存済み。次はEVT-005の `PROVISIONAL / RESOLVED` と公開ゲートの `RESOLVED / PROVISIONAL` の表記不整合を、**ゲートを緩めず**作業側の記録修正・対象話の根拠再照合・review-lock全依存更新で解消する方策を検証する。関連する第2〜5話の鮮度を壊すだけのhash更新は禁止。解消前は第2話を公開済みと扱わない。後続は既存公開待ちの整備を優先する。章数ノルマ・公開日から未来eventを発生させない。
+第2話の編集レビューは `publication/reviews/002.json` へ保存済み。EVT-005の状態表記不整合は、work側の一行正規化と第2〜4話の意味再読・review-lock更新で解消し、新source CIと公開workflow成功・ライブURL/hashを確認した。第5話は旧EVT-005をreview-lockの対象に含まないので不変。次は最古の未公開章である第3話を実際に読んで5観点の公開用編集レビューを行う。第4〜5話を未読一括PASSにしない。章数ノルマ・公開日から未来eventを発生させない。
 
 実読者5名のpilot、真に独立した別主体の意味復元、人間によるCanon受理はOPEN。AI編集評価をこれらの代用として報告しない。研究所の具体所在地・職位・機種/OS/言語・私生活史・未来事件は因果に必要になるまで固定しない。
 
@@ -71,11 +71,11 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - 公開run `41252464100` は **BLOCKED: unresolved event: EVT-005** で停止。`EVT-005`の `状態: PROVISIONAL / RESOLVED` が現行ゲートの許容表記に一致しない。ゲートもmainも改変していない。連載版は第1話まで。
 - 実行記録: `notes/runs/2026-11-01-chapter-002-editorial.md`。本索引変更後のHEADにもCIが必要。
 
-## 2026-11-02 EVT-005状態表記監査（新HEADの検証待ち）
+## 2026-11-02 EVT-005状態表記監査と第2話公開（確認済み）
 
 - 直前の公開run `41292885268` も `BLOCKED: unresolved event: EVT-005`。第1話だけがmain公開台帳にある。
 - EVT-005冒頭の状態表記のみ `PROVISIONAL / RESOLVED` → `RESOLVED / PROVISIONAL` へ正規化。既存EVT-006〜018の表記と一致させた。ACTION_LOCK commit `59ff6530`、実験条件/全6順序/結果・人物世界差分は変えない。
 - 第2〜4話を実読して意味レビューへ再監査を追記し、各review-lockを新しい対象blobへ更新。第5話review-lockはEVT-005を依存に含まないため変更不要と確認。
 - 第2話のpublication/reviews/002.jsonを同一本文blobと新review-lock blobへ紐づけ直し、限定再読を明記。技術的整合性はCIで確認する。独立読者・Canon受理ではない。
-- この記述時点では新HEADのCIとPagesのURL/hash照合は未実施。第2話を公開済みとは扱わない。次の一手は新HEADのCI成功と公開workflowの配信確認。新たなEVT・研究試行・章の追加なし。
+- 正規化実装commit `3e363989f25fccdfb3c4b75dd6a169f48f85da16` のsource CI `41360865674` は全step success（unit tests、話別再実行、研究再実行、EXP-013保存JSON照合、workflow validator）。公開run `41360920516` はcompleted/success、live manifestと `002.html` のSHA-256照合成功でDEPLOYED。公開日2026-11-02、URL https://unjuno.github.io/tensei-neural-network/serial/002.html 。mainの台帳にも同一source SHA/CIを記録。新たなEVT・研究試行・章の追加なし。
 - 作業記録 `notes/runs/2026-11-02-evt005-status-normalization.md`。歴史的な失敗記録は上書きせず残す。

@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2〜5話は未公開。`publication/reviews/002.json`を2026-11-01に本文とEVT-005〜008を通読して追加した。対象本文blob c3b4cbb1、review-lock blob 6e2691b5。レビューのsource CI run 41252392042はsuccessだが公開run 41252464100は `BLOCKED: unresolved event: EVT-005`。第3〜5話の編集レビューは未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -53,8 +53,8 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 - **次回は、公開エンジン・許可条件に触れず**、EVT-005の歴史的状態表記を修正できるかと、その影響を受ける第2〜5話のreview-lock/意味レビューの再評価範囲を調べる。版整合の確認を省いた機械的hash更新は禁止。困難なら人間による信頼済みゲート修正の要否を報告し、無断でmainを変更しない。
 - 2026-11-01 run: `notes/runs/2026-11-01-chapter-002-editorial.md`。旧主張を上書きせず、公開保留を明示する。
 
-## 2026-11-02 再開点（EVT-005 statusのみの変更）
+## 2026-11-02 解消済みの公開障害・次の再開点
 
 2026-11-01に検出した `BLOCKED: unresolved event: EVT-005` は公開ゲートの変更ではなく、work側の `EVT-005` の見出し `PROVISIONAL / RESOLVED` を `RESOLVED / PROVISIONAL` へ正規化する方針で解消を図る。内容は同一で、6本の更新順・LOCKEDのcommit・結果・world/persona deltaを変更しない。第2/3/4話の本文と根拠を実読して限定再レビューを追記し、依存blobを更新。第5話review-lockは旧EVTを参照していない。
 
-`publication/reviews/002.json`の同一本文と新review-lockを対応付け直した。現時点では正規化後のCI/公開配信の成功をまだ確認していない。実際の公開が確認されるまで第2話を未公開として扱う。第3〜5話の読者視点レビューは未実施なので一括PASSにしない。次はsource CI・Serial PublicationのURL/hashを実測し、結果をnotes/runsと本索引へ追記する。実読者5名、独立復元、Human Review、Canon受理は依然OPEN。
+`publication/reviews/002.json`の同一本文と新review-lockを対応付け直した。正規化後のsource CI `41360865674` completed/success、Serial Publication `41360920516` completed/success。公開URL https://unjuno.github.io/tensei-neural-network/serial/002.html の実配信manifest・HTML内容照合は成功。第3〜5話の読者視点レビューは未実施なので一括PASSにしない。次は最も古い未公開の第3話の本文・EVT-009〜011・用語/意味/数理レビューを再読して公開用 `publication/reviews/003.json` を作ること。実読者5名、独立復元、Human Review、Canon受理は依然OPEN。
