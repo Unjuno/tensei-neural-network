@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-11-01。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-02。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
@@ -52,3 +52,9 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 - 現行mainの `tools/serial_publish.py` の `event_resolved` は `RESOLVED / PROVISIONAL` を認めるが、EVT-005は `PROVISIONAL / RESOLVED`。順序だけが逆で、内容にはaction-lockとresolved consequenceがある。公開workflowはここでfail-closed。次話を公開したと偽らない。
 - **次回は、公開エンジン・許可条件に触れず**、EVT-005の歴史的状態表記を修正できるかと、その影響を受ける第2〜5話のreview-lock/意味レビューの再評価範囲を調べる。版整合の確認を省いた機械的hash更新は禁止。困難なら人間による信頼済みゲート修正の要否を報告し、無断でmainを変更しない。
 - 2026-11-01 run: `notes/runs/2026-11-01-chapter-002-editorial.md`。旧主張を上書きせず、公開保留を明示する。
+
+## 2026-11-02 再開点（EVT-005 statusのみの変更）
+
+2026-11-01に検出した `BLOCKED: unresolved event: EVT-005` は公開ゲートの変更ではなく、work側の `EVT-005` の見出し `PROVISIONAL / RESOLVED` を `RESOLVED / PROVISIONAL` へ正規化する方針で解消を図る。内容は同一で、6本の更新順・LOCKEDのcommit・結果・world/persona deltaを変更しない。第2/3/4話の本文と根拠を実読して限定再レビューを追記し、依存blobを更新。第5話review-lockは旧EVTを参照していない。
+
+`publication/reviews/002.json`の同一本文と新review-lockを対応付け直した。現時点では正規化後のCI/公開配信の成功をまだ確認していない。実際の公開が確認されるまで第2話を未公開として扱う。第3〜5話の読者視点レビューは未実施なので一括PASSにしない。次はsource CI・Serial PublicationのURL/hashを実測し、結果をnotes/runsと本索引へ追記する。実読者5名、独立復元、Human Review、Canon受理は依然OPEN。

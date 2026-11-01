@@ -1,6 +1,6 @@
 # 現在の状態
 
-更新: 2026-11-01。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
+更新: 2026-11-02。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
 ## 現在位置と公開
 
@@ -8,7 +8,7 @@
 - 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
-- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話は編集レビュー済みだが公開BLOCKED（EVT-005旧状態表記）。第3〜5話は公開用の読者視点レビュー待ち
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話は編集レビュー済み。EVT-005旧状態表記の原因修正をworkへ反映準備中で、新HEADのCI・公開検証は未完。第3〜5話は公開用の読者視点レビュー待ち
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
 
@@ -42,7 +42,7 @@ mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全�
 | 話 | 採用EVT | 状態 |
 |---|---|---|
 | 1 戻る先 | EVT-001〜004 | 技術gate済み、編集レビュー済み、連載公開済み |
-| 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み、公開はEVT-005表記不整合でBLOCKED |
+| 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み。2026-11-01公開BLOCKED、2026-11-02に表記修正・再レビューを作業。公開未確認 |
 | 3 表の外 | EVT-009〜011 | 同上 |
 | 4 五と二十一 | EVT-012〜013 | 同上 |
 | 5 最初に動いたもの | EVT-014〜018 | 同上 |
@@ -70,3 +70,12 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - レビュー保存commit `18e34614b1ec0e0ff15779e9cfa375e47788208d` のCI run `41252392042` は全step成功。Python標準ライブラリで6/36/384件・18/46分類・符号反転可換性を別実装でも照合。
 - 公開run `41252464100` は **BLOCKED: unresolved event: EVT-005** で停止。`EVT-005`の `状態: PROVISIONAL / RESOLVED` が現行ゲートの許容表記に一致しない。ゲートもmainも改変していない。連載版は第1話まで。
 - 実行記録: `notes/runs/2026-11-01-chapter-002-editorial.md`。本索引変更後のHEADにもCIが必要。
+
+## 2026-11-02 EVT-005状態表記監査（新HEADの検証待ち）
+
+- 直前の公開run `41292885268` も `BLOCKED: unresolved event: EVT-005`。第1話だけがmain公開台帳にある。
+- EVT-005冒頭の状態表記のみ `PROVISIONAL / RESOLVED` → `RESOLVED / PROVISIONAL` へ正規化。既存EVT-006〜018の表記と一致させた。ACTION_LOCK commit `59ff6530`、実験条件/全6順序/結果・人物世界差分は変えない。
+- 第2〜4話を実読して意味レビューへ再監査を追記し、各review-lockを新しい対象blobへ更新。第5話review-lockはEVT-005を依存に含まないため変更不要と確認。
+- 第2話のpublication/reviews/002.jsonを同一本文blobと新review-lock blobへ紐づけ直し、限定再読を明記。技術的整合性はCIで確認する。独立読者・Canon受理ではない。
+- この記述時点では新HEADのCIとPagesのURL/hash照合は未実施。第2話を公開済みとは扱わない。次の一手は新HEADのCI成功と公開workflowの配信確認。新たなEVT・研究試行・章の追加なし。
+- 作業記録 `notes/runs/2026-11-02-evt005-status-normalization.md`。歴史的な失敗記録は上書きせず残す。

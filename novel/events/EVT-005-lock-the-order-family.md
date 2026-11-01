@@ -1,6 +1,6 @@
 # EVT-005 更新順の選び方を先に固定する
 
-状態: `PROVISIONAL / RESOLVED`
+状態: `RESOLVED / PROVISIONAL`
 
 Resolution provenance: `LOCKED`
 
