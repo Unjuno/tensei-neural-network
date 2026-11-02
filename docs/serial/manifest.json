@@ -22,6 +22,17 @@
       "html_sha256": "d661ae28255972fd623a0ff7e1e0e8fac3caf709826215ac6cf87000bdcb7f35",
       "review_lock_blob": "9b84e480123f78df3456370a429d8ff895683650",
       "editorial_review_blob": "a86cee5df827dacbe2f1ae628624cee68f8016fe"
+    },
+    {
+      "chapter": "003",
+      "title": "第3話　表の外",
+      "released_on": "2026-11-03",
+      "source_sha": "412fe914976bdf7e36a29dd3d8c44ee2a3345c7e",
+      "ci_run": 41546992324,
+      "md_sha256": "656487e0395f0458cfb396e6063a2a6897b7aedfc8910294925e9635a3030594",
+      "html_sha256": "56bcad73c6a45c402d5735b848b9fb48e56ce85efe10d9fbb447be1315a6db5a",
+      "review_lock_blob": "339a92b80ea84c604384ee0353b98e78f00f493f",
+      "editorial_review_blob": "bd1c078b475d0f418c61438c17bc30c6d430d828"
     }
   ]
 }
