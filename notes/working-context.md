@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-11-02。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-03。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03にAIによる公開用編集レビューを作成（新source CIと配信の確認は未了）。第4〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -58,3 +58,10 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 2026-11-01に検出した `BLOCKED: unresolved event: EVT-005` は公開ゲートの変更ではなく、work側の `EVT-005` の見出し `PROVISIONAL / RESOLVED` を `RESOLVED / PROVISIONAL` へ正規化する方針で解消を図る。内容は同一で、6本の更新順・LOCKEDのcommit・結果・world/persona deltaを変更しない。第2/3/4話の本文と根拠を実読して限定再レビューを追記し、依存blobを更新。第5話review-lockは旧EVTを参照していない。
 
 `publication/reviews/002.json`の同一本文と新review-lockを対応付け直した。正規化後のsource CI `41360865674` completed/success、Serial Publication `41360920516` completed/success。公開URL https://unjuno.github.io/tensei-neural-network/serial/002.html の実配信manifest・HTML内容照合は成功。第3〜5話の読者視点レビューは未実施なので一括PASSにしない。次は最も古い未公開の第3話の本文・EVT-009〜011・用語/意味/数理レビューを再読して公開用 `publication/reviews/003.json` を作ること。実読者5名、独立復元、Human Review、Canon受理は依然OPEN。
+
+## 2026-11-03 第3話レビューと再開点
+
+- 最古の未公開第3話を通読。EVT-009の六素子残差なし、EVT-010の1983年文献へ戻る選択、EVT-011の論文掲載十六素子Qの再計算と本文を照合。具体的な登場人物の選択は高橋の恣意的な規模変更の中止と佐伯のゼロ入力判定保留。未成立の組織判断や後続EVTを追加しない。
+- `publication/reviews/003.json` に5項目、限定PASS、blocking_issues空、本文blob `802424a3fc3504e766a6fdb24a791a455151900a`、review-lock blob `339a92b80ea84c604384ee0353b98e78f00f493f` を固定。AI_EDITORIAL_NOT_EXTERNAL_READER。技術再実行は新source CIで確認する。
+- 直前の公開台帳は001/002のみ。latest Serial Publication `41422224575`はDAILY_LIMIT / 既刊002 DEPLOYEDの再照合。第3話の配信成功は未確認。
+- 今回新EVT、新実験、新章本文改稿、Canon昇格なし。次はCI/公開配信を検証し、未公開なら阻害要因を先に解消。公開が成立したら第4話を個別に再読・編集評価する。
