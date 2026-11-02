@@ -25,3 +25,12 @@
 ## 再開手順
 
 新HEADに対するunit tests、話別実行/保存JSON一致、研究再実行、workflow validator、CIを確認。公開runが発火した場合はlive manifestと003.htmlのSHA-256が一致したときだけDEPLOYEDと記録する。失敗なら理由をそのまま保存。公開済みであれば次は第4話を通読して個別に公開用編集評価を行う。新しい実験を必要としていない。
+
+## 実測検証・公開結果（2026-11-03追記）
+
+- レビュー初回保存commit: `412fe914976bdf7e36a29dd3d8c44ee2a3345c7e`。GitHubから `publication/reviews/003.json` を再取得し、本文blob `802424a3fc3504e766a6fdb24a791a455151900a` / review-lock blob `339a92b80ea84c604384ee0353b98e78f00f493f` / 5観点 / blocking_issues空を確認。
+- Story Workflow Validation run [41546992324](https://github.com/Unjuno/tensei-neural-network/actions/runs/41546992324) はcompleted/success。validator unit tests、章別実行可能verificationと保存JSON全項目照合、研究実験、EXP-013再実行と保存JSON比較、workflow validatorの全step成功。
+- Serial Publication run [41547099942](https://github.com/Unjuno/tensei-neural-network/actions/runs/41547099942) はcompleted/success。READYで003のみ生成し、mainに `docs/serial/003.md`・`003.html`・index・manifestを出力した。初期live probeは一時的に未反映（BLOCKED: live manifest not yet confirmed）だったが、同じrunで再試行し2026-11-02 23:40:04 UTC（日本時間2026-11-03 08:40:04）に **DEPLOYED**、URLとlive manifest / HTML hashを照合済み。失敗を成功と取り違えず、最終照合結果を採用。
+- 公開台帳の003: `released_on=2026-11-03`; `source_sha=412fe914976bdf7e36a29dd3d8c44ee2a3345c7e`; `ci_run=41546992324`; `html_sha256=56bcad73c6a45c402d5735b848b9fb48e56ce85efe10d9fbb447be1315a6db5a`; `md_sha256=656487e0395f0458cfb396e6063a2a6897b7aedfc8910294925e9635a3030594`。
+- 公開URL: https://unjuno.github.io/tensei-neural-network/serial/003.html 。第1・2話は既刊のまま、変えていない。制作担当はmain/PR/Canonに書き込んでいない。
+- 本報告追記自体の後続commitのCIは別runで確認する必要がある。現時点で全ての読者評価/独立復元/Human Reviewを完了とは扱わない。

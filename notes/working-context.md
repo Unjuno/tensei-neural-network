@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03にAIによる公開用編集レビューを作成（新source CIと配信の確認は未了）。第4〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -63,5 +63,12 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 
 - 最古の未公開第3話を通読。EVT-009の六素子残差なし、EVT-010の1983年文献へ戻る選択、EVT-011の論文掲載十六素子Qの再計算と本文を照合。具体的な登場人物の選択は高橋の恣意的な規模変更の中止と佐伯のゼロ入力判定保留。未成立の組織判断や後続EVTを追加しない。
 - `publication/reviews/003.json` に5項目、限定PASS、blocking_issues空、本文blob `802424a3fc3504e766a6fdb24a791a455151900a`、review-lock blob `339a92b80ea84c604384ee0353b98e78f00f493f` を固定。AI_EDITORIAL_NOT_EXTERNAL_READER。技術再実行は新source CIで確認する。
-- 直前の公開台帳は001/002のみ。latest Serial Publication `41422224575`はDAILY_LIMIT / 既刊002 DEPLOYEDの再照合。第3話の配信成功は未確認。
-- 今回新EVT、新実験、新章本文改稿、Canon昇格なし。次はCI/公開配信を検証し、未公開なら阻害要因を先に解消。公開が成立したら第4話を個別に再読・編集評価する。
+- 直前の公開台帳は001/002のみ。latest Serial Publication `41422224575`はDAILY_LIMIT / 既刊002 DEPLOYEDの再照合。第3話は2026-11-03にSerial Publication run 41547099942でDEPLOYEDを確認。
+- 今回新EVT、新実験、新章本文改稿、Canon昇格なし。CI・live配信の検証成功を観測。次は第4話を個別に再読・編集評価する。
+
+### 2026-11-03 実測追記
+
+- review生成commit `412fe914976bdf7e36a29dd3d8c44ee2a3345c7e` のsource CI `41546992324` はcompleted/success。unit tests、話別再計算と保存結果一致、研究実験、EXP-013保存JSON照合、workflow validatorの全step success。
+- Serial Publication `41547099942` はcompleted/success、生成判断READY 003→Pages配信のlive manifest / 003.html hash照合DEPLOYED。配信遅延で途中のlive probeは未確認だったが同一runで再検証して成功。
+- 公開台帳: 003、日付 `2026-11-03`、source SHA `412fe914976bdf7e36a29dd3d8c44ee2a3345c7e`、CI `41546992324`、HTML SHA-256 `56bcad73c6a45c402d5735b848b9fb48e56ce85efe10d9fbb447be1315a6db5a`、MD SHA-256 `656487e0395f0458cfb396e6063a2a6897b7aedfc8910294925e9635a3030594`。URL: https://unjuno.github.io/tensei-neural-network/serial/003.html
+- 本追記を含む後続source HEADのCIは先行runの成功を流用せず別途確認する。既刊1〜3は改変しない。
