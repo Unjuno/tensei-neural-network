@@ -33,6 +33,17 @@
       "html_sha256": "56bcad73c6a45c402d5735b848b9fb48e56ce85efe10d9fbb447be1315a6db5a",
       "review_lock_blob": "339a92b80ea84c604384ee0353b98e78f00f493f",
       "editorial_review_blob": "bd1c078b475d0f418c61438c17bc30c6d430d828"
+    },
+    {
+      "chapter": "004",
+      "title": "第4話　五と二十一",
+      "released_on": "2026-11-04",
+      "source_sha": "3832df3279b718c9ed222b65aff6fad55a87a7bd",
+      "ci_run": 41738589401,
+      "md_sha256": "0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379",
+      "html_sha256": "65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192",
+      "review_lock_blob": "7d7810800b308ebe7f23fff382677465c6f9dc71",
+      "editorial_review_blob": "eb36738f82c2942f380e7afdbe93ab7427827ab6"
     }
   ]
 }
