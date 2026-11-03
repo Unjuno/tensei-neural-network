@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-11-03。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-04。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4〜5話は未公開・公開用編集レビュー未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4話は未公開・AI編集レビュー新規記録あり（対象HEADのCI/公開判定待ち）。第5話は未公開・編集レビュー未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -72,3 +72,13 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 - Serial Publication `41547099942` はcompleted/success、生成判断READY 003→Pages配信のlive manifest / 003.html hash照合DEPLOYED。配信遅延で途中のlive probeは未確認だったが同一runで再検証して成功。
 - 公開台帳: 003、日付 `2026-11-03`、source SHA `412fe914976bdf7e36a29dd3d8c44ee2a3345c7e`、CI `41546992324`、HTML SHA-256 `56bcad73c6a45c402d5735b848b9fb48e56ce85efe10d9fbb447be1315a6db5a`、MD SHA-256 `656487e0395f0458cfb396e6063a2a6897b7aedfc8910294925e9635a3030594`。URL: https://unjuno.github.io/tensei-neural-network/serial/003.html
 - 本追記を含む後続source HEADのCIは先行runの成功を流用せず別途確認する。既刊1〜3は改変しない。
+
+
+## 2026-11-04 第4話の公開用AI編集レビュー
+
+- 起点work `d75879ec212090f496cffb8b36cc1a149cdb7607`。最新story head EVT-018のまま。新EVT・研究実験・本文改稿なし。
+- 公開は第1〜3話まで。最古の未公開第4話「五と二十一」について、本文、EVT-012/013、話別outline/verification/terminology/semantic-review/results/review-lockを通読し、個別に検証した。
+- 本文blob `c215811ded93e9f05fce8864fceb9f996f767709`、review-lock blob `7d7810800b308ebe7f23fff382677465c6f9dc71` の同一版に `publication/reviews/004.json` で5観点の具体箇所とAI限定PASSを記録。既刊や根拠ファイルは変更していない。
+- 16位置の多数側・4/12分類、距離4/8、overlap8、local inputsの5/21を整数別計算で照合。本文は固定点とQへの到達を区別しており、後続256 trialはまだ描いていない。
+- この新source commitのCIと、公開エンジンの実配信照合を別途確認する必要がある。次は第5話を独立に読む。試読5名・独立restore・Human Review・Canon受理はOPEN。
+- 作業記録: `notes/runs/2026-11-04-chapter-004-editorial.md`。
