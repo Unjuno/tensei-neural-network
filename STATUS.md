@@ -8,7 +8,7 @@
 - 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
-- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話はAI編集レビューを保存済み（新source CI・実配信は別途検証待ち）。第5話は公開用レビュー待ち
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話は公開用編集レビュー待ち
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
 
@@ -44,7 +44,7 @@ mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全�
 | 1 戻る先 | EVT-001〜004 | 技術gate済み、編集レビュー済み、連載公開済み |
 | 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み。2026-11-02に公開・live URL/hash照合成功。旧BLOCKED履歴は保持 |
 | 3 表の外 | EVT-009〜011 | 技術gate・公開用AI編集レビューPASS。2026-11-03連載公開、live URL/hash照合成功 |
-| 4 五と二十一 | EVT-012〜013 | 技術gate済み、公開用AI編集レビュー記録を追加。新CI/公開は検証待ち |
+| 4 五と二十一 | EVT-012〜013 | 技術gate・AI編集レビュー済み、2026-11-04連載公開、live照合成功 |
 | 5 最初に動いたもの | EVT-014〜018 | 技術gate済み、公開用AI編集レビュー待ち・未公開 |
 
 `novel/scene-probes/2026-10-31-circle-and-original-records.md`は未採用。そこに書いた会話・保存・組織への提出は未成立のまま。今回新EVT・新personaは追加していない。
@@ -59,7 +59,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 ## 次回の一手・残課題
 
-第2話の編集レビューは `publication/reviews/002.json` へ保存済み。EVT-005の状態表記不整合は、work側の一行正規化と第2〜4話の意味再読・review-lock更新で解消し、新source CIと公開workflow成功・ライブURL/hashを確認した。第5話は旧EVT-005をreview-lockの対象に含まないので不変。2026-11-03に第3話の本文とEVT-009〜011を再読し、5観点のAI編集レビューを追加した。対象commitのCIと公開URL照合は2026-11-03に成功確認。次に第4話の対象HEADのCI/公開状況を確認し、第5話を個別に読む。第5話を未読PASSにしない。章数ノルマ・公開日から未来eventを発生させない。
+第2話の編集レビューは `publication/reviews/002.json` へ保存済み。EVT-005の状態表記不整合は、work側の一行正規化と第2〜4話の意味再読・review-lock更新で解消し、新source CIと公開workflow成功・ライブURL/hashを確認した。第5話は旧EVT-005をreview-lockの対象に含まないので不変。2026-11-03に第3話の本文とEVT-009〜011を再読し、5観点のAI編集レビューを追加した。対象commitのCIと公開URL照合は2026-11-03に成功確認。第4話のsource CIと配信URL/hash照合成功を確認した。次は第5話を個別に読む。第5話を未読PASSにしない。章数ノルマ・公開日から未来eventを発生させない。
 
 実読者5名のpilot、真に独立した別主体の意味復元、人間によるCanon受理はOPEN。AI編集評価をこれらの代用として報告しない。研究所の具体所在地・職位・機種/OS/言語・私生活史・未来事件は因果に必要になるまで固定しない。
 
@@ -96,3 +96,12 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - 16位置の多数側・4/12分類、距離4/8、overlap8、local inputsの5/21を整数別計算で照合。本文は固定点とQへの到達を区別しており、後続256 trialはまだ描いていない。
 - この新source commitのCIと、公開エンジンの実配信照合を別途確認する必要がある。次は第5話を独立に読む。試読5名・独立restore・Human Review・Canon受理はOPEN。
 - 作業記録: `notes/runs/2026-11-04-chapter-004-editorial.md`。
+
+
+### 2026-11-04 第4話配信の実測確認
+
+- `3832df3279b718c9ed222b65aff6fad55a87a7bd` のsource CI `41738589401` completed/success。全step（unit tests/章別再実行と保存JSON/研究再実行/EXP-013保存JSON/workflow validator）成功。
+- Serial Publication `41738736750`: 初回pushは `remote: fatal error in commit_refs` でfailure。公開ゲートREADY自体は成立していたが、公開はその時点で未成立。同じ公開workflowのfailed jobsを**一度だけ**再実行してattempt 2はcompleted/success。job `126274931514` がlive URL/hash一致で第4話 `DEPLOYED` を記録。
+- main台帳の第4話: released_on=2026-11-04、source_sha=`3832df3279b718c9ed222b65aff6fad55a87a7bd`、ci_run=41738589401、HTML SHA-256 `65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192`、Markdown SHA-256 `0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379`。URL: https://unjuno.github.io/tensei-neural-network/serial/004.html 。既刊1〜3は保持。
+- story headはEVT-018のまま。第5話は未読PASSとせず、次回個別に読む。外部読者・独立restore・人間Canon受理は未実施。
+- 詳細: `notes/runs/2026-11-04-chapter-004-editorial.md`。

@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4話は未公開・AI編集レビュー新規記録あり（対象HEADのCI/公開判定待ち）。第5話は未公開・編集レビュー未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4話は2026-11-04公開・live照合成功。第5話は未公開・編集レビュー未実施。レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -82,3 +82,12 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 - 16位置の多数側・4/12分類、距離4/8、overlap8、local inputsの5/21を整数別計算で照合。本文は固定点とQへの到達を区別しており、後続256 trialはまだ描いていない。
 - この新source commitのCIと、公開エンジンの実配信照合を別途確認する必要がある。次は第5話を独立に読む。試読5名・独立restore・Human Review・Canon受理はOPEN。
 - 作業記録: `notes/runs/2026-11-04-chapter-004-editorial.md`。
+
+
+### 2026-11-04 第4話配信の実測確認
+
+- `3832df3279b718c9ed222b65aff6fad55a87a7bd` のsource CI `41738589401` completed/success。全step（unit tests/章別再実行と保存JSON/研究再実行/EXP-013保存JSON/workflow validator）成功。
+- Serial Publication `41738736750`: 初回pushは `remote: fatal error in commit_refs` でfailure。公開ゲートREADY自体は成立していたが、公開はその時点で未成立。同じ公開workflowのfailed jobsを**一度だけ**再実行してattempt 2はcompleted/success。job `126274931514` がlive URL/hash一致で第4話 `DEPLOYED` を記録。
+- main台帳の第4話: released_on=2026-11-04、source_sha=`3832df3279b718c9ed222b65aff6fad55a87a7bd`、ci_run=41738589401、HTML SHA-256 `65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192`、Markdown SHA-256 `0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379`。URL: https://unjuno.github.io/tensei-neural-network/serial/004.html 。既刊1〜3は保持。
+- story headはEVT-018のまま。第5話は未読PASSとせず、次回個別に読む。外部読者・独立restore・人間Canon受理は未実施。
+- 詳細: `notes/runs/2026-11-04-chapter-004-editorial.md`。

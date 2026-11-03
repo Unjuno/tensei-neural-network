@@ -1,6 +1,6 @@
 # 2026-11-04 第4話「五と二十一」公開用編集評価
 
-状態: EDITORIAL_REVIEW_SAVED / CI_AND_DEPLOYMENT_PENDING
+状態: DEPLOYED_VERIFIED（後追いでsource CIと配信まで実測）
 
 ## 起点と権限
 
@@ -25,3 +25,13 @@
 - 新commitのCI、およびSerial Publicationの実配信確認はこの記録の作成時点では未実施。報告時は新しい実測を別途確認する。READY/manifest更新だけでDEPLOYEDと断言しない。
 - 実読者5名、真に独立した意味復元、Human Review、Canon受理は未実施。
 - 次は新HEADのCI・公開workflow・live URL/hashを確認する。配信前なら未公開と報告する。第4話が確認できた後、第5話を独立に通読して編集評価する。章数目標から新事件を作らない。
+
+
+## 実行後追記：2026-11-04 08:25 JSTごろの公開照合
+
+- 準備commit: `3832df3279b718c9ed222b65aff6fad55a87a7bd`。Story Workflow Validation run `41738589401` completed/success。unit tests、章別実行と保存結果照合、研究再実行、EXP-013保存JSON、workflow validatorの全step success。
+- Serial Publication run `41738736750` **第1attemptはfailure**。ゲートは第4話をREADYと判定し（source SHA/CI一致）、mainへの生成スナップショットpushで `remote: fatal error in commit_refs` となった。CI/本文の不一致ではないが、このremote内部エラーの深い原因は未確定。第1attemptで公開済みとは扱わない。
+- 同じ公開workflowの**failed jobsを1回だけ再実行**。attempt 2はcompleted/success。生成した第4話をmainにcommit、Pages buildを要求し、live manifest/004.htmlの内容hash一致を検査した。初期live probeは遅延でBLOCKED、同run終盤の再検査で `DEPLOYED` を観測。job `126274931514` のlogにも `DEPLOYED chapter 004` を記録。ソースや公開ゲートの緩和・mainへの手動原稿pushはしていない。
+- URL: https://unjuno.github.io/tensei-neural-network/serial/004.html
+- mainの公開台帳（2026-11-04）: chapter=004、source SHA=`3832df3279b718c9ed222b65aff6fad55a87a7bd`、source CI=`41738589401`、md SHA-256=`0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379`、html SHA-256=`65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192`。公開workflowによるmain HEADを `1603f717630d8a7d1b71cc84c63c0479ce9cfa91` として観測。
+- 本追記の新source commitに対するCIと自動公開再評価は別途確認する。すでに公開した004は改変せず、次回は第5話の本文とEVT-014〜018を通読して編集レビューする。実読者5名・独立復元・Human Review・Canon受理はなおOPEN。
