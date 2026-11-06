@@ -1,11 +1,11 @@
 # 現在の状態
 
-更新: 2026-11-06。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
+更新: 2026-11-07。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
 ## 現在位置と公開
 
 - 制作branch: `work/story-bootstrap`
-- 1980年代側resolved head: **EVT-018**。現代側: none
+- 1980年代側resolved head: **EVT-019**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
 - **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話「最初に動いたもの」は2026-11-06に公開用AI編集レビュー・source CI・Pages実配信のSHA-256照合まで確認済み
@@ -62,7 +62,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 第1〜5話の連載版が公開済み。最後の新規公開の根拠は `notes/runs/2026-11-06-chapter-005-editorial-and-publication.md`、公開済み版のSHA-256はmainの`docs/serial/manifest.json`を正本とする。第5話の公開review追加commit `f737e2b097b3ecfd66bbd37e9c65e70c34cdf0ae` に対するCI run `42191688452` とSerial Publication run `42191877896` はともにsuccess。今回の公開はCanon・Human Review・独立実読者評価ではない。
 
-次の制作単位: EVT-018後の人物stateとORGの情報管理境界から次行動を解決する。未採用の`novel/scene-probes/2026-10-31-circle-and-original-records.md`の台詞や出来事を既成事実にしない。第6話を公開ノルマのために作らない。実在読者5名のpilot、真の独立restore、人間Canon受理はOPEN。
+次の制作単位: EVT-019後の二人の異なる問いを、各人の観測境界とORGの制約から進める。未採用の`novel/scene-probes/2026-10-31-circle-and-original-records.md`の台詞や出来事を既成事実にしない。第6話を公開ノルマのために作らない。実在読者5名のpilot、真の独立restore、人間Canon受理はOPEN。
 
 日次制作タスクが2026-11-06の作業開始時にはdisabledだったため、有効へ戻した。ただし過去実行がfailed扱いとなった原因は未確定で、**次回の実行成功を確認するまでは運用の完全性を主張しない**。公開エンジンはmainの`publication/policy.json`のenabledに従う。
 
@@ -108,3 +108,12 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - main台帳の第4話: released_on=2026-11-04、source_sha=`3832df3279b718c9ed222b65aff6fad55a87a7bd`、ci_run=41738589401、HTML SHA-256 `65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192`、Markdown SHA-256 `0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379`。URL: https://unjuno.github.io/tensei-neural-network/serial/004.html 。既刊1〜3は保持。
 - story headはEVT-018のまま。第5話は未読PASSとせず、次回個別に読む。外部読者・独立restore・人間Canon受理は未実施。
 - 詳細: `notes/runs/2026-11-04-chapter-004-editorial.md`。
+
+
+## 2026-11-07 EVT-019「二つの問い」成立（第6話は未成立）
+
+- 開始work HEAD: `5a784ddea18e6da5ee3bc6444eff399508286c61`。mainの公開許可はenabled=true。main公開台帳は第1〜5話で、第5話まで配信照合済み。最新観測Serial Publication run `42195420441` はsuccessで、live manifest/005.htmlを照合。新規公開はない。
+- EVT-018後、PER-005は別の更新順への拡張を問いとして提示したが実験条件を決めず、PER-006は「同じ最終状態でも初期状態・経路が異なる」ことを実際の観測で区別する条件を自分で考える道を選んだ。二人は数学的検討と生理学的観測可能性を別々の問いとして残し、無目的なtrial追加と研究所への正式提出を見送った。
+- 直接正本: `novel/events/EVT-019-two-questions.md`、`novel/state/personas/deltas/EVT-019.md`。ORG-001の権限・制度・institutional memoryは不変。古いworld snapshotを上書きせず、EVT-008〜019を一度だけoverlayして復元する。
+- 結果選択を伴う新規trialなし。創作上の対話解決は同一制作文脈なのでprovenanceは`UNBLINDED`、独立生成の検証ではない。本文・話別pack・既刊・Canon・公開機構を変更しない。第6話はまだ自然な読書単位として確定していない。
+- 実施・CI・未完了の詳細は`notes/runs/2026-11-07-evt019-two-questions.md`。実読者5名、独立restore、Human Review/Canon受理は引き続きOPEN。

@@ -1,10 +1,10 @@
 # 作業コンテキスト
 
-更新: 2026-11-06。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-07。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
-repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-018、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
+repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-019、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
 
 **2026-10-31の新しいユーザー委任で、連載版の定期公開を開始した。** 古い記録の「公開は毎回承認待ち」をそのまま適用しない。許可はmain/publication/README.mdとpolicy.jsonの範囲に限る。mainへのwork全体merge、Canon昇格、PR、他サイト投稿は含まない。
 
@@ -104,3 +104,12 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 ### 次の有限制作単位
 
 現在のstory headはEVT-018。次はPER-005とPER-006が、既存のQ局所問題の結果を誰が再検証できる記録にするのか、情報公開がどの組織権限に関わるかを、当人が知る既存事実だけから考える。未採用scene-probeは観測済みeventでない。人物・組織の行動が実際に成立してからEVTを作成し、自然な読書単位が成立したときだけ第6話を執筆する。作者側EXPの一般証明を人物へ漏らさない。独立試読、Human Review、Canon受理はOPEN。
+
+
+## 2026-11-07 最新再開点（EVT-019）
+
+第1〜5話はmainの公開台帳にあり、最新Serial Publication run `42195420441` は第5話のlive manifest/HTML一致を確認してsuccess。公開待ちの既存章なし。次の読書単位を話数から逆算しない。
+
+EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させず、高橋は「別のupdate scheduleでも同じ説明が成り立つか」を未実行の問いとして残し、佐伯は「最終状態だけでなく経路の差を実際の生理学的観測へ対応させられるか」を独立に考えることを選んだ。二人の共同メモには異なる問いが並ぶが、実験条件、機器、計算機、発表、正式提出、組織保存は未成立。創作上の対話解決は`UNBLINDED`であり独立検証ではない。未採用scene-probeは引き続き未採用。
+
+再開時は`novel/events/EVT-019-two-questions.md`と`novel/state/personas/deltas/EVT-019.md`を、旧snapshot・EVT-008〜018・ORG-001の不変境界の上へ重複適用せず復元する。次は二人のうち誰が何を実際に観測・選択するかを確認し、必要なら当時の一次資料を調べる。自然な読書単位になるまでは第6話・新EXPを作らない。実読者5名・独立restore・Human Review/Canon受理はOPEN。

@@ -18,10 +18,10 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-018`
+- 1980年代側: `EVT-019`
 - 現代側: none
 
-EVT-018時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-019時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
@@ -95,6 +95,12 @@ EVT-014のsplit一bit初期状態12×16 cyclic orders=192 trajectoryを、結果
 
 EVT-014〜018を第5話「最初に動いたもの」へNarrativeProjection済み。第5話公開前gateはPASS、Human Reviewは未実施。
 
+### EVT-019 — 二つの問いを分ける
+
+`T0-1980S + next discussion after EVT-018`。高橋は別の更新順へ広げる問いを示したが、新たなschedule・trialを選ばず、佐伯は同じ最終状態を異なる経路から得る場合の観測上の区別を自分の課題として引き受けた。二人はモデル内部の解析と生理学的な観測可能性を別の未解決問題として共同メモに記し、共用計算資源の追加利用・研究所への正式提出・新しい実験を実施しなかった。ORG-001のinstitutional memoryは不変。社会的対話の生成は`UNBLINDED`であり独立生成証拠ではない。
+
+第6話へのNarrativeProjectionは未実施。本文や既刊の状態は不変。
+
 ## 作者側研究（人物Knowledgeとは分離）
 
 EVT-014/015由来のEXP-006/007ではfinite searchから少数派escapeを観測し、別途P=3・symmetric Hebbian・非同期fair one-unit update・zero-input保持の条件で解析的に説明した。EXP-011ではQのzero marginを許す条件へ拡張。
@@ -105,9 +111,9 @@ EXP-008で同期更新はperiod-2 cycleを作る反例が成立。EXP-010では�
 
 ## Current next question
 
-Story側、EVT-018後:
+Story側、EVT-019後:
 
-> 初期の不安定集合と人工的な巡回順が結果の件数を決めると分かった後、高橋と佐伯は何を実際に次に確かめるか。
+> 高橋は別の更新順を調べる前に何を固定するか。佐伯は、同じfinal stateへ至る経路の違いを当時の観測手段で区別できるか。
 
 ここはまだ未解決。第6話を成立させるためにeventを発生させず、現在のpersona Goals/Knowledgeと組織制約からaction selectionを行う。
 
