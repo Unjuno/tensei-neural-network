@@ -1,6 +1,6 @@
 # 作業コンテキスト
 
-更新: 2026-11-04。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-06。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
@@ -26,7 +26,7 @@ source CI: 41176570607 success
 公開run: 41176658296 / job124465509267 success（manifestと最新HTMLの内容一致も観測）
 既刊のHTMLとMarkdownはmainのmanifest記録hashで凍結。無断で上書きしない。
 
-第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4話は2026-11-04公開・live照合成功。第5話は未公開・編集レビュー未実施。レビューを機械コピーしない。
+第2話「選ばなかった答え」は2026-11-02に連載公開済み。源版 `3e363989f25fccdfb3c4b75dd6a169f48f85da16`、CI `41360865674` success、公開run `41360920516` success、実配信manifestと002.htmlのSHA-256一致を確認した。公開台帳はmain/docs/serial/manifest.json。EVT-005旧状態表記のBLOCKEDは2026-11-01の履歴として保持。第3話は2026-11-03に公開用AI編集レビュー・source CI・Serial Publicationでの配信URL/hash照合を完了。第4話は2026-11-04公開・live照合成功。第5話は2026-11-06に同一本文・review-lock版のAI編集レビュー、制作CI、連載公開、live manifest/HTML照合までsuccess。公開版はmain台帳を正本とし、レビューを機械コピーしない。
 
 ## 初回統合で得た修正
 
@@ -91,3 +91,16 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 - main台帳の第4話: released_on=2026-11-04、source_sha=`3832df3279b718c9ed222b65aff6fad55a87a7bd`、ci_run=41738589401、HTML SHA-256 `65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192`、Markdown SHA-256 `0a6a038aa89eff4ae9a3066d2cb51808e1732993be180beb3fc5ce01bad3f379`。URL: https://unjuno.github.io/tensei-neural-network/serial/004.html 。既刊1〜3は保持。
 - story headはEVT-018のまま。第5話は未読PASSとせず、次回個別に読む。外部読者・独立restore・人間Canon受理は未実施。
 - 詳細: `notes/runs/2026-11-04-chapter-004-editorial.md`。
+
+## 2026-11-06 第5話公開・再開点
+
+- 機械的公開阻止の原因: 2026-11-05のrun `42003745924` は `publication/reviews/005.json` の欠落でBLOCKED。技術gateの失敗ではなかった。
+- 第5話 `novel/chapters/005.md`、EVT-014〜018、verification/results/terminology/semantic-review/review-lockを通読し、五観点のAI編集レビュー `publication/reviews/005.json`を対象blob付きで新規保存（commit `f737e2b097b3ecfd66bbd37e9c65e70c34cdf0ae`）。本文・EVT・既刊を変更しない。
+- 別ルートの円周16起点計算で各4点gapと Q=112、stored=144 の固定例を確認。新研究結果ではない。
+- Story Workflow Validation `42191688452` success。Serial Publication `42191877896` success。Pages build/deploy `42191912882` success。第5話の実配信URL/hash一致を公開workflowが確認。main公開台帳に第1〜5話。
+- 詳細は `notes/runs/2026-11-06-chapter-005-editorial-and-publication.md`。
+- ChatGPT日次制作タスクはdisabledであることを確認し、enabled=trueへ再開した。先行実行がfailedであった根本原因は未確認。次回タスクの成功と公開workflowの冪等性を継続監視する。
+
+### 次の有限制作単位
+
+現在のstory headはEVT-018。次はPER-005とPER-006が、既存のQ局所問題の結果を誰が再検証できる記録にするのか、情報公開がどの組織権限に関わるかを、当人が知る既存事実だけから考える。未採用scene-probeは観測済みeventでない。人物・組織の行動が実際に成立してからEVTを作成し、自然な読書単位が成立したときだけ第6話を執筆する。作者側EXPの一般証明を人物へ漏らさない。独立試読、Human Review、Canon受理はOPEN。
