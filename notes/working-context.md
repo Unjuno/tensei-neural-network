@@ -113,3 +113,5 @@ novel/scene-probes/2026-10-31-circle-and-original-records.mdは未採用。発�
 EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させず、高橋は「別のupdate scheduleでも同じ説明が成り立つか」を未実行の問いとして残し、佐伯は「最終状態だけでなく経路の差を実際の生理学的観測へ対応させられるか」を独立に考えることを選んだ。二人の共同メモには異なる問いが並ぶが、実験条件、機器、計算機、発表、正式提出、組織保存は未成立。創作上の対話解決は`UNBLINDED`であり独立検証ではない。未採用scene-probeは引き続き未採用。
 
 再開時は`novel/events/EVT-019-two-questions.md`と`novel/state/personas/deltas/EVT-019.md`を、旧snapshot・EVT-008〜018・ORG-001の不変境界の上へ重複適用せず復元する。次は二人のうち誰が何を実際に観測・選択するかを確認し、必要なら当時の一次資料を調べる。自然な読書単位になるまでは第6話・新EXPを作らない。実読者5名・独立restore・Human Review/Canon受理はOPEN。
+
+検証追記（2026-11-07）: 制作commit `ae15b0e4f408ff09eb6db4e429ee406d1b3512b7` はCI `42313337636` completed/success（unit tests、話別・研究再実行、EXP-013保存結果、validator）。公開run `42313435915` はNO_READY_CHAPTER、005 live照合成功。第6話は未作成・未公開。

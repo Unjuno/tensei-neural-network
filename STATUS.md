@@ -117,3 +117,5 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - 直接正本: `novel/events/EVT-019-two-questions.md`、`novel/state/personas/deltas/EVT-019.md`。ORG-001の権限・制度・institutional memoryは不変。古いworld snapshotを上書きせず、EVT-008〜019を一度だけoverlayして復元する。
 - 結果選択を伴う新規trialなし。創作上の対話解決は同一制作文脈なのでprovenanceは`UNBLINDED`、独立生成の検証ではない。本文・話別pack・既刊・Canon・公開機構を変更しない。第6話はまだ自然な読書単位として確定していない。
 - 実施・CI・未完了の詳細は`notes/runs/2026-11-07-evt019-two-questions.md`。実読者5名、独立restore、Human Review/Canon受理は引き続きOPEN。
+
+検証追記（2026-11-07）: EVT-019制作commit `ae15b0e4f408ff09eb6db4e429ee406d1b3512b7` のStory Workflow Validation `42313337636` は全step success。Serial Publication `42313435915` は`NO_READY_CHAPTER`で新規公開なし、既刊005のlive照合成功。後続の記録更新commitもCI対象。

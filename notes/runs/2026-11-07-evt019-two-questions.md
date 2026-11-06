@@ -19,7 +19,10 @@
 
 - 事前確認: mainの停止switch、work HEAD、最新CI run `42192415686` success（開始HEAD）、既刊台帳と最新公開run、EVT-018・persona/ORG定義と状態・差分・第5話・未採用scene-probeを照合。
 - 変更はMarkdown event/state/index/runに限定。新数値trialがないため話別結果JSONやreview-lockを再生成する対象はない。
-- 新commit: CI実行後に追記。workflow validator、unit tests、既存話別再実行と保存JSON、研究再実行の結果は新commitのCIで確認する。未確認の段階ではPASSとしない。
+- 制作commit: `ae15b0e4f408ff09eb6db4e429ee406d1b3512b7`（7ファイル: EVT-019、persona delta、timeline/structure、STATUS/working-context、run記録）。
+- Story Workflow Validation run `42313337636`: `completed/success`。unit tests、全既存話別実行、研究実験再実行、EXP-013保存JSONとの一致、workflow validator（strict --allow-drafts）すべてsuccess。Python 3.12 / GitHub Actions ubuntu-latest。ローカルの全repo cloneはDNS解決不可だったため、full-suiteはこのCIで確認した。
+- Serial Publication run `42313435915`: `completed/success`。公開判定は`NO_READY_CHAPTER`、新規書込みなし。既刊005のlive manifest/HTMLを`DEPLOYED`として再照合。main台帳は第001〜005話のまま。
+- 本検証追記自体を含む後続commitにもCIを実行し、結果はGitHub Actionsで確認する。
 
 ## 公開状態・残課題・次の一手
 
