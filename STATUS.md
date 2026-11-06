@@ -1,6 +1,6 @@
 # 現在の状態
 
-更新: 2026-11-04。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
+更新: 2026-11-06。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
 ## 現在位置と公開
 
@@ -8,9 +8,10 @@
 - 1980年代側resolved head: **EVT-018**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
-- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話は公開用編集レビュー待ち
+- **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話「最初に動いたもの」は2026-11-06に公開用AI編集レビュー・source CI・Pages実配信のSHA-256照合まで確認済み
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
+- 第5話: https://unjuno.github.io/tensei-neural-network/serial/005.html
 
 ## 今回の継続委任の境界
 
@@ -45,7 +46,7 @@ mainへ追加したのは公開機構とdocs/serialの生成物だけ。work全�
 | 2 選ばなかった答え | EVT-005〜008 | 技術gate・編集レビュー済み。2026-11-02に公開・live URL/hash照合成功。旧BLOCKED履歴は保持 |
 | 3 表の外 | EVT-009〜011 | 技術gate・公開用AI編集レビューPASS。2026-11-03連載公開、live URL/hash照合成功 |
 | 4 五と二十一 | EVT-012〜013 | 技術gate・AI編集レビュー済み、2026-11-04連載公開、live照合成功 |
-| 5 最初に動いたもの | EVT-014〜018 | 技術gate済み、公開用AI編集レビュー待ち・未公開 |
+| 5 最初に動いたもの | EVT-014〜018 | 技術gate・AI編集レビュー済み、2026-11-06連載公開・live照合成功 |
 
 `novel/scene-probes/2026-10-31-circle-and-original-records.md`は未採用。そこに書いた会話・保存・組織への提出は未成立のまま。今回新EVT・新personaは追加していない。
 
@@ -59,9 +60,11 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 ## 次回の一手・残課題
 
-第2話の編集レビューは `publication/reviews/002.json` へ保存済み。EVT-005の状態表記不整合は、work側の一行正規化と第2〜4話の意味再読・review-lock更新で解消し、新source CIと公開workflow成功・ライブURL/hashを確認した。第5話は旧EVT-005をreview-lockの対象に含まないので不変。2026-11-03に第3話の本文とEVT-009〜011を再読し、5観点のAI編集レビューを追加した。対象commitのCIと公開URL照合は2026-11-03に成功確認。第4話のsource CIと配信URL/hash照合成功を確認した。次は第5話を個別に読む。第5話を未読PASSにしない。章数ノルマ・公開日から未来eventを発生させない。
+第1〜5話の連載版が公開済み。最後の新規公開の根拠は `notes/runs/2026-11-06-chapter-005-editorial-and-publication.md`、公開済み版のSHA-256はmainの`docs/serial/manifest.json`を正本とする。第5話の公開review追加commit `f737e2b097b3ecfd66bbd37e9c65e70c34cdf0ae` に対するCI run `42191688452` とSerial Publication run `42191877896` はともにsuccess。今回の公開はCanon・Human Review・独立実読者評価ではない。
 
-実読者5名のpilot、真に独立した別主体の意味復元、人間によるCanon受理はOPEN。AI編集評価をこれらの代用として報告しない。研究所の具体所在地・職位・機種/OS/言語・私生活史・未来事件は因果に必要になるまで固定しない。
+次の制作単位: EVT-018後の人物stateとORGの情報管理境界から次行動を解決する。未採用の`novel/scene-probes/2026-10-31-circle-and-original-records.md`の台詞や出来事を既成事実にしない。第6話を公開ノルマのために作らない。実在読者5名のpilot、真の独立restore、人間Canon受理はOPEN。
+
+日次制作タスクが2026-11-06の作業開始時にはdisabledだったため、有効へ戻した。ただし過去実行がfailed扱いとなった原因は未確定で、**次回の実行成功を確認するまでは運用の完全性を主張しない**。公開エンジンはmainの`publication/policy.json`のenabledに従う。
 
 ## 2026-11-01 第2話の再編集評価と公開阻止
 
