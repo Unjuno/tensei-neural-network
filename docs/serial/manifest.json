@@ -44,6 +44,17 @@
       "html_sha256": "65b2b117df4e6e1d7266521888dcf1d4c361d7e98f376928596f347e84638192",
       "review_lock_blob": "7d7810800b308ebe7f23fff382677465c6f9dc71",
       "editorial_review_blob": "eb36738f82c2942f380e7afdbe93ab7427827ab6"
+    },
+    {
+      "chapter": "005",
+      "title": "第5話　最初に動いたもの",
+      "released_on": "2026-11-06",
+      "source_sha": "f737e2b097b3ecfd66bbd37e9c65e70c34cdf0ae",
+      "ci_run": 42191688452,
+      "md_sha256": "351ff35e3e669f2a683f53288e8519ccd7567505d58e8826562362d04d1ac782",
+      "html_sha256": "7612dffcb21801896f65d981d2d14fc8f2f421dfaed2a838228d01b3ac473b45",
+      "review_lock_blob": "8a3fa88186c18a4871880d46c8d357934b591abf",
+      "editorial_review_blob": "f0a68d20d4045b183602ea3443f71acc648e92de"
     }
   ]
 }
