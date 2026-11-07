@@ -55,6 +55,17 @@
       "html_sha256": "7612dffcb21801896f65d981d2d14fc8f2f421dfaed2a838228d01b3ac473b45",
       "review_lock_blob": "8a3fa88186c18a4871880d46c8d357934b591abf",
       "editorial_review_blob": "f0a68d20d4045b183602ea3443f71acc648e92de"
+    },
+    {
+      "chapter": "006",
+      "title": "第6話　二つの時計",
+      "released_on": "2026-11-08",
+      "source_sha": "e95ccf5c31c043a2451a0d197151ff41695412f2",
+      "ci_run": 42425037591,
+      "md_sha256": "63c93ff2f01c195db3c5ba6ffcd39a6f739ac70b608a69e6aec583380de18a78",
+      "html_sha256": "d0501a8b3de379a805bab52ef95d7cfa5ae743450d4f1ac8454d99be97c1c417",
+      "review_lock_blob": "4639377994fcf28e278dd5a95fa9ab6229931a5b",
+      "editorial_review_blob": "70ef9b4471d56ba674d18fec7bc88e517cb0f62b"
     }
   ]
 }
