@@ -124,6 +124,6 @@ EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させ�
 - ORG-001の所蔵・装置・予算・動物研究・施設名・権限は追加確定していない。作者が比較したREF-004〜007は人物へ漏らさない
 - 作者側一次資料の確認結果、事実/推論/不確実性および単位境界は`research/1980s-neurophysiology-observation-boundary.md`。文献探索の事後選別があるためEVT provenanceは`UNBLINDED`で、blindな創発を主張しない
 - 第6話は未成立。既刊1〜5、連載公開HTML、Canon、publication policyは変更していない。自然なreading unitの判定は次回以降
-- 自動化は事前確認時にdisabled/failed。作業成果の存在と定期タスク自体の実行成功は別。後続の再有効化・次回run確認が必要
+- 自動化は事前確認時にdisabled/failedだったが、2026-11-08に再有効化し `enabled=true` を再確認した。過去runのfailedは未解消で、次回runの成功・配信到達は未検証
 
 **次の優先:** 高橋の数学的schedule選択と佐伯の観測条件設計はまだ分岐したまま。どちらかの観測可能な次行動を人物の局所stateから進め、論文情報の共有・組織の研究設備利用・実験結果を既成事実にしない。新しい数値実験なら結果前lockを必須とする。現在HEADのsource CIを確認してから報告し、既刊の編集gateは流用しない。
