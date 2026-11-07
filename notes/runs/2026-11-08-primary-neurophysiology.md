@@ -51,3 +51,10 @@
 高橋側はEVT-019の別schedule familyという未固定の問いを保持。佐伯側はREF-003を読んだが、高橋はそれをまだ知らない。次に二人が何を観測・共有・選択したかを各personaの局所stateだけから解決する。歴史史料から直接模型の更新則や人格・記憶の生物学的同一性を導かない。
 
 独立の5名実読者試読、独立restore、人間のCanon受理は未実施。日次automationが再び有効になるかと次回run状態は、別の観測として確認する。
+
+## 実測検証追記（2026-11-08）
+
+- source HEAD `9a7629b915fd64f861d93ba54d58fe74eb731a7b` のStory Workflow Validation `42402270366` は `completed/success`。章別・研究実験再実行、EXP-013保存JSON照合、validator test、workflow strict検査が成功。今回のevent/runs/docsを機械検証したことで生理学的仮説や人物の独立性まで証明されたとはしない
+- main `docs/serial/manifest.json` は公開済み001〜005のまま。新第6話なし。第6話公開を起こさないことは正常なNO_READY_CHAPTER
+- ChatGPT日次制作タスクは開始時に無効、latest run failed。変更後に `is_enabled=true` を再取得で確認。ただし直前runの失敗理由・次回実行成功は未検証のまま
+- 本検証追記と再有効化索引を含む**後続HEAD**にもCIが必要。旧runのsuccessを新HEADのものだと偽装しない
