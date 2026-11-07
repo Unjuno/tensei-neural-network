@@ -4,7 +4,7 @@
 
 ## 現在位置
 
-repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-020、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
+repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-021、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
 
 **2026-10-31の新しいユーザー委任で、連載版の定期公開を開始した。** 古い記録の「公開は毎回承認待ち」をそのまま適用しない。許可はmain/publication/README.mdとpolicy.jsonの範囲に限る。mainへのwork全体merge、Canon昇格、PR、他サイト投稿は含まない。
 
@@ -127,3 +127,11 @@ EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させ�
 - 自動化は事前確認時にdisabled/failedだったが、2026-11-08に再有効化し `enabled=true` を再確認した。過去runのfailedは未解消で、次回runの成功・配信到達は未検証
 
 **次の優先:** 高橋の数学的schedule選択と佐伯の観測条件設計はまだ分岐したまま。どちらかの観測可能な次行動を人物の局所stateから進め、論文情報の共有・組織の研究設備利用・実験結果を既成事実にしない。新しい数値実験なら結果前lockを必須とする。現在HEADのsource CIを確認してから報告し、既刊の編集gateは流用しない。
+
+## 2026-11-08 EVT-021 / 第6話「二つの時計」候補
+
+開始work HEAD `3cac67761ffbc80b392eb75bfdef09cbc478cde5`。旧head EVT-020の後、佐伯が自ら久保田1975（REF-003）の口頭要約を高橋へ渡したことで初めて彼が論文の限定した内容を知った。モデルのupdate番号と生理的な課題/発火時刻の対応規則は未成立。二人は私的共同メモに別欄と空白を作り、実験は始めない。ORG-001の公式記録・設備/予算不変。新head EVT-021。数値trialなし。対話provenanceはUNBLINDED。
+
+EVT-019〜021から第6話へ投影。話別verification（REF-003史料/knowledge）、semantic-review、terminology、review-lockとpublication/reviews/006.jsonを記録。作者側EXPや別論文を人物へ流入させない。001〜005の公開snapshotとgate維持。**第6話のsource CI/公開live URL/hashはこの保存時点でPENDING**。既刊005まで実配信確認、最新開始時Serial Publication run `42402513886` success。詳細 `notes/runs/2026-11-08-chapter-006-two-clocks.md`。
+
+次の一手: 新work HEADのCI（unit、話別保存JSON、EXP013、workflow validator）、続くSerial Publicationの新run、main台帳およびPages live 006 hashを確認。独立実読者5名、独立復元、人間Canon受理はOPEN。次の物語eventは高橋と佐伯の観測可能な次行動からのみ生成する。

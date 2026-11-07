@@ -18,10 +18,10 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-020`
+- 1980年代側: `EVT-021`
 - 現代側: none
 
-EVT-020時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-021時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
@@ -113,6 +113,12 @@ EVT-014〜018を第5話「最初に動いたもの」へNarrativeProjection済�
 詳しくは `events/EVT-020-the-same-neuron-different-task.md`、`state/personas/deltas/EVT-020.md`、作者側一次研究 `../research/1980s-neurophysiology-observation-boundary.md`。第6話への投影はまだ成立していない。
 
 
+
+### EVT-021 — 二つの時計を同じとは呼ばない
+
+`T0-1980S + next voluntary discussion after EVT-020`。佐伯はREF-003の限定した口頭要約を自ら高橋へ渡し、数学模型の離散更新順と生理学の課題区間・発火時刻の対応を**未定義のまま**私的共同メモへ二列で残した。高橋は原著そのものを読んだわけではなく、佐伯の要約だけを知った。新規の数値trial、生物実験、組織への公式提出は起こしていない。両人のdeltaは`state/personas/deltas/EVT-021.md`、直接eventは`events/EVT-021-two-clocks.md`。対話生成provenanceは`UNBLINDED`。
+
+第6話「二つの時計」へEVT-019〜021を投影。本文は二人の知識・関係の変化を描き、対応の空白を科学的証明や将来の発見として固定しない。
 
 ## 作者側研究（人物Knowledgeとは分離）
 

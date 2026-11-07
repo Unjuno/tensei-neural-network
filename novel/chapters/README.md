@@ -9,6 +9,7 @@
 | [003](003.md) | 表の外 | EVT-009〜011 |
 | [004](004.md) | 五と二十一 | EVT-012〜013 |
 | [005](005.md) | 最初に動いたもの | EVT-014〜018 |
+| [006](006.md) | 二つの時計 | EVT-019〜021 |
 
 2026-09-08に第1〜4話を監査・改稿。旧意味レビューの見逃しも `../../notes/assessment-and-roadmap.md` に残す。各話の現在gateはpackage READMEと対象版記録を確認する。
 
@@ -29,3 +30,7 @@
 今回、docs/・GitHub Pages・公開HTMLへ同期しない。工程gateと人間の公開承認を区別する。
 
 人間受理後に公開する場合はMarkdownから対応するdocs/novel/NNN.htmlへ反映し、HTMLだけを独立更新しない。既存reader.cssと前話/目次/次話の導線を使い、研究検証の詳細を本文の読書導線へ押し込まない。site frameworkの先行追加は不要。
+
+## 第6話の限定的連載候補（2026-11-08）
+
+第6話はEVT-019→020→021が成立した後にNarrativeProjectionしたwork側の候補である。公開はmainのSerial Publicationのみが実施し、work側のPASSを配信済みや人間Canon受理と混同しない。新しい数値EXPなし。REF-003の論文読解は佐伯だけから始まり、高橋への限定した要約の伝達はEVT-021で初めて成立。

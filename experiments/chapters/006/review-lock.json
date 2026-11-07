@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "chapter": "006",
+  "algorithm": "git-blob-sha1",
+  "files": {
+    "experiments/chapters/006/semantic-review.md": "5564803b31c563bc4dc560aba3c4eee840750627",
+    "experiments/chapters/006/terminology.md": "5cb7062c9dfb5a7a1a122ebdba71288bf18f026b",
+    "experiments/chapters/006/verification.md": "7c92f1e8613f792d9626a55323a46947b4a98ae6",
+    "novel/chapters/006-outline.md": "4cbee7138718645e1a43241c16ad56be65639c77",
+    "novel/chapters/006.md": "61c1e7df8215d01da51db32371e91b1acf214cd9",
+    "novel/events/EVT-019-two-questions.md": "9de79cd578105fb892782637e3afab47c862ffb2",
+    "novel/events/EVT-020-the-same-neuron-different-task.md": "cade55ebb2ef18e76b8f12706a5379f42b791fd6",
+    "novel/events/EVT-021-two-clocks.md": "5b799b5d4ca74fd75806abaf22839945eb6e1335",
+    "novel/state/personas/deltas/EVT-021.md": "c71ef877c69cff95b69b5063ab1e7107b7df11ad",
+    "novel/STYLE_WEBNOVEL.md": "9d855720c12380a7e4df705d72473a3c2c9efff9",
+    "novel/WORLD_POLICY.md": "dddd9c891935f91e7bd5cdba8d11ae4dba4bf2f1",
+    "POLICY.md": "cb62c3d5554fe16ac6e8b54843a4fe168a053022",
+    "research/1980s-neurophysiology-observation-boundary.md": "ff8daaea6ae0c44e8a074dc0dd1face0605a9db6",
+    "WORKFLOW.md": "749d4dc93ecefa5fa42973ee9594edf33a5de379"
+  }
+}
