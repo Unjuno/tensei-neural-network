@@ -128,7 +128,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - 新EVT: `novel/events/EVT-020-the-same-neuron-different-task.md`。persona delta: `novel/state/personas/deltas/EVT-020.md`。REF-003〜007と作者側の測定境界: `research/1980s-neurophysiology-observation-boundary.md`
 - **高橋はこの論文読解を未観測**。ORG-001の設備・予算・所蔵・公式記録不変。動物実験・新数値trial・第6話なし。文献選択は作者の事後探索を含むためprovenance `UNBLINDED`
 - 第1〜5話の公開・review-lockは変更せず、mainの`docs/serial/manifest.json`が公開版の正本。第6話のためだけに事件を作らない
-- 日次制作自動化の最終記録は `recorded_status=failed` かつ `enabled=false` だった。成果がGitHubに存在しても自動化の実行状態は失敗扱いだったことを混同しない。再有効化は別途確認する
+- 日次制作自動化は開始時 `recorded_status=failed` かつ `enabled=false` だった。2026-11-08に `enabled=true` へ更新し再読で有効を確認した。ただし前回runのfailed判定は消えず、次回の実行成功は未確認
 
 **次の一手:** REF-003の課題条件と神経発火活動の対応について、佐伯が誰に何を共有するか、あるいは高橋が独立に別のupdate scheduleの条件を先に固定するかを、当人の知識のみから解決する。模型の二値状態を神経活動の直接観測と偽らない。実読者・独立restore・Human Review・Canonは未完。
 
