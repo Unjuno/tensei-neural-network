@@ -1,10 +1,10 @@
 # 作業コンテキスト
 
-更新: 2026-11-07。再開のための索引。秘密情報や逐語的内部推論は保存しない。
+更新: 2026-11-08。再開のための索引。秘密情報や逐語的内部推論は保存しない。
 
 ## 現在位置
 
-repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-019、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
+repo: Unjuno/tensei-neural-network。制作はwork/story-bootstrap。story headはEVT-020、現代側none。PER-005高橋修一・PER-006佐伯玲子・ORG-001がactive。章1〜5は技術gate済み。
 
 **2026-10-31の新しいユーザー委任で、連載版の定期公開を開始した。** 古い記録の「公開は毎回承認待ち」をそのまま適用しない。許可はmain/publication/README.mdとpolicy.jsonの範囲に限る。mainへのwork全体merge、Canon昇格、PR、他サイト投稿は含まない。
 
@@ -115,3 +115,15 @@ EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させ�
 再開時は`novel/events/EVT-019-two-questions.md`と`novel/state/personas/deltas/EVT-019.md`を、旧snapshot・EVT-008〜018・ORG-001の不変境界の上へ重複適用せず復元する。次は二人のうち誰が何を実際に観測・選択するかを確認し、必要なら当時の一次資料を調べる。自然な読書単位になるまでは第6話・新EXPを作らない。実読者5名・独立restore・Human Review/Canon受理はOPEN。
 
 検証追記（2026-11-07）: 制作commit `ae15b0e4f408ff09eb6db4e429ee406d1b3512b7` はCI `42313337636` completed/success（unit tests、話別・研究再実行、EXP-013保存結果、validator）。公開run `42313435915` はNO_READY_CHAPTER、005 live照合成功。第6話は未作成・未公開。
+
+## 2026-11-08 EVT-020／佐伯の個別文献検討
+
+- current 1980年代head: `EVT-020`、現代側none。EVT-020直接正本と`novel/state/personas/deltas/EVT-020.md`をEVT-019後に一度だけ重ねる
+- 佐伯個人が1975年の久保田競 `Prefrontal unit activity during delayed-response and delayed-alternation performances`（REF-003、DOI 10.2170/jjphysiol.25.481）を検討した。同一unitを異なる遅延課題で比較した研究の95記録unitは95同時観測ではない
+- 彼女は「cue/delay/responseの課題区間」と「神経発火」「模型Qの二値更新列」を直接同一視できないと認識。**高橋へ未共有**で、PER-005のstateはEVT-019後のまま
+- ORG-001の所蔵・装置・予算・動物研究・施設名・権限は追加確定していない。作者が比較したREF-004〜007は人物へ漏らさない
+- 作者側一次資料の確認結果、事実/推論/不確実性および単位境界は`research/1980s-neurophysiology-observation-boundary.md`。文献探索の事後選別があるためEVT provenanceは`UNBLINDED`で、blindな創発を主張しない
+- 第6話は未成立。既刊1〜5、連載公開HTML、Canon、publication policyは変更していない。自然なreading unitの判定は次回以降
+- 自動化は事前確認時にdisabled/failed。作業成果の存在と定期タスク自体の実行成功は別。後続の再有効化・次回run確認が必要
+
+**次の優先:** 高橋の数学的schedule選択と佐伯の観測条件設計はまだ分岐したまま。どちらかの観測可能な次行動を人物の局所stateから進め、論文情報の共有・組織の研究設備利用・実験結果を既成事実にしない。新しい数値実験なら結果前lockを必須とする。現在HEADのsource CIを確認してから報告し、既刊の編集gateは流用しない。
