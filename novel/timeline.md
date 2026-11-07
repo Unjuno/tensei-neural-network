@@ -18,10 +18,10 @@ T0-MODERN
 
 ## Current event heads
 
-- 1980年代側: `EVT-019`
+- 1980年代側: `EVT-020`
 - 現代側: none
 
-EVT-019時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
+EVT-020時点の1980年代active personas: PER-005 高橋修一 / PER-006 佐伯玲子。
 
 ## Story time と narrative order
 
@@ -101,6 +101,19 @@ EVT-014〜018を第5話「最初に動いたもの」へNarrativeProjection済�
 
 第6話へのNarrativeProjectionは未実施。本文や既刊の状態は不変。
 
+### EVT-020 — 同じ細胞でも同じ課題ではない
+
+`T0-1980S + PER-006 independent literature reading after EVT-019`。佐伯は1975年刊の久保田競の原著（REF-003、DOI: `10.2170/jjphysiol.25.481`）を個人で参照し、同じ単一unitの放電を遅延反応・遅延交代という二つの課題で比較する観測について知る。95 unitは報告全体の件数で、95-unit同時測定ではない。
+
+- 文献の課題条件・手掛かり・遅延・応答を、模型のQという終状態と同一視しない
+- 佐伯だけの局所Knowledgeに反映。高橋・ORG-001の公式記録へ自動伝播なし
+- 動物実験・装置・予算・文献所蔵・研究所提出・新しい数値計算は未成立
+- 作者が候補を調べた後に選んだ論文なのでprovenance `UNBLINDED`。その結果選択は独立blind生成の根拠ではない
+
+詳しくは `events/EVT-020-the-same-neuron-different-task.md`、`state/personas/deltas/EVT-020.md`、作者側一次研究 `../research/1980s-neurophysiology-observation-boundary.md`。第6話への投影はまだ成立していない。
+
+
+
 ## 作者側研究（人物Knowledgeとは分離）
 
 EVT-014/015由来のEXP-006/007ではfinite searchから少数派escapeを観測し、別途P=3・symmetric Hebbian・非同期fair one-unit update・zero-input保持の条件で解析的に説明した。EXP-011ではQのzero marginを許す条件へ拡張。
@@ -111,9 +124,9 @@ EXP-008で同期更新はperiod-2 cycleを作る反例が成立。EXP-010では�
 
 ## Current next question
 
-Story側、EVT-019後:
+Story側、EVT-020後:
 
-> 高橋は別の更新順を調べる前に何を固定するか。佐伯は、同じfinal stateへ至る経路の違いを当時の観測手段で区別できるか。
+> 高橋は別の更新順を調べる前に何を固定するか。佐伯は1975年の前頭前野単一unit研究で見た課題依存性を、模型の二値状態との非同一性を保ったまま、どの観測条件へ落とせるか。
 
 ここはまだ未解決。第6話を成立させるためにeventを発生させず、現在のpersona Goals/Knowledgeと組織制約からaction selectionを行う。
 
