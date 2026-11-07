@@ -135,3 +135,7 @@ EVT-019では、EVT-018後の共同研究を一つの追加trialへ直結させ�
 EVT-019〜021から第6話へ投影。話別verification（REF-003史料/knowledge）、semantic-review、terminology、review-lockとpublication/reviews/006.jsonを記録。作者側EXPや別論文を人物へ流入させない。001〜005の公開snapshotとgate維持。**第6話のsource CI/公開live URL/hashはこの保存時点でPENDING**。既刊005まで実配信確認、最新開始時Serial Publication run `42402513886` success。詳細 `notes/runs/2026-11-08-chapter-006-two-clocks.md`。
 
 次の一手: 新work HEADのCI（unit、話別保存JSON、EXP013、workflow validator）、続くSerial Publicationの新run、main台帳およびPages live 006 hashを確認。独立実読者5名、独立復元、人間Canon受理はOPEN。次の物語eventは高橋と佐伯の観測可能な次行動からのみ生成する。
+
+### 2026-11-08 第6話の配信確定（過去のPENDINGを更新）
+
+source commit `e95ccf5c31c043a2451a0d197151ff41695412f2` のStory Workflow Validation `42425037591` は全step completed/success。Serial Publication `42425101384` / Pages build `42425118476` もcompleted/success、公開workflowのlive manifestおよび006.htmlのSHA-256照合に成功した。main台帳の006 HTML SHA-256は `d0501a8b3de379a805bab52ef95d7cfa5ae743450d4f1ac8454d99be97c1c417`。正式な連載版は https://unjuno.github.io/tensei-neural-network/serial/006.html 。本稿/EVTのwork進行とCanon受理は別。現story headはEVT-021、既刊1〜6は公開、外部実読者/独立restore/Human ReviewはOPEN。後続の本索引commitはsource CIを別途確認。

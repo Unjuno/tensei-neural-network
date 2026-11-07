@@ -7,7 +7,7 @@
 - 制作branch: `work/story-bootstrap`
 - 1980年代側resolved head: **EVT-021**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
-- 第1〜6話はPREPUBLICATION_GATE_PASSED。ただし連載配信の確認済みは第1〜5話のみ（第6話は候補、source CI・公開workflow確認待ち）。独立試読・Human Reviewは未実施
+- 第1〜6話はPREPUBLICATION_GATE_PASSED。連載配信も第1〜6話まで実URL/hash照合済み。独立試読・Human Reviewは未実施
 - **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話「最初に動いたもの」は2026-11-06に公開用AI編集レビュー・source CI・Pages実配信のSHA-256照合まで確認済み
 - 公開目次: https://unjuno.github.io/tensei-neural-network/serial/
 - 第1話: https://unjuno.github.io/tensei-neural-network/serial/001.html
@@ -141,3 +141,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - EVT-019〜021の三段階が自然な読書単位になったため`novel/chapters/006.md`を制作。話別史料/knowledge boundary verification、意味レビュー、用語、review-lock、AI限定編集レビューを同一本文版で作成。001〜005本文と既刊スナップショット不変。
 - この作業を含む新commitのCIと実公開は記録時点で未観測。mainのmanifestに第6話が追加され、Serial Publicationのlive manifest/006.html hash一致を確認するまでは**第6話は未公開**。Canon受理、独立読者5名・独立restoreは未実施。
 - 再開: `notes/runs/2026-11-08-chapter-006-two-clocks.md`、`novel/events/EVT-021-two-clocks.md`、`novel/state/personas/deltas/EVT-021.md`。次のstory側は二人の局所目標から選択し、次の実験を第7話のノルマで作らない。
+
+### 2026-11-08 第6話のCIと実配信確定
+
+制作commit `e95ccf5c31c043a2451a0d197151ff41695412f2` のsource CI `42425037591` completed/success（unit、話別再実行/保存JSON、EXP-013、strict workflow validatorを含む全step成功）。Serial Publication `42425101384` / job `128561576101` はmain `docs/serial`に第6話を生成、Pages build `42425118476` success、同Serial Publicationの**live manifest/006.html SHA-256照合step success**。第6話公開日2026-11-08、URL https://unjuno.github.io/tensei-neural-network/serial/006.html 、HTML SHA-256 `d0501a8b3de379a805bab52ef95d7cfa5ae743450d4f1ac8454d99be97c1c417`。main公開台帳は001〜006、既刊維持。詳細 `notes/runs/2026-11-08-chapter-006-two-clocks.md`。本追記後のHEADへのCIも別確認する。

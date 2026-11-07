@@ -28,3 +28,11 @@ EVT-019、EVT-020と二人の個別状態・ORG-001の制度/資源を復元。�
 最新work SHAを取り直して競合がないことを確認し、候補のunit tests・既刊話別再実行/保存JSON・workflow validator・全対象commitのGitHub CIを確認する。次にSerial Publicationの新runとlive manifest/006.htmlのhash照合が成功した**場合だけ**公開済みと報告する。第6話が未配信なら理由を公開履歴として保持する。
 
 今後の物語: 高橋が別schedule familyの何を事前に固定するか、佐伯が課題・時間窓・記録unitのどれを実際の提案として操作的に選ぶかを、各人物の観測可能な知識から選ぶ。新生理実験・新数値結果を後付けしない。独立試読5名、独立復元、Human Review、Canon受理は引き続きOPEN。
+
+## 実測検証・配信確認追記（2026-11-08）
+
+- 第6話本文・イベント・レビューパッケージのatomic制作commit: `e95ccf5c31c043a2451a0d197151ff41695412f2`。Story Workflow Validation run `42425037591` / job `128561378104` は **completed/success**。unit tests、実行可能な既存5話の再実行と保存JSON照合、研究EXP-006〜008/010〜012再実行、EXP-013保存JSON一致、strict workflow validator（allow-draftsの既定運用）の各step success。第6話自体の歴史・知識境界検証は非コードであり、生理学の実験を再現したことにはしない。
+- main Serial Publication run `42425101384` / job `128561576101` は **completed/success**。信頼済みmainコードがsource commit `e95ccf5c31c043a2451a0d197151ff41695412f2` のCIと本文/lock/reviewを確認し、`docs/serial`だけを生成commit `7929726b9dc3be72bd9edea105e08314159e0069` に保存。既刊001〜005スナップショットの変更なし。
+- Pages build/deploy run `42425118476` completed/success。**Serial Publicationの`Verify live manifest and exact latest HTML` stepもsuccess**。本stepは配信URLのmanifestと最新006.htmlをmain生成物のSHA-256に照合する。したがって第6話は`DEPLOYED`と判定できる。URL `https://unjuno.github.io/tensei-neural-network/serial/006.html`。
+- main `docs/serial/manifest.json` の第6話: released_on `2026-11-08`、source SHA `e95ccf5c31c043a2451a0d197151ff41695412f2`、CI run `42425037591`、Markdown SHA-256 `63c93ff2f01c195db3c5ba6ffcd39a6f739ac70b608a69e6aec583380de18a78`、HTML SHA-256 `d0501a8b3de379a805bab52ef95d7cfa5ae743450d4f1ac8454d99be97c1c417`、review-lock blob `4639377994fcf28e278dd5a95fa9ab6229931a5b`、editorial blob `70ef9b4471d56ba674d18fec7bc88e517cb0f62b`。
+- この追記自体は既刊と第6話のreview-lock対象外の索引/運用記録変更であり、後続work HEADにも別途CIが必要。**人間Canon受理・独立実読者評価・研究Findingの真理判定には昇格していない。**
