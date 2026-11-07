@@ -1,11 +1,11 @@
 # 現在の状態
 
-更新: 2026-11-07。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
+更新: 2026-11-08。これは索引。直接のEVT・state・実験記録・公開台帳・実際のCIを優先する。
 
 ## 現在位置と公開
 
 - 制作branch: `work/story-bootstrap`
-- 1980年代側resolved head: **EVT-019**。現代側: none
+- 1980年代側resolved head: **EVT-020**。現代側: none
 - active: PER-005 高橋修一 / PER-006 佐伯玲子 / ORG-001 光陵化学生命科学研究所
 - 第1〜5話はPREPUBLICATION_GATE_PASSED。独立試読・Human Reviewは未実施
 - **連載版の第1話「戻る先」を2026-10-31に公開済み。** 第2話「選ばなかった答え」は2026-11-02に連載版へ公開・実配信照合済み。第3話『表の外』は2026-11-03にAI編集レビュー・source CI・連載公開・live URL/hash照合まで確認済み。第4話「五と二十一」は2026-11-04に公開用AI編集レビュー・source CI・連載公開・live URL/hash照合成功。第5話「最初に動いたもの」は2026-11-06に公開用AI編集レビュー・source CI・Pages実配信のSHA-256照合まで確認済み
@@ -62,7 +62,7 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 
 第1〜5話の連載版が公開済み。最後の新規公開の根拠は `notes/runs/2026-11-06-chapter-005-editorial-and-publication.md`、公開済み版のSHA-256はmainの`docs/serial/manifest.json`を正本とする。第5話の公開review追加commit `f737e2b097b3ecfd66bbd37e9c65e70c34cdf0ae` に対するCI run `42191688452` とSerial Publication run `42191877896` はともにsuccess。今回の公開はCanon・Human Review・独立実読者評価ではない。
 
-次の制作単位: EVT-019後の二人の異なる問いを、各人の観測境界とORGの制約から進める。未採用の`novel/scene-probes/2026-10-31-circle-and-original-records.md`の台詞や出来事を既成事実にしない。第6話を公開ノルマのために作らない。実在読者5名のpilot、真の独立restore、人間Canon受理はOPEN。
+次の制作単位: EVT-020後の二人の異なる問いを、各人の観測境界とORGの制約から進める。未採用の`novel/scene-probes/2026-10-31-circle-and-original-records.md`の台詞や出来事を既成事実にしない。第6話を公開ノルマのために作らない。実在読者5名のpilot、真の独立restore、人間Canon受理はOPEN。
 
 日次制作タスクが2026-11-06の作業開始時にはdisabledだったため、有効へ戻した。ただし過去実行がfailed扱いとなった原因は未確定で、**次回の実行成功を確認するまでは運用の完全性を主張しない**。公開エンジンはmainの`publication/policy.json`のenabledに従う。
 
@@ -119,3 +119,17 @@ EVT-018までの局所結果は、16素子Qの一bit近傍と16巡回順の256�
 - 実施・CI・未完了の詳細は`notes/runs/2026-11-07-evt019-two-questions.md`。実読者5名、独立restore、Human Review/Canon受理は引き続きOPEN。
 
 検証追記（2026-11-07）: EVT-019制作commit `ae15b0e4f408ff09eb6db4e429ee406d1b3512b7` のStory Workflow Validation `42313337636` は全step success。Serial Publication `42313435915` は`NO_READY_CHAPTER`で新規公開なし、既刊005のlive照合成功。後続の記録更新commitもCI対象。
+
+## 2026-11-08 文献読解・人物独立state（EVT-020）
+
+- 2026-11-07のdirect story head EVT-019から再開し、PER-006佐伯玲子だけの既知Goal「modelの経路を生理学的にどう観測するか」を進めた
+- 1975年の久保田競の原著（DOI `10.2170/jjphysiol.25.481`、REF-003）を作者側で一次資料照合。佐伯はその原著を**個人で参照するstory action**を行い、同じ単一unitでも異なる遅延課題の放電差が必ず一致しないことを読み取った
+- 原論文報告の95 unitは研究全体の記録数であり同時95-channel測定ではない。発火頻度、課題区間、model内部Q/updateを同一視しない
+- 新EVT: `novel/events/EVT-020-the-same-neuron-different-task.md`。persona delta: `novel/state/personas/deltas/EVT-020.md`。REF-003〜007と作者側の測定境界: `research/1980s-neurophysiology-observation-boundary.md`
+- **高橋はこの論文読解を未観測**。ORG-001の設備・予算・所蔵・公式記録不変。動物実験・新数値trial・第6話なし。文献選択は作者の事後探索を含むためprovenance `UNBLINDED`
+- 第1〜5話の公開・review-lockは変更せず、mainの`docs/serial/manifest.json`が公開版の正本。第6話のためだけに事件を作らない
+- 日次制作自動化の最終記録は `recorded_status=failed` かつ `enabled=false` だった。成果がGitHubに存在しても自動化の実行状態は失敗扱いだったことを混同しない。再有効化は別途確認する
+
+**次の一手:** REF-003の課題条件と神経発火活動の対応について、佐伯が誰に何を共有するか、あるいは高橋が独立に別のupdate scheduleの条件を先に固定するかを、当人の知識のみから解決する。模型の二値状態を神経活動の直接観測と偽らない。実読者・独立restore・Human Review・Canonは未完。
+
+本件の実行とCIは `notes/runs/2026-11-08-primary-neurophysiology.md` を参照する。
